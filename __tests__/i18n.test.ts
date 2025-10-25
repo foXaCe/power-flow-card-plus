@@ -15,6 +15,9 @@ import ptBR from "../src/localize/languages/pt-BR.json";
 import pt from "../src/localize/languages/pt-PT.json";
 import ru from "../src/localize/languages/ru.json";
 import sk from "../src/localize/languages/sk.json";
+import sv from "../src/localize/languages/sv.json";
+import ua from "../src/localize/languages/ua.json";
+import hi from "../src/localize/languages/hi-IN.json";
 
 function getAllKeys(obj: { [key: string]: any }): string[] {
   let keys: string[] = [];
@@ -85,5 +88,17 @@ describe("Language files", () => {
   test("sk.json should have the same properties as en.json", () => {
     const skKeys = getAllKeys(sk);
     expect(skKeys).toEqual(enKeys);
+  });
+  test("sv.json should have the same properties as en.json", () => {
+    const svKeys = getAllKeys(sv);
+    expect(svKeys).toEqual(enKeys);
+  });
+  test("ua.json should have the same properties as en.json", () => {
+    const uaKeys = getAllKeys(ua);
+    expect(uaKeys).toEqual(enKeys);
+  });
+  test("hi-IN.json should have the same properties as en.json", () => {
+    const hiKeys = getAllKeys(hi);
+    expect(hiKeys).toEqual(enKeys);
   });
 });

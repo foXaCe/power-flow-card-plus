@@ -354,10 +354,9 @@ export class PowerFlowCardPlus extends LitElement {
         }
       }
       solar.state.toHome = 0;
-
     } else if (battery.state.toBattery && battery.state.toBattery > 0) {
       // Allocate PV to the battery first; only the remainder can be Grid → Battery.
-      const pvTotal    = Math.max(solar.state.total ?? 0, 0);
+      const pvTotal = Math.max(solar.state.total ?? 0, 0);
       const battCharge = Math.max(battery.state.toBattery ?? 0, 0);
       const gridExport = Math.max(grid.state.toGrid ?? 0, 0); // 0 if you don't have export
 
