@@ -21,23 +21,84 @@ export const defaultValues = {
 export function getDefaultConfig(hass: HomeAssistant): object {
   function checkStrings(entiyId: string, testStrings: string[]): boolean {
     const firstId = getFirstEntityName(entiyId);
-    const friendlyName = hass.states[firstId].attributes.friendly_name;
-    return testStrings.some((str) => firstId.includes(str) || friendlyName?.includes(str));
+    const friendlyName = hass.states[firstId]?.attributes?.friendly_name || "";
+    return testStrings.some((str) => firstId.toLowerCase().includes(str.toLowerCase()) || friendlyName.toLowerCase().includes(str.toLowerCase()));
   }
+
+  // Detect Enphase system
+  const isEnphaseSystem = Object.keys(hass.states).some((id) =>
+    id.includes("envoy_") || id.includes("enphase_")
+  );
+
   const powerEntities = Object.keys(hass.states).filter((entityId) => {
     const stateObj = hass.states[getFirstEntityName(entityId)];
     const isAvailable =
-      (stateObj.state && stateObj.attributes && stateObj.attributes.device_class === "power") || stateObj.entity_id.includes("power");
+      (stateObj.state && stateObj.attributes && stateObj.attributes.device_class === "power") ||
+      stateObj.entity_id.includes("power") ||
+      stateObj.entity_id.includes("puissance") ||
+      stateObj.entity_id.includes("production") ||
+      stateObj.entity_id.includes("consommation");
     return isAvailable;
   });
 
+  // Enphase-specific patterns
+  const enphaseGridTests = ["current_net_power_consumption", "net_consumption"];
+  const enphaseProductionTests = ["production_d_electricite_actuelle", "current_power_production"];
+  const enphaseConsumptionTests = ["consommation_electrique_actuelle", "current_power_consumption"];
+  const enphaseIQBatteryTests = ["enphase_battery", "iq_5p_puissance", "iq_battery"];
+  const enphaseIQBatterySOCTests = ["iq_5p_etat_de_charge", "enphase_battery.*state_of_charge"];
+
+  // Standard patterns
   const gridPowerTestString = ["grid", "utility", "net", "meter"];
-  const solarTests = ["solar", "pv", "photovoltaic", "inverter"];
-  const batteryTests = ["battery"];
-  const batteryPercentTests = ["battery_percent", "battery_level", "state_of_charge", "soc", "percentage"];
-  const firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0];
-  const firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0];
-  const firstBatteryPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0];
+  const solarTests = ["solar", "pv", "photovoltaic", "inverter", "production"];
+  const batteryTests = ["battery", "batterie"];
+  const batteryPercentTests = ["battery_percent", "battery_level", "state_of_charge", "soc", "percentage", "etat_de_charge"];
+  const homeConsumptionTests = ["home", "house", "consumption", "consommation", "maison", "domicile"];
+
+  // Try Enphase-specific entities first if Enphase system detected
+  let firstGridPowerEntity = "";
+  let firstSolarPowerEntity = "";
+  let firstBatteryPowerEntity = "";
+  let firstHomeConsumptionEntity = "";
+
+  if (isEnphaseSystem) {
+    // Enphase Envoy Grid (net consumption)
+    firstGridPowerEntity = Object.keys(hass.states).find((id) =>
+      checkStrings(id, enphaseGridTests)
+    ) || "";
+
+    // Enphase Envoy Solar Production
+    firstSolarPowerEntity = Object.keys(hass.states).find((id) =>
+      checkStrings(id, enphaseProductionTests)
+    ) || "";
+
+    // Enphase Home Consumption
+    firstHomeConsumptionEntity = Object.keys(hass.states).find((id) =>
+      checkStrings(id, enphaseConsumptionTests)
+    ) || "";
+
+    // Enphase IQ Battery Power
+    firstBatteryPowerEntity = Object.keys(hass.states).find((id) =>
+      checkStrings(id, enphaseIQBatteryTests) &&
+      (id.includes("puissance") || id.includes("power")) &&
+      !id.includes("charge") &&
+      !id.includes("decharge")
+    ) || "";
+  }
+
+  // Fallback to standard detection if Enphase entities not found
+  if (!firstGridPowerEntity) {
+    firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0];
+  }
+  if (!firstSolarPowerEntity) {
+    firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0];
+  }
+  if (!firstBatteryPowerEntity) {
+    firstBatteryPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0];
+  }
+  if (!firstHomeConsumptionEntity) {
+    firstHomeConsumptionEntity = powerEntities.filter((entityId) => checkStrings(entityId, homeConsumptionTests))[0];
+  }
 
   const percentageEntities = Object.keys(hass.states).filter((entityId) => {
     const stateObj = hass.states[entityId];
@@ -45,7 +106,18 @@ export function getDefaultConfig(hass: HomeAssistant): object {
     return isAvailable;
   });
 
-  const firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0];
+  // Try Enphase battery SOC first
+  let firstBatteryPercentageEntity = "";
+  if (isEnphaseSystem) {
+    firstBatteryPercentageEntity = percentageEntities.find((id) =>
+      checkStrings(id, enphaseIQBatterySOCTests)
+    ) || "";
+  }
+
+  // Fallback to standard battery percentage detection
+  if (!firstBatteryPercentageEntity) {
+    firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0];
+  }
   return {
     entities: {
       battery: {
@@ -54,6 +126,7 @@ export function getDefaultConfig(hass: HomeAssistant): object {
       },
       grid: firstGridPowerEntity ? { entity: firstGridPowerEntity } : undefined,
       solar: firstSolarPowerEntity ? { entity: firstSolarPowerEntity, display_zero_state: true } : undefined,
+      home: firstHomeConsumptionEntity ? { entity: firstHomeConsumptionEntity } : undefined,
     },
     clickable_entities: true,
     display_zero_lines: true,
