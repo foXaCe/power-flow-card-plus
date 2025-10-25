@@ -354,10 +354,24 @@ export class PowerFlowCardPlus extends LitElement {
         }
       }
       solar.state.toHome = 0;
-    } else if (solar.state.toHome !== null && solar.state.toHome > 0) {
-      grid.state.toBattery = 0;
+
     } else if (battery.state.toBattery && battery.state.toBattery > 0) {
-      grid.state.toBattery = battery.state.toBattery;
+      // Allocate PV to the battery first; only the remainder can be Grid → Battery.
+      const pvTotal    = Math.max(solar.state.total ?? 0, 0);
+      const battCharge = Math.max(battery.state.toBattery ?? 0, 0);
+      const gridExport = Math.max(grid.state.toGrid ?? 0, 0); // 0 if you don't have export
+
+      // PV → Battery portion (capped by battery charge)
+      const pvToBattery = Math.min(pvTotal, battCharge);
+
+      // Residual charge must come from the grid
+      grid.state.toBattery = Math.max(battCharge - pvToBattery, 0);
+
+      // PV left for Home after reserving PV→Battery (and any export)
+      solar.state.toHome = Math.max(pvTotal - pvToBattery - gridExport, 0);
+
+      // Explicit PV→Battery for rendering
+      solar.state.toBattery = pvToBattery;
     }
     grid.state.toBattery = (grid.state.toBattery ?? 0) > largestGridBatteryTolerance ? grid.state.toBattery : 0;
 
@@ -402,9 +416,10 @@ export class PowerFlowCardPlus extends LitElement {
       nonFossil.state.power = grid.state.toHome * nonFossilFuelDecimal;
     }
 
-    // Calculate Total Consumptions
-    const totalIndividualConsumption = individualObjs?.reduce((a, b) => a + (b.state || 0), 0) || 0;
+    // Calculate Individual Consumption, ignore not shown objects
+    const totalIndividualConsumption = individualObjs?.reduce((a, b) => a + (b.has ? b.state || 0 : 0), 0) || 0;
 
+    // Calculate Total Consumptions
     const totalHomeConsumption = Math.max(grid.state.toHome + (solar.state.toHome ?? 0) + (battery.state.toHome ?? 0), 0);
 
     // Calculate Circumferences
@@ -463,7 +478,7 @@ export class PowerFlowCardPlus extends LitElement {
 
     // Compute durations
     const newDur: NewDur = {
-      batteryGrid: computeFlowRate(this._config, grid.state.toBattery ?? battery.state.toGrid ?? 0, totalLines),
+      batteryGrid: computeFlowRate(this._config, Math.max(grid.state.toBattery ?? 0, battery.state.toGrid ?? 0, 0), totalLines),
       batteryToHome: computeFlowRate(this._config, battery.state.toHome ?? 0, totalLines),
       gridToHome: computeFlowRate(this._config, grid.state.toHome, totalLines),
       solarToBattery: computeFlowRate(this._config, solar.state.toBattery ?? 0, totalLines),
@@ -516,7 +531,6 @@ export class PowerFlowCardPlus extends LitElement {
       });
     };
 
-    const individualKeys = ["left-top", "left-bottom", "right-top", "right-bottom"];
     // Templates
     const templatesObj: TemplatesObj = {
       gridSecondary: this._templateResults.gridSecondary?.result,
@@ -524,7 +538,7 @@ export class PowerFlowCardPlus extends LitElement {
       homeSecondary: this._templateResults.homeSecondary?.result,
 
       nonFossilFuelSecondary: this._templateResults.nonFossilFuelSecondary?.result,
-      individual: individualObjs?.map((_, index) => this._templateResults[`${individualKeys[index]}Secondary`]?.result) || [],
+      individual: individualObjs?.map((_, index) => this._templateResults[`individual${index}Secondary`]?.result) || [],
     };
 
     // Styles
@@ -689,9 +703,8 @@ export class PowerFlowCardPlus extends LitElement {
     for (const [key, value] of Object.entries(templatesObj)) {
       if (value) {
         if (Array.isArray(value)) {
-          const individualKeys = ["left-top", "left-bottom", "right-top", "right-bottom"];
           value.forEach((template, index) => {
-            if (template) this._tryConnect(template, `${individualKeys[index]}Secondary`);
+            if (template) this._tryConnect(template, `individual${index}Secondary`);
           });
         } else {
           this._tryConnect(value, key);
