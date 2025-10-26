@@ -320,6 +320,8 @@ export const styles = css`
     height: 35px;
     width: 20px;
     margin: 0;
+    position: relative;
+    z-index: 3;
   }
 
   .daily-cost-arrow path {

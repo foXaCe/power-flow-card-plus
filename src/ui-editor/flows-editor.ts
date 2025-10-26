@@ -179,7 +179,24 @@ export class FlowsEditor extends LitElement {
   }
 
   private _getArrowValue(arrow: string, property: string): any {
-    return this.config.arrows?.[arrow]?.[property] ?? "";
+    const value = this.config.arrows?.[arrow]?.[property];
+    if (value === undefined || value === null) {
+      // Retourner les valeurs par défaut selon la propriété
+      switch (property) {
+        case "color":
+          return "#8cd867";
+        case "thickness":
+          return "1.5";
+        case "length":
+          return "80";
+        case "offset_x":
+        case "offset_y":
+          return "0";
+        default:
+          return "";
+      }
+    }
+    return value;
   }
 
   render() {

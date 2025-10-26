@@ -7,12 +7,14 @@ import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { getSolarToBatteryPath } from "@/utils/getLineCoordinates";
 
 type FlowSolarToBatteryFlows = Pick<Flows, Exclude<keyof Flows, "grid">>;
 
 export const flowSolarToBattery = (config: PowerFlowCardPlusConfig, { battery, individual, solar, newDur }: FlowSolarToBatteryFlows) => {
   const customStyles = getArrowStyles("solar_to_battery", config);
   const customTransform = getArrowTransform("solar_to_battery", config);
+  const pathData = getSolarToBatteryPath(config);
 
   return battery.has && solar.has && showLine(config, solar.state.toBattery || 0)
     ? html`<div
@@ -26,7 +28,7 @@ export const flowSolarToBattery = (config: PowerFlowCardPlusConfig, { battery, i
           <path
             id="battery-solar"
             class="battery-solar ${styleLine(solar.state.toBattery || 0, config)}"
-            d="M50,0 V100"
+            d="${pathData}"
             vector-effect="non-scaling-stroke"
             style="${customStyles}"
             transform="${customTransform}"

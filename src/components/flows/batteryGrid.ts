@@ -7,12 +7,14 @@ import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { getBatteryToGridPath } from "@/utils/getLineCoordinates";
 
 type FlowBatteryGridFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
 export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryGridFlows) => {
   const customStyles = getArrowStyles("grid_to_battery", config);
   const customTransform = getArrowTransform("grid_to_battery", config);
+  const pathData = getBatteryToGridPath(config);
 
   return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0))
     ? html`<div
@@ -26,7 +28,7 @@ export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid
           <path
             id="battery-grid"
             class=${styleLine(battery.state.toGrid || grid.state.toBattery || 0, config)}
-            d="M45,100 v-15 c0,-30 -10,-30 -30,-30 h-20"
+            d="${pathData}"
             vector-effect="non-scaling-stroke"
             style="${customStyles}"
             transform="${customTransform}"
