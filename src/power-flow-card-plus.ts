@@ -34,6 +34,7 @@ import { RenderTemplateResult, subscribeRenderTemplate } from "./template/ha-web
 import { GridObject, HomeSources, NewDur, TemplatesObj } from "./type";
 import { computeFieldIcon, computeFieldName } from "./utils/computeFieldAttributes";
 import { computeFlowRate } from "./utils/computeFlowRate";
+import { getArrowStyles } from "./utils/applyArrowStyles";
 import {
   checkHasBottomIndividual,
   checkHasRightIndividual,
@@ -733,10 +734,10 @@ export class PowerFlowCardPlus extends LitElement {
           ${dailyExport.enabled && solar.has
             ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">
                 ${dailyExportElement(this, this._config, { dailyExport })}
-                ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="${getArrowStyles("solar_to_daily_export", this._config)}">
                   <defs>
                     <marker id="arrowhead-daily-export" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
-                      <polygon points="0 0, 4 2, 0 4" fill="var(--energy-solar-color)" />
+                      <polygon points="0 0, 4 2, 0 4" fill="${this._config.arrows?.solar_to_daily_export?.color || "var(--energy-solar-color)"}" />
                     </marker>
                   </defs>
                   <path
@@ -744,6 +745,7 @@ export class PowerFlowCardPlus extends LitElement {
                     d="M10,50 L90,50"
                     vector-effect="non-scaling-stroke"
                     marker-end="url(#arrowhead-daily-export)"
+                    style="${getArrowStyles("solar_to_daily_export", this._config)}"
                   ></path>
                   ${!this._config.disable_dots
                     ? svg`<circle r="1.5" class="solar" vector-effect="non-scaling-stroke">
