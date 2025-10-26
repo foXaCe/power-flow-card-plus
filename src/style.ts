@@ -757,4 +757,41 @@ export const styles = css`
   .card-content.gradient-mode .home .circle {
     background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
   }
+
+  /* Edit Mode */
+  .edit-mode-toggle {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 1000;
+    padding: 8px 16px;
+    background: var(--primary-color);
+    color: var(--text-primary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+  }
+
+  .edit-mode-toggle:hover {
+    background: var(--primary-color);
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+
+  .card-content.edit-mode {
+    border: 2px dashed var(--primary-color);
+  }
+
+  .card-content.edit-mode .circle-container {
+    cursor: move !important;
+  }
+
+  .card-content.edit-mode .circle {
+    cursor: move !important;
+    box-shadow: 0 0 0 2px var(--primary-color) inset;
+  }
 `;

@@ -64,6 +64,8 @@ export class PowerFlowCardPlus extends LitElement {
   @state() private _templateResults: Partial<Record<string, RenderTemplateResult>> = {};
   @state() private _unsubRenderTemplates?: Map<string, Promise<UnsubscribeFunc>> = new Map();
   @state() private _width = 0;
+  @state() private _editMode = false;
+  @state() private _draggedElement: string | null = null;
 
   @query("#battery-grid-flow") batteryGridFlow?: SVGSVGElement;
   @query("#battery-home-flow") batteryToHomeFlow?: SVGSVGElement;
@@ -603,10 +605,17 @@ export class PowerFlowCardPlus extends LitElement {
         style=${this._config.style_ha_card ? this._config.style_ha_card : ""}
       >
         <div
-          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config.circle_gradient_mode ? "gradient-mode" : ""}"
+          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config.circle_gradient_mode ? "gradient-mode" : ""} ${this._editMode ? "edit-mode" : ""}"
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
+          <button
+            class="edit-mode-toggle"
+            @click=${this._toggleEditMode}
+            title="${this._editMode ? 'Quitter le mode édition' : 'Activer le mode édition'}"
+          >
+            ${this._editMode ? '✓ Terminer' : '✏️ Éditer'}
+          </button>
           ${solar.has || individualObjs?.some((individual) => individual?.has) || nonFossil.hasPercentage
             ? html`<div class="row">
                 ${nonFossilElement(this, this._config, {
@@ -737,6 +746,20 @@ export class PowerFlowCardPlus extends LitElement {
     this._width = parseInt(widthStr.replace("px", ""), 10);
 
     this._tryConnectAll();
+    this._attachDragListeners();
+  }
+
+  private _attachDragListeners() {
+    if (!this._editMode) return;
+
+    const circles = ['solar', 'grid', 'home', 'battery'];
+    circles.forEach(circle => {
+      const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
+      if (elem) {
+        elem.addEventListener('mousedown', (e) => this._onDragStart(e as MouseEvent, circle));
+        elem.addEventListener('touchstart', (e) => this._onDragStart(e as TouchEvent, circle));
+      }
+    });
   }
 
   private _tryConnectAll() {
@@ -830,6 +853,75 @@ export class PowerFlowCardPlus extends LitElement {
         throw err;
       }
     }
+  }
+
+  private _toggleEditMode() {
+    this._editMode = !this._editMode;
+    if (!this._editMode) {
+      // Sauvegarder la config quand on quitte le mode édition
+      this._saveConfig();
+    }
+  }
+
+  private _onDragStart(e: MouseEvent | TouchEvent, element: string) {
+    if (!this._editMode) return;
+
+    e.preventDefault();
+    this._draggedElement = element;
+
+    const moveHandler = (e: MouseEvent | TouchEvent) => this._onDragMove(e);
+    const upHandler = () => this._onDragEnd(moveHandler, upHandler);
+
+    document.addEventListener('mousemove', moveHandler);
+    document.addEventListener('touchmove', moveHandler);
+    document.addEventListener('mouseup', upHandler);
+    document.addEventListener('touchend', upHandler);
+  }
+
+  private _onDragMove(e: MouseEvent | TouchEvent) {
+    if (!this._draggedElement || !this._editMode) return;
+
+    const card = this.shadowRoot?.querySelector('#power-flow-card-plus');
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
+
+    // Mettre à jour la position dans la config
+    const newConfig = { ...this._config };
+    if (!newConfig.custom_positions) {
+      newConfig.custom_positions = {};
+    }
+
+    newConfig.custom_positions[this._draggedElement] = {
+      left: Math.round(x - 40), // 40 = moitié de la largeur du cercle
+      top: Math.round(y - 40),
+    };
+
+    this._config = newConfig;
+    this.requestUpdate();
+  }
+
+  private _onDragEnd(moveHandler: any, upHandler: any) {
+    document.removeEventListener('mousemove', moveHandler);
+    document.removeEventListener('touchmove', moveHandler);
+    document.removeEventListener('mouseup', upHandler);
+    document.removeEventListener('touchend', upHandler);
+    this._draggedElement = null;
+  }
+
+  private _saveConfig() {
+    // Dispatch un événement pour sauvegarder la config
+    const event = new CustomEvent('config-changed', {
+      detail: { config: this._config },
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 
   static styles = styles;
