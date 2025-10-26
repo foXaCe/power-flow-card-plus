@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "दैनिक लागत दिखाएं",
     "daily_cost_energy_entity": "दैनिक ऊर्जा इकाई",
-    "daily_cost_decimals": "दैनिक लागत दशमलव"
+    "daily_cost_decimals": "दैनिक लागत दशमलव",
+    "show_daily_export": "दैनिक निर्यात राजस्व दिखाएं",
+    "daily_export_energy_entity": "दैनिक निर्यात ऊर्जा इकाई",
+    "daily_export_price": "निर्यात मूल्य (प्रति kWh)",
+    "daily_export_decimals": "निर्यात दशमलव"
   }
 }

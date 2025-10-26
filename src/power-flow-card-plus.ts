@@ -5,6 +5,7 @@ import { html, svg, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { batteryElement } from "./components/battery";
 import { dailyCostElement } from "./components/daily-cost";
+import { dailyExportElement } from "./components/daily-export";
 import { flowElement } from "./components/flows";
 import { gridElement } from "./components/grid";
 import { homeElement } from "./components/home";
@@ -352,6 +353,29 @@ export class PowerFlowCardPlus extends LitElement {
       });
     }
 
+    const dailyExport = {
+      enabled: this._config.show_daily_export ?? false,
+      entity: this._config.daily_export_energy_entity,
+      name: "Revente journalière",
+      energy: this._config.daily_export_energy_entity ? parseFloat(this.hass.states[this._config.daily_export_energy_entity]?.state || "0") : 0,
+      price: this._config.daily_export_price ?? 0,
+      decimals: this._config.daily_export_decimals ?? 2,
+      totalRevenue: 0,
+    };
+    dailyExport.totalRevenue = dailyExport.energy * dailyExport.price;
+
+    // Debug logs
+    if (this._config.show_daily_export) {
+      console.log("[Daily Export Debug]", {
+        enabled: dailyExport.enabled,
+        entity: dailyExport.entity,
+        entityState: this._config.daily_export_energy_entity ? this.hass.states[this._config.daily_export_energy_entity]?.state : undefined,
+        energy: dailyExport.energy,
+        price: dailyExport.price,
+        totalRevenue: dailyExport.totalRevenue,
+      });
+    }
+
     // Reset Values below Display Zero Tolerance
     grid.state.fromGrid = adjustZeroTolerance(grid.state.fromGrid, entities.grid?.display_zero_tolerance);
     grid.state.toGrid = adjustZeroTolerance(grid.state.toGrid, entities.grid?.display_zero_tolerance);
@@ -619,11 +643,38 @@ export class PowerFlowCardPlus extends LitElement {
                   templatesObj,
                 })}
                 ${solar.has
-                  ? solarElement(this, this._config, {
-                      entities,
-                      solar,
-                      templatesObj,
-                    })
+                  ? html`<div class="solar-column-wrapper">
+                      ${dailyExport.enabled
+                        ? html`<div class="daily-export-container">
+                            ${dailyExportElement(this, this._config, { dailyExport })}
+                            ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                              <defs>
+                                <marker id="arrowhead-daily-export" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+                                  <polygon points="0 0, 4 2, 0 4" fill="var(--energy-grid-return-color)" />
+                                </marker>
+                              </defs>
+                              <path
+                                class="export"
+                                d="M50,10 L50,90"
+                                vector-effect="non-scaling-stroke"
+                                marker-end="url(#arrowhead-daily-export)"
+                              ></path>
+                              ${!this._config.disable_dots
+                                ? svg`<circle r="1.5" class="export" vector-effect="non-scaling-stroke">
+                                    <animateMotion dur="${newDur.gridToHome}s" repeatCount="indefinite" calcMode="linear">
+                                      <mpath xlink:href="#export" />
+                                    </animateMotion>
+                                  </circle>`
+                                : ""}
+                            </svg>`}
+                          </div>`
+                        : ""}
+                      ${solarElement(this, this._config, {
+                        entities,
+                        solar,
+                        templatesObj,
+                      })}
+                    </div>`
                   : individualObjs?.some((individual) => individual?.has)
                   ? html`<div class="spacer"></div>`
                   : ""}

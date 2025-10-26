@@ -183,6 +183,29 @@ export const styles = css`
     z-index: 10;
     pointer-events: auto;
   }
+
+  .solar-column-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .solar-column-wrapper:has(.daily-export-container) {
+    margin-top: 120px;
+  }
+
+  .daily-export-container {
+    position: absolute;
+    top: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    pointer-events: auto;
+  }
   .circle-container {
     display: flex;
     flex-direction: column;
@@ -282,6 +305,31 @@ export const styles = css`
 
   .daily-cost-arrow circle {
     fill: var(--energy-grid-consumption-color);
+  }
+
+  .daily-export-arrow {
+    height: 35px;
+    width: 20px;
+    margin: 0;
+  }
+
+  .daily-export-arrow path {
+    stroke: var(--energy-grid-return-color);
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .daily-export-arrow circle {
+    fill: var(--energy-grid-return-color);
+  }
+
+  .daily-export .circle {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
   }
 
   line,

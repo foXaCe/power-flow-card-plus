@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Näytä päivittäinen kustannus",
     "daily_cost_energy_entity": "Päivittäinen energiaentiteetti",
-    "daily_cost_decimals": "Päivittäisen kustannuksen desimaalit"
+    "daily_cost_decimals": "Päivittäisen kustannuksen desimaalit",
+    "show_daily_export": "Näytä päivittäinen vientitulo",
+    "daily_export_energy_entity": "Päivittäinen vientienergiaentiteetti",
+    "daily_export_price": "Vientihinta (per kWh)",
+    "daily_export_decimals": "Viennin desimaalit"
   }
 }

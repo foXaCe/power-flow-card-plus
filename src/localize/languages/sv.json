@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Visa daglig kostnad",
     "daily_cost_energy_entity": "Daglig energienhet",
-    "daily_cost_decimals": "Decimaler för daglig kostnad"
+    "daily_cost_decimals": "Decimaler för daglig kostnad",
+    "show_daily_export": "Visa daglig exportintäkt",
+    "daily_export_energy_entity": "Daglig exportenergienhet",
+    "daily_export_price": "Exportpris (per kWh)",
+    "daily_export_decimals": "Export decimaler"
   }
 }
