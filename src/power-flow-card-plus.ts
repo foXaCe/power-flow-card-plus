@@ -751,15 +751,43 @@ export class PowerFlowCardPlus extends LitElement {
     this._attachDragListeners();
   }
 
+  private _dragHandlers: Map<string, any> = new Map();
+
   private _attachDragListeners() {
+    const circles = ['solar', 'grid', 'home', 'battery'];
+
+    // Détacher les anciens listeners
+    circles.forEach(circle => {
+      const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
+      const handlers = this._dragHandlers.get(circle);
+      if (elem && handlers) {
+        elem.removeEventListener('mousedown', handlers.mouseDown);
+        elem.removeEventListener('touchstart', handlers.touchStart);
+      }
+    });
+
     if (!this._editMode) return;
 
-    const circles = ['solar', 'grid', 'home', 'battery'];
+    // Attacher les nouveaux listeners
     circles.forEach(circle => {
       const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
       if (elem) {
-        elem.addEventListener('mousedown', (e) => this._onDragStart(e as MouseEvent, circle));
-        elem.addEventListener('touchstart', (e) => this._onDragStart(e as TouchEvent, circle));
+        const mouseDownHandler = (e: Event) => {
+          e.stopPropagation();
+          this._onDragStart(e as MouseEvent, circle);
+        };
+        const touchStartHandler = (e: Event) => {
+          e.stopPropagation();
+          this._onDragStart(e as TouchEvent, circle);
+        };
+
+        elem.addEventListener('mousedown', mouseDownHandler);
+        elem.addEventListener('touchstart', touchStartHandler, { passive: false });
+
+        this._dragHandlers.set(circle, {
+          mouseDown: mouseDownHandler,
+          touchStart: touchStartHandler
+        });
       }
     });
   }
@@ -883,6 +911,9 @@ export class PowerFlowCardPlus extends LitElement {
   private _onDragMove(e: MouseEvent | TouchEvent) {
     if (!this._draggedElement || !this._editMode) return;
 
+    e.preventDefault();
+    e.stopPropagation();
+
     const card = this.shadowRoot?.querySelector('#power-flow-card-plus');
     if (!card) return;
 
@@ -893,8 +924,9 @@ export class PowerFlowCardPlus extends LitElement {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
-    // Mettre à jour la position dans la config
-    const newConfig = { ...this._config };
+    // Créer une copie profonde de la config
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+
     if (!newConfig.custom_positions) {
       newConfig.custom_positions = {};
     }
