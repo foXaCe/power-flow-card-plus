@@ -11,6 +11,18 @@ export const dailyCostElement = (
     return html``;
   }
 
+  console.log("[Daily Cost Element]", {
+    totalCost: dailyCost.totalCost,
+    decimals: dailyCost.decimals,
+    energy: dailyCost.energy,
+    unit: dailyCost.unit,
+    unitSplit: dailyCost.unit.split('/')[0],
+  });
+
+  const displayCost = dailyCost.totalCost?.toFixed(dailyCost.decimals ?? 2) ?? "0.00";
+  const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
+  const displayUnit = dailyCost.unit?.split('/')[0] ?? "€";
+
   return html`<div class="circle-container daily-cost">
     <span class="label">${dailyCost.name}</span>
     <div
@@ -25,12 +37,8 @@ export const dailyCostElement = (
       }}
     >
       <ha-icon id="daily-cost-icon" .icon=${"mdi:currency-eur"} />
-      <span class="daily-cost-value">
-        ${dailyCost.totalCost.toFixed(dailyCost.decimals)} ${dailyCost.unit.split('/')[0]}
-      </span>
-      <span class="daily-cost-energy">
-        ${dailyCost.energy.toFixed(1)} kWh
-      </span>
+      <span class="daily-cost-value">${displayCost} ${displayUnit}</span>
+      <span class="daily-cost-energy">${displayEnergy} kWh</span>
     </div>
   </div>`;
 };
