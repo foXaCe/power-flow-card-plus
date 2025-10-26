@@ -37,4 +37,4 @@ export const getArrowTransform = (
   }
 
   return transforms.join(" ");
-};
+}
