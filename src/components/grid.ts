@@ -10,9 +10,24 @@ export const gridElement = (
   config: PowerFlowCardPlusConfig,
   { entities, grid, templatesObj }: { entities: ConfigEntities; grid: any; templatesObj: TemplatesObj }
 ) => {
+  // DEBUG: Log grid state for troubleshooting
+  if (config.circle_pulse_animation) {
+    console.log('[PFCP DEBUG] Grid element:', {
+      hasState: !!grid?.state,
+      fromGrid: grid?.state?.fromGrid,
+      toGrid: grid?.state?.toGrid,
+      pulsationEnabled: config.circle_pulse_animation
+    });
+  }
+
+  // Safe check for pulse animation
+  const isPulsing = config.circle_pulse_animation &&
+    grid?.state &&
+    (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
+
   return html`<div class="circle-container grid">
     <div
-      class="circle"
+      class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const outageTarget = grid.powerOutage?.entityGenerator ?? entities.grid?.power_outage?.entity;
         const target =
