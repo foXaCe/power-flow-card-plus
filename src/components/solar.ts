@@ -23,7 +23,7 @@ export const solarElement = (
 
   // Apply custom position if configured
   const customStyle = config.custom_positions?.solar
-    ? `position: absolute; ${config.custom_positions.solar.top !== undefined ? `top: ${config.custom_positions.solar.top}px;` : ""} ${config.custom_positions.solar.left !== undefined ? `left: ${config.custom_positions.solar.left}px;` : ""}`
+    ? `${config.custom_positions.solar.top !== undefined ? `top: ${config.custom_positions.solar.top}px;` : ""} ${config.custom_positions.solar.left !== undefined ? `left: ${config.custom_positions.solar.left}px;` : ""}`
     : "";
 
   return html`<div

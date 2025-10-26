@@ -15,9 +15,9 @@ export const gridElement = (
     grid?.state &&
     (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
 
-  // Apply custom position if configured
+  // Apply custom position if configured (override defaults)
   const customStyle = config.custom_positions?.grid
-    ? `position: absolute; ${config.custom_positions.grid.top !== undefined ? `top: ${config.custom_positions.grid.top}px;` : ""} ${config.custom_positions.grid.left !== undefined ? `left: ${config.custom_positions.grid.left}px;` : ""}`
+    ? `${config.custom_positions.grid.top !== undefined ? `top: ${config.custom_positions.grid.top}px !important;` : ""} ${config.custom_positions.grid.left !== undefined ? `left: ${config.custom_positions.grid.left}px !important;` : ""}`
     : "";
 
   return html`<div

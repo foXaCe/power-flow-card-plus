@@ -69,6 +69,41 @@ export const styles = css`
   .card-content {
     position: relative;
     margin: 0 auto;
+    min-height: 400px;
+    height: 400px;
+  }
+
+  /* Nouveau layout absolu pour tous les cercles */
+  .circle-container {
+    position: absolute !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Positions par défaut de chaque cercle */
+  .circle-container.solar {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .circle-container.grid {
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+  }
+
+  .circle-container.home {
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+  }
+
+  .circle-container.battery {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .circle {
@@ -156,29 +191,12 @@ export const styles = css`
     height: var(--lines-svg-not-flat-multi-indiv-height);
   }
 
-  .row {
-    display: flex;
-    justify-content: space-between;
-    max-width: 470px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .grid-column-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .grid-column-wrapper:has(.daily-cost-container) {
-    margin-top: 120px;
-  }
+  /* Supprimé - plus besoin de .row et .grid-column-wrapper avec le layout absolu */
 
   .daily-cost-container {
     position: absolute;
-    top: -120px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 160px;
+    left: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -188,8 +206,8 @@ export const styles = css`
 
   .daily-export-floating {
     position: absolute;
-    top: 0;
-    left: 200px;
+    top: 20px;
+    right: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -197,29 +215,7 @@ export const styles = css`
     pointer-events: auto;
   }
 
-  .circle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .circle-container.solar {
-    height: 130px;
-  }
-  .circle-container.individual-top {
-    height: 130px;
-  }
-  .circle-container.individual-bottom {
-    justify-content: flex-end;
-  }
-  .circle-container.individual-bottom.bottom {
-    position: relative;
-    top: -20px;
-    margin-bottom: -20px;
-  }
-  .circle-container.battery {
-    height: 110px;
-    justify-content: flex-end;
-  }
+  /* Anciens styles flexbox supprimés - maintenant en absolute */
   .spacer {
     width: var(--size-circle-entity);
   }

@@ -21,7 +21,7 @@ export const batteryElement = (
 
   // Apply custom position if configured
   const customStyle = config.custom_positions?.battery
-    ? `position: absolute; ${config.custom_positions.battery.top !== undefined ? `top: ${config.custom_positions.battery.top}px;` : ""} ${config.custom_positions.battery.left !== undefined ? `left: ${config.custom_positions.battery.left}px;` : ""}`
+    ? `${config.custom_positions.battery.top !== undefined ? `top: ${config.custom_positions.battery.top}px;` : ""} ${config.custom_positions.battery.left !== undefined ? `left: ${config.custom_positions.battery.left}px;` : ""}`
     : "";
 
   return html`<div

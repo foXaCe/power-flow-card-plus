@@ -618,102 +618,44 @@ export class PowerFlowCardPlus extends LitElement {
               ? html`<ha-icon icon="mdi:check"></ha-icon>`
               : html`<ha-icon icon="mdi:pen"></ha-icon>`}
           </button>
-          ${solar.has || individualObjs?.some((individual) => individual?.has) || nonFossil.hasPercentage
-            ? html`<div class="row">
-                ${nonFossilElement(this, this._config, {
-                  entities,
-                  grid,
-                  newDur,
-                  nonFossil,
-                  templatesObj,
-                })}
-                ${solar.has
-                  ? solarElement(this, this._config, {
-                      entities,
-                      solar,
-                      templatesObj,
-                    })
-                  : individualObjs?.some((individual) => individual?.has)
-                  ? html`<div class="spacer"></div>`
-                  : ""}
-                ${individualFieldLeftTop
-                  ? individualLeftTopElement(this, this._config, {
-                      individualObj: individualFieldLeftTop,
-                      displayState: getIndividualDisplayState(individualFieldLeftTop),
-                      newDur,
-                      templatesObj,
-                    })
-                  : html`<div class="spacer"></div>`}
-                ${checkHasRightIndividual(individualObjs)
-                  ? individualRightTopElement(this, this._config, {
-                      displayState: getIndividualDisplayState(individualFieldRightTop),
-                      individualObj: individualFieldRightTop,
-                      newDur,
-                      templatesObj,
-                      battery,
-                      individualObjs,
-                    })
-                  : html``}
+          ${solar.has
+            ? solarElement(this, this._config, {
+                entities,
+                solar,
+                templatesObj,
+              })
+            : ""}
+          ${grid.has
+            ? gridElement(this, this._config, {
+                entities,
+                grid,
+                templatesObj,
+              })
+            : ""}
+          ${!entities.home?.hide
+            ? homeElement(this, this._config, {
+                circleCircumference,
+                entities,
+                grid,
+                home,
+                homeBatteryCircumference,
+                homeGridCircumference,
+                homeNonFossilCircumference,
+                homeSolarCircumference,
+                newDur,
+                templatesObj,
+                homeUsageToDisplay,
+                individual: individualObjs,
+              })
+            : ""}
+          ${battery.has
+            ? batteryElement(this, this._config, { battery, entities })
+            : ""}
+          ${dailyCost.enabled
+            ? html`<div class="daily-cost-container" style="${this._config.custom_positions?.daily_cost ? `${this._config.custom_positions.daily_cost.top !== undefined ? `top: ${this._config.custom_positions.daily_cost.top}px;` : ""} ${this._config.custom_positions.daily_cost.left !== undefined ? `left: ${this._config.custom_positions.daily_cost.left}px;` : ""}` : ""}">
+                ${dailyCostElement(this, this._config, { dailyCost })}
               </div>`
-            : html``}
-          <div class="row">
-            ${grid.has
-              ? html`<div class="grid-column-wrapper">
-                  ${dailyCost.enabled
-                    ? html`<div class="daily-cost-container" style="${this._config.custom_positions?.daily_cost ? `${this._config.custom_positions.daily_cost.top !== undefined ? `top: ${this._config.custom_positions.daily_cost.top}px;` : ""} ${this._config.custom_positions.daily_cost.left !== undefined ? `left: ${this._config.custom_positions.daily_cost.left}px;` : ""}` : ""}">
-                        ${dailyCostElement(this, this._config, { dailyCost })}
-                      </div>`
-                    : ""}
-                  ${gridElement(this, this._config, {
-                    entities,
-                    grid,
-                    templatesObj,
-                  })}
-                </div>`
-              : html`<div class="spacer"></div>`}
-            <div class="spacer"></div>
-            ${!entities.home?.hide
-              ? homeElement(this, this._config, {
-                  circleCircumference,
-                  entities,
-                  grid,
-                  home,
-                  homeBatteryCircumference,
-                  homeGridCircumference,
-                  homeNonFossilCircumference,
-                  homeSolarCircumference,
-                  newDur,
-                  templatesObj,
-                  homeUsageToDisplay,
-                  individual: individualObjs,
-                })
-              : html`<div class="spacer"></div>`}
-            ${checkHasRightIndividual(individualObjs) ? html` <div class="spacer"></div>` : html``}
-          </div>
-          ${battery.has || checkHasBottomIndividual(individualObjs)
-            ? html`<div class="row">
-                <div class="spacer"></div>
-                ${battery.has ? batteryElement(this, this._config, { battery, entities }) : html`<div class="spacer"></div>`}
-                ${individualFieldLeftBottom
-                  ? individualLeftBottomElement(this, this._config, {
-                      displayState: getIndividualDisplayState(individualFieldLeftBottom),
-                      individualObj: individualFieldLeftBottom,
-                      newDur,
-                      templatesObj,
-                    })
-                  : html`<div class="spacer"></div>`}
-                ${checkHasRightIndividual(individualObjs)
-                  ? individualRightBottomElement(this, this._config, {
-                      displayState: getIndividualDisplayState(individualFieldRightBottom),
-                      individualObj: individualFieldRightBottom,
-                      newDur,
-                      templatesObj,
-                      battery,
-                      individualObjs,
-                    })
-                  : html``}
-              </div>`
-            : html`<div class="spacer"></div>`}
+            : ""}
           ${flowElement(this._config, {
             battery,
             grid,
