@@ -161,12 +161,22 @@ export const styles = css`
     max-width: 500px;
     margin: 0 auto;
   }
-  .grid-column {
+  .grid-column-wrapper {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-    position: relative;
+  }
+
+  .daily-cost-container {
+    position: absolute;
+    top: -140px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
   }
   .circle-container {
     display: flex;
@@ -252,9 +262,9 @@ export const styles = css`
   }
 
   .daily-cost-arrow {
-    height: 40px;
+    height: 35px;
     width: 20px;
-    margin: -10px 0;
+    margin: 0;
   }
 
   .daily-cost-arrow path {
