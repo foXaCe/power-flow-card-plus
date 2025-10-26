@@ -15,16 +15,6 @@ export const dailyCostElement = (
   const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
   const displayUnit = dailyCost.unit?.split('/')[0] ?? "€";
 
-  console.log("[Daily Cost Element]", {
-    totalCost: dailyCost.totalCost,
-    decimals: dailyCost.decimals,
-    energy: dailyCost.energy,
-    unit: dailyCost.unit,
-    displayCost,
-    displayEnergy,
-    displayUnit,
-  });
-
   return html`<div class="circle-container daily-cost">
     <span class="label">${dailyCost.name}</span>
     <div
