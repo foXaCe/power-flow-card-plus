@@ -181,7 +181,7 @@ export const styles = css`
     margin-bottom: -20px;
   }
   .circle-container.battery {
-    height: 125px;
+    height: 110px;
     justify-content: flex-end;
   }
   .spacer {
@@ -369,7 +369,9 @@ export const styles = css`
   }
   .battery .circle {
     border-color: var(--circle-battery-color);
-    gap: 1px;
+    gap: 0px;
+    font-size: 11px;
+    line-height: 11px;
   }
   circle.battery,
   path.battery {
