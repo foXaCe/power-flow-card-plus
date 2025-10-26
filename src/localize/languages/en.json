@@ -79,6 +79,10 @@
     "circle_pulse_animation": "Circle Pulse Animation",
     "circle_border_width": "Circle Border Width",
     "compact_mode": "Compact Mode",
-    "circle_gradient_mode": "Circle Gradient Mode"
+    "circle_gradient_mode": "Circle Gradient Mode",
+    "show_cost": "Show Real-time Cost",
+    "cost_entity": "Cost Entity (tariff sensor)",
+    "cost_unit": "Cost Unit",
+    "cost_decimals": "Cost Decimals"
   }
 }

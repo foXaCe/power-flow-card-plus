@@ -79,6 +79,10 @@
     "circle_pulse_animation": "Animation de pulsation des cercles",
     "circle_border_width": "Largeur de bordure des cercles",
     "compact_mode": "Mode compact",
-    "circle_gradient_mode": "Mode dégradé des cercles"
+    "circle_gradient_mode": "Mode dégradé des cercles",
+    "show_cost": "Afficher le coût en temps réel",
+    "cost_entity": "Entité de coût (capteur de tarif)",
+    "cost_unit": "Unité de coût",
+    "cost_decimals": "Décimales du coût"
   }
 }

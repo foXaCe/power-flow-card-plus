@@ -205,6 +205,13 @@ export class PowerFlowCardPlus extends LitElement {
         },
         tap_action: entities.grid?.secondary_info?.tap_action,
       },
+      cost: {
+        enabled: this._config.show_cost ?? false,
+        entity: this._config.cost_entity,
+        tariff: this._config.cost_entity ? parseFloat(this.hass.states[this._config.cost_entity]?.state || "0") : 0,
+        unit: this._config.cost_unit || "€/kWh",
+        decimals: this._config.cost_decimals ?? 2,
+      },
     };
 
     const solar = {

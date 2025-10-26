@@ -53,6 +53,10 @@ export const cardConfigStruct = assign(
     circle_border_width: optional(number()),
     compact_mode: optional(boolean()),
     circle_gradient_mode: optional(boolean()),
+    show_cost: optional(boolean()),
+    cost_entity: optional(string()),
+    cost_unit: optional(string()),
+    cost_decimals: optional(number()),
   })
 );
 
@@ -221,6 +225,26 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
         name: "circle_gradient_mode",
         label: "Circle Gradient Mode",
         selector: { boolean: {} },
+      },
+      {
+        name: "show_cost",
+        label: "Show Real-time Cost",
+        selector: { boolean: {} },
+      },
+      {
+        name: "cost_entity",
+        label: "Cost Entity (tariff sensor)",
+        selector: { entity: { domain: "sensor" } },
+      },
+      {
+        name: "cost_unit",
+        label: "Cost Unit",
+        selector: { text: {} },
+      },
+      {
+        name: "cost_decimals",
+        label: "Cost Decimals",
+        selector: { number: { mode: "box", min: 0, max: 5, step: 1 } },
       },
     ],
   },

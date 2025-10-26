@@ -141,6 +141,13 @@ export type GridObject = {
       type?: boolean | "production" | "consumption";
     };
   };
+  cost?: {
+    enabled: boolean;
+    entity?: string;
+    tariff: number;
+    unit: string;
+    decimals: number;
+  };
 };
 
 export type OfflineStr = "unavailable" | "unknown";
