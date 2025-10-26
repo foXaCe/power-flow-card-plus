@@ -91,6 +91,19 @@
     "show_daily_export": "दैनिक निर्यात राजस्व दिखाएं",
     "daily_export_energy_entity": "दैनिक निर्यात ऊर्जा इकाई",
     "daily_export_price": "निर्यात मूल्य (प्रति kWh)",
-    "daily_export_decimals": "निर्यात दशमलव"
+    "daily_export_decimals": "निर्यात दशमलव",
+    "custom_positions": "कस्टम सर्कल स्थिति",
+    "solar_top": "सौर शीर्ष (px)",
+    "solar_left": "सौर बाएं (px)",
+    "grid_top": "ग्रिड शीर्ष (px)",
+    "grid_left": "ग्रिड बाएं (px)",
+    "home_top": "होम शीर्ष (px)",
+    "home_left": "होम बाएं (px)",
+    "battery_top": "बैटरी शीर्ष (px)",
+    "battery_left": "बैटरी बाएं (px)",
+    "daily_cost_top": "दैनिक लागत शीर्ष (px)",
+    "daily_cost_left": "दैनिक लागत बाएं (px)",
+    "daily_export_top": "दैनिक निर्यात शीर्ष (px)",
+    "daily_export_left": "दैनिक निर्यात बाएं (px)"
   }
 }

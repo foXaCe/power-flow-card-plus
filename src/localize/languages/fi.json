@@ -91,6 +91,19 @@
     "show_daily_export": "Näytä päivittäinen vientitulo",
     "daily_export_energy_entity": "Päivittäinen vientienergiaentiteetti",
     "daily_export_price": "Vientihinta (per kWh)",
-    "daily_export_decimals": "Viennin desimaalit"
+    "daily_export_decimals": "Viennin desimaalit",
+    "custom_positions": "Mukautetut ympyräsijainnit",
+    "solar_top": "Aurinko Ylä (px)",
+    "solar_left": "Aurinko Vasen (px)",
+    "grid_top": "Verkko Ylä (px)",
+    "grid_left": "Verkko Vasen (px)",
+    "home_top": "Koti Ylä (px)",
+    "home_left": "Koti Vasen (px)",
+    "battery_top": "Akku Ylä (px)",
+    "battery_left": "Akku Vasen (px)",
+    "daily_cost_top": "Päivittäinen Hinta Ylä (px)",
+    "daily_cost_left": "Päivittäinen Hinta Vasen (px)",
+    "daily_export_top": "Päivittäinen Vienti Ylä (px)",
+    "daily_export_left": "Päivittäinen Vienti Vasen (px)"
   }
 }

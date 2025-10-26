@@ -91,6 +91,19 @@
     "show_daily_export": "Показати щоденний дохід від експорту",
     "daily_export_energy_entity": "Сутність щоденної експортованої енергії",
     "daily_export_price": "Ціна експорту (за кВтг)",
-    "daily_export_decimals": "Десяткові знаки експорту"
+    "daily_export_decimals": "Десяткові знаки експорту",
+    "custom_positions": "Користувацькі позиції кіл",
+    "solar_top": "Сонячна Верх (px)",
+    "solar_left": "Сонячна Ліво (px)",
+    "grid_top": "Мережа Верх (px)",
+    "grid_left": "Мережа Ліво (px)",
+    "home_top": "Дім Верх (px)",
+    "home_left": "Дім Ліво (px)",
+    "battery_top": "Батарея Верх (px)",
+    "battery_left": "Батарея Ліво (px)",
+    "daily_cost_top": "Щоденна Вартість Верх (px)",
+    "daily_cost_left": "Щоденна Вартість Ліво (px)",
+    "daily_export_top": "Щоденний Експорт Верх (px)",
+    "daily_export_left": "Щоденний Експорт Ліво (px)"
   }
 }

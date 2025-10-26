@@ -91,6 +91,19 @@
     "show_daily_export": "Zobrazit denní příjem z exportu",
     "daily_export_energy_entity": "Entita denní exportované energie",
     "daily_export_price": "Cena exportu (za kWh)",
-    "daily_export_decimals": "Desetinná místa exportu"
+    "daily_export_decimals": "Desetinná místa exportu",
+    "custom_positions": "Vlastní pozice kroužků",
+    "solar_top": "Solární Nahoře (px)",
+    "solar_left": "Solární Vlevo (px)",
+    "grid_top": "Síť Nahoře (px)",
+    "grid_left": "Síť Vlevo (px)",
+    "home_top": "Domov Nahoře (px)",
+    "home_left": "Domov Vlevo (px)",
+    "battery_top": "Baterie Nahoře (px)",
+    "battery_left": "Baterie Vlevo (px)",
+    "daily_cost_top": "Denní Náklady Nahoře (px)",
+    "daily_cost_left": "Denní Náklady Vlevo (px)",
+    "daily_export_top": "Denní Export Nahoře (px)",
+    "daily_export_left": "Denní Export Vlevo (px)"
   }
 }

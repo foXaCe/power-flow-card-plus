@@ -91,6 +91,19 @@
     "show_daily_export": "Pokaż dzienny przychód z eksportu",
     "daily_export_energy_entity": "Jednostka dziennej energii eksportowanej",
     "daily_export_price": "Cena eksportu (za kWh)",
-    "daily_export_decimals": "Miejsca dziesiętne eksportu"
+    "daily_export_decimals": "Miejsca dziesiętne eksportu",
+    "custom_positions": "Niestandardowe pozycje okręgów",
+    "solar_top": "Słoneczny Góra (px)",
+    "solar_left": "Słoneczny Lewo (px)",
+    "grid_top": "Sieć Góra (px)",
+    "grid_left": "Sieć Lewo (px)",
+    "home_top": "Dom Góra (px)",
+    "home_left": "Dom Lewo (px)",
+    "battery_top": "Bateria Góra (px)",
+    "battery_left": "Bateria Lewo (px)",
+    "daily_cost_top": "Dzienny Koszt Góra (px)",
+    "daily_cost_left": "Dzienny Koszt Lewo (px)",
+    "daily_export_top": "Dzienny Export Góra (px)",
+    "daily_export_left": "Dzienny Export Lewo (px)"
   }
 }
