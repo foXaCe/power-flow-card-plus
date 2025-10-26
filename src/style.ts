@@ -187,8 +187,7 @@ export const styles = css`
   .daily-export-floating {
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(40px);
+    left: 28%;
     display: flex;
     flex-direction: column;
     align-items: center;
