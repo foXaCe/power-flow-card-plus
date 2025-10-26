@@ -184,17 +184,11 @@ export const styles = css`
     pointer-events: auto;
   }
 
-  .solar-column-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .daily-export-container {
+  .daily-export-floating {
     position: absolute;
     top: 0;
-    right: -100px;
+    left: 50%;
+    transform: translateX(40px);
     display: flex;
     flex-direction: column;
     align-items: center;
