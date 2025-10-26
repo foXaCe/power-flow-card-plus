@@ -13,10 +13,9 @@ export const flowGridToHome = (config: PowerFlowCardPlusConfig, { battery, grid,
   const customTransform = getArrowTransform("grid_to_home", config);
 
   // Masquer la ligne si grid ou home ont des positions personnalisées
-  const hasCustomPositions = !!(
-    (config.custom_positions?.grid && (config.custom_positions.grid.top !== undefined || config.custom_positions.grid.left !== undefined)) ||
-    (config.custom_positions?.home && (config.custom_positions.home.top !== undefined || config.custom_positions.home.left !== undefined))
-  );
+  const gridHasCustomPos = config.custom_positions?.grid?.top !== undefined || config.custom_positions?.grid?.left !== undefined;
+  const homeHasCustomPos = config.custom_positions?.home?.top !== undefined || config.custom_positions?.home?.left !== undefined;
+  const hasCustomPositions = gridHasCustomPos || homeHasCustomPos;
 
   return grid.has && showLine(config, grid.state.fromGrid) && !config.entities.home?.hide && !hasCustomPositions
     ? html`<div

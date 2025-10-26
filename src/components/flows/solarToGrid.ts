@@ -13,10 +13,9 @@ export const flowSolarToGrid = (config: PowerFlowCardPlusConfig, { battery, grid
   const customTransform = getArrowTransform("solar_to_grid", config);
 
   // Masquer la ligne si solar ou grid ont des positions personnalisées
-  const hasCustomPositions = !!(
-    (config.custom_positions?.solar && (config.custom_positions.solar.top !== undefined || config.custom_positions.solar.left !== undefined)) ||
-    (config.custom_positions?.grid && (config.custom_positions.grid.top !== undefined || config.custom_positions.grid.left !== undefined))
-  );
+  const solarHasCustomPos = config.custom_positions?.solar?.top !== undefined || config.custom_positions?.solar?.left !== undefined;
+  const gridHasCustomPos = config.custom_positions?.grid?.top !== undefined || config.custom_positions?.grid?.left !== undefined;
+  const hasCustomPositions = solarHasCustomPos || gridHasCustomPos;
 
   return grid.hasReturnToGrid && solar.has && showLine(config, solar.state.toGrid || 0) && !hasCustomPositions
     ? html`<div
