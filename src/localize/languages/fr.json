@@ -80,6 +80,7 @@
     "circle_border_width": "Largeur de bordure des cercles",
     "compact_mode": "Mode compact",
     "circle_gradient_mode": "Mode dégradé des cercles",
+    "real_time_cost": "Coût en temps réel",
     "show_cost": "Afficher le coût en temps réel",
     "cost_entity": "Entité de coût (capteur de tarif)",
     "cost_unit": "Unité de coût",
