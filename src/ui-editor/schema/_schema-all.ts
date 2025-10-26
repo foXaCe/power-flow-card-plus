@@ -312,9 +312,4 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
     title: localize("editor.display_zero_lines"),
     schema: [...displayZeroLinesSchema(localize, displayZeroLinesMode)],
   },
-  {
-    type: "expandable",
-    title: localize("editor.custom_positions"),
-    schema: [...customPositionsSchema(localize)],
-  },
 ]);

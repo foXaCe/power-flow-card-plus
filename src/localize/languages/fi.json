@@ -96,6 +96,8 @@
     "position_top": "Ylä (px)",
     "position_left": "Vasen (px)",
     "daily_cost_title": "Päivittäinen Hinta",
-    "daily_export_title": "Päivittäinen Vienti"
+    "daily_export_title": "Päivittäinen Vienti",
+    "position_auto": "Auto",
+    "position_default": "Oletus"
   }
 }

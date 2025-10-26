@@ -96,6 +96,8 @@
     "position_top": "Boven (px)",
     "position_left": "Links (px)",
     "daily_cost_title": "Dagelijkse Kosten",
-    "daily_export_title": "Dagelijkse Export"
+    "daily_export_title": "Dagelijkse Export",
+    "position_auto": "Auto",
+    "position_default": "Standaard"
   }
 }

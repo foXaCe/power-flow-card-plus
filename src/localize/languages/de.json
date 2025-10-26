@@ -96,6 +96,8 @@
     "position_top": "Oben (px)",
     "position_left": "Links (px)",
     "daily_cost_title": "Tägliche Kosten",
-    "daily_export_title": "Täglicher Export"
+    "daily_export_title": "Täglicher Export",
+    "position_auto": "Auto",
+    "position_default": "Standard"
   }
 }

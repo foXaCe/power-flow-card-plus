@@ -96,6 +96,8 @@
     "position_top": "शीर्ष (px)",
     "position_left": "बाएं (px)",
     "daily_cost_title": "दैनिक लागत",
-    "daily_export_title": "दैनिक निर्यात"
+    "daily_export_title": "दैनिक निर्यात",
+    "position_auto": "ऑटो",
+    "position_default": "डिफ़ॉल्ट"
   }
 }

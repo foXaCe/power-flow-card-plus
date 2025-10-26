@@ -96,6 +96,8 @@
     "position_top": "Góra (px)",
     "position_left": "Lewo (px)",
     "daily_cost_title": "Dzienny Koszt",
-    "daily_export_title": "Dzienny Export"
+    "daily_export_title": "Dzienny Export",
+    "position_auto": "Auto",
+    "position_default": "Domyślny"
   }
 }
