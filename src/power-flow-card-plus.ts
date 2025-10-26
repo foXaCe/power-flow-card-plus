@@ -643,15 +643,21 @@ export class PowerFlowCardPlus extends LitElement {
                   templatesObj,
                 })}
                 ${solar.has
-                  ? solarElement(this, this._config, {
-                      entities,
-                      solar,
-                      templatesObj,
-                    })
+                  ? html`<div class="solar-column-wrapper">
+                      ${dailyExport.enabled
+                        ? html`<div class="daily-export-container">
+                            ${dailyExportElement(this, this._config, { dailyExport })}
+                          </div>`
+                        : ""}
+                      ${solarElement(this, this._config, {
+                        entities,
+                        solar,
+                        templatesObj,
+                      })}
+                    </div>`
                   : individualObjs?.some((individual) => individual?.has)
                   ? html`<div class="spacer"></div>`
                   : ""}
-                ${dailyExport.enabled && solar.has ? dailyExportElement(this, this._config, { dailyExport }) : ""}
                 ${individualFieldLeftTop
                   ? individualLeftTopElement(this, this._config, {
                       individualObj: individualFieldLeftTop,

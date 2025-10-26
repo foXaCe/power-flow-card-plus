@@ -184,13 +184,30 @@ export const styles = css`
     pointer-events: auto;
   }
 
+  .solar-column-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .daily-export-container {
+    position: absolute;
+    top: 0;
+    right: -100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    pointer-events: auto;
+  }
+
   .circle-container {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .circle-container.solar,
-  .circle-container.daily-export {
+  .circle-container.solar {
     height: 130px;
   }
   .circle-container.individual-top {
@@ -682,7 +699,6 @@ export const styles = css`
   }
 
   .card-content.compact-mode .circle-container.solar,
-  .card-content.compact-mode .circle-container.daily-export,
   .card-content.compact-mode .circle-container.individual-top {
     height: 110px;
   }
