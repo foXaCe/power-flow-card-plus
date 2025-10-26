@@ -71,6 +71,11 @@ export const styles = css`
   .card-content {
     position: relative;
     margin: 0 auto;
+    padding-top: 20px;
+  }
+
+  .card-content:has(.daily-cost-container) {
+    padding-top: 130px;
   }
 
   .circle {
@@ -170,13 +175,14 @@ export const styles = css`
 
   .daily-cost-container {
     position: absolute;
-    top: -140px;
+    top: -120px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
     z-index: 10;
+    pointer-events: auto;
   }
   .circle-container {
     display: flex;
