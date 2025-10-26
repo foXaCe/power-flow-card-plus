@@ -209,6 +209,14 @@ export const styles = css`
     overflow: hidden;
     min-height: 20px;
   }
+
+  .cost-info {
+    color: var(--secondary-text-color);
+    font-size: 10px;
+    margin-top: 2px;
+    display: block;
+    font-weight: 500;
+  }
   line,
   path {
     stroke: var(--disabled-text-color);

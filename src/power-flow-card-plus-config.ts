@@ -31,6 +31,10 @@ interface mainConfigOptions {
   circle_border_width?: number;
   compact_mode?: boolean;
   circle_gradient_mode?: boolean;
+  show_cost?: boolean;
+  cost_entity?: string;
+  cost_unit?: string;
+  cost_decimals?: number;
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {

@@ -114,5 +114,10 @@ export const gridElement = (
       ${grid.powerOutage?.isOutage && !grid.powerOutage?.entityGenerator ? html`<span class="grid power-outage">${grid.powerOutage.name}</span>` : ""}
     </div>
     <span class="label">${grid.name}</span>
+    ${grid.cost?.enabled && grid.cost.tariff > 0 && grid.state.fromGrid > 0
+      ? html`<span class="cost-info">
+          ${((grid.state.fromGrid / 1000) * grid.cost.tariff).toFixed(grid.cost.decimals)} ${grid.cost.unit.replace('/kWh', '/h')}
+        </span>`
+      : ""}
   </div>`;
 };
