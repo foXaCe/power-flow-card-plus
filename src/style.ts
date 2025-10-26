@@ -268,6 +268,7 @@ export const styles = css`
     margin-right: 8px;
     transform: translateY(-50%);
     pointer-events: none;
+    z-index: 3;
   }
 
   .daily-export-arrow path {
