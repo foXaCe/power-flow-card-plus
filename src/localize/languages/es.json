@@ -75,6 +75,10 @@
     "grey_color": "Color Gris",
     "tap_action": "Acción de Toque",
     "navigation_path": "Ruta de Navegación",
-    "sort_individual_devices": "Ordenar dispositivos individuales"
+    "sort_individual_devices": "Ordenar dispositivos individuales",
+    "circle_pulse_animation": "Circle Pulse Animation",
+    "circle_border_width": "Circle Border Width",
+    "compact_mode": "Compact Mode",
+    "circle_gradient_mode": "Circle Gradient Mode"
   }
 }

@@ -75,6 +75,10 @@
     "grey_color": "Cor do Cinza",
     "tap_action": "Ação de Toque",
     "navigation_path": "Caminho de Navegação",
-    "sort_individual_devices": "Classifique dispositivos individuais"
+    "sort_individual_devices": "Classifique dispositivos individuais",
+    "circle_pulse_animation": "Circle Pulse Animation",
+    "circle_border_width": "Circle Border Width",
+    "compact_mode": "Compact Mode",
+    "circle_gradient_mode": "Circle Gradient Mode"
   }
 }

@@ -75,6 +75,10 @@
     "grey_color": "Колір затемнення",
     "tap_action": "Дія при натисканні",
     "navigation_path": "Шлях переходу",
-    "sort_individual_devices": "Сортувати окремі пристрої"
+    "sort_individual_devices": "Сортувати окремі пристрої",
+    "circle_pulse_animation": "Circle Pulse Animation",
+    "circle_border_width": "Circle Border Width",
+    "compact_mode": "Compact Mode",
+    "circle_gradient_mode": "Circle Gradient Mode"
   }
 }
