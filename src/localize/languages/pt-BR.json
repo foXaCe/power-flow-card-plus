@@ -98,6 +98,12 @@
     "daily_cost_title": "Custo Diário",
     "daily_export_title": "Exportação Diária",
     "position_auto": "Auto",
-    "position_default": "Padrão"
+    "position_default": "Padrão",
+    "position_editor_info_title": "⚠️ Importante: O tamanho do cartão no editor difere do painel",
+    "position_editor_info_text": "O cartão aparece menor no editor do que no seu painel. Teste as posições no painel real para colocação precisa. Use as dimensões abaixo como referência.",
+    "card_dimensions": "Dimensões do cartão no painel",
+    "card_max_width": "Largura máxima",
+    "card_typical_height": "Altura típica",
+    "position_tip": "Dica: Comece com valores pequenos (10-50px) e ajuste gradualmente no painel."
   }
 }

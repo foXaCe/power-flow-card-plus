@@ -98,6 +98,12 @@
     "daily_cost_title": "Dagelijkse Kosten",
     "daily_export_title": "Dagelijkse Export",
     "position_auto": "Auto",
-    "position_default": "Standaard"
+    "position_default": "Standaard",
+    "position_editor_info_title": "⚠️ Belangrijk: Kaartgrootte in editor verschilt van dashboard",
+    "position_editor_info_text": "De kaart verschijnt kleiner in de editor dan op uw dashboard. Test posities op het daadwerkelijke dashboard voor nauwkeurige plaatsing. Gebruik de onderstaande afmetingen als referentie.",
+    "card_dimensions": "Kaartafmetingen op dashboard",
+    "card_max_width": "Maximale breedte",
+    "card_typical_height": "Typische hoogte",
+    "position_tip": "Tip: Begin met kleine waarden (10-50px) en pas geleidelijk aan op het dashboard."
   }
 }

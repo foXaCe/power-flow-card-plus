@@ -757,7 +757,29 @@ export class PowerFlowCardPlus extends LitElement {
             solar,
           })}
           ${dailyExport.enabled && solar.has
-            ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">${dailyExportElement(this, this._config, { dailyExport })}</div>`
+            ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">
+                ${dailyExportElement(this, this._config, { dailyExport })}
+                ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                  <defs>
+                    <marker id="arrowhead-daily-export" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+                      <polygon points="0 0, 4 2, 0 4" fill="var(--energy-solar-color)" />
+                    </marker>
+                  </defs>
+                  <path
+                    class="solar"
+                    d="M10,50 L90,50"
+                    vector-effect="non-scaling-stroke"
+                    marker-end="url(#arrowhead-daily-export)"
+                  ></path>
+                  ${!this._config.disable_dots
+                    ? svg`<circle r="1.5" class="solar" vector-effect="non-scaling-stroke">
+                        <animateMotion dur="${newDur.solarToGrid}s" repeatCount="indefinite" calcMode="linear">
+                          <mpath xlink:href="#solar" />
+                        </animateMotion>
+                      </circle>`
+                    : ""}
+                </svg>`}
+              </div>`
             : ""}
         </div>
         ${dashboardLinkElement(this._config, this.hass)}

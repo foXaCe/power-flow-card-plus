@@ -98,6 +98,12 @@
     "daily_cost_title": "Tägliche Kosten",
     "daily_export_title": "Täglicher Export",
     "position_auto": "Auto",
-    "position_default": "Standard"
+    "position_default": "Standard",
+    "position_editor_info_title": "⚠️ Wichtig: Kartengröße im Editor unterscheidet sich vom Dashboard",
+    "position_editor_info_text": "Die Karte erscheint im Editor kleiner als auf Ihrem Dashboard. Testen Sie Positionen auf dem tatsächlichen Dashboard für genaue Platzierung. Verwenden Sie die unten stehenden Abmessungen als Referenz.",
+    "card_dimensions": "Kartenabmessungen auf dem Dashboard",
+    "card_max_width": "Maximale Breite",
+    "card_typical_height": "Typische Höhe",
+    "position_tip": "Tipp: Beginnen Sie mit kleinen Werten (10-50px) und passen Sie schrittweise auf dem Dashboard an."
   }
 }

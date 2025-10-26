@@ -98,6 +98,12 @@
     "daily_cost_title": "Daglig Pris",
     "daily_export_title": "Daglig Eksport",
     "position_auto": "Auto",
-    "position_default": "Standard"
+    "position_default": "Standard",
+    "position_editor_info_title": "⚠️ Vigtigt: Kortstørrelse i editor adskiller sig fra dashboard",
+    "position_editor_info_text": "Kortet vises mindre i editoren end på dit dashboard. Test positioner på det faktiske dashboard for præcis placering. Brug dimensionerne nedenfor som reference.",
+    "card_dimensions": "Kortdimensioner på dashboard",
+    "card_max_width": "Maksimal bredde",
+    "card_typical_height": "Typisk højde",
+    "position_tip": "Tip: Start med små værdier (10-50px) og juster gradvist på dashboardet."
   }
 }

@@ -91,6 +91,51 @@ export class CustomPositionsEditor extends LitElement {
     .chevron.open {
       transform: rotate(180deg);
     }
+
+    .info-banner {
+      background: var(--warning-color, #ff9800);
+      color: var(--text-primary-color, white);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .info-banner ha-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .info-text {
+      font-size: 13px;
+      line-height: 1.4;
+      opacity: 0.95;
+    }
+
+    .card-dimensions {
+      background: var(--primary-background-color);
+      border: 1px solid var(--divider-color);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--secondary-text-color);
+    }
+
+    .card-dimensions strong {
+      color: var(--primary-text-color);
+    }
   `;
 
   connectedCallback() {
@@ -224,6 +269,22 @@ export class CustomPositionsEditor extends LitElement {
 
   render() {
     return html`
+      <div class="info-banner">
+        <ha-icon icon="mdi:information"></ha-icon>
+        <div class="info-content">
+          <div class="info-title">${this.localize("editor.position_editor_info_title")}</div>
+          <div class="info-text">${this.localize("editor.position_editor_info_text")}</div>
+        </div>
+      </div>
+
+      <div class="card-dimensions">
+        <strong>${this.localize("editor.card_dimensions")}:</strong>
+        ${this.localize("editor.card_max_width")}: 470px,
+        ${this.localize("editor.card_typical_height")}: ~400-500px
+        <br>
+        <em>${this.localize("editor.position_tip")}</em>
+      </div>
+
       ${this._renderPositionSection("solar", this.localize("editor.solar"))}
       ${this._renderPositionSection("grid", this.localize("editor.grid"))}
       ${this._renderPositionSection("home", this.localize("editor.home"))}

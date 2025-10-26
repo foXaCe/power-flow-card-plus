@@ -98,6 +98,12 @@
     "daily_cost_title": "Daglig Kostnad",
     "daily_export_title": "Daglig Export",
     "position_auto": "Auto",
-    "position_default": "Standard"
+    "position_default": "Standard",
+    "position_editor_info_title": "⚠️ Viktigt: Kortstorlek i redigeraren skiljer sig från instrumentpanelen",
+    "position_editor_info_text": "Kortet visas mindre i redigeraren än på din instrumentpanel. Testa positioner på den faktiska instrumentpanelen för exakt placering. Använd dimensionerna nedan som referens.",
+    "card_dimensions": "Kortdimensioner på instrumentpanelen",
+    "card_max_width": "Maximal bredd",
+    "card_typical_height": "Typisk höjd",
+    "position_tip": "Tips: Börja med små värden (10-50px) och justera gradvis på instrumentpanelen."
   }
 }

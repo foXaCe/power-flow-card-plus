@@ -98,6 +98,12 @@
     "daily_cost_title": "Costo Diario",
     "daily_export_title": "Exportación Diaria",
     "position_auto": "Auto",
-    "position_default": "Predeterminado"
+    "position_default": "Predeterminado",
+    "position_editor_info_title": "⚠️ Importante: El tamaño de la tarjeta en el editor difiere del panel",
+    "position_editor_info_text": "La tarjeta aparece más pequeña en el editor que en su panel. Pruebe las posiciones en el panel real para una colocación precisa. Use las dimensiones a continuación como referencia.",
+    "card_dimensions": "Dimensiones de la tarjeta en el panel",
+    "card_max_width": "Ancho máximo",
+    "card_typical_height": "Altura típica",
+    "position_tip": "Consejo: Comience con valores pequeños (10-50px) y ajuste gradualmente en el panel."
   }
 }
