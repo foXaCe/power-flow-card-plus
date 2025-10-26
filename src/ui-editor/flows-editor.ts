@@ -148,6 +148,40 @@ export class FlowsEditor extends LitElement {
     );
   }
 
+  private _arrowChanged(arrow: string, property: string, value: any) {
+    const currentArrows = this.config.arrows || {};
+    const currentArrow = currentArrows[arrow] || {};
+
+    const newArrow = { ...currentArrow, [property]: value };
+
+    // Nettoyer si toutes les valeurs sont undefined
+    const hasValues = Object.values(newArrow).some(v => v !== undefined && v !== null && v !== "");
+
+    const newArrows = { ...currentArrows };
+    if (hasValues) {
+      newArrows[arrow] = newArrow;
+    } else {
+      delete newArrows[arrow];
+    }
+
+    const newConfig = {
+      ...this.config,
+      arrows: Object.keys(newArrows).length > 0 ? newArrows : undefined
+    };
+
+    this.dispatchEvent(
+      new CustomEvent("config-changed", {
+        detail: { config: newConfig },
+        bubbles: true,
+        composed: true,
+      })
+    );
+  }
+
+  private _getArrowValue(arrow: string, property: string): any {
+    return this.config.arrows?.[arrow]?.[property] ?? "";
+  }
+
   render() {
     return html`
       <div class="info-banner">
@@ -303,6 +337,102 @@ export class FlowsEditor extends LitElement {
               />
               <div class="hint">${this.localize("editor.kw_decimals_hint")}</div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arrows Section -->
+      <div class="section">
+        <div class="section-header" @click=${this._toggleSection}>
+          <span>${this.localize("editor.arrows_customization")}</span>
+          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
+        </div>
+        <div class="section-content">
+          ${this._renderArrowConfig("solar_to_daily_export", this.localize("editor.arrow_solar_to_daily_export"))}
+          ${this._renderArrowConfig("grid_to_home", this.localize("editor.arrow_grid_to_home"))}
+          ${this._renderArrowConfig("solar_to_home", this.localize("editor.arrow_solar_to_home"))}
+          ${this._renderArrowConfig("solar_to_grid", this.localize("editor.arrow_solar_to_grid"))}
+          ${this._renderArrowConfig("battery_to_home", this.localize("editor.arrow_battery_to_home"))}
+          ${this._renderArrowConfig("solar_to_battery", this.localize("editor.arrow_solar_to_battery"))}
+          ${this._renderArrowConfig("grid_to_battery", this.localize("editor.arrow_grid_to_battery"))}
+        </div>
+      </div>
+    `;
+  }
+
+  private _renderArrowConfig(arrow: string, title: string) {
+    return html`
+      <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--divider-color);">
+        <div style="font-weight: 500; margin-bottom: 12px; color: var(--primary-text-color);">${title}</div>
+
+        <div class="control-row">
+          <div class="control-label">${this.localize("editor.arrow_color")}</div>
+          <div class="control-input">
+            <input
+              type="color"
+              .value=${this._getArrowValue(arrow, "color") || "#8cd867"}
+              @input=${(e: any) => this._arrowChanged(arrow, "color", e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label">${this.localize("editor.arrow_thickness")}</div>
+          <div class="control-input">
+            <input
+              type="number"
+              .value=${this._getArrowValue(arrow, "thickness") || 1.5}
+              @input=${(e: any) => this._arrowChanged(arrow, "thickness", parseFloat(e.target.value))}
+              min="0.5"
+              max="10"
+              step="0.5"
+            />
+            <div class="hint">${this.localize("editor.arrow_thickness_hint")}</div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label">${this.localize("editor.arrow_length")}</div>
+          <div class="control-input">
+            <input
+              type="number"
+              .value=${this._getArrowValue(arrow, "length") || 80}
+              @input=${(e: any) => this._arrowChanged(arrow, "length", parseInt(e.target.value))}
+              min="20"
+              max="300"
+              step="10"
+            />
+            <div class="hint">${this.localize("editor.arrow_length_hint")}</div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label">${this.localize("editor.arrow_offset_x")}</div>
+          <div class="control-input">
+            <input
+              type="number"
+              .value=${this._getArrowValue(arrow, "offset_x") || 0}
+              @input=${(e: any) => this._arrowChanged(arrow, "offset_x", parseInt(e.target.value))}
+              min="-200"
+              max="200"
+              step="5"
+            />
+            <div class="hint">${this.localize("editor.arrow_offset_x_hint")}</div>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <div class="control-label">${this.localize("editor.arrow_offset_y")}</div>
+          <div class="control-input">
+            <input
+              type="number"
+              .value=${this._getArrowValue(arrow, "offset_y") || 0}
+              @input=${(e: any) => this._arrowChanged(arrow, "offset_y", parseInt(e.target.value))}
+              min="-200"
+              max="200"
+              step="5"
+            />
+            <div class="hint">${this.localize("editor.arrow_offset_y_hint")}</div>
           </div>
         </div>
       </div>

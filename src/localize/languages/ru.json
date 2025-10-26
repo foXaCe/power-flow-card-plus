@@ -118,6 +118,23 @@
     "display_options": "Параметры Отображения",
     "watt_threshold_hint": "Переключить с Вт на кВт при этом значении",
     "w_decimals_hint": "Десятичные знаки для значений в Ваттах (0-5)",
-    "kw_decimals_hint": "Десятичные знаки для значений в Киловаттах (0-5)"
+    "kw_decimals_hint": "Десятичные знаки для значений в Киловаттах (0-5)",
+    "arrows_customization": "Настройка Стрелок",
+    "arrow_solar_to_daily_export": "Солнечная → Дневной Экспорт",
+    "arrow_grid_to_home": "Сеть → Дом",
+    "arrow_solar_to_home": "Солнечная → Дом",
+    "arrow_solar_to_grid": "Солнечная → Сеть",
+    "arrow_battery_to_home": "Батарея → Дом",
+    "arrow_solar_to_battery": "Солнечная → Батарея",
+    "arrow_grid_to_battery": "Сеть → Батарея",
+    "arrow_color": "Цвет",
+    "arrow_thickness": "Толщина (px)",
+    "arrow_thickness_hint": "Толщина линии в пикселях (0.5-10)",
+    "arrow_length": "Длина (px)",
+    "arrow_length_hint": "Длина стрелки в пикселях (20-300)",
+    "arrow_offset_x": "Горизонтальное Смещение (px)",
+    "arrow_offset_x_hint": "Корректировка горизонтальной позиции (-200 до 200)",
+    "arrow_offset_y": "Вертикальное Смещение (px)",
+    "arrow_offset_y_hint": "Корректировка вертикальной позиции (-200 до 200)"
   }
 }

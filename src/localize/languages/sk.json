@@ -118,6 +118,23 @@
     "display_options": "Možnosti Zobrazenia",
     "watt_threshold_hint": "Prepnúť z W na kW pri tejto hodnote",
     "w_decimals_hint": "Desatinné miesta pre hodnoty vo Wattoch (0-5)",
-    "kw_decimals_hint": "Desatinné miesta pre hodnoty v Kilowattoch (0-5)"
+    "kw_decimals_hint": "Desatinné miesta pre hodnoty v Kilowattoch (0-5)",
+    "arrows_customization": "Prispôsobenie Šípok",
+    "arrow_solar_to_daily_export": "Solárna → Denný Export",
+    "arrow_grid_to_home": "Sieť → Domov",
+    "arrow_solar_to_home": "Solárna → Domov",
+    "arrow_solar_to_grid": "Solárna → Sieť",
+    "arrow_battery_to_home": "Batéria → Domov",
+    "arrow_solar_to_battery": "Solárna → Batéria",
+    "arrow_grid_to_battery": "Sieť → Batéria",
+    "arrow_color": "Farba",
+    "arrow_thickness": "Hrúbka (px)",
+    "arrow_thickness_hint": "Hrúbka čiary v pixeloch (0.5-10)",
+    "arrow_length": "Dĺžka (px)",
+    "arrow_length_hint": "Dĺžka šípky v pixeloch (20-300)",
+    "arrow_offset_x": "Vodorovný Posun (px)",
+    "arrow_offset_x_hint": "Úprava vodorovnej pozície (-200 až 200)",
+    "arrow_offset_y": "Zvislý Posun (px)",
+    "arrow_offset_y_hint": "Úprava zvislej pozície (-200 až 200)"
   }
 }

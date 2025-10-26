@@ -118,6 +118,23 @@
     "display_options": "Opciones de Visualización",
     "watt_threshold_hint": "Cambiar de W a kW en este valor",
     "w_decimals_hint": "Decimales para valores en Vatios (0-5)",
-    "kw_decimals_hint": "Decimales para valores en Kilovatios (0-5)"
+    "kw_decimals_hint": "Decimales para valores en Kilovatios (0-5)",
+    "arrows_customization": "Personalización de Flechas",
+    "arrow_solar_to_daily_export": "Solar → Exportación Diaria",
+    "arrow_grid_to_home": "Red → Casa",
+    "arrow_solar_to_home": "Solar → Casa",
+    "arrow_solar_to_grid": "Solar → Red",
+    "arrow_battery_to_home": "Batería → Casa",
+    "arrow_solar_to_battery": "Solar → Batería",
+    "arrow_grid_to_battery": "Red → Batería",
+    "arrow_color": "Color",
+    "arrow_thickness": "Grosor (px)",
+    "arrow_thickness_hint": "Grosor de línea en píxeles (0.5-10)",
+    "arrow_length": "Longitud (px)",
+    "arrow_length_hint": "Longitud de flecha en píxeles (20-300)",
+    "arrow_offset_x": "Desplazamiento Horizontal (px)",
+    "arrow_offset_x_hint": "Ajuste de posición horizontal (-200 a 200)",
+    "arrow_offset_y": "Desplazamiento Vertical (px)",
+    "arrow_offset_y_hint": "Ajuste de posición vertical (-200 a 200)"
   }
 }

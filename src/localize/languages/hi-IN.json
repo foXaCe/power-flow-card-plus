@@ -118,6 +118,23 @@
     "display_options": "प्रदर्शन विकल्प",
     "watt_threshold_hint": "इस मान पर W से kW में स्विच करें",
     "w_decimals_hint": "वाट मानों के लिए दशमलव स्थान (0-5)",
-    "kw_decimals_hint": "किलोवाट मानों के लिए दशमलव स्थान (0-5)"
+    "kw_decimals_hint": "किलोवाट मानों के लिए दशमलव स्थान (0-5)",
+    "arrows_customization": "तीर अनुकूलन",
+    "arrow_solar_to_daily_export": "सौर → दैनिक निर्यात",
+    "arrow_grid_to_home": "ग्रिड → घर",
+    "arrow_solar_to_home": "सौर → घर",
+    "arrow_solar_to_grid": "सौर → ग्रिड",
+    "arrow_battery_to_home": "बैटरी → घर",
+    "arrow_solar_to_battery": "सौर → बैटरी",
+    "arrow_grid_to_battery": "ग्रिड → बैटरी",
+    "arrow_color": "रंग",
+    "arrow_thickness": "मोटाई (px)",
+    "arrow_thickness_hint": "पिक्सेल में रेखा की मोटाई (0.5-10)",
+    "arrow_length": "लंबाई (px)",
+    "arrow_length_hint": "पिक्सेल में तीर की लंबाई (20-300)",
+    "arrow_offset_x": "क्षैतिज ऑफसेट (px)",
+    "arrow_offset_x_hint": "क्षैतिज स्थिति समायोजन (-200 से 200)",
+    "arrow_offset_y": "लंबवत ऑफसेट (px)",
+    "arrow_offset_y_hint": "लंबवत स्थिति समायोजन (-200 से 200)"
   }
 }

@@ -118,6 +118,23 @@
     "display_options": "Anzeigeoptionen",
     "watt_threshold_hint": "Von W zu kW wechseln bei diesem Wert",
     "w_decimals_hint": "Dezimalstellen für Watt-Werte (0-5)",
-    "kw_decimals_hint": "Dezimalstellen für Kilowatt-Werte (0-5)"
+    "kw_decimals_hint": "Dezimalstellen für Kilowatt-Werte (0-5)",
+    "arrows_customization": "Pfeile Anpassen",
+    "arrow_solar_to_daily_export": "Solar → Täglicher Export",
+    "arrow_grid_to_home": "Netz → Haus",
+    "arrow_solar_to_home": "Solar → Haus",
+    "arrow_solar_to_grid": "Solar → Netz",
+    "arrow_battery_to_home": "Batterie → Haus",
+    "arrow_solar_to_battery": "Solar → Batterie",
+    "arrow_grid_to_battery": "Netz → Batterie",
+    "arrow_color": "Farbe",
+    "arrow_thickness": "Dicke (px)",
+    "arrow_thickness_hint": "Liniendicke in Pixeln (0.5-10)",
+    "arrow_length": "Länge (px)",
+    "arrow_length_hint": "Pfeilänge in Pixeln (20-300)",
+    "arrow_offset_x": "Horizontaler Versatz (px)",
+    "arrow_offset_x_hint": "Horizontale Positionsanpassung (-200 bis 200)",
+    "arrow_offset_y": "Vertikaler Versatz (px)",
+    "arrow_offset_y_hint": "Vertikale Positionsanpassung (-200 bis 200)"
   }
 }

@@ -118,6 +118,23 @@
     "display_options": "Näyttöasetukset",
     "watt_threshold_hint": "Vaihda W:sta kW:iin tässä arvossa",
     "w_decimals_hint": "Desimaalit Watti-arvoille (0-5)",
-    "kw_decimals_hint": "Desimaalit Kilowatti-arvoille (0-5)"
+    "kw_decimals_hint": "Desimaalit Kilowatti-arvoille (0-5)",
+    "arrows_customization": "Nuolien Mukauttaminen",
+    "arrow_solar_to_daily_export": "Aurinko → Päivittäinen Vienti",
+    "arrow_grid_to_home": "Verkko → Koti",
+    "arrow_solar_to_home": "Aurinko → Koti",
+    "arrow_solar_to_grid": "Aurinko → Verkko",
+    "arrow_battery_to_home": "Akku → Koti",
+    "arrow_solar_to_battery": "Aurinko → Akku",
+    "arrow_grid_to_battery": "Verkko → Akku",
+    "arrow_color": "Väri",
+    "arrow_thickness": "Paksuus (px)",
+    "arrow_thickness_hint": "Viivan paksuus pikseleissä (0.5-10)",
+    "arrow_length": "Pituus (px)",
+    "arrow_length_hint": "Nuolen pituus pikseleissä (20-300)",
+    "arrow_offset_x": "Vaakasuuntainen Siirtymä (px)",
+    "arrow_offset_x_hint": "Vaakasuuntainen paikansäätö (-200 - 200)",
+    "arrow_offset_y": "Pystysuuntainen Siirtymä (px)",
+    "arrow_offset_y_hint": "Pystysuuntainen paikansäätö (-200 - 200)"
   }
 }

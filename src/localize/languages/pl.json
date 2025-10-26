@@ -118,6 +118,23 @@
     "display_options": "Opcje Wyświetlania",
     "watt_threshold_hint": "Przełącz z W na kW przy tej wartości",
     "w_decimals_hint": "Miejsca dziesiętne dla wartości w Watach (0-5)",
-    "kw_decimals_hint": "Miejsca dziesiętne dla wartości w Kilowatach (0-5)"
+    "kw_decimals_hint": "Miejsca dziesiętne dla wartości w Kilowatach (0-5)",
+    "arrows_customization": "Dostosowanie Strzałek",
+    "arrow_solar_to_daily_export": "Słoneczna → Eksport Dzienny",
+    "arrow_grid_to_home": "Sieć → Dom",
+    "arrow_solar_to_home": "Słoneczna → Dom",
+    "arrow_solar_to_grid": "Słoneczna → Sieć",
+    "arrow_battery_to_home": "Bateria → Dom",
+    "arrow_solar_to_battery": "Słoneczna → Bateria",
+    "arrow_grid_to_battery": "Sieć → Bateria",
+    "arrow_color": "Kolor",
+    "arrow_thickness": "Grubość (px)",
+    "arrow_thickness_hint": "Grubość linii w pikselach (0.5-10)",
+    "arrow_length": "Długość (px)",
+    "arrow_length_hint": "Długość strzałki w pikselach (20-300)",
+    "arrow_offset_x": "Przesunięcie Poziome (px)",
+    "arrow_offset_x_hint": "Dostosowanie pozycji poziomej (-200 do 200)",
+    "arrow_offset_y": "Przesunięcie Pionowe (px)",
+    "arrow_offset_y_hint": "Dostosowanie pozycji pionowej (-200 do 200)"
   }
 }
