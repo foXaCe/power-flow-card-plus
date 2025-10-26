@@ -161,6 +161,12 @@ export const styles = css`
     max-width: 500px;
     margin: 0 auto;
   }
+  .grid-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
   .circle-container {
     display: flex;
     flex-direction: column;
