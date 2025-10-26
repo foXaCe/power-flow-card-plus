@@ -34,7 +34,6 @@ import { RenderTemplateResult, subscribeRenderTemplate } from "./template/ha-web
 import { GridObject, HomeSources, NewDur, TemplatesObj } from "./type";
 import { computeFieldIcon, computeFieldName } from "./utils/computeFieldAttributes";
 import { computeFlowRate } from "./utils/computeFlowRate";
-import { getArrowStyles, getArrowTransform } from "./utils/applyArrowStyles";
 import {
   checkHasBottomIndividual,
   checkHasRightIndividual,
@@ -652,26 +651,9 @@ export class PowerFlowCardPlus extends LitElement {
                   ${dailyCost.enabled
                     ? html`<div class="daily-cost-container" style="${this._config.custom_positions?.daily_cost ? `${this._config.custom_positions.daily_cost.top !== undefined ? `top: ${this._config.custom_positions.daily_cost.top}px;` : ""} ${this._config.custom_positions.daily_cost.left !== undefined ? `left: ${this._config.custom_positions.daily_cost.left}px;` : ""}` : ""}">
                         ${dailyCostElement(this, this._config, { dailyCost })}
-                        ${svg`<svg class="daily-cost-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                          <defs>
-                            <marker id="arrowhead-daily-cost" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
-                              <polygon points="0 0, 4 2, 0 4" fill="var(--energy-grid-consumption-color)" />
-                            </marker>
-                          </defs>
-                          <path
-                            class="grid"
-                            d="M50,10 L50,90"
-                            vector-effect="non-scaling-stroke"
-                            marker-end="url(#arrowhead-daily-cost)"
-                          ></path>
-                          ${!this._config.disable_dots
-                            ? svg`<circle r="1.5" class="grid" vector-effect="non-scaling-stroke">
-                                <animateMotion dur="${newDur.gridToHome}s" repeatCount="indefinite" calcMode="linear">
-                                  <mpath xlink:href="#grid" />
-                                </animateMotion>
-                              </circle>`
-                            : ""}
-                        </svg>`}
+                        <svg class="daily-cost-line" style="position: absolute; top: 100%; left: 50%; width: 2px; height: 120px; margin-left: -1px; pointer-events: none; z-index: 1;">
+                          <line x1="1" y1="0" x2="1" y2="120" stroke="var(--energy-grid-consumption-color)" stroke-width="2"/>
+                        </svg>
                       </div>`
                     : ""}
                   ${gridElement(this, this._config, {
@@ -734,28 +716,9 @@ export class PowerFlowCardPlus extends LitElement {
           ${dailyExport.enabled && solar.has
             ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">
                 ${dailyExportElement(this, this._config, { dailyExport })}
-                ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="${getArrowStyles("solar_to_daily_export", this._config)}">
-                  <defs>
-                    <marker id="arrowhead-daily-export" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
-                      <polygon points="0 0, 4 2, 0 4" fill="${this._config.arrows?.solar_to_daily_export?.color || "var(--energy-solar-color)"}" />
-                    </marker>
-                  </defs>
-                  <path
-                    class="solar"
-                    d="M10,50 L90,50"
-                    vector-effect="non-scaling-stroke"
-                    marker-end="url(#arrowhead-daily-export)"
-                    style="${getArrowStyles("solar_to_daily_export", this._config)}"
-                    transform="${getArrowTransform("solar_to_daily_export", this._config)}"
-                  ></path>
-                  ${!this._config.disable_dots
-                    ? svg`<circle r="1.5" class="solar" vector-effect="non-scaling-stroke">
-                        <animateMotion dur="${newDur.solarToGrid}s" repeatCount="indefinite" calcMode="linear">
-                          <mpath xlink:href="#solar" />
-                        </animateMotion>
-                      </circle>`
-                    : ""}
-                </svg>`}
+                <svg class="daily-export-line" style="position: absolute; top: 50%; right: 100%; width: 200px; height: 2px; margin-top: -1px; pointer-events: none; z-index: 1;">
+                  <line x1="0" y1="1" x2="200" y2="1" stroke="var(--energy-solar-color)" stroke-width="2"/>
+                </svg>
               </div>`
             : ""}
         </div>
