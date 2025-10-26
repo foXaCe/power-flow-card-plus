@@ -7,46 +7,50 @@ import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
 type FlowSolarToBatteryFlows = Pick<Flows, Exclude<keyof Flows, "grid">>;
 
-export const flowSolarToBattery = (config: PowerFlowCardPlusConfig, { battery, individual, solar, newDur }: FlowSolarToBatteryFlows) => {
+export const flowSolarToBattery = (config: PowerFlowCardPlusConfig, { battery, solar, newDur }: FlowSolarToBatteryFlows) => {
   const customStyles = getArrowStyles("solar_to_battery", config);
   const customTransform = getArrowTransform("solar_to_battery", config);
 
+  // Calculate dynamic positions
+  const solarPos = calculateCirclePosition('solar', config);
+  const batteryPos = calculateCirclePosition('battery', config);
+  const linePath = calculateLinePath(solarPos, batteryPos, 'straight');
+
   return battery.has && solar.has && showLine(config, solar.state.toBattery || 0)
-    ? html`<div
-        class="lines ${classMap({
-          high: battery.has || checkHasBottomIndividual(individual),
-          "individual1-individual2": !battery.has && individual.every((i) => i?.has),
-          "multi-individual": checkHasRightIndividual(individual),
-        })}"
+    ? html`<svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 400 400"
+        preserveAspectRatio="none"
+        id="solar-battery-flow"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"
       >
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" id="solar-battery-flow" class="flat-line">
-          <path
-            id="battery-solar"
-            class="battery-solar ${styleLine(solar.state.toBattery || 0, config)}"
-            d="M50,0 V100"
-            vector-effect="non-scaling-stroke"
-            style="${customStyles}"
-            transform="${customTransform}"
-          ></path>
-          ${checkShouldShowDots(config) && solar.state.toBattery
-            ? svg`<circle
-                r="1"
-                class="battery-solar"
-                vector-effect="non-scaling-stroke"
+        <path
+          id="battery-solar"
+          class="battery-solar ${styleLine(solar.state.toBattery || 0, config)}"
+          d="${linePath}"
+          vector-effect="non-scaling-stroke"
+          style="${customStyles}"
+          transform="${customTransform}"
+        ></path>
+        ${checkShouldShowDots(config) && solar.state.toBattery
+          ? svg`<circle
+              r="3"
+              class="battery-solar"
+              vector-effect="non-scaling-stroke"
+            >
+              <animateMotion
+                dur="${newDur.solarToBattery}s"
+                repeatCount="indefinite"
+                calcMode="linear"
               >
-                <animateMotion
-                  dur="${newDur.solarToBattery}s"
-                  repeatCount="indefinite"
-                  calcMode="linear"
-                >
-                  <mpath xlink:href="#battery-solar" />
-                </animateMotion>
-              </circle>`
-            : ""}
-        </svg>
-      </div>`
+                <mpath xlink:href="#battery-solar" />
+              </animateMotion>
+            </circle>`
+          : ""}
+      </svg>`
     : "";
 };
