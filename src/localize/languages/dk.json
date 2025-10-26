@@ -91,6 +91,19 @@
     "show_daily_export": "Vis daglig eksportindtægt",
     "daily_export_energy_entity": "Daglig eksportenergi-enhed",
     "daily_export_price": "Eksportpris (pr. kWh)",
-    "daily_export_decimals": "Eksport decimaler"
+    "daily_export_decimals": "Eksport decimaler",
+    "custom_positions": "Tilpassede cirkelpositioner",
+    "solar_top": "Sol Top (px)",
+    "solar_left": "Sol Venstre (px)",
+    "grid_top": "Net Top (px)",
+    "grid_left": "Net Venstre (px)",
+    "home_top": "Hjem Top (px)",
+    "home_left": "Hjem Venstre (px)",
+    "battery_top": "Batteri Top (px)",
+    "battery_left": "Batteri Venstre (px)",
+    "daily_cost_top": "Daglig Pris Top (px)",
+    "daily_cost_left": "Daglig Pris Venstre (px)",
+    "daily_export_top": "Daglig Eksport Top (px)",
+    "daily_export_left": "Daglig Eksport Venstre (px)"
   }
 }

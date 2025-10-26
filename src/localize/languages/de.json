@@ -91,6 +91,19 @@
     "show_daily_export": "Tägliche Exporteinnahmen anzeigen",
     "daily_export_energy_entity": "Tägliche Export-Energie-Entität",
     "daily_export_price": "Exportpreis (pro kWh)",
-    "daily_export_decimals": "Dezimalstellen für Export"
+    "daily_export_decimals": "Dezimalstellen für Export",
+    "custom_positions": "Benutzerdefinierte Kreispositionen",
+    "solar_top": "Solar Oben (px)",
+    "solar_left": "Solar Links (px)",
+    "grid_top": "Netz Oben (px)",
+    "grid_left": "Netz Links (px)",
+    "home_top": "Haus Oben (px)",
+    "home_left": "Haus Links (px)",
+    "battery_top": "Batterie Oben (px)",
+    "battery_left": "Batterie Links (px)",
+    "daily_cost_top": "Tägliche Kosten Oben (px)",
+    "daily_cost_left": "Tägliche Kosten Links (px)",
+    "daily_export_top": "Täglicher Export Oben (px)",
+    "daily_export_left": "Täglicher Export Links (px)"
   }
 }

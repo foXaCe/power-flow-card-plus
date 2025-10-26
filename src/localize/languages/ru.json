@@ -91,6 +91,19 @@
     "show_daily_export": "Показать ежедневный доход от экспорта",
     "daily_export_energy_entity": "Сущность ежедневной экспортируемой энергии",
     "daily_export_price": "Цена экспорта (за кВтч)",
-    "daily_export_decimals": "Десятичные знаки экспорта"
+    "daily_export_decimals": "Десятичные знаки экспорта",
+    "custom_positions": "Пользовательские позиции кругов",
+    "solar_top": "Солнечная Верх (px)",
+    "solar_left": "Солнечная Лево (px)",
+    "grid_top": "Сеть Верх (px)",
+    "grid_left": "Сеть Лево (px)",
+    "home_top": "Дом Верх (px)",
+    "home_left": "Дом Лево (px)",
+    "battery_top": "Батарея Верх (px)",
+    "battery_left": "Батарея Лево (px)",
+    "daily_cost_top": "Ежедневная Стоимость Верх (px)",
+    "daily_cost_left": "Ежедневная Стоимость Лево (px)",
+    "daily_export_top": "Ежедневный Экспорт Верх (px)",
+    "daily_export_left": "Ежедневный Экспорт Лево (px)"
   }
 }

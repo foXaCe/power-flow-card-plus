@@ -91,6 +91,19 @@
     "show_daily_export": "Mostra ricavi esportazione giornaliera",
     "daily_export_energy_entity": "Entità energia esportata giornaliera",
     "daily_export_price": "Prezzo di esportazione (per kWh)",
-    "daily_export_decimals": "Decimali esportazione"
+    "daily_export_decimals": "Decimali esportazione",
+    "custom_positions": "Posizioni personalizzate dei cerchi",
+    "solar_top": "Solare Alto (px)",
+    "solar_left": "Solare Sinistra (px)",
+    "grid_top": "Rete Alto (px)",
+    "grid_left": "Rete Sinistra (px)",
+    "home_top": "Casa Alto (px)",
+    "home_left": "Casa Sinistra (px)",
+    "battery_top": "Batteria Alto (px)",
+    "battery_left": "Batteria Sinistra (px)",
+    "daily_cost_top": "Costo Giornaliero Alto (px)",
+    "daily_cost_left": "Costo Giornaliero Sinistra (px)",
+    "daily_export_top": "Esportazione Giornaliera Alto (px)",
+    "daily_export_left": "Esportazione Giornaliera Sinistra (px)"
   }
 }

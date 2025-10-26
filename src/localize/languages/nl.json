@@ -91,6 +91,19 @@
     "show_daily_export": "Dagelijkse export-opbrengst weergeven",
     "daily_export_energy_entity": "Dagelijkse export energie entiteit",
     "daily_export_price": "Exportprijs (per kWh)",
-    "daily_export_decimals": "Decimalen export"
+    "daily_export_decimals": "Decimalen export",
+    "custom_positions": "Aangepaste cirkelposities",
+    "solar_top": "Zonne Boven (px)",
+    "solar_left": "Zonne Links (px)",
+    "grid_top": "Net Boven (px)",
+    "grid_left": "Net Links (px)",
+    "home_top": "Huis Boven (px)",
+    "home_left": "Huis Links (px)",
+    "battery_top": "Batterij Boven (px)",
+    "battery_left": "Batterij Links (px)",
+    "daily_cost_top": "Dagelijkse Kosten Boven (px)",
+    "daily_cost_left": "Dagelijkse Kosten Links (px)",
+    "daily_export_top": "Dagelijkse Export Boven (px)",
+    "daily_export_left": "Dagelijkse Export Links (px)"
   }
 }

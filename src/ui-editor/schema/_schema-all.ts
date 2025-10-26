@@ -3,6 +3,7 @@ import { any, assign, boolean, integer, number, object, optional, string } from 
 import memoizeOne from "memoize-one";
 import { batterySchema } from "./battery";
 import { displayZeroLinesSchema } from "./display_zero_lines";
+import { customPositionsSchema } from "./custom_positions";
 import { nonFossilSchema } from "./fossil_fuel_percentage";
 import { gridSchema } from "./grid";
 import { homeSchema } from "./home";
@@ -314,73 +315,6 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
   {
     type: "expandable",
     title: localize("editor.custom_positions"),
-    schema: [
-      {
-        type: "grid",
-        column_min_width: "200px",
-        schema: [
-          {
-            name: "custom_positions.solar.top",
-            label: localize("editor.solar_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.solar.left",
-            label: localize("editor.solar_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.grid.top",
-            label: localize("editor.grid_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.grid.left",
-            label: localize("editor.grid_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.home.top",
-            label: localize("editor.home_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.home.left",
-            label: localize("editor.home_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.battery.top",
-            label: localize("editor.battery_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.battery.left",
-            label: localize("editor.battery_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.daily_cost.top",
-            label: localize("editor.daily_cost_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.daily_cost.left",
-            label: localize("editor.daily_cost_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.daily_export.top",
-            label: localize("editor.daily_export_top"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-          {
-            name: "custom_positions.daily_export.left",
-            label: localize("editor.daily_export_left"),
-            selector: { number: { mode: "box", step: 1 } },
-          },
-        ],
-      },
-    ],
+    schema: [...customPositionsSchema(localize)],
   },
 ]);
