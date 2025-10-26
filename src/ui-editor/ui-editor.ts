@@ -212,6 +212,19 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
 
   static get styles() {
     return css`
+      :host {
+        display: block;
+        width: 100%;
+        max-width: none !important;
+        min-width: 800px;
+      }
+
+      /* Try to expand the parent dialog */
+      :host-context(hui-dialog-edit-card) {
+        width: 90vw !important;
+        max-width: 1200px !important;
+      }
+
       ha-form {
         width: 100%;
       }
@@ -229,6 +242,10 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         flex-direction: column;
         gap: 1.5rem;
         margin-bottom: 10px;
+        width: 100%;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .config-header {
