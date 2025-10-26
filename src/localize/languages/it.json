@@ -104,6 +104,20 @@
     "card_dimensions": "Dimensioni della scheda sul cruscotto",
     "card_max_width": "Larghezza massima",
     "card_typical_height": "Altezza tipica",
-    "position_tip": "Suggerimento: Inizia con valori piccoli (10-50px) e regola gradualmente sul cruscotto."
+    "position_tip": "Suggerimento: Inizia con valori piccoli (10-50px) e regola gradualmente sul cruscotto.",
+    "flows": "Flussi e Aspetto",
+    "flows_editor_info": "Personalizza velocità animazione, aspetto cerchi e opzioni di visualizzazione",
+    "animation_speed": "Velocità Animazione",
+    "min_flow_rate_hint": "Inferiore = animazione più veloce (secondi per punto)",
+    "max_flow_rate_hint": "Superiore = animazione più lenta a bassa potenza (secondi per punto)",
+    "disable_dots_hint": "Nascondi punti animati sulle linee di flusso",
+    "circle_appearance": "Aspetto Cerchi",
+    "circle_border_width_hint": "Spessore bordo in pixel (1-10)",
+    "circle_pulse_animation_hint": "Anima cerchi quando l'energia fluisce",
+    "circle_gradient_mode_hint": "Usa colori sfumati per i cerchi",
+    "display_options": "Opzioni Visualizzazione",
+    "watt_threshold_hint": "Passa da W a kW a questo valore",
+    "w_decimals_hint": "Decimali per valori in Watt (0-5)",
+    "kw_decimals_hint": "Decimali per valori in Kilowatt (0-5)"
   }
 }

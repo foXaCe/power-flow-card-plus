@@ -104,6 +104,20 @@
     "card_dimensions": "Rozmery karty na paneli",
     "card_max_width": "Maximálna šírka",
     "card_typical_height": "Typická výška",
-    "position_tip": "Tip: Začnite s malými hodnotami (10-50px) a postupne upravujte na paneli."
+    "position_tip": "Tip: Začnite s malými hodnotami (10-50px) a postupne upravujte na paneli.",
+    "flows": "Toky a Vzhľad",
+    "flows_editor_info": "Prispôsobte rýchlosť animácie, vzhľad kruhov a možnosti zobrazenia",
+    "animation_speed": "Rýchlosť Animácie",
+    "min_flow_rate_hint": "Nižšia = rýchlejšia animácia (sekundy na bod)",
+    "max_flow_rate_hint": "Vyššia = pomalšia animácia pri nízkom výkone (sekundy na bod)",
+    "disable_dots_hint": "Skryť animované body na tokových linkách",
+    "circle_appearance": "Vzhľad Kruhov",
+    "circle_border_width_hint": "Hrúbka okraja v pixeloch (1-10)",
+    "circle_pulse_animation_hint": "Animovať kruhy pri toku energie",
+    "circle_gradient_mode_hint": "Použiť prechodové farby pre kruhy",
+    "display_options": "Možnosti Zobrazenia",
+    "watt_threshold_hint": "Prepnúť z W na kW pri tejto hodnote",
+    "w_decimals_hint": "Desatinné miesta pre hodnoty vo Wattoch (0-5)",
+    "kw_decimals_hint": "Desatinné miesta pre hodnoty v Kilowattoch (0-5)"
   }
 }

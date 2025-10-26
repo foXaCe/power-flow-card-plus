@@ -104,6 +104,20 @@
     "card_dimensions": "Dimensões do cartão no painel",
     "card_max_width": "Largura máxima",
     "card_typical_height": "Altura típica",
-    "position_tip": "Dica: Comece com valores pequenos (10-50px) e ajuste gradualmente no painel."
+    "position_tip": "Dica: Comece com valores pequenos (10-50px) e ajuste gradualmente no painel.",
+    "flows": "Fluxos e Aparência",
+    "flows_editor_info": "Personalize velocidade de animação, aparência de círculos e opções de visualização",
+    "animation_speed": "Velocidade de Animação",
+    "min_flow_rate_hint": "Menor = animação mais rápida (segundos por ponto)",
+    "max_flow_rate_hint": "Maior = animação mais lenta a baixa potência (segundos por ponto)",
+    "disable_dots_hint": "Ocultar pontos animados nas linhas de fluxo",
+    "circle_appearance": "Aparência de Círculos",
+    "circle_border_width_hint": "Espessura da borda em píxeis (1-10)",
+    "circle_pulse_animation_hint": "Animar círculos quando a energia flui",
+    "circle_gradient_mode_hint": "Usar cores de gradiente para círculos",
+    "display_options": "Opções de Visualização",
+    "watt_threshold_hint": "Mudar de W para kW neste valor",
+    "w_decimals_hint": "Casas decimais para valores em Watt (0-5)",
+    "kw_decimals_hint": "Casas decimais para valores em Kilowatt (0-5)"
   }
 }

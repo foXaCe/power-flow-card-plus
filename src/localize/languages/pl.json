@@ -104,6 +104,20 @@
     "card_dimensions": "Wymiary karty na pulpicie",
     "card_max_width": "Maksymalna szerokość",
     "card_typical_height": "Typowa wysokość",
-    "position_tip": "Wskazówka: Zacznij od małych wartości (10-50px) i dostosuj stopniowo na pulpicie."
+    "position_tip": "Wskazówka: Zacznij od małych wartości (10-50px) i dostosuj stopniowo na pulpicie.",
+    "flows": "Przepływy i Wygląd",
+    "flows_editor_info": "Dostosuj prędkość animacji, wygląd okręgów i opcje wyświetlania",
+    "animation_speed": "Prędkość Animacji",
+    "min_flow_rate_hint": "Niższa = szybsza animacja (sekundy na punkt)",
+    "max_flow_rate_hint": "Wyższa = wolniejsza animacja przy niskiej mocy (sekundy na punkt)",
+    "disable_dots_hint": "Ukryj animowane punkty na liniach przepływu",
+    "circle_appearance": "Wygląd Okręgów",
+    "circle_border_width_hint": "Grubość obramowania w pikselach (1-10)",
+    "circle_pulse_animation_hint": "Animuj okręgi gdy energia przepływa",
+    "circle_gradient_mode_hint": "Użyj gradientowych kolorów dla okręgów",
+    "display_options": "Opcje Wyświetlania",
+    "watt_threshold_hint": "Przełącz z W na kW przy tej wartości",
+    "w_decimals_hint": "Miejsca dziesiętne dla wartości w Watach (0-5)",
+    "kw_decimals_hint": "Miejsca dziesiętne dla wartości w Kilowatach (0-5)"
   }
 }

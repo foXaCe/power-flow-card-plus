@@ -104,6 +104,20 @@
     "card_dimensions": "Kartenabmessungen auf dem Dashboard",
     "card_max_width": "Maximale Breite",
     "card_typical_height": "Typische Höhe",
-    "position_tip": "Tipp: Beginnen Sie mit kleinen Werten (10-50px) und passen Sie schrittweise auf dem Dashboard an."
+    "position_tip": "Tipp: Beginnen Sie mit kleinen Werten (10-50px) und passen Sie schrittweise auf dem Dashboard an.",
+    "flows": "Flüsse & Erscheinungsbild",
+    "flows_editor_info": "Passen Sie Animationsgeschwindigkeit, Kreisdarstellung und Anzeigeoptionen an",
+    "animation_speed": "Animationsgeschwindigkeit",
+    "min_flow_rate_hint": "Niedriger = schnellere Animation (Sekunden pro Punkt)",
+    "max_flow_rate_hint": "Höher = langsamere Animation bei niedriger Leistung (Sekunden pro Punkt)",
+    "disable_dots_hint": "Animierte Punkte auf Flusslinien ausblenden",
+    "circle_appearance": "Kreisdarstellung",
+    "circle_border_width_hint": "Randdicke in Pixeln (1-10)",
+    "circle_pulse_animation_hint": "Kreise animieren, wenn Energie fließt",
+    "circle_gradient_mode_hint": "Verlaufsfarben für Kreise verwenden",
+    "display_options": "Anzeigeoptionen",
+    "watt_threshold_hint": "Von W zu kW wechseln bei diesem Wert",
+    "w_decimals_hint": "Dezimalstellen für Watt-Werte (0-5)",
+    "kw_decimals_hint": "Dezimalstellen für Kilowatt-Werte (0-5)"
   }
 }

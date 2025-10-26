@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { HomeAssistant } from "custom-card-helpers";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
 // Positions par défaut (en px depuis le container)
@@ -15,8 +16,10 @@ const DEFAULT_POSITIONS = {
 @customElement("custom-positions-editor")
 export class CustomPositionsEditor extends LitElement {
   @property({ attribute: false }) public config!: PowerFlowCardPlusConfig;
+  @property({ attribute: false }) public hass!: HomeAssistant;
   @property() public localize!: (key: string) => string;
   @state() private _positions: any = {};
+  @state() private _showPreview: boolean = true;
 
   static styles = css`
     .position-section {
@@ -68,7 +71,11 @@ export class CustomPositionsEditor extends LitElement {
     .position-input {
       flex: 1;
       min-width: 0;
+    }
+
+    .input-wrapper {
       position: relative;
+      margin-bottom: 6px;
     }
 
     .position-number-input {
@@ -284,14 +291,16 @@ export class CustomPositionsEditor extends LitElement {
           <div class="position-row">
             <div class="position-label">${this.localize("editor.position_top")}</div>
             <div class="position-input">
-              <input
-                type="number"
-                class="position-number-input"
-                .value=${this._getCurrentValue(circle, "top")}
-                @input=${(e: any) => this._valueChanged(circle, "top", e.target.value)}
-                placeholder="Auto"
-              />
-              <span class="input-suffix">px</span>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="position-number-input"
+                  .value=${this._getCurrentValue(circle, "top")}
+                  @input=${(e: any) => this._valueChanged(circle, "top", e.target.value)}
+                  placeholder="Auto"
+                />
+                <span class="input-suffix">px</span>
+              </div>
               <div class="default-hint">
                 ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "top")}
               </div>
@@ -308,14 +317,16 @@ export class CustomPositionsEditor extends LitElement {
           <div class="position-row">
             <div class="position-label">${this.localize("editor.position_left")}</div>
             <div class="position-input">
-              <input
-                type="number"
-                class="position-number-input"
-                .value=${this._getCurrentValue(circle, "left")}
-                @input=${(e: any) => this._valueChanged(circle, "left", e.target.value)}
-                placeholder="Auto"
-              />
-              <span class="input-suffix">px</span>
+              <div class="input-wrapper">
+                <input
+                  type="number"
+                  class="position-number-input"
+                  .value=${this._getCurrentValue(circle, "left")}
+                  @input=${(e: any) => this._valueChanged(circle, "left", e.target.value)}
+                  placeholder="Auto"
+                />
+                <span class="input-suffix">px</span>
+              </div>
               <div class="default-hint">
                 ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "left")}
               </div>

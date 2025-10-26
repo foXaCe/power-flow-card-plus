@@ -104,6 +104,20 @@
     "card_dimensions": "Kaartafmetingen op dashboard",
     "card_max_width": "Maximale breedte",
     "card_typical_height": "Typische hoogte",
-    "position_tip": "Tip: Begin met kleine waarden (10-50px) en pas geleidelijk aan op het dashboard."
+    "position_tip": "Tip: Begin met kleine waarden (10-50px) en pas geleidelijk aan op het dashboard.",
+    "flows": "Stromen & Uiterlijk",
+    "flows_editor_info": "Pas animatiesnelheid, cirkelweergave en weergaveopties aan",
+    "animation_speed": "Animatiesnelheid",
+    "min_flow_rate_hint": "Lager = snellere animatie (seconden per punt)",
+    "max_flow_rate_hint": "Hoger = langzamere animatie bij laag vermogen (seconden per punt)",
+    "disable_dots_hint": "Geanimeerde stippen op stroomlijnen verbergen",
+    "circle_appearance": "Cirkelweergave",
+    "circle_border_width_hint": "Randdikte in pixels (1-10)",
+    "circle_pulse_animation_hint": "Animeer cirkels wanneer energie stroomt",
+    "circle_gradient_mode_hint": "Gebruik verloopkleuren voor cirkels",
+    "display_options": "Weergaveopties",
+    "watt_threshold_hint": "Schakel over van W naar kW bij deze waarde",
+    "w_decimals_hint": "Decimalen voor Watt-waarden (0-5)",
+    "kw_decimals_hint": "Decimalen voor Kilowatt-waarden (0-5)"
   }
 }

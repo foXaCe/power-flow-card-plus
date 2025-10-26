@@ -104,6 +104,20 @@
     "card_dimensions": "Kortdimensioner på instrumentpanelen",
     "card_max_width": "Maximal bredd",
     "card_typical_height": "Typisk höjd",
-    "position_tip": "Tips: Börja med små värden (10-50px) och justera gradvis på instrumentpanelen."
+    "position_tip": "Tips: Börja med små värden (10-50px) och justera gradvis på instrumentpanelen.",
+    "flows": "Flöden & Utseende",
+    "flows_editor_info": "Anpassa animationshastighet, cirkelutseende och visningsalternativ",
+    "animation_speed": "Animationshastighet",
+    "min_flow_rate_hint": "Lägre = snabbare animering (sekunder per punkt)",
+    "max_flow_rate_hint": "Högre = långsammare animering vid låg effekt (sekunder per punkt)",
+    "disable_dots_hint": "Dölj animerade punkter på flödeslinjer",
+    "circle_appearance": "Cirkelutseende",
+    "circle_border_width_hint": "Kanttjocklek i pixlar (1-10)",
+    "circle_pulse_animation_hint": "Animera cirklar när energi flödar",
+    "circle_gradient_mode_hint": "Använd gradientfärger för cirklar",
+    "display_options": "Visningsalternativ",
+    "watt_threshold_hint": "Växla från W till kW vid detta värde",
+    "w_decimals_hint": "Decimaler för Watt-värden (0-5)",
+    "kw_decimals_hint": "Decimaler för Kilowatt-värden (0-5)"
   }
 }
