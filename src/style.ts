@@ -88,6 +88,7 @@ export const styles = css`
     text-decoration: none;
     color: var(--primary-text-color);
     gap: 2px;
+    z-index: 2;
     // background-color: var(--card-background-color); /* hide overflowing lines behind background */
   }
 
@@ -107,6 +108,7 @@ export const styles = css`
     align-items: center;
     padding: 0;
     box-sizing: border-box;
+    z-index: 1;
   }
 
   .lines:not(.multi-individual) svg.flat-line {
@@ -191,7 +193,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    z-index: 1;
+    z-index: 2;
     pointer-events: auto;
   }
 
@@ -610,7 +612,7 @@ export const styles = css`
 
   #home-circle {
     color: var(--text-home-color);
-    z-index: 2;
+    z-index: 3;
   }
 
   .individual-bottom .circle {
