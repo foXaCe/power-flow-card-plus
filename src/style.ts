@@ -245,6 +245,10 @@ export const styles = css`
     min-height: 20px;
   }
 
+  .daily-export .label {
+    max-width: 120px;
+  }
+
   .cost-info {
     color: var(--secondary-text-color);
     font-size: 10px;
