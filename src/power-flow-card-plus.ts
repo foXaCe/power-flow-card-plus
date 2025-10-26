@@ -43,6 +43,7 @@ import {
   getTopLeftIndividual,
   getTopRightIndividual,
 } from "./utils/computeIndividualPosition";
+import { getDailyCostArrowPath, getDailyExportArrowPath } from "./utils/getLineCoordinates";
 import { displayValue } from "./utils/displayValue";
 import { defaultValues, getDefaultConfig } from "./utils/get-default-config";
 import { registerCustomCard } from "./utils/register-custom-card";
@@ -660,7 +661,7 @@ export class PowerFlowCardPlus extends LitElement {
                           </defs>
                           <path
                             class="grid"
-                            d="M50,10 L50,90"
+                            d="${getDailyCostArrowPath(this._config)}"
                             vector-effect="non-scaling-stroke"
                             marker-end="url(#arrowhead-daily-cost)"
                           ></path>
@@ -742,7 +743,7 @@ export class PowerFlowCardPlus extends LitElement {
                   </defs>
                   <path
                     class="solar"
-                    d="M10,50 L90,50"
+                    d="${getDailyExportArrowPath(this._config)}"
                     vector-effect="non-scaling-stroke"
                     marker-end="url(#arrowhead-daily-export)"
                     style="${getArrowStyles("solar_to_daily_export", this._config)}"
