@@ -338,20 +338,6 @@ export class PowerFlowCardPlus extends LitElement {
     };
     dailyCost.totalCost = dailyCost.energy * dailyCost.tariff;
 
-    // Debug logs
-    if (this._config.show_daily_cost) {
-      console.log("[Daily Cost Debug]", {
-        enabled: dailyCost.enabled,
-        entity: dailyCost.entity,
-        entityState: this._config.daily_cost_energy_entity ? this.hass.states[this._config.daily_cost_energy_entity]?.state : undefined,
-        energy: dailyCost.energy,
-        tariffEntity: this._config.cost_entity,
-        tariffState: this._config.cost_entity ? this.hass.states[this._config.cost_entity]?.state : undefined,
-        tariff: dailyCost.tariff,
-        totalCost: dailyCost.totalCost,
-        unit: dailyCost.unit,
-      });
-    }
 
     const dailyExport = {
       enabled: this._config.show_daily_export ?? false,
