@@ -84,6 +84,9 @@
     "cost_entity": "Cost Entity (tariff sensor)",
     "cost_unit": "Cost Unit",
     "cost_decimals": "Cost Decimals",
-    "real_time_cost": "Real-time Cost"
+    "real_time_cost": "Real-time Cost",
+    "show_daily_cost": "दैनिक लागत दिखाएं",
+    "daily_cost_energy_entity": "दैनिक ऊर्जा इकाई",
+    "daily_cost_decimals": "दैनिक लागत दशमलव"
   }
 }

@@ -4,6 +4,7 @@ import { UnsubscribeFunc } from "home-assistant-js-websocket";
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { batteryElement } from "./components/battery";
+import { dailyCostElement } from "./components/daily-cost";
 import { flowElement } from "./components/flows";
 import { gridElement } from "./components/grid";
 import { homeElement } from "./components/home";
@@ -324,6 +325,18 @@ export class PowerFlowCardPlus extends LitElement {
       },
     };
 
+    const dailyCost = {
+      enabled: this._config.show_daily_cost ?? false,
+      entity: this._config.daily_cost_energy_entity,
+      name: "Coût journalier",
+      energy: this._config.daily_cost_energy_entity ? parseFloat(this.hass.states[this._config.daily_cost_energy_entity]?.state || "0") : 0,
+      tariff: this._config.cost_entity && grid.cost ? grid.cost.tariff : 0,
+      unit: grid.cost?.unit || "€",
+      decimals: this._config.daily_cost_decimals ?? 2,
+      totalCost: 0,
+    };
+    dailyCost.totalCost = dailyCost.energy * dailyCost.tariff;
+
     // Reset Values below Display Zero Tolerance
     grid.state.fromGrid = adjustZeroTolerance(grid.state.fromGrid, entities.grid?.display_zero_tolerance);
     grid.state.toGrid = adjustZeroTolerance(grid.state.toGrid, entities.grid?.display_zero_tolerance);
@@ -581,6 +594,13 @@ export class PowerFlowCardPlus extends LitElement {
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
+          ${dailyCost.enabled
+            ? html`<div class="row">
+                <div class="spacer"></div>
+                ${dailyCostElement(this, this._config, { dailyCost })}
+                <div class="spacer"></div>
+              </div>`
+            : ""}
           ${solar.has || individualObjs?.some((individual) => individual?.has) || nonFossil.hasPercentage
             ? html`<div class="row">
                 ${nonFossilElement(this, this._config, {

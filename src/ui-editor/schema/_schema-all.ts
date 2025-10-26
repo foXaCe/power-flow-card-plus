@@ -57,6 +57,9 @@ export const cardConfigStruct = assign(
     cost_entity: optional(string()),
     cost_unit: optional(string()),
     cost_decimals: optional(number()),
+    show_daily_cost: optional(boolean()),
+    daily_cost_energy_entity: optional(string()),
+    daily_cost_decimals: optional(number()),
   })
 );
 
@@ -250,6 +253,21 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
       {
         name: "cost_decimals",
         label: localize("editor.cost_decimals"),
+        selector: { number: { mode: "box", min: 0, max: 5, step: 1 } },
+      },
+      {
+        name: "show_daily_cost",
+        label: localize("editor.show_daily_cost"),
+        selector: { boolean: {} },
+      },
+      {
+        name: "daily_cost_energy_entity",
+        label: localize("editor.daily_cost_energy_entity"),
+        selector: { entity: { domain: "sensor" } },
+      },
+      {
+        name: "daily_cost_decimals",
+        label: localize("editor.daily_cost_decimals"),
         selector: { number: { mode: "box", min: 0, max: 5, step: 1 } },
       },
     ],

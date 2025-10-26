@@ -84,6 +84,9 @@
     "cost_entity": "Cost Entity (tariff sensor)",
     "cost_unit": "Cost Unit",
     "cost_decimals": "Cost Decimals",
-    "real_time_cost": "Real-time Cost"
+    "real_time_cost": "Real-time Cost",
+    "show_daily_cost": "Zobraziť denné náklady",
+    "daily_cost_energy_entity": "Entita dennej energie",
+    "daily_cost_decimals": "Desatinné miesta denných nákladov"
   }
 }
