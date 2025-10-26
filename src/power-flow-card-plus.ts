@@ -716,8 +716,8 @@ export class PowerFlowCardPlus extends LitElement {
               </div>`
             : ""}
           ${dailyExport.enabled && solar.has
-            ? html`<svg class="solar-to-daily-export-line" style="position: absolute; top: 30px; left: 280px; width: 80px; height: 2px; pointer-events: none; z-index: 0;">
-                <line x1="0" y1="1" x2="80" y2="1" stroke="var(--energy-solar-color)" stroke-width="2"/>
+            ? html`<svg class="solar-to-daily-export-line" style="position: absolute; top: 46px; left: 250px; width: 40px; height: 2px; pointer-events: none; z-index: 0;">
+                <line x1="0" y1="1" x2="40" y2="1" stroke="var(--energy-solar-color)" stroke-width="2"/>
               </svg>`
             : ""}
         </div>
