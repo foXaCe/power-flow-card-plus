@@ -29,7 +29,12 @@ export const batteryElement = (
     battery?.state &&
     (Math.abs(battery.state.toBattery || 0) > 0 || Math.abs(battery.state.fromBattery || 0) > 0);
 
-  return html`<div class="circle-container battery">
+  // Apply custom position if configured
+  const customStyle = config.custom_positions?.battery
+    ? `position: absolute; ${config.custom_positions.battery.top !== undefined ? `top: ${config.custom_positions.battery.top}px;` : ""} ${config.custom_positions.battery.left !== undefined ? `left: ${config.custom_positions.battery.left}px;` : ""}`
+    : "";
+
+  return html`<div class="circle-container battery" style="${customStyle}">
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {

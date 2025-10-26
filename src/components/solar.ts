@@ -31,7 +31,12 @@ export const solarElement = (
   // Safe check for pulse animation
   const isPulsing = config.circle_pulse_animation && solar?.state?.total != null && solar.state.total > 0;
 
-  return html`<div class="circle-container solar">
+  // Apply custom position if configured
+  const customStyle = config.custom_positions?.solar
+    ? `position: absolute; ${config.custom_positions.solar.top !== undefined ? `top: ${config.custom_positions.solar.top}px;` : ""} ${config.custom_positions.solar.left !== undefined ? `left: ${config.custom_positions.solar.left}px;` : ""}`
+    : "";
+
+  return html`<div class="circle-container solar" style="${customStyle}">
     <span class="label">${solar.name}</span>
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"

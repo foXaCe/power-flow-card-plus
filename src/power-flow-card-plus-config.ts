@@ -3,6 +3,20 @@ import { BaseConfigEntity, ComboEntity, GridPowerOutage, IndividualDeviceType, S
 
 export type DisplayZeroLinesMode = "show" | "grey_out" | "transparency" | "hide" | "custom";
 
+export interface CirclePosition {
+  top?: number;
+  left?: number;
+}
+
+export interface CustomPositions {
+  solar?: CirclePosition;
+  grid?: CirclePosition;
+  home?: CirclePosition;
+  battery?: CirclePosition;
+  daily_cost?: CirclePosition;
+  daily_export?: CirclePosition;
+}
+
 interface mainConfigOptions {
   dashboard_link?: string;
   dashboard_link_label?: string;
@@ -42,6 +56,7 @@ interface mainConfigOptions {
   daily_export_energy_entity?: string;
   daily_export_price?: number;
   daily_export_decimals?: number;
+  custom_positions?: CustomPositions;
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {
