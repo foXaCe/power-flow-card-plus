@@ -83,6 +83,7 @@
     "show_cost": "Show Real-time Cost",
     "cost_entity": "Cost Entity (tariff sensor)",
     "cost_unit": "Cost Unit",
-    "cost_decimals": "Cost Decimals"
+    "cost_decimals": "Cost Decimals",
+    "real_time_cost": "Real-time Cost"
   }
 }

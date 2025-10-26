@@ -226,24 +226,30 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
         label: "Circle Gradient Mode",
         selector: { boolean: {} },
       },
+    ],
+  },
+  {
+    type: "expandable",
+    title: localize("editor.real_time_cost"),
+    schema: [
       {
         name: "show_cost",
-        label: "Show Real-time Cost",
+        label: localize("editor.show_cost"),
         selector: { boolean: {} },
       },
       {
         name: "cost_entity",
-        label: "Cost Entity (tariff sensor)",
+        label: localize("editor.cost_entity"),
         selector: { entity: { domain: "sensor" } },
       },
       {
         name: "cost_unit",
-        label: "Cost Unit",
+        label: localize("editor.cost_unit"),
         selector: { text: {} },
       },
       {
         name: "cost_decimals",
-        label: "Cost Decimals",
+        label: localize("editor.cost_decimals"),
         selector: { number: { mode: "box", min: 0, max: 5, step: 1 } },
       },
     ],
