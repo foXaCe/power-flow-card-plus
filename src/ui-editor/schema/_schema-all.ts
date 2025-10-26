@@ -49,6 +49,10 @@ export const cardConfigStruct = assign(
       individual: optional(any()),
     }),
     sort_individual_devices: optional(boolean()),
+    circle_pulse_animation: optional(boolean()),
+    circle_border_width: optional(number()),
+    compact_mode: optional(boolean()),
+    circle_gradient_mode: optional(boolean()),
   })
 );
 
@@ -196,6 +200,26 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
       {
         name: "sort_individual_devices",
         label: "Sort individual devices by usage",
+        selector: { boolean: {} },
+      },
+      {
+        name: "circle_pulse_animation",
+        label: "Circle Pulse Animation",
+        selector: { boolean: {} },
+      },
+      {
+        name: "circle_border_width",
+        label: "Circle Border Width (px)",
+        selector: { number: { mode: "box", min: 1, max: 10, step: 1 } },
+      },
+      {
+        name: "compact_mode",
+        label: "Compact Mode",
+        selector: { boolean: {} },
+      },
+      {
+        name: "circle_gradient_mode",
+        label: "Circle Gradient Mode",
         selector: { boolean: {} },
       },
     ],
