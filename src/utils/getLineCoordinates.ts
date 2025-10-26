@@ -100,15 +100,24 @@ function getCircleIntersectionPoint(
 
 /**
  * Calcule le rayon du cercle en unités SVG de manière précise
+ *
+ * Le SVG des lignes a:
+ * - viewBox="0 0 100 100"
+ * - width = calc(100% - var(--size-circle-entity) * 2) = MAX_CONTAINER_WIDTH - 2 * diameter
+ * - height = 146px
+ *
+ * Pour une ligne verticale (hauteur 146px), 1 unité SVG = 146/100 = 1.46px
+ * Pour une ligne horizontale, c'est différent car la largeur varie
  */
 function getCircleRadiusInSVGUnits(config: PowerFlowCardPlusConfig): number {
   const radiusInPixels = getCircleRadiusInPixels(config);
-  const diameter = radiusInPixels * 2;
-  const effectiveWidth = MAX_CONTAINER_WIDTH - (2 * diameter);
 
-  // Convertir le rayon en pourcentage de la largeur effective
-  // Le rayon en SVG doit correspondre au rayon réel du cercle
-  return (radiusInPixels / effectiveWidth) * 100;
+  // Pour les lignes verticales, la hauteur du SVG est de 146px
+  // Dans un viewBox de 100, cela donne:
+  const SVG_HEIGHT = 146; // hauteur en pixels du conteneur .lines
+  const radiusInSVGUnits = (radiusInPixels / SVG_HEIGHT) * 100;
+
+  return radiusInSVGUnits; // ≈ 27.4 pour un rayon de 40px
 }
 
 /**
