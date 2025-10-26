@@ -614,7 +614,9 @@ export class PowerFlowCardPlus extends LitElement {
             @click=${this._toggleEditMode}
             title="${this._editMode ? 'Quitter le mode édition' : 'Activer le mode édition'}"
           >
-            ${this._editMode ? '✓' : '✏️'}
+            ${this._editMode
+              ? html`<ha-icon icon="mdi:check"></ha-icon>`
+              : html`<ha-icon icon="mdi:pen"></ha-icon>`}
           </button>
           ${solar.has || individualObjs?.some((individual) => individual?.has) || nonFossil.hasPercentage
             ? html`<div class="row">
