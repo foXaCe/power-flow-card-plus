@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Zobrazit denní náklady",
     "daily_cost_energy_entity": "Entita denní energie",
-    "daily_cost_decimals": "Desetinná místa denních nákladů"
+    "daily_cost_decimals": "Desetinná místa denních nákladů",
+    "show_daily_export": "Zobrazit denní příjem z exportu",
+    "daily_export_energy_entity": "Entita denní exportované energie",
+    "daily_export_price": "Cena exportu (za kWh)",
+    "daily_export_decimals": "Desetinná místa exportu"
   }
 }

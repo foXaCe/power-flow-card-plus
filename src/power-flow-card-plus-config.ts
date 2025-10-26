@@ -38,6 +38,10 @@ interface mainConfigOptions {
   show_daily_cost?: boolean;
   daily_cost_energy_entity?: string;
   daily_cost_decimals?: number;
+  show_daily_export?: boolean;
+  daily_export_energy_entity?: string;
+  daily_export_price?: number;
+  daily_export_decimals?: number;
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {

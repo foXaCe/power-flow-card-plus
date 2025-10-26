@@ -87,6 +87,10 @@
     "cost_decimals": "Cost Decimals",
     "show_daily_cost": "Show Daily Cost",
     "daily_cost_energy_entity": "Daily Energy Entity",
-    "daily_cost_decimals": "Daily Cost Decimals"
+    "daily_cost_decimals": "Daily Cost Decimals",
+    "show_daily_export": "Show Daily Export Revenue",
+    "daily_export_energy_entity": "Daily Export Energy Entity",
+    "daily_export_price": "Export Price (per kWh)",
+    "daily_export_decimals": "Daily Export Decimals"
   }
 }

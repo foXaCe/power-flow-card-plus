@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Показать ежедневную стоимость",
     "daily_cost_energy_entity": "Сущность ежедневной энергии",
-    "daily_cost_decimals": "Десятичные знаки ежедневной стоимости"
+    "daily_cost_decimals": "Десятичные знаки ежедневной стоимости",
+    "show_daily_export": "Показать ежедневный доход от экспорта",
+    "daily_export_energy_entity": "Сущность ежедневной экспортируемой энергии",
+    "daily_export_price": "Цена экспорта (за кВтч)",
+    "daily_export_decimals": "Десятичные знаки экспорта"
   }
 }

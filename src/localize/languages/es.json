@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Mostrar costo diario",
     "daily_cost_energy_entity": "Entidad de energía diaria",
-    "daily_cost_decimals": "Decimales del costo diario"
+    "daily_cost_decimals": "Decimales del costo diario",
+    "show_daily_export": "Mostrar ingresos por exportación diaria",
+    "daily_export_energy_entity": "Entidad de energía exportada diaria",
+    "daily_export_price": "Precio de exportación (por kWh)",
+    "daily_export_decimals": "Decimales de exportación"
   }
 }

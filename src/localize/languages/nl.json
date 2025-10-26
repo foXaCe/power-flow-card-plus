@@ -87,6 +87,10 @@
     "real_time_cost": "Real-time Cost",
     "show_daily_cost": "Dagelijkse kosten weergeven",
     "daily_cost_energy_entity": "Dagelijkse energie entiteit",
-    "daily_cost_decimals": "Decimalen dagelijkse kosten"
+    "daily_cost_decimals": "Decimalen dagelijkse kosten",
+    "show_daily_export": "Dagelijkse export-opbrengst weergeven",
+    "daily_export_energy_entity": "Dagelijkse export energie entiteit",
+    "daily_export_price": "Exportprijs (per kWh)",
+    "daily_export_decimals": "Decimalen export"
   }
 }
