@@ -12,12 +12,7 @@ export const flowSolarToHome = (config: PowerFlowCardPlusConfig, { battery, grid
   const customStyles = getArrowStyles("solar_to_home", config);
   const customTransform = getArrowTransform("solar_to_home", config);
 
-  // Masquer la ligne si solar ou home ont des positions personnalisées
-  const solarHasCustomPos = config.custom_positions?.solar?.top !== undefined || config.custom_positions?.solar?.left !== undefined;
-  const homeHasCustomPos = config.custom_positions?.home?.top !== undefined || config.custom_positions?.home?.left !== undefined;
-  const hasCustomPositions = solarHasCustomPos || homeHasCustomPos;
-
-  return solar.has && showLine(config, solar.state.toHome || 0) && !config.entities.home?.hide && !hasCustomPositions
+  return solar.has && showLine(config, solar.state.toHome || 0) && !config.entities.home?.hide
     ? html`<div
         class="lines ${classMap({
           high: battery.has || checkHasBottomIndividual(individual),
