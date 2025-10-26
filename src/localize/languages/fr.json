@@ -93,17 +93,9 @@
     "daily_export_price": "Prix de rachat (par kWh)",
     "daily_export_decimals": "Décimales de la revente",
     "custom_positions": "Positions personnalisées des cercles",
-    "solar_top": "Solaire Haut (px)",
-    "solar_left": "Solaire Gauche (px)",
-    "grid_top": "Réseau Haut (px)",
-    "grid_left": "Réseau Gauche (px)",
-    "home_top": "Maison Haut (px)",
-    "home_left": "Maison Gauche (px)",
-    "battery_top": "Batterie Haut (px)",
-    "battery_left": "Batterie Gauche (px)",
-    "daily_cost_top": "Coût Journalier Haut (px)",
-    "daily_cost_left": "Coût Journalier Gauche (px)",
-    "daily_export_top": "Revente Journalière Haut (px)",
-    "daily_export_left": "Revente Journalière Gauche (px)"
+    "position_top": "Haut (px)",
+    "position_left": "Gauche (px)",
+    "daily_cost_title": "Coût Journalier",
+    "daily_export_title": "Revente Journalière"
   }
 }
