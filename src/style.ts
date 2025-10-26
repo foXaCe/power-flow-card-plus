@@ -89,7 +89,7 @@ export const styles = css`
     color: var(--primary-text-color);
     gap: 2px;
     z-index: 2;
-    // background-color: var(--card-background-color); /* hide overflowing lines behind background */
+    background-color: var(--card-background-color); /* hide overflowing lines behind background */
   }
 
   .card-content,
