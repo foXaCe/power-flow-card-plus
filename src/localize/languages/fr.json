@@ -97,6 +97,12 @@
     "position_left": "Gauche (px)",
     "position_auto": "Auto",
     "position_default": "Par défaut",
+    "position_editor_info_title": "⚠️ Important : La taille de la carte dans l'éditeur diffère du tableau de bord",
+    "position_editor_info_text": "La carte apparaît plus petite dans l'éditeur que sur votre tableau de bord. Testez les positions sur le tableau de bord réel pour un placement précis. Utilisez les dimensions ci-dessous comme référence.",
+    "card_dimensions": "Dimensions de la carte sur le tableau de bord",
+    "card_max_width": "Largeur max",
+    "card_typical_height": "Hauteur typique",
+    "position_tip": "Astuce : Commencez avec de petites valeurs (10-50px) et ajustez progressivement sur le tableau de bord.",
     "daily_cost_title": "Coût Journalier",
     "daily_export_title": "Revente Journalière"
   }

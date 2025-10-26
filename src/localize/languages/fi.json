@@ -98,6 +98,12 @@
     "daily_cost_title": "Päivittäinen Hinta",
     "daily_export_title": "Päivittäinen Vienti",
     "position_auto": "Auto",
-    "position_default": "Oletus"
+    "position_default": "Oletus",
+    "position_editor_info_title": "⚠️ Tärkeää: Kortin koko editorissa eroaa kojelaudasta",
+    "position_editor_info_text": "Kortti näkyy pienempänä editorissa kuin kojelaudassasi. Testaa sijainteja todellisessa kojelaudassa tarkkaa sijoittelua varten. Käytä alla olevia mittoja viitteenä.",
+    "card_dimensions": "Kortin mitat kojelaudassa",
+    "card_max_width": "Maksimileveys",
+    "card_typical_height": "Tyypillinen korkeus",
+    "position_tip": "Vinkki: Aloita pienillä arvoilla (10-50px) ja säädä vähitellen kojelaudassa."
   }
 }

@@ -98,6 +98,12 @@
     "daily_cost_title": "Dzienny Koszt",
     "daily_export_title": "Dzienny Export",
     "position_auto": "Auto",
-    "position_default": "Domyślny"
+    "position_default": "Domyślny",
+    "position_editor_info_title": "⚠️ Ważne: Rozmiar karty w edytorze różni się od pulpitu",
+    "position_editor_info_text": "Karta wygląda mniejsza w edytorze niż na pulpicie. Testuj pozycje na rzeczywistym pulpicie dla dokładnego umieszczenia. Użyj poniższych wymiarów jako odniesienia.",
+    "card_dimensions": "Wymiary karty na pulpicie",
+    "card_max_width": "Maksymalna szerokość",
+    "card_typical_height": "Typowa wysokość",
+    "position_tip": "Wskazówka: Zacznij od małych wartości (10-50px) i dostosuj stopniowo na pulpicie."
   }
 }

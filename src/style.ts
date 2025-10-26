@@ -248,6 +248,34 @@ export const styles = css`
     max-width: 120px;
   }
 
+  .daily-export .circle {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .daily-export-arrow {
+    position: absolute;
+    height: 20px;
+    width: 120px;
+    top: 50%;
+    right: 100%;
+    margin-right: 5px;
+    transform: translateY(-50%);
+  }
+
+  .daily-export-arrow path {
+    stroke: var(--energy-solar-color);
+    stroke-width: 2px;
+  }
+
+  .daily-export-arrow circle {
+    fill: var(--energy-solar-color);
+  }
+
   .cost-info {
     color: var(--secondary-text-color);
     font-size: 10px;

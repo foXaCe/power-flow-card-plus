@@ -97,6 +97,12 @@
     "position_left": "Left (px)",
     "position_auto": "Auto",
     "position_default": "Default",
+    "position_editor_info_title": "⚠️ Important: Card size in editor differs from dashboard",
+    "position_editor_info_text": "The card appears smaller in the editor than on your dashboard. Test positions on the actual dashboard for accurate placement. Use the dimensions below as reference.",
+    "card_dimensions": "Card dimensions on dashboard",
+    "card_max_width": "Max width",
+    "card_typical_height": "Typical height",
+    "position_tip": "Tip: Start with small values (10-50px) and adjust incrementally on the dashboard.",
     "daily_cost_title": "Daily Cost",
     "daily_export_title": "Daily Export"
   }

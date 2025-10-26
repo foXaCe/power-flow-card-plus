@@ -98,6 +98,12 @@
     "daily_cost_title": "Denní Náklady",
     "daily_export_title": "Denní Export",
     "position_auto": "Auto",
-    "position_default": "Výchozí"
+    "position_default": "Výchozí",
+    "position_editor_info_title": "⚠️ Důležité: Velikost karty v editoru se liší od nástěnky",
+    "position_editor_info_text": "Karta se zobrazuje menší v editoru než na vaší nástěnce. Testujte pozice na skutečné nástěnce pro přesné umístění. Použijte níže uvedené rozměry jako referenci.",
+    "card_dimensions": "Rozměry karty na nástěnce",
+    "card_max_width": "Maximální šířka",
+    "card_typical_height": "Typická výška",
+    "position_tip": "Tip: Začněte s malými hodnotami (10-50px) a postupně upravujte na nástěnce."
   }
 }

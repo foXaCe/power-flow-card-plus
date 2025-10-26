@@ -98,6 +98,12 @@
     "daily_cost_title": "Costo Giornaliero",
     "daily_export_title": "Esportazione Giornaliera",
     "position_auto": "Auto",
-    "position_default": "Predefinito"
+    "position_default": "Predefinito",
+    "position_editor_info_title": "⚠️ Importante: La dimensione della scheda nell'editor differisce dal cruscotto",
+    "position_editor_info_text": "La scheda appare più piccola nell'editor rispetto al cruscotto. Testa le posizioni sul cruscotto reale per un posizionamento accurato. Usa le dimensioni sottostanti come riferimento.",
+    "card_dimensions": "Dimensioni della scheda sul cruscotto",
+    "card_max_width": "Larghezza massima",
+    "card_typical_height": "Altezza tipica",
+    "position_tip": "Suggerimento: Inizia con valori piccoli (10-50px) e regola gradualmente sul cruscotto."
   }
 }
