@@ -95,6 +95,8 @@
     "custom_positions": "Custom Circle Positions",
     "position_top": "Top (px)",
     "position_left": "Left (px)",
+    "position_auto": "Auto",
+    "position_default": "Default",
     "daily_cost_title": "Daily Cost",
     "daily_export_title": "Daily Export"
   }

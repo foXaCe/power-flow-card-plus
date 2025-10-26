@@ -96,6 +96,8 @@
     "position_top": "Superior (px)",
     "position_left": "Izquierda (px)",
     "daily_cost_title": "Costo Diario",
-    "daily_export_title": "Exportación Diaria"
+    "daily_export_title": "Exportación Diaria",
+    "position_auto": "Auto",
+    "position_default": "Predeterminado"
   }
 }

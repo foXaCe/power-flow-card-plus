@@ -96,6 +96,8 @@
     "position_top": "Nahoře (px)",
     "position_left": "Vlevo (px)",
     "daily_cost_title": "Denní Náklady",
-    "daily_export_title": "Denní Export"
+    "daily_export_title": "Denní Export",
+    "position_auto": "Auto",
+    "position_default": "Výchozí"
   }
 }

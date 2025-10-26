@@ -96,6 +96,8 @@
     "position_top": "Верх (px)",
     "position_left": "Ліво (px)",
     "daily_cost_title": "Щоденна Вартість",
-    "daily_export_title": "Щоденний Експорт"
+    "daily_export_title": "Щоденний Експорт",
+    "position_auto": "Авто",
+    "position_default": "За замовчуванням"
   }
 }

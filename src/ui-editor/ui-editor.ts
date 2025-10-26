@@ -11,6 +11,7 @@ import { LovelaceRowConfig } from "./types/entity-rows";
 import "./components/individual-devices-editor";
 import "./components/link-subpage";
 import "./components/subpage-header";
+import "./custom-positions-editor";
 import { loadHaForm } from "./utils/loadHAForm";
 import { gridSchema } from "./schema/grid";
 import { solarSchema } from "./schema/solar";
@@ -52,6 +53,10 @@ const CONFIG_PAGES: {
   {
     page: "individual",
     icon: "mdi:dots-horizontal-circle-outline",
+  },
+  {
+    page: "custom_positions",
+    icon: "mdi:arrow-all",
   },
   {
     page: "advanced",
@@ -105,6 +110,13 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         return html`
           <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
           <individual-devices-editor .hass=${this.hass} .config=${this._config} @config-changed=${this._valueChanged}></individual-devices-editor>
+        `;
+      }
+
+      if (this._currentConfigPage === "custom_positions") {
+        return html`
+          <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+          <custom-positions-editor .config=${this._config} .localize=${localize} @config-changed=${this._valueChanged}></custom-positions-editor>
         `;
       }
 

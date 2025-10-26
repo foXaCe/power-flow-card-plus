@@ -95,6 +95,8 @@
     "custom_positions": "Positions personnalisées des cercles",
     "position_top": "Haut (px)",
     "position_left": "Gauche (px)",
+    "position_auto": "Auto",
+    "position_default": "Par défaut",
     "daily_cost_title": "Coût Journalier",
     "daily_export_title": "Revente Journalière"
   }
