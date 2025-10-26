@@ -93,17 +93,9 @@
     "daily_export_price": "Precio de exportación (por kWh)",
     "daily_export_decimals": "Decimales de exportación",
     "custom_positions": "Posiciones personalizadas de círculos",
-    "solar_top": "Solar Superior (px)",
-    "solar_left": "Solar Izquierda (px)",
-    "grid_top": "Red Superior (px)",
-    "grid_left": "Red Izquierda (px)",
-    "home_top": "Casa Superior (px)",
-    "home_left": "Casa Izquierda (px)",
-    "battery_top": "Batería Superior (px)",
-    "battery_left": "Batería Izquierda (px)",
-    "daily_cost_top": "Costo Diario Superior (px)",
-    "daily_cost_left": "Costo Diario Izquierda (px)",
-    "daily_export_top": "Exportación Diaria Superior (px)",
-    "daily_export_left": "Exportación Diaria Izquierda (px)"
+    "position_top": "Superior (px)",
+    "position_left": "Izquierda (px)",
+    "daily_cost_title": "Costo Diario",
+    "daily_export_title": "Exportación Diaria"
   }
 }

@@ -93,17 +93,9 @@
     "daily_export_price": "Exportpris (per kWh)",
     "daily_export_decimals": "Export decimaler",
     "custom_positions": "Anpassade cirkelpositioner",
-    "solar_top": "Sol Topp (px)",
-    "solar_left": "Sol Vänster (px)",
-    "grid_top": "Nät Topp (px)",
-    "grid_left": "Nät Vänster (px)",
-    "home_top": "Hem Topp (px)",
-    "home_left": "Hem Vänster (px)",
-    "battery_top": "Batteri Topp (px)",
-    "battery_left": "Batteri Vänster (px)",
-    "daily_cost_top": "Daglig Kostnad Topp (px)",
-    "daily_cost_left": "Daglig Kostnad Vänster (px)",
-    "daily_export_top": "Daglig Export Topp (px)",
-    "daily_export_left": "Daglig Export Vänster (px)"
+    "position_top": "Topp (px)",
+    "position_left": "Vänster (px)",
+    "daily_cost_title": "Daglig Kostnad",
+    "daily_export_title": "Daglig Export"
   }
 }

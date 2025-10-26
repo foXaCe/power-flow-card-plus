@@ -93,17 +93,9 @@
     "daily_export_price": "Preço de exportação (por kWh)",
     "daily_export_decimals": "Decimais de exportação",
     "custom_positions": "Posições personalizadas dos círculos",
-    "solar_top": "Solar Topo (px)",
-    "solar_left": "Solar Esquerda (px)",
-    "grid_top": "Rede Topo (px)",
-    "grid_left": "Rede Esquerda (px)",
-    "home_top": "Casa Topo (px)",
-    "home_left": "Casa Esquerda (px)",
-    "battery_top": "Bateria Topo (px)",
-    "battery_left": "Bateria Esquerda (px)",
-    "daily_cost_top": "Custo Diário Topo (px)",
-    "daily_cost_left": "Custo Diário Esquerda (px)",
-    "daily_export_top": "Exportação Diária Topo (px)",
-    "daily_export_left": "Exportação Diária Esquerda (px)"
+    "position_top": "Topo (px)",
+    "position_left": "Esquerda (px)",
+    "daily_cost_title": "Custo Diário",
+    "daily_export_title": "Exportação Diária"
   }
 }

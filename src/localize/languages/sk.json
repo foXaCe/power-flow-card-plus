@@ -93,17 +93,9 @@
     "daily_export_price": "Cena exportu (za kWh)",
     "daily_export_decimals": "Desatinné miesta exportu",
     "custom_positions": "Vlastné pozície kruhov",
-    "solar_top": "Solárny Hore (px)",
-    "solar_left": "Solárny Vľavo (px)",
-    "grid_top": "Sieť Hore (px)",
-    "grid_left": "Sieť Vľavo (px)",
-    "home_top": "Domov Hore (px)",
-    "home_left": "Domov Vľavo (px)",
-    "battery_top": "Batéria Hore (px)",
-    "battery_left": "Batéria Vľavo (px)",
-    "daily_cost_top": "Denné Náklady Hore (px)",
-    "daily_cost_left": "Denné Náklady Vľavo (px)",
-    "daily_export_top": "Denný Export Hore (px)",
-    "daily_export_left": "Denný Export Vľavo (px)"
+    "position_top": "Hore (px)",
+    "position_left": "Vľavo (px)",
+    "daily_cost_title": "Denné Náklady",
+    "daily_export_title": "Denný Export"
   }
 }
