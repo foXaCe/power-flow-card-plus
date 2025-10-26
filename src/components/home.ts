@@ -39,9 +39,21 @@ export const homeElement = (
 ) => {
   const showHomeLabel = individual.filter((i) => i.has).length <= 1;
 
+  // DEBUG: Log home state for troubleshooting
+  if (config.circle_pulse_animation) {
+    console.log('[PFCP DEBUG] Home element:', {
+      hasState: !!home?.state,
+      total: home?.state?.total,
+      pulsationEnabled: config.circle_pulse_animation
+    });
+  }
+
+  // Safe check for pulse animation
+  const isPulsing = config.circle_pulse_animation && home?.state?.total != null && home.state.total > 0;
+
   return html`<div class="circle-container home">
   <div
-    class="circle"
+    class="circle ${isPulsing ? "pulse-animation" : ""}"
     id="home-circle"
     @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
       main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
