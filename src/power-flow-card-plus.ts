@@ -34,7 +34,7 @@ import { RenderTemplateResult, subscribeRenderTemplate } from "./template/ha-web
 import { GridObject, HomeSources, NewDur, TemplatesObj } from "./type";
 import { computeFieldIcon, computeFieldName } from "./utils/computeFieldAttributes";
 import { computeFlowRate } from "./utils/computeFlowRate";
-import { getArrowStyles } from "./utils/applyArrowStyles";
+import { getArrowStyles, getArrowTransform } from "./utils/applyArrowStyles";
 import {
   checkHasBottomIndividual,
   checkHasRightIndividual,
@@ -746,6 +746,7 @@ export class PowerFlowCardPlus extends LitElement {
                     vector-effect="non-scaling-stroke"
                     marker-end="url(#arrowhead-daily-export)"
                     style="${getArrowStyles("solar_to_daily_export", this._config)}"
+                    transform="${getArrowTransform("solar_to_daily_export", this._config)}"
                   ></path>
                   ${!this._config.disable_dots
                     ? svg`<circle r="1.5" class="solar" vector-effect="non-scaling-stroke">

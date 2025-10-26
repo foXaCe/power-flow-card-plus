@@ -32,7 +32,8 @@ export const getArrowTransform = (
   if (arrowConfig.offset_x !== undefined || arrowConfig.offset_y !== undefined) {
     const x = arrowConfig.offset_x || 0;
     const y = arrowConfig.offset_y || 0;
-    transforms.push(`translate(${x}px, ${y}px)`);
+    // SVG transform syntax without units
+    transforms.push(`translate(${x}, ${y})`);
   }
 
   return transforms.join(" ");
