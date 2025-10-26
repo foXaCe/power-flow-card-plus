@@ -24,10 +24,15 @@ export const batteryElement = (
     ? `position: absolute; ${config.custom_positions.battery.top !== undefined ? `top: ${config.custom_positions.battery.top}px;` : ""} ${config.custom_positions.battery.left !== undefined ? `left: ${config.custom_positions.battery.left}px;` : ""}`
     : "";
 
-  return html`<div class="circle-container battery" style="${customStyle}">
+  return html`<div
+      class="circle-container battery"
+      style="${customStyle}"
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'battery')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'battery')}
+    >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
-      @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
+      @click=${(e: { stopPropagation: () => void; target: HTMLElement}) => {
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!
           : typeof entities.battery?.entity === "string"

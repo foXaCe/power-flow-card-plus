@@ -20,7 +20,12 @@ export const gridElement = (
     ? `position: absolute; ${config.custom_positions.grid.top !== undefined ? `top: ${config.custom_positions.grid.top}px;` : ""} ${config.custom_positions.grid.left !== undefined ? `left: ${config.custom_positions.grid.left}px;` : ""}`
     : "";
 
-  return html`<div class="circle-container grid" style="${customStyle}">
+  return html`<div
+      class="circle-container grid"
+      style="${customStyle}"
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'grid')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'grid')}
+    >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {

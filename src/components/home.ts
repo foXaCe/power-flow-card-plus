@@ -47,7 +47,12 @@ export const homeElement = (
     ? `position: absolute; ${config.custom_positions.home.top !== undefined ? `top: ${config.custom_positions.home.top}px;` : ""} ${config.custom_positions.home.left !== undefined ? `left: ${config.custom_positions.home.left}px;` : ""}`
     : "";
 
-  return html`<div class="circle-container home" style="${customStyle}">
+  return html`<div
+      class="circle-container home"
+      style="${customStyle}"
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'home')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'home')}
+    >
   <div
     class="circle ${isPulsing ? "pulse-animation" : ""}"
     id="home-circle"

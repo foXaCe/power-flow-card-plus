@@ -761,25 +761,27 @@ export const styles = css`
   /* Edit Mode */
   .edit-mode-toggle {
     position: absolute;
-    top: 8px;
+    bottom: 8px;
     right: 8px;
     z-index: 1000;
-    padding: 8px 16px;
-    background: var(--primary-color);
-    color: var(--text-primary-color);
-    border: none;
-    border-radius: 4px;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s;
   }
 
   .edit-mode-toggle:hover {
-    background: var(--primary-color);
-    opacity: 0.9;
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
   }
 
   .card-content.edit-mode {
