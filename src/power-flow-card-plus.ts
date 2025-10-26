@@ -594,13 +594,6 @@ export class PowerFlowCardPlus extends LitElement {
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
-          ${dailyCost.enabled
-            ? html`<div class="row">
-                <div class="spacer"></div>
-                ${dailyCostElement(this, this._config, { dailyCost })}
-                <div class="spacer"></div>
-              </div>`
-            : ""}
           ${solar.has || individualObjs?.some((individual) => individual?.has) || nonFossil.hasPercentage
             ? html`<div class="row">
                 ${nonFossilElement(this, this._config, {
@@ -640,12 +633,17 @@ export class PowerFlowCardPlus extends LitElement {
               </div>`
             : html``}
           <div class="row">
-            ${grid.has
-              ? gridElement(this, this._config, {
-                  entities,
-                  grid,
-                  templatesObj,
-                })
+            ${dailyCost.enabled || grid.has
+              ? html`<div class="grid-column">
+                  ${dailyCost.enabled ? dailyCostElement(this, this._config, { dailyCost }) : ""}
+                  ${grid.has
+                    ? gridElement(this, this._config, {
+                        entities,
+                        grid,
+                        templatesObj,
+                      })
+                    : ""}
+                </div>`
               : html`<div class="spacer"></div>`}
             <div class="spacer"></div>
             ${!entities.home?.hide
