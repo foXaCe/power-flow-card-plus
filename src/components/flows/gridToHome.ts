@@ -19,7 +19,6 @@ export const flowGridToHome = (config: PowerFlowCardPlusConfig, { battery, grid,
           "individual1-individual2": !battery.has && individual.every((i) => i?.has),
           "multi-individual": checkHasRightIndividual(individual),
         })}"
-        style="${customTransform ? `transform: ${customTransform};` : ""}"
       >
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" id="grid-home-flow" class="flat-line">
           <path
@@ -28,6 +27,7 @@ export const flowGridToHome = (config: PowerFlowCardPlusConfig, { battery, grid,
             d="M0,${battery.has ? 50 : solar.has ? 56 : 53} H100"
             vector-effect="non-scaling-stroke"
             style="${customStyles}"
+            transform="${customTransform}"
           ></path>
           ${checkShouldShowDots(config) && grid.state.toHome
             ? svg`<circle
