@@ -87,6 +87,35 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
   connectedCallback(): void {
     super.connectedCallback();
     loadHaForm();
+    this._adjustPreviewSize();
+  }
+
+  private _adjustPreviewSize(): void {
+    // Inject styles to make card preview display at real dashboard size
+    if (!document.getElementById('pfcp-preview-styles')) {
+      const style = document.createElement('style');
+      style.id = 'pfcp-preview-styles';
+      style.textContent = `
+        /* Target the preview container in HA's card editor */
+        hui-dialog-edit-card hui-card-preview {
+          max-width: 500px !important;
+          width: 100%;
+        }
+        hui-dialog-edit-card hui-card-preview > * {
+          max-width: 500px !important;
+          width: 100%;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    const style = document.getElementById('pfcp-preview-styles');
+    if (style) {
+      style.remove();
+    }
   }
 
   private _editDetailElement(pageClicked: ConfigPage): void {
