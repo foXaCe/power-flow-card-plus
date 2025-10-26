@@ -14,16 +14,6 @@ export const batteryElement = (
     entities: ConfigEntities;
   }
 ) => {
-  // DEBUG: Log battery state for troubleshooting
-  if (config.circle_pulse_animation) {
-    console.log('[PFCP DEBUG] Battery element:', {
-      hasState: !!battery?.state,
-      toBattery: battery?.state?.toBattery,
-      fromBattery: battery?.state?.fromBattery,
-      pulsationEnabled: config.circle_pulse_animation
-    });
-  }
-
   // Safe check for pulse animation
   const isPulsing = config.circle_pulse_animation &&
     battery?.state &&

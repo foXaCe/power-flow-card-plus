@@ -350,18 +350,6 @@ export class PowerFlowCardPlus extends LitElement {
     };
     dailyExport.totalRevenue = dailyExport.energy * dailyExport.price;
 
-    // Debug logs
-    if (this._config.show_daily_export) {
-      console.log("[Daily Export Debug]", {
-        enabled: dailyExport.enabled,
-        entity: dailyExport.entity,
-        entityState: this._config.daily_export_energy_entity ? this.hass.states[this._config.daily_export_energy_entity]?.state : undefined,
-        energy: dailyExport.energy,
-        price: dailyExport.price,
-        totalRevenue: dailyExport.totalRevenue,
-      });
-    }
-
     // Reset Values below Display Zero Tolerance
     grid.state.fromGrid = adjustZeroTolerance(grid.state.fromGrid, entities.grid?.display_zero_tolerance);
     grid.state.toGrid = adjustZeroTolerance(grid.state.toGrid, entities.grid?.display_zero_tolerance);

@@ -39,15 +39,6 @@ export const homeElement = (
 ) => {
   const showHomeLabel = individual.filter((i) => i.has).length <= 1;
 
-  // DEBUG: Log home state for troubleshooting
-  if (config.circle_pulse_animation) {
-    console.log('[PFCP DEBUG] Home element:', {
-      hasState: !!home?.state,
-      total: home?.state?.total,
-      pulsationEnabled: config.circle_pulse_animation
-    });
-  }
-
   // Safe check for pulse animation
   const isPulsing = config.circle_pulse_animation && home?.state?.total != null && home.state.total > 0;
 

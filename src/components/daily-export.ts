@@ -14,15 +14,6 @@ export const dailyExportElement = (
   const displayRevenue = dailyExport.totalRevenue?.toFixed(dailyExport.decimals ?? 2) ?? "0.00";
   const displayUnit = "€";
 
-  console.log("[Daily Export Element]", {
-    totalRevenue: dailyExport.totalRevenue,
-    decimals: dailyExport.decimals,
-    energy: dailyExport.energy,
-    price: dailyExport.price,
-    displayRevenue,
-    displayUnit,
-  });
-
   return html`<div class="circle-container daily-export">
     <span class="label">${dailyExport.name}</span>
     <div

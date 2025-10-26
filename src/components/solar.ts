@@ -18,16 +18,6 @@ export const solarElement = (
     templatesObj: TemplatesObj;
   }
 ) => {
-  // DEBUG: Log solar state for troubleshooting
-  if (config.circle_pulse_animation) {
-    console.log('[PFCP DEBUG] Solar element:', {
-      hasState: !!solar?.state,
-      total: solar?.state?.total,
-      typeOf: typeof solar?.state?.total,
-      pulsationEnabled: config.circle_pulse_animation
-    });
-  }
-
   // Safe check for pulse animation
   const isPulsing = config.circle_pulse_animation && solar?.state?.total != null && solar.state.total > 0;
 
