@@ -75,6 +75,59 @@ export const cardConfigStruct = assign(
         daily_export: optional(object({ top: optional(number()), left: optional(number()) })),
       })
     ),
+    arrows: optional(
+      object({
+        grid_to_home: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        solar_to_home: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        solar_to_grid: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        battery_to_home: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        solar_to_battery: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        grid_to_battery: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+        solar_to_daily_export: optional(object({
+          color: optional(string()),
+          thickness: optional(number()),
+          length: optional(number()),
+          offset_x: optional(number()),
+          offset_y: optional(number()),
+        })),
+      })
+    ),
   })
 );
 
