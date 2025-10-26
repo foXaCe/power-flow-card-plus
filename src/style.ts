@@ -110,15 +110,16 @@ export const styles = css`
     }
   }
 
+  .card-content.compact-mode {
+    --size-circle-entity: 65px;
+    --mdc-icon-size: 20px;
+  }
+
   .card-content.compact-mode .circle {
     width: 65px;
     height: 65px;
     font-size: 10px;
     line-height: 10px;
-  }
-
-  .card-content.compact-mode --size-circle-entity {
-    --size-circle-entity: 65px;
   }
 
   .card-content.compact-mode .circle-container.solar,
@@ -132,10 +133,6 @@ export const styles = css`
 
   .card-content.compact-mode .label {
     font-size: 10px;
-  }
-
-  .card-content.compact-mode .mdc-icon-size {
-    --mdc-icon-size: 20px;
   }
 
   .card-content,
