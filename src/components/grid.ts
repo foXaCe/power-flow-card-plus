@@ -25,7 +25,12 @@ export const gridElement = (
     grid?.state &&
     (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
 
-  return html`<div class="circle-container grid">
+  // Apply custom position if configured
+  const customStyle = config.custom_positions?.grid
+    ? `position: absolute; ${config.custom_positions.grid.top !== undefined ? `top: ${config.custom_positions.grid.top}px;` : ""} ${config.custom_positions.grid.left !== undefined ? `left: ${config.custom_positions.grid.left}px;` : ""}`
+    : "";
+
+  return html`<div class="circle-container grid" style="${customStyle}">
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {

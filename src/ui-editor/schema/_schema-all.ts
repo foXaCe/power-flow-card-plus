@@ -64,6 +64,16 @@ export const cardConfigStruct = assign(
     daily_export_energy_entity: optional(string()),
     daily_export_price: optional(number()),
     daily_export_decimals: optional(number()),
+    custom_positions: optional(
+      object({
+        solar: optional(object({ top: optional(number()), left: optional(number()) })),
+        grid: optional(object({ top: optional(number()), left: optional(number()) })),
+        home: optional(object({ top: optional(number()), left: optional(number()) })),
+        battery: optional(object({ top: optional(number()), left: optional(number()) })),
+        daily_cost: optional(object({ top: optional(number()), left: optional(number()) })),
+        daily_export: optional(object({ top: optional(number()), left: optional(number()) })),
+      })
+    ),
   })
 );
 
@@ -300,5 +310,77 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
     type: "expandable",
     title: localize("editor.display_zero_lines"),
     schema: [...displayZeroLinesSchema(localize, displayZeroLinesMode)],
+  },
+  {
+    type: "expandable",
+    title: localize("editor.custom_positions"),
+    schema: [
+      {
+        type: "grid",
+        column_min_width: "200px",
+        schema: [
+          {
+            name: "custom_positions.solar.top",
+            label: localize("editor.solar_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.solar.left",
+            label: localize("editor.solar_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.grid.top",
+            label: localize("editor.grid_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.grid.left",
+            label: localize("editor.grid_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.home.top",
+            label: localize("editor.home_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.home.left",
+            label: localize("editor.home_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.battery.top",
+            label: localize("editor.battery_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.battery.left",
+            label: localize("editor.battery_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.daily_cost.top",
+            label: localize("editor.daily_cost_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.daily_cost.left",
+            label: localize("editor.daily_cost_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.daily_export.top",
+            label: localize("editor.daily_export_top"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+          {
+            name: "custom_positions.daily_export.left",
+            label: localize("editor.daily_export_left"),
+            selector: { number: { mode: "box", step: 1 } },
+          },
+        ],
+      },
+    ],
   },
 ]);

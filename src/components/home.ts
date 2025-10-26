@@ -51,7 +51,12 @@ export const homeElement = (
   // Safe check for pulse animation
   const isPulsing = config.circle_pulse_animation && home?.state?.total != null && home.state.total > 0;
 
-  return html`<div class="circle-container home">
+  // Apply custom position if configured
+  const customStyle = config.custom_positions?.home
+    ? `position: absolute; ${config.custom_positions.home.top !== undefined ? `top: ${config.custom_positions.home.top}px;` : ""} ${config.custom_positions.home.left !== undefined ? `left: ${config.custom_positions.home.left}px;` : ""}`
+    : "";
+
+  return html`<div class="circle-container home" style="${customStyle}">
   <div
     class="circle ${isPulsing ? "pulse-animation" : ""}"
     id="home-circle"

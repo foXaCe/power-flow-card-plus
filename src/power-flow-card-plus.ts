@@ -675,7 +675,7 @@ export class PowerFlowCardPlus extends LitElement {
             ${grid.has
               ? html`<div class="grid-column-wrapper">
                   ${dailyCost.enabled
-                    ? html`<div class="daily-cost-container">
+                    ? html`<div class="daily-cost-container" style="${this._config.custom_positions?.daily_cost ? `${this._config.custom_positions.daily_cost.top !== undefined ? `top: ${this._config.custom_positions.daily_cost.top}px;` : ""} ${this._config.custom_positions.daily_cost.left !== undefined ? `left: ${this._config.custom_positions.daily_cost.left}px;` : ""}` : ""}">
                         ${dailyCostElement(this, this._config, { dailyCost })}
                         ${svg`<svg class="daily-cost-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                           <defs>
@@ -757,7 +757,7 @@ export class PowerFlowCardPlus extends LitElement {
             solar,
           })}
           ${dailyExport.enabled && solar.has
-            ? html`<div class="daily-export-floating">${dailyExportElement(this, this._config, { dailyExport })}</div>`
+            ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">${dailyExportElement(this, this._config, { dailyExport })}</div>`
             : ""}
         </div>
         ${dashboardLinkElement(this._config, this.hass)}
