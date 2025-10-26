@@ -68,20 +68,65 @@ export class CustomPositionsEditor extends LitElement {
     .position-input {
       flex: 1;
       min-width: 0;
+      position: relative;
     }
 
-    ha-textfield {
+    .position-number-input {
       width: 100%;
+      padding: 8px 40px 8px 8px;
+      border: 1px solid var(--divider-color);
+      border-radius: 4px;
+      background: var(--card-background-color);
+      color: var(--primary-text-color);
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .position-number-input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+
+    .input-suffix {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-text-color);
+      pointer-events: none;
+      font-size: 13px;
     }
 
     .reset-button {
-      --mdc-theme-primary: var(--secondary-text-color);
+      background: transparent;
+      border: 1px solid var(--divider-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary-text-color);
+      transition: all 0.2s;
+    }
+
+    .reset-button:hover {
+      background: var(--secondary-background-color);
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    .reset-button ha-icon {
+      --mdc-icon-size: 20px;
     }
 
     .default-hint {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--secondary-text-color);
-      margin-top: 4px;
+      margin-top: 6px;
+      font-style: italic;
     }
 
     .chevron {
@@ -140,7 +185,7 @@ export class CustomPositionsEditor extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this._positions = { ...this.config.custom_positions };
+    this._positions = this.config.custom_positions ? { ...this.config.custom_positions } : {};
   }
 
   private _toggleSection(e: Event) {
@@ -158,33 +203,48 @@ export class CustomPositionsEditor extends LitElement {
   }
 
   private _valueChanged(circle: string, axis: "top" | "left", value: string) {
-    if (!this._positions[circle]) {
-      this._positions[circle] = {};
+    // Créer une nouvelle copie pour forcer la détection de changement
+    const newPositions = { ...this._positions };
+
+    if (!newPositions[circle]) {
+      newPositions[circle] = {};
+    } else {
+      newPositions[circle] = { ...newPositions[circle] };
     }
 
     const numValue = value === "" ? undefined : parseInt(value);
-    this._positions[circle][axis] = numValue;
-
-    // Nettoyer si les deux valeurs sont undefined
-    if (this._positions[circle].top === undefined && this._positions[circle].left === undefined) {
-      delete this._positions[circle];
+    if (numValue === undefined) {
+      delete newPositions[circle][axis];
+    } else {
+      newPositions[circle][axis] = numValue;
     }
 
+    // Nettoyer si les deux valeurs sont undefined
+    if (newPositions[circle].top === undefined && newPositions[circle].left === undefined) {
+      delete newPositions[circle];
+    }
+
+    this._positions = newPositions;
     this._fireChanged();
   }
 
   private _reset(circle: string, axis: "top" | "left") {
-    if (!this._positions[circle]) {
+    // Créer une nouvelle copie pour forcer la détection de changement
+    const newPositions = { ...this._positions };
+
+    if (!newPositions[circle]) {
       return;
     }
 
-    this._positions[circle][axis] = undefined;
+    newPositions[circle] = { ...newPositions[circle] };
+    delete newPositions[circle][axis];
 
     // Nettoyer si les deux valeurs sont undefined
-    if (this._positions[circle].top === undefined && this._positions[circle].left === undefined) {
-      delete this._positions[circle];
+    if (newPositions[circle].top === undefined && newPositions[circle].left === undefined) {
+      delete newPositions[circle];
     }
 
+    this._positions = newPositions;
     this._fireChanged();
     this.requestUpdate();
   }
@@ -224,43 +284,49 @@ export class CustomPositionsEditor extends LitElement {
           <div class="position-row">
             <div class="position-label">${this.localize("editor.position_top")}</div>
             <div class="position-input">
-              <ha-textfield
+              <input
                 type="number"
+                class="position-number-input"
                 .value=${this._getCurrentValue(circle, "top")}
                 @input=${(e: any) => this._valueChanged(circle, "top", e.target.value)}
-                .suffix=${"px"}
-              ></ha-textfield>
+                placeholder="Auto"
+              />
+              <span class="input-suffix">px</span>
               <div class="default-hint">
                 ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "top")}
               </div>
             </div>
-            <ha-icon-button
+            <button
               class="reset-button"
               @click=${() => this._reset(circle, "top")}
+              title="Reset to default"
             >
               <ha-icon icon="mdi:restore"></ha-icon>
-            </ha-icon-button>
+            </button>
           </div>
 
           <div class="position-row">
             <div class="position-label">${this.localize("editor.position_left")}</div>
             <div class="position-input">
-              <ha-textfield
+              <input
                 type="number"
+                class="position-number-input"
                 .value=${this._getCurrentValue(circle, "left")}
                 @input=${(e: any) => this._valueChanged(circle, "left", e.target.value)}
-                .suffix=${"px"}
-              ></ha-textfield>
+                placeholder="Auto"
+              />
+              <span class="input-suffix">px</span>
               <div class="default-hint">
                 ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "left")}
               </div>
             </div>
-            <ha-icon-button
+            <button
               class="reset-button"
               @click=${() => this._reset(circle, "left")}
+              title="Reset to default"
             >
               <ha-icon icon="mdi:restore"></ha-icon>
-            </ha-icon-button>
+            </button>
           </div>
         </div>
       </div>
