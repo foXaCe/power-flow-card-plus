@@ -651,9 +651,6 @@ export class PowerFlowCardPlus extends LitElement {
                   : individualObjs?.some((individual) => individual?.has)
                   ? html`<div class="spacer"></div>`
                   : ""}
-                ${dailyExport.enabled && solar.has
-                  ? html`<div class="daily-export-floating">${dailyExportElement(this, this._config, { dailyExport })}</div>`
-                  : ""}
                 ${individualFieldLeftTop
                   ? individualLeftTopElement(this, this._config, {
                       individualObj: individualFieldLeftTop,
@@ -759,6 +756,9 @@ export class PowerFlowCardPlus extends LitElement {
             newDur,
             solar,
           })}
+          ${dailyExport.enabled && solar.has
+            ? html`<div class="daily-export-floating">${dailyExportElement(this, this._config, { dailyExport })}</div>`
+            : ""}
         </div>
         ${dashboardLinkElement(this._config, this.hass)}
       </ha-card>
