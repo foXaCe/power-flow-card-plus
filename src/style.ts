@@ -248,8 +248,6 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     gap: 2px;
-    width: 100px;
-    height: 100px;
   }
 
   .daily-cost #daily-cost-icon {
