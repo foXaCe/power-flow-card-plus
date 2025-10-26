@@ -259,17 +259,18 @@ export const styles = css`
 
   .daily-export-arrow {
     position: absolute;
-    height: 20px;
-    width: 120px;
+    height: 15px;
+    width: 80px;
     top: 50%;
     right: 100%;
-    margin-right: 5px;
+    margin-right: 8px;
     transform: translateY(-50%);
+    pointer-events: none;
   }
 
   .daily-export-arrow path {
     stroke: var(--energy-solar-color);
-    stroke-width: 2px;
+    stroke-width: 1.5px;
   }
 
   .daily-export-arrow circle {
