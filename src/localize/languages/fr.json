@@ -84,6 +84,9 @@
     "show_cost": "Afficher le coût en temps réel",
     "cost_entity": "Entité de coût (capteur de tarif)",
     "cost_unit": "Unité de coût",
-    "cost_decimals": "Décimales du coût"
+    "cost_decimals": "Décimales du coût",
+    "show_daily_cost": "Afficher le coût journalier",
+    "daily_cost_energy_entity": "Entité d'énergie journalière",
+    "daily_cost_decimals": "Décimales du coût journalier"
   }
 }

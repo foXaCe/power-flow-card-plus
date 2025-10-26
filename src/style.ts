@@ -217,6 +217,33 @@ export const styles = css`
     display: block;
     font-weight: 500;
   }
+
+  .daily-cost .circle {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .daily-cost #daily-cost-icon {
+    --mdc-icon-size: 20px;
+    color: var(--secondary-text-color);
+  }
+
+  .daily-cost-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary-text-color);
+  }
+
+  .daily-cost-energy {
+    font-size: 10px;
+    color: var(--secondary-text-color);
+    font-weight: 500;
+  }
+
   line,
   path {
     stroke: var(--disabled-text-color);

@@ -84,6 +84,9 @@
     "show_cost": "Show Real-time Cost",
     "cost_entity": "Cost Entity (tariff sensor)",
     "cost_unit": "Cost Unit",
-    "cost_decimals": "Cost Decimals"
+    "cost_decimals": "Cost Decimals",
+    "show_daily_cost": "Show Daily Cost",
+    "daily_cost_energy_entity": "Daily Energy Entity",
+    "daily_cost_decimals": "Daily Cost Decimals"
   }
 }
