@@ -6,8 +6,12 @@ import { styleLine } from "@/utils/styleLine";
 import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
+import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
 
 export const flowSolarToHome = (config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur }: Flows) => {
+  const customStyles = getArrowStyles("solar_to_home", config);
+  const customTransform = getArrowTransform("solar_to_home", config);
+
   return solar.has && showLine(config, solar.state.toHome || 0) && !config.entities.home?.hide
     ? html`<div
         class="lines ${classMap({
@@ -15,6 +19,7 @@ export const flowSolarToHome = (config: PowerFlowCardPlusConfig, { battery, grid
           "individual1-individual2": !battery.has && individual.every((i) => i?.has),
           "multi-individual": checkHasRightIndividual(individual),
         })}"
+        style="${customTransform ? `transform: ${customTransform};` : ""}"
       >
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" id="solar-home-flow">
           <path
@@ -22,6 +27,7 @@ export const flowSolarToHome = (config: PowerFlowCardPlusConfig, { battery, grid
             class="solar ${styleLine(solar.state.toHome || 0, config)}"
             d="M${battery.has ? 55 : 53},0 v${grid.has ? 15 : 17} c0,${battery.has ? "30 10,30 30,30" : "35 10,35 30,35"} h25"
             vector-effect="non-scaling-stroke"
+            style="${customStyles}"
           ></path>
           ${checkShouldShowDots(config) && solar.state.toHome
             ? svg`<circle
