@@ -14,7 +14,13 @@ export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid
   const customStyles = getArrowStyles("grid_to_battery", config);
   const customTransform = getArrowTransform("grid_to_battery", config);
 
-  return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0))
+  // Masquer la ligne si battery ou grid ont des positions personnalisées
+  const hasCustomPositions = !!(
+    (config.custom_positions?.battery && (config.custom_positions.battery.top !== undefined || config.custom_positions.battery.left !== undefined)) ||
+    (config.custom_positions?.grid && (config.custom_positions.grid.top !== undefined || config.custom_positions.grid.left !== undefined))
+  );
+
+  return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0)) && !hasCustomPositions
     ? html`<div
         class="lines ${classMap({
           high: battery.has || checkHasBottomIndividual(individual),
