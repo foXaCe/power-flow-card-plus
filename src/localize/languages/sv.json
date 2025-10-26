@@ -118,6 +118,23 @@
     "display_options": "Visningsalternativ",
     "watt_threshold_hint": "Växla från W till kW vid detta värde",
     "w_decimals_hint": "Decimaler för Watt-värden (0-5)",
-    "kw_decimals_hint": "Decimaler för Kilowatt-värden (0-5)"
+    "kw_decimals_hint": "Decimaler för Kilowatt-värden (0-5)",
+    "arrows_customization": "Pilar Anpassning",
+    "arrow_solar_to_daily_export": "Sol → Daglig Export",
+    "arrow_grid_to_home": "Nät → Hem",
+    "arrow_solar_to_home": "Sol → Hem",
+    "arrow_solar_to_grid": "Sol → Nät",
+    "arrow_battery_to_home": "Batteri → Hem",
+    "arrow_solar_to_battery": "Sol → Batteri",
+    "arrow_grid_to_battery": "Nät → Batteri",
+    "arrow_color": "Färg",
+    "arrow_thickness": "Tjocklek (px)",
+    "arrow_thickness_hint": "Linjetjocklek i pixlar (0.5-10)",
+    "arrow_length": "Längd (px)",
+    "arrow_length_hint": "Pillängd i pixlar (20-300)",
+    "arrow_offset_x": "Horisontell Förskjutning (px)",
+    "arrow_offset_x_hint": "Horisontell positionsjustering (-200 till 200)",
+    "arrow_offset_y": "Vertikal Förskjutning (px)",
+    "arrow_offset_y_hint": "Vertikal positionsjustering (-200 till 200)"
   }
 }

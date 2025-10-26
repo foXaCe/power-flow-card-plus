@@ -118,6 +118,23 @@
     "display_options": "Visningsindstillinger",
     "watt_threshold_hint": "Skift fra W til kW ved denne værdi",
     "w_decimals_hint": "Decimaler for Watt-værdier (0-5)",
-    "kw_decimals_hint": "Decimaler for Kilowatt-værdier (0-5)"
+    "kw_decimals_hint": "Decimaler for Kilowatt-værdier (0-5)",
+    "arrows_customization": "Pile Tilpasning",
+    "arrow_solar_to_daily_export": "Solar → Daglig Eksport",
+    "arrow_grid_to_home": "Net → Hjem",
+    "arrow_solar_to_home": "Solar → Hjem",
+    "arrow_solar_to_grid": "Solar → Net",
+    "arrow_battery_to_home": "Batteri → Hjem",
+    "arrow_solar_to_battery": "Solar → Batteri",
+    "arrow_grid_to_battery": "Net → Batteri",
+    "arrow_color": "Farve",
+    "arrow_thickness": "Tykkelse (px)",
+    "arrow_thickness_hint": "Linjetykkelse i pixels (0.5-10)",
+    "arrow_length": "Længde (px)",
+    "arrow_length_hint": "Pilens længde i pixels (20-300)",
+    "arrow_offset_x": "Horisontal Forskydning (px)",
+    "arrow_offset_x_hint": "Horisontal positionsjustering (-200 til 200)",
+    "arrow_offset_y": "Vertikal Forskydning (px)",
+    "arrow_offset_y_hint": "Vertikal positionsjustering (-200 til 200)"
   }
 }

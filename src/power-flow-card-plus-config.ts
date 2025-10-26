@@ -17,6 +17,24 @@ export interface CustomPositions {
   daily_export?: CirclePosition;
 }
 
+export interface ArrowConfig {
+  color?: string;
+  thickness?: number;
+  length?: number;
+  offset_x?: number;
+  offset_y?: number;
+}
+
+export interface ArrowsConfig {
+  grid_to_home?: ArrowConfig;
+  solar_to_home?: ArrowConfig;
+  solar_to_grid?: ArrowConfig;
+  battery_to_home?: ArrowConfig;
+  solar_to_battery?: ArrowConfig;
+  grid_to_battery?: ArrowConfig;
+  solar_to_daily_export?: ArrowConfig;
+}
+
 interface mainConfigOptions {
   dashboard_link?: string;
   dashboard_link_label?: string;
@@ -57,6 +75,7 @@ interface mainConfigOptions {
   daily_export_price?: number;
   daily_export_decimals?: number;
   custom_positions?: CustomPositions;
+  arrows?: ArrowsConfig;
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {

@@ -118,6 +118,23 @@
     "display_options": "Weergaveopties",
     "watt_threshold_hint": "Schakel over van W naar kW bij deze waarde",
     "w_decimals_hint": "Decimalen voor Watt-waarden (0-5)",
-    "kw_decimals_hint": "Decimalen voor Kilowatt-waarden (0-5)"
+    "kw_decimals_hint": "Decimalen voor Kilowatt-waarden (0-5)",
+    "arrows_customization": "Pijlen Aanpassen",
+    "arrow_solar_to_daily_export": "Zonne → Dagelijkse Export",
+    "arrow_grid_to_home": "Net → Huis",
+    "arrow_solar_to_home": "Zonne → Huis",
+    "arrow_solar_to_grid": "Zonne → Net",
+    "arrow_battery_to_home": "Batterij → Huis",
+    "arrow_solar_to_battery": "Zonne → Batterij",
+    "arrow_grid_to_battery": "Net → Batterij",
+    "arrow_color": "Kleur",
+    "arrow_thickness": "Dikte (px)",
+    "arrow_thickness_hint": "Lijndikte in pixels (0.5-10)",
+    "arrow_length": "Lengte (px)",
+    "arrow_length_hint": "Pijllengte in pixels (20-300)",
+    "arrow_offset_x": "Horizontale Verschuiving (px)",
+    "arrow_offset_x_hint": "Horizontale positieaanpassing (-200 tot 200)",
+    "arrow_offset_y": "Verticale Verschuiving (px)",
+    "arrow_offset_y_hint": "Verticale positieaanpassing (-200 tot 200)"
   }
 }
