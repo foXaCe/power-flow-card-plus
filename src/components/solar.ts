@@ -18,10 +18,11 @@ export const solarElement = (
     templatesObj: TemplatesObj;
   }
 ) => {
+  const isPulsing = config.circle_pulse_animation && (solar.state.total || 0) > 0;
   return html`<div class="circle-container solar">
     <span class="label">${solar.name}</span>
     <div
-      class="circle"
+      class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         main.openDetails(e, solar.tap_action, solar.entity);
       }}

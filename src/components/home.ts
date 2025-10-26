@@ -38,10 +38,11 @@ export const homeElement = (
   }: Home
 ) => {
   const showHomeLabel = individual.filter((i) => i.has).length <= 1;
+  const isPulsing = config.circle_pulse_animation && (home.state.total || 0) > 0;
 
   return html`<div class="circle-container home">
   <div
-    class="circle"
+    class="circle ${isPulsing ? "pulse-animation" : ""}"
     id="home-circle"
     @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
       main.openDetails(e, entities.home?.tap_action, entities.home?.entity);

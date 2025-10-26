@@ -75,6 +75,10 @@
     "grey_color": "Harmaa väri",
     "tap_action": "Napauta toimintoa",
     "navigation_path": "Navigointipolku",
-    "sort_individual_devices": "Lajittele yksittäiset laitteet"
+    "sort_individual_devices": "Lajittele yksittäiset laitteet",
+    "circle_pulse_animation": "Ympyrän Pulssianimaatio",
+    "circle_border_width": "Ympyrän Reunan Leveys",
+    "compact_mode": "Kompakti Tila",
+    "circle_gradient_mode": "Ympyrän Liukuvärjäys Tila"
   }
 }

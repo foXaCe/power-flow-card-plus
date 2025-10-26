@@ -10,9 +10,10 @@ export const gridElement = (
   config: PowerFlowCardPlusConfig,
   { entities, grid, templatesObj }: { entities: ConfigEntities; grid: any; templatesObj: TemplatesObj }
 ) => {
+  const isPulsing = config.circle_pulse_animation && (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
   return html`<div class="circle-container grid">
     <div
-      class="circle"
+      class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const outageTarget = grid.powerOutage?.entityGenerator ?? entities.grid?.power_outage?.entity;
         const target =

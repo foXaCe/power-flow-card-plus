@@ -40,6 +40,10 @@ export const cardConfigStruct = assign(
     style_ha_card: optional(any()),
     style_card_content: optional(any()),
     disable_dots: optional(boolean()),
+    circle_pulse_animation: optional(boolean()),
+    circle_border_width: optional(number()),
+    compact_mode: optional(boolean()),
+    circle_gradient_mode: optional(boolean()),
     entities: object({
       battery: optional(any()),
       grid: optional(any()),
@@ -177,7 +181,11 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
         label: "Watt to Kilowatt Threshold",
         selector: { number: { mode: "box", min: 0, max: 1000000, step: 1 } },
       },
-
+      {
+        name: "circle_border_width",
+        label: localize("editor.circle_border_width"),
+        selector: { number: { mode: "box", min: 1, max: 10, step: 0.5 } },
+      },
       {
         name: "clickable_entities",
         label: "Clickable Entities",
@@ -196,6 +204,21 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
       {
         name: "sort_individual_devices",
         label: "Sort individual devices by usage",
+        selector: { boolean: {} },
+      },
+      {
+        name: "circle_pulse_animation",
+        label: localize("editor.circle_pulse_animation"),
+        selector: { boolean: {} },
+      },
+      {
+        name: "compact_mode",
+        label: localize("editor.compact_mode"),
+        selector: { boolean: {} },
+      },
+      {
+        name: "circle_gradient_mode",
+        label: localize("editor.circle_gradient_mode"),
         selector: { boolean: {} },
       },
     ],

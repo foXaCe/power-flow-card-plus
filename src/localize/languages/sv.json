@@ -75,6 +75,10 @@
     "grey_color": "Grå färg",
     "tap_action": "Tryckåtgärd",
     "navigation_path": "Navigationsväg",
-    "sort_individual_devices": "Sortera enskilda enheter"
+    "sort_individual_devices": "Sortera enskilda enheter",
+    "circle_pulse_animation": "Cirkel Puls Animation",
+    "circle_border_width": "Cirkel Kantbredd",
+    "compact_mode": "Kompakt Läge",
+    "circle_gradient_mode": "Cirkel Gradient Läge"
   }
 }

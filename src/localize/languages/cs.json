@@ -75,6 +75,10 @@
     "grey_color": "Šedá barva",
     "tap_action": "Akce po klepnutí",
     "navigation_path": "Navigační cesta",
-    "sort_individual_devices": "Seřaďte individuálně"
+    "sort_individual_devices": "Seřaďte individuálně",
+    "circle_pulse_animation": "Animace Pulzování Kruhu",
+    "circle_border_width": "Šířka Okraje Kruhu",
+    "compact_mode": "Kompaktní Režim",
+    "circle_gradient_mode": "Režim Přechodu Kruhu"
   }
 }

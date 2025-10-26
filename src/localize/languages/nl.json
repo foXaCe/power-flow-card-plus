@@ -75,6 +75,10 @@
     "grey_color": "Grijstint",
     "tap_action": "Tik Actie",
     "navigation_path": "Navigatiepad",
-    "sort_individual_devices": "Sorteer individuele apparaten"
+    "sort_individual_devices": "Sorteer individuele apparaten",
+    "circle_pulse_animation": "Cirkel Puls Animatie",
+    "circle_border_width": "Cirkel Randbreedte",
+    "compact_mode": "Compacte Modus",
+    "circle_gradient_mode": "Cirkel Verloopstand"
   }
 }

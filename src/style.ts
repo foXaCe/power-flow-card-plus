@@ -3,6 +3,7 @@ import { css } from "lit";
 export const styles = css`
   :host {
     --size-circle-entity: 79.99px;
+    --circle-border-width: 2px;
     --mdc-icon-size: 24px;
     --clickable-cursor: pointer;
     --individual-left-bottom-color: #d0cc5b;
@@ -78,7 +79,7 @@ export const styles = css`
     height: 80px;
     border-radius: 50%;
     box-sizing: border-box;
-    border: 2px solid;
+    border: var(--circle-border-width) solid;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -90,7 +91,51 @@ export const styles = css`
     text-decoration: none;
     color: var(--primary-text-color);
     gap: 2px;
+    transition: box-shadow 0.3s ease, border-width 0.3s ease;
     // background-color: var(--card-background-color); /* hide overflowing lines behind background */
+  }
+
+  .circle.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 currentColor;
+      opacity: 1;
+    }
+    50% {
+      box-shadow: 0 0 0 10px transparent;
+      opacity: 0.8;
+    }
+  }
+
+  .card-content.compact-mode .circle {
+    width: 65px;
+    height: 65px;
+    font-size: 10px;
+    line-height: 10px;
+  }
+
+  .card-content.compact-mode --size-circle-entity {
+    --size-circle-entity: 65px;
+  }
+
+  .card-content.compact-mode .circle-container.solar,
+  .card-content.compact-mode .circle-container.individual-top {
+    height: 110px;
+  }
+
+  .card-content.compact-mode .circle-container.battery {
+    height: 95px;
+  }
+
+  .card-content.compact-mode .label {
+    font-size: 10px;
+  }
+
+  .card-content.compact-mode .mdc-icon-size {
+    --mdc-icon-size: 20px;
   }
 
   .card-content,
@@ -562,5 +607,47 @@ export const styles = css`
 
   .home-circle-sections {
     pointer-events: none;
+  }
+
+  /* Gradient mode styles */
+  .card-content.gradient-mode .circle {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-content.gradient-mode .solar .circle {
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .battery .circle {
+    background: linear-gradient(135deg, rgba(240, 98, 146, 0.2) 0%, rgba(240, 98, 146, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .grid .circle {
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .home .circle {
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .low-carbon .circle {
+    background: linear-gradient(135deg, rgba(15, 157, 88, 0.2) 0%, rgba(15, 157, 88, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .individual-top .circle {
+    background: linear-gradient(135deg, rgba(150, 76, 181, 0.2) 0%, rgba(150, 76, 181, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .individual-bottom .circle {
+    background: linear-gradient(135deg, rgba(208, 204, 91, 0.2) 0%, rgba(208, 204, 91, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .individual-right-top .circle {
+    background: linear-gradient(135deg, rgba(181, 76, 157, 0.2) 0%, rgba(181, 76, 157, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .individual-right-bottom .circle {
+    background: linear-gradient(135deg, rgba(91, 208, 204, 0.2) 0%, rgba(91, 208, 204, 0.05) 100%);
   }
 `;

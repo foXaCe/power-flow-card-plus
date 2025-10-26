@@ -75,6 +75,10 @@
     "grey_color": "Серый цвет",
     "tap_action": "действие касания",
     "navigation_path": "путь навигации",
-    "sort_individual_devices": "Сортировка отдельных устройств"
+    "sort_individual_devices": "Сортировка отдельных устройств",
+    "circle_pulse_animation": "Анимация Пульсации Круга",
+    "circle_border_width": "Ширина Границы Круга",
+    "compact_mode": "Компактный Режим",
+    "circle_gradient_mode": "Режим Градиента Круга"
   }
 }

@@ -75,6 +75,10 @@
     "grey_color": "Graue Farbe",
     "tap_action": "Aktion beim Antippen",
     "navigation_path": "Navigationspfad",
-    "sort_individual_devices": "Individuelle Geräte sortieren"
+    "sort_individual_devices": "Individuelle Geräte sortieren",
+    "circle_pulse_animation": "Pulsationsanimation der Kreise",
+    "circle_border_width": "Kreisrandbreite",
+    "compact_mode": "Kompaktmodus",
+    "circle_gradient_mode": "Kreisverlaufsmodus"
   }
 }

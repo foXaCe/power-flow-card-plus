@@ -14,9 +14,10 @@ export const batteryElement = (
     entities: ConfigEntities;
   }
 ) => {
+  const isPulsing = config.circle_pulse_animation && (Math.abs(battery.state.toBattery) > 0 || Math.abs(battery.state.fromBattery) > 0);
   return html`<div class="circle-container battery">
     <div
-      class="circle"
+      class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!

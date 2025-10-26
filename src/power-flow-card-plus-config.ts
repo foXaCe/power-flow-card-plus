@@ -27,6 +27,10 @@ interface mainConfigOptions {
     grey_color?: string | number[];
   };
   sort_individual_devices?: boolean;
+  circle_pulse_animation?: boolean;
+  circle_border_width?: number;
+  compact_mode?: boolean;
+  circle_gradient_mode?: boolean;
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {
