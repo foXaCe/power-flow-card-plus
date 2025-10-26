@@ -101,12 +101,12 @@ export const styles = css`
 
   @keyframes pulse {
     0%, 100% {
-      box-shadow: 0 0 0 0 currentColor;
-      opacity: 1;
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(var(--rgb-primary-color, 128, 128, 128), 0.4);
     }
     50% {
-      box-shadow: 0 0 0 10px transparent;
-      opacity: 0.8;
+      transform: scale(1.05);
+      box-shadow: 0 0 0 8px rgba(var(--rgb-primary-color, 128, 128, 128), 0);
     }
   }
 
