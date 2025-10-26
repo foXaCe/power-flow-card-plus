@@ -1,7 +1,7 @@
 /* eslint-disable wc/guard-super-call */
 import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { UnsubscribeFunc } from "home-assistant-js-websocket";
-import { html, LitElement, PropertyValues, TemplateResult } from "lit";
+import { html, svg, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { batteryElement } from "./components/battery";
 import { dailyCostElement } from "./components/daily-cost";
@@ -337,6 +337,21 @@ export class PowerFlowCardPlus extends LitElement {
     };
     dailyCost.totalCost = dailyCost.energy * dailyCost.tariff;
 
+    // Debug logs
+    if (this._config.show_daily_cost) {
+      console.log("[Daily Cost Debug]", {
+        enabled: dailyCost.enabled,
+        entity: dailyCost.entity,
+        entityState: this._config.daily_cost_energy_entity ? this.hass.states[this._config.daily_cost_energy_entity]?.state : undefined,
+        energy: dailyCost.energy,
+        tariffEntity: this._config.cost_entity,
+        tariffState: this._config.cost_entity ? this.hass.states[this._config.cost_entity]?.state : undefined,
+        tariff: dailyCost.tariff,
+        totalCost: dailyCost.totalCost,
+        unit: dailyCost.unit,
+      });
+    }
+
     // Reset Values below Display Zero Tolerance
     grid.state.fromGrid = adjustZeroTolerance(grid.state.fromGrid, entities.grid?.display_zero_tolerance);
     grid.state.toGrid = adjustZeroTolerance(grid.state.toGrid, entities.grid?.display_zero_tolerance);
@@ -636,6 +651,28 @@ export class PowerFlowCardPlus extends LitElement {
             ${dailyCost.enabled || grid.has
               ? html`<div class="grid-column">
                   ${dailyCost.enabled ? dailyCostElement(this, this._config, { dailyCost }) : ""}
+                  ${dailyCost.enabled && grid.has
+                    ? svg`<svg class="daily-cost-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                        <defs>
+                          <marker id="arrowhead-daily-cost" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
+                            <polygon points="0 0, 4 2, 0 4" fill="var(--energy-grid-consumption-color)" />
+                          </marker>
+                        </defs>
+                        <path
+                          class="grid"
+                          d="M50,10 L50,90"
+                          vector-effect="non-scaling-stroke"
+                          marker-end="url(#arrowhead-daily-cost)"
+                        ></path>
+                        ${!this._config.disable_dots
+                          ? svg`<circle r="1.5" class="grid" vector-effect="non-scaling-stroke">
+                              <animateMotion dur="${newDur.gridToHome}s" repeatCount="indefinite" calcMode="linear">
+                                <mpath xlink:href="#grid" />
+                              </animateMotion>
+                            </circle>`
+                          : ""}
+                      </svg>`
+                    : ""}
                   ${grid.has
                     ? gridElement(this, this._config, {
                         entities,

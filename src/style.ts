@@ -165,7 +165,8 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
+    position: relative;
   }
   .circle-container {
     display: flex;
@@ -248,6 +249,22 @@ export const styles = css`
     font-size: 10px;
     color: var(--secondary-text-color);
     font-weight: 500;
+  }
+
+  .daily-cost-arrow {
+    height: 40px;
+    width: 20px;
+    margin: -10px 0;
+  }
+
+  .daily-cost-arrow path {
+    stroke: var(--energy-grid-consumption-color);
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .daily-cost-arrow circle {
+    fill: var(--energy-grid-consumption-color);
   }
 
   line,
