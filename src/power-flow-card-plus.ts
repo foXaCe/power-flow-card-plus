@@ -643,41 +643,15 @@ export class PowerFlowCardPlus extends LitElement {
                   templatesObj,
                 })}
                 ${solar.has
-                  ? html`<div class="solar-column-wrapper">
-                      ${dailyExport.enabled
-                        ? html`<div class="daily-export-container">
-                            ${dailyExportElement(this, this._config, { dailyExport })}
-                            ${svg`<svg class="daily-export-arrow" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                              <defs>
-                                <marker id="arrowhead-daily-export" markerWidth="4" markerHeight="4" refX="2" refY="2" orient="auto">
-                                  <polygon points="0 0, 4 2, 0 4" fill="var(--energy-grid-return-color)" />
-                                </marker>
-                              </defs>
-                              <path
-                                class="export"
-                                d="M50,10 L50,90"
-                                vector-effect="non-scaling-stroke"
-                                marker-end="url(#arrowhead-daily-export)"
-                              ></path>
-                              ${!this._config.disable_dots
-                                ? svg`<circle r="1.5" class="export" vector-effect="non-scaling-stroke">
-                                    <animateMotion dur="${newDur.gridToHome}s" repeatCount="indefinite" calcMode="linear">
-                                      <mpath xlink:href="#export" />
-                                    </animateMotion>
-                                  </circle>`
-                                : ""}
-                            </svg>`}
-                          </div>`
-                        : ""}
-                      ${solarElement(this, this._config, {
-                        entities,
-                        solar,
-                        templatesObj,
-                      })}
-                    </div>`
+                  ? solarElement(this, this._config, {
+                      entities,
+                      solar,
+                      templatesObj,
+                    })
                   : individualObjs?.some((individual) => individual?.has)
                   ? html`<div class="spacer"></div>`
                   : ""}
+                ${dailyExport.enabled && solar.has ? dailyExportElement(this, this._config, { dailyExport }) : ""}
                 ${individualFieldLeftTop
                   ? individualLeftTopElement(this, this._config, {
                       individualObj: individualFieldLeftTop,
