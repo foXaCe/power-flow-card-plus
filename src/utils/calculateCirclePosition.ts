@@ -53,12 +53,23 @@ export function calculateLinePath(
   to: CirclePosition,
   type: 'straight' | 'curved' = 'straight'
 ): string {
+  // Calculate angle between circles
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const angle = Math.atan2(dy, dx);
+
+  // Calculate edge points (40px from center = circle radius)
+  const fromX = from.x + Math.cos(angle) * 40;
+  const fromY = from.y + Math.sin(angle) * 40;
+  const toX = to.x - Math.cos(angle) * 40;
+  const toY = to.y - Math.sin(angle) * 40;
+
   if (type === 'straight') {
-    return `M${from.x},${from.y} L${to.x},${to.y}`;
+    return `M${fromX},${fromY} L${toX},${toY}`;
   } else {
     // Curved path with control point
-    const midX = (from.x + to.x) / 2;
-    const midY = (from.y + to.y) / 2;
-    return `M${from.x},${from.y} Q${midX},${midY} ${to.x},${to.y}`;
+    const midX = (fromX + toX) / 2;
+    const midY = (fromY + toY) / 2;
+    return `M${fromX},${fromY} Q${midX},${midY} ${toX},${toY}`;
   }
 }
