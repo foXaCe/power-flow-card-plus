@@ -34,15 +34,13 @@ export const styles = css`
     --secondary-text-non-fossil-color: var(--primary-text-color);
     --lines-svg-not-flat-line-height: 106%;
     --lines-svg-not-flat-line-top: -2%;
-    --lines-svg-flat-width: calc(100% - 160px);
-    --lines-svg-not-flat-width: calc(103% - 165px);
+    --lines-svg-flat-width: calc(100% - var(--size-circle-entity) * 2);
+    --lines-svg-not-flat-width: calc(100% - var(--size-circle-entity) * 2 + 3%);
     --lines-svg-not-flat-multi-indiv-height: 104%;
-    --lines-svg-not-flat-multi-indiv-width: calc(103% - var(--size-circle-entity) * 3.7);
-    --lines-svg-not-flat-multi-indiv-width: calc(((106% - 165px) * 0.5));
-    --lines-svg-not-flat-multi-indiv-width: calc(((130% - 246px) * 0.5));
-    --lines-svg-not-flat-multi-indiv-right-indiv-width: calc(((130% - 210px) * 0.5));
+    --lines-svg-not-flat-multi-indiv-width: calc((100% - var(--size-circle-entity) * 2) * 0.5);
+    --lines-svg-not-flat-multi-indiv-right-indiv-width: calc((100% - var(--size-circle-entity) * 2) * 0.5);
     --lines-svg-not-flat-multi-indiv-right-indiv-height: 103%;
-    --lines-svg-flat-multi-indiv-width: calc((129% - 242px) * 0.5);
+    --lines-svg-flat-multi-indiv-width: calc((100% - var(--size-circle-entity) * 2) * 0.5);
     --lines-svg-flat-left: 0;
     --lines-svg-not-flat-left: 0;
     --dot-size: 3.5px;
@@ -100,12 +98,14 @@ export const styles = css`
   .lines {
     position: absolute;
     bottom: 0;
-    left: var(--size-circle-entity);
+    left: 0;
+    right: 0;
     width: 100%;
     height: 146px;
     display: flex;
-    justify-content: flex-start;
-    padding: 0 16px 16px;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
     box-sizing: border-box;
   }
 
@@ -157,8 +157,9 @@ export const styles = css`
   .row {
     display: flex;
     justify-content: space-between;
-    max-width: 500px;
+    max-width: 470px;
     margin: 0 auto;
+    width: 100%;
   }
   .grid-column-wrapper {
     position: relative;
