@@ -104,6 +104,20 @@
     "card_dimensions": "Dimensiones de la tarjeta en el panel",
     "card_max_width": "Ancho máximo",
     "card_typical_height": "Altura típica",
-    "position_tip": "Consejo: Comience con valores pequeños (10-50px) y ajuste gradualmente en el panel."
+    "position_tip": "Consejo: Comience con valores pequeños (10-50px) y ajuste gradualmente en el panel.",
+    "flows": "Flujos y Apariencia",
+    "flows_editor_info": "Personaliza la velocidad de animación, apariencia de círculos y opciones de visualización",
+    "animation_speed": "Velocidad de Animación",
+    "min_flow_rate_hint": "Menor = animación más rápida (segundos por punto)",
+    "max_flow_rate_hint": "Mayor = animación más lenta a baja potencia (segundos por punto)",
+    "disable_dots_hint": "Ocultar puntos animados en líneas de flujo",
+    "circle_appearance": "Apariencia de Círculos",
+    "circle_border_width_hint": "Grosor del borde en píxeles (1-10)",
+    "circle_pulse_animation_hint": "Animar círculos cuando fluye energía",
+    "circle_gradient_mode_hint": "Usar colores degradados para círculos",
+    "display_options": "Opciones de Visualización",
+    "watt_threshold_hint": "Cambiar de W a kW en este valor",
+    "w_decimals_hint": "Decimales para valores en Vatios (0-5)",
+    "kw_decimals_hint": "Decimales para valores en Kilovatios (0-5)"
   }
 }

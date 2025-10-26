@@ -104,6 +104,20 @@
     "card_typical_height": "Hauteur typique",
     "position_tip": "Astuce : Commencez avec de petites valeurs (10-50px) et ajustez progressivement sur le tableau de bord.",
     "daily_cost_title": "Coût Journalier",
-    "daily_export_title": "Revente Journalière"
+    "daily_export_title": "Revente Journalière",
+    "flows": "Flux & Apparence",
+    "flows_editor_info": "Personnalisez la vitesse d'animation, l'apparence des cercles et les options d'affichage",
+    "animation_speed": "Vitesse d'Animation",
+    "min_flow_rate_hint": "Plus bas = animation plus rapide (secondes par point)",
+    "max_flow_rate_hint": "Plus haut = animation plus lente à faible puissance (secondes par point)",
+    "disable_dots_hint": "Masquer les points animés sur les lignes de flux",
+    "circle_appearance": "Apparence des Cercles",
+    "circle_border_width_hint": "Épaisseur de bordure en pixels (1-10)",
+    "circle_pulse_animation_hint": "Animer les cercles quand l'énergie circule",
+    "circle_gradient_mode_hint": "Utiliser des couleurs dégradées pour les cercles",
+    "display_options": "Options d'Affichage",
+    "watt_threshold_hint": "Passer de W à kW à cette valeur",
+    "w_decimals_hint": "Décimales pour les valeurs en Watt (0-5)",
+    "kw_decimals_hint": "Décimales pour les valeurs en Kilowatt (0-5)"
   }
 }

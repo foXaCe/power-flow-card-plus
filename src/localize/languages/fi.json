@@ -104,6 +104,20 @@
     "card_dimensions": "Kortin mitat kojelaudassa",
     "card_max_width": "Maksimileveys",
     "card_typical_height": "Tyypillinen korkeus",
-    "position_tip": "Vinkki: Aloita pienillä arvoilla (10-50px) ja säädä vähitellen kojelaudassa."
+    "position_tip": "Vinkki: Aloita pienillä arvoilla (10-50px) ja säädä vähitellen kojelaudassa.",
+    "flows": "Virrat ja Ulkoasu",
+    "flows_editor_info": "Mukauta animaationopeutta, ympyröiden ulkoasua ja näyttöasetuksia",
+    "animation_speed": "Animaationopeus",
+    "min_flow_rate_hint": "Alempi = nopeampi animaatio (sekuntia pistettä kohden)",
+    "max_flow_rate_hint": "Korkeampi = hitaampi animaatio alhaisella teholla (sekuntia pistettä kohden)",
+    "disable_dots_hint": "Piilota animoidut pisteet virtaviivoilla",
+    "circle_appearance": "Ympyröiden Ulkoasu",
+    "circle_border_width_hint": "Reunan paksuus pikseleissä (1-10)",
+    "circle_pulse_animation_hint": "Animoi ympyröitä energian virratessa",
+    "circle_gradient_mode_hint": "Käytä liukuvärejä ympyröissä",
+    "display_options": "Näyttöasetukset",
+    "watt_threshold_hint": "Vaihda W:sta kW:iin tässä arvossa",
+    "w_decimals_hint": "Desimaalit Watti-arvoille (0-5)",
+    "kw_decimals_hint": "Desimaalit Kilowatti-arvoille (0-5)"
   }
 }

@@ -12,6 +12,7 @@ import "./components/individual-devices-editor";
 import "./components/link-subpage";
 import "./components/subpage-header";
 import "./custom-positions-editor";
+import "./flows-editor";
 import { loadHaForm } from "./utils/loadHAForm";
 import { gridSchema } from "./schema/grid";
 import { solarSchema } from "./schema/solar";
@@ -57,6 +58,10 @@ const CONFIG_PAGES: {
   {
     page: "custom_positions",
     icon: "mdi:arrow-all",
+  },
+  {
+    page: "flows",
+    icon: "mdi:google-circles-communities",
   },
   {
     page: "advanced",
@@ -120,6 +125,13 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         `;
       }
 
+      if (this._currentConfigPage === "flows") {
+        return html`
+          <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+          <flows-editor .config=${this._config} .localize=${localize} @config-changed=${this._valueChanged}></flows-editor>
+        `;
+      }
+
       const currentPage = this._currentConfigPage;
       const schema =
         currentPage === "advanced"
@@ -142,7 +154,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
     const renderLinkSubpage = (page: ConfigPage, fallbackIcon: string | undefined = "mdi:dots-horizontal-circle-outline") => {
       if (page === null) return html``;
       const getIconToUse = () => {
-        if (page === "individual" || page === "advanced" || page === "custom_positions") return fallbackIcon;
+        if (page === "individual" || page === "advanced" || page === "custom_positions" || page === "flows") return fallbackIcon;
         return this?._config?.entities[page]?.icon || fallbackIcon;
       };
       const icon = getIconToUse();

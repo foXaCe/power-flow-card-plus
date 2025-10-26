@@ -104,6 +104,20 @@
     "card_typical_height": "Typical height",
     "position_tip": "Tip: Start with small values (10-50px) and adjust incrementally on the dashboard.",
     "daily_cost_title": "Daily Cost",
-    "daily_export_title": "Daily Export"
+    "daily_export_title": "Daily Export",
+    "flows": "Flows & Appearance",
+    "flows_editor_info": "Customize animation speed, circle appearance, and display options",
+    "animation_speed": "Animation Speed",
+    "min_flow_rate_hint": "Lower = faster animation (seconds per dot)",
+    "max_flow_rate_hint": "Higher = slower animation at low power (seconds per dot)",
+    "disable_dots_hint": "Hide animated dots on flow lines",
+    "circle_appearance": "Circle Appearance",
+    "circle_border_width_hint": "Border thickness in pixels (1-10)",
+    "circle_pulse_animation_hint": "Animate circles when energy is flowing",
+    "circle_gradient_mode_hint": "Use gradient colors for circles",
+    "display_options": "Display Options",
+    "watt_threshold_hint": "Switch from W to kW at this value",
+    "w_decimals_hint": "Decimal places for Watt values (0-5)",
+    "kw_decimals_hint": "Decimal places for Kilowatt values (0-5)"
   }
 }
