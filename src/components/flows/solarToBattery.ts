@@ -14,12 +14,7 @@ export const flowSolarToBattery = (config: PowerFlowCardPlusConfig, { battery, i
   const customStyles = getArrowStyles("solar_to_battery", config);
   const customTransform = getArrowTransform("solar_to_battery", config);
 
-  // Masquer la ligne si solar ou battery ont des positions personnalisées
-  const solarHasCustomPos = config.custom_positions?.solar?.top !== undefined || config.custom_positions?.solar?.left !== undefined;
-  const batteryHasCustomPos = config.custom_positions?.battery?.top !== undefined || config.custom_positions?.battery?.left !== undefined;
-  const hasCustomPositions = solarHasCustomPos || batteryHasCustomPos;
-
-  return battery.has && solar.has && showLine(config, solar.state.toBattery || 0) && !hasCustomPositions
+  return battery.has && solar.has && showLine(config, solar.state.toBattery || 0)
     ? html`<div
         class="lines ${classMap({
           high: battery.has || checkHasBottomIndividual(individual),

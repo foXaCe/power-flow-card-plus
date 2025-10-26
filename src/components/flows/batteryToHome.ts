@@ -14,12 +14,7 @@ export const flowBatteryToHome = (config: PowerFlowCardPlusConfig, { battery, gr
   const customStyles = getArrowStyles("battery_to_home", config);
   const customTransform = getArrowTransform("battery_to_home", config);
 
-  // Masquer la ligne si battery ou home ont des positions personnalisées
-  const batteryHasCustomPos = config.custom_positions?.battery?.top !== undefined || config.custom_positions?.battery?.left !== undefined;
-  const homeHasCustomPos = config.custom_positions?.home?.top !== undefined || config.custom_positions?.home?.left !== undefined;
-  const hasCustomPositions = batteryHasCustomPos || homeHasCustomPos;
-
-  return battery.has && showLine(config, battery.state.toHome) && !config.entities.home?.hide && !hasCustomPositions
+  return battery.has && showLine(config, battery.state.toHome) && !config.entities.home?.hide
     ? html`<div
         class="lines ${classMap({
           high: battery.has || checkHasBottomIndividual(individual),

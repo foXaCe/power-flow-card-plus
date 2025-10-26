@@ -743,18 +743,18 @@ export const styles = css`
 
   /* Gradient Mode */
   .card-content.gradient-mode .solar .circle {
-    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.05) 100%), var(--card-background-color);
   }
 
   .card-content.gradient-mode .battery .circle {
-    background: linear-gradient(135deg, rgba(240, 98, 146, 0.2) 0%, rgba(240, 98, 146, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(240, 98, 146, 0.2) 0%, rgba(240, 98, 146, 0.05) 100%), var(--card-background-color);
   }
 
   .card-content.gradient-mode .grid .circle {
-    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
   }
 
   .card-content.gradient-mode .home .circle {
-    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
   }
 `;
