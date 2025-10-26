@@ -78,7 +78,7 @@ export const styles = css`
     height: 80px;
     border-radius: 50%;
     box-sizing: border-box;
-    border: 2px solid;
+    border: var(--circle-border-width, 2px) solid;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -562,5 +562,66 @@ export const styles = css`
 
   .home-circle-sections {
     pointer-events: none;
+  }
+
+  /* ===== Phase 1 Features ===== */
+
+  /* Pulse Animation */
+  .circle.pulse-animation {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(128, 128, 128, 0.4);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 8px rgba(128, 128, 128, 0);
+    }
+  }
+
+  /* Compact Mode */
+  .card-content.compact-mode {
+    --size-circle-entity: 65px;
+    --mdc-icon-size: 20px;
+  }
+
+  .card-content.compact-mode .circle {
+    width: 65px;
+    height: 65px;
+    font-size: 10px;
+    line-height: 10px;
+  }
+
+  .card-content.compact-mode .circle-container.solar,
+  .card-content.compact-mode .circle-container.individual-top {
+    height: 110px;
+  }
+
+  .card-content.compact-mode .circle-container.battery {
+    height: 95px;
+  }
+
+  .card-content.compact-mode .label {
+    font-size: 10px;
+  }
+
+  /* Gradient Mode */
+  .card-content.gradient-mode .solar .circle {
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .battery .circle {
+    background: linear-gradient(135deg, rgba(240, 98, 146, 0.2) 0%, rgba(240, 98, 146, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .grid .circle {
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
+  }
+
+  .card-content.gradient-mode .home .circle {
+    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%);
   }
 `;

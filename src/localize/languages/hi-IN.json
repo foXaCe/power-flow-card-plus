@@ -75,6 +75,10 @@
     "grey_color": "धूसर रंग",
     "tap_action": "टैप क्रिया",
     "navigation_path": "नेविगेशन पथ",
-    "sort_individual_devices": "व्यक्तिगत डिवाइस क्रमबद्ध करें"
+    "sort_individual_devices": "व्यक्तिगत डिवाइस क्रमबद्ध करें",
+    "circle_pulse_animation": "Circle Pulse Animation",
+    "circle_border_width": "Circle Border Width",
+    "compact_mode": "Compact Mode",
+    "circle_gradient_mode": "Circle Gradient Mode"
   }
 }
