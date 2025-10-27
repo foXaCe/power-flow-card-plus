@@ -8,9 +8,13 @@ import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
 import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
-export const flowGridToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { grid, newDur }: Flows) => {
+export const flowGridToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { grid, newDur, cardWidth, cardHeight }: Flows) => {
   const customStyles = getArrowStyles("grid_to_home", config);
   const customTransform = getArrowTransform("grid_to_home", config);
+  
+  // Get card dimensions (fallback to 400 if not available)
+  const width = cardWidth || 400;
+  const height = cardHeight || 400;
 
   // Calculate dynamic positions from DOM
   const gridPos = calculateCirclePosition('grid', config, main.shadowRoot);
@@ -20,7 +24,7 @@ export const flowGridToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlu
   return grid.has && showLine(config, grid.state.fromGrid) && !config.entities.home?.hide
     ? html`<svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 400 400"
+        viewBox="0 0 ${width} ${height}"
         preserveAspectRatio="none"
         id="grid-home-flow"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"

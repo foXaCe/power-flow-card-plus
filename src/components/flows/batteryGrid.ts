@@ -12,9 +12,13 @@ import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCir
 
 type FlowBatteryGridFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
-export const flowBatteryGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryGridFlows) => {
+export const flowBatteryGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur, cardWidth, cardHeight }: FlowBatteryGridFlows) => {
   const customStyles = getArrowStyles("grid_to_battery", config);
   const customTransform = getArrowTransform("grid_to_battery", config);
+  
+  // Get card dimensions (fallback to 400 if not available)
+  const width = cardWidth || 400;
+  const height = cardHeight || 400;
 
   // Calculate dynamic positions from DOM
   const batteryPos = calculateCirclePosition('battery', config, main.shadowRoot);
@@ -24,7 +28,7 @@ export const flowBatteryGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPl
   return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0))
     ? html`<svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 400 400"
+        viewBox="0 0 ${width} ${height}"
         preserveAspectRatio="none"
         id="battery-grid-flow"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"

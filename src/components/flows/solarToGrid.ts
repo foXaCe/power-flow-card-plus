@@ -10,9 +10,13 @@ import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
 import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
-export const flowSolarToGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur }: Flows) => {
+export const flowSolarToGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur, cardWidth, cardHeight }: Flows) => {
   const customStyles = getArrowStyles("solar_to_grid", config);
   const customTransform = getArrowTransform("solar_to_grid", config);
+  
+  // Get card dimensions (fallback to 400 if not available)
+  const width = cardWidth || 400;
+  const height = cardHeight || 400;
 
   // Calculate dynamic positions from DOM
   const solarPos = calculateCirclePosition('solar', config, main.shadowRoot);
@@ -22,7 +26,7 @@ export const flowSolarToGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPl
   return grid.hasReturnToGrid && solar.has && showLine(config, solar.state.toGrid || 0)
     ? html`<svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 400 400"
+        viewBox="0 0 ${width} ${height}"
         preserveAspectRatio="none"
         id="solar-grid-flow"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"

@@ -12,9 +12,13 @@ import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCir
 
 type FlowSolarToBatteryFlows = Pick<Flows, Exclude<keyof Flows, "grid">>;
 
-export const flowSolarToBattery = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, solar, newDur }: FlowSolarToBatteryFlows) => {
+export const flowSolarToBattery = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, solar, newDur, cardWidth, cardHeight }: FlowSolarToBatteryFlows) => {
   const customStyles = getArrowStyles("solar_to_battery", config);
   const customTransform = getArrowTransform("solar_to_battery", config);
+
+  // Get card dimensions (fallback to 400 if not available)
+  const width = cardWidth || 400;
+  const height = cardHeight || 400;
 
   // Calculate dynamic positions from DOM
   const solarPos = calculateCirclePosition('solar', config, main.shadowRoot);
@@ -24,7 +28,7 @@ export const flowSolarToBattery = (main: PowerFlowCardPlus, config: PowerFlowCar
   return battery.has && solar.has && showLine(config, solar.state.toBattery || 0)
     ? html`<svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 400 400"
+        viewBox="0 0 ${width} ${height}"
         preserveAspectRatio="none"
         id="solar-battery-flow"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"

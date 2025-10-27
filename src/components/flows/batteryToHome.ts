@@ -12,9 +12,13 @@ import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCir
 
 type FlowBatteryToHomeFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
-export const flowBatteryToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryToHomeFlows) => {
+export const flowBatteryToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur, cardWidth, cardHeight }: FlowBatteryToHomeFlows) => {
   const customStyles = getArrowStyles("battery_to_home", config);
   const customTransform = getArrowTransform("battery_to_home", config);
+  
+  // Get card dimensions (fallback to 400 if not available)
+  const width = cardWidth || 400;
+  const height = cardHeight || 400;
 
   // Calculate dynamic positions from DOM
   const batteryPos = calculateCirclePosition('battery', config, main.shadowRoot);
@@ -24,7 +28,7 @@ export const flowBatteryToHome = (main: PowerFlowCardPlus, config: PowerFlowCard
   return battery.has && showLine(config, battery.state.toHome) && !config.entities.home?.hide
     ? html`<svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 400 400"
+        viewBox="0 0 ${width} ${height}"
         preserveAspectRatio="none"
         id="battery-home-flow"
         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"

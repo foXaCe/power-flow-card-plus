@@ -16,15 +16,17 @@ export interface Flows {
   individual: IndividualObject[];
   solar: any;
   newDur: NewDur;
+  cardWidth?: number;
+  cardHeight?: number;
 }
 
-export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur }: Flows) => {
+export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur, cardWidth, cardHeight }: Flows) => {
   return html`
-  ${flowSolarToHome(main, config, { battery, grid, individual, solar, newDur })}
-  ${flowSolarToGrid(main, config, { battery, grid, individual, solar, newDur })}
-  ${flowSolarToBattery(main, config, { battery, individual, solar, newDur })}
-  ${flowGridToHome(main, config, { battery, grid, individual, solar, newDur })}
-  ${flowBatteryToHome(main, config, { battery, grid, individual, newDur })}
-  ${flowBatteryGrid(main, config, { battery, grid, individual, newDur })}
+  ${flowSolarToHome(main, config, { battery, grid, individual, solar, newDur, cardWidth, cardHeight })}
+  ${flowSolarToGrid(main, config, { battery, grid, individual, solar, newDur, cardWidth, cardHeight })}
+  ${flowSolarToBattery(main, config, { battery, individual, solar, newDur, cardWidth, cardHeight })}
+  ${flowGridToHome(main, config, { battery, grid, individual, solar, newDur, cardWidth, cardHeight })}
+  ${flowBatteryToHome(main, config, { battery, grid, individual, newDur, cardWidth, cardHeight })}
+  ${flowBatteryGrid(main, config, { battery, grid, individual, newDur, cardWidth, cardHeight })}
 </div>`;
 };
