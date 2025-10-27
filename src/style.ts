@@ -79,6 +79,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1; /* Au-dessus des lignes (z-index: 0) */
   }
 
   /* Positions par défaut de chaque cercle */
@@ -755,11 +756,17 @@ export const styles = css`
   }
 
   /* Edit Mode */
-  .edit-mode-toggle {
+  .edit-buttons-container {
     position: absolute;
     bottom: 8px;
     right: 8px;
     z-index: 5;
+    display: flex;
+    gap: 8px;
+  }
+
+  .edit-mode-toggle,
+  .reset-positions-button {
     padding: 6px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -775,9 +782,19 @@ export const styles = css`
     transition: all 0.2s;
   }
 
-  .edit-mode-toggle:hover {
+  .edit-mode-toggle:hover,
+  .reset-positions-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
+  }
+
+  .reset-positions-button {
+    background: rgba(255, 100, 100, 0.2);
+    border: 1px solid rgba(255, 100, 100, 0.5);
+  }
+
+  .reset-positions-button:hover {
+    background: rgba(255, 100, 100, 0.3);
   }
 
   .card-content.edit-mode {

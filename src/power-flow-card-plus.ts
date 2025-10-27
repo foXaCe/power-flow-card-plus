@@ -616,15 +616,24 @@ export class PowerFlowCardPlus extends LitElement {
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
-          <button
-            class="edit-mode-toggle"
-            @click=${this._toggleEditMode}
-            title="${this._editMode ? 'Quitter le mode édition' : 'Activer le mode édition'}"
-          >
-            ${this._editMode
-              ? html`<ha-icon icon="mdi:check"></ha-icon>`
-              : html`<ha-icon icon="mdi:pen"></ha-icon>`}
-          </button>
+          <div class="edit-buttons-container">
+            <button
+              class="edit-mode-toggle"
+              @click=${this._toggleEditMode}
+              title="${this._editMode ? 'Quitter le mode édition' : 'Activer le mode édition'}"
+            >
+              ${this._editMode
+                ? html`<ha-icon icon="mdi:check"></ha-icon>`
+                : html`<ha-icon icon="mdi:pen"></ha-icon>`}
+            </button>
+            <button
+              class="reset-positions-button"
+              @click=${this._resetPositions}
+              title="Réinitialiser les positions"
+            >
+              <ha-icon icon="mdi:restore"></ha-icon>
+            </button>
+          </div>
           ${solar.has
             ? solarElement(this, this._config, {
                 entities,
@@ -966,6 +975,18 @@ export class PowerFlowCardPlus extends LitElement {
     document.removeEventListener('mouseup', upHandler);
     document.removeEventListener('touchend', upHandler);
     this._draggedElement = null;
+
+    // Sauvegarder automatiquement la configuration
+    this._saveConfig();
+  }
+
+  private _resetPositions() {
+    // Supprimer toutes les positions personnalisées
+    const newConfig = JSON.parse(JSON.stringify(this._config));
+    newConfig.custom_positions = {};
+    this._config = newConfig;
+    this._saveConfig();
+    this.requestUpdate();
   }
 
   private _saveConfig() {
