@@ -854,6 +854,56 @@ export class PowerFlowCardPlus extends LitElement {
     document.addEventListener('touchend', upHandler);
   }
 
+  private _checkCollisionAndResolve(
+    left: number,
+    top: number,
+    draggedElement: string,
+    CIRCLE_RADIUS: number
+  ): { left: number; top: number } {
+    // Liste de tous les cercles possibles
+    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily-export', 'daily-cost'];
+    const otherCircles = allCircles.filter(c => c !== draggedElement);
+
+    // Centre du cercle draggé
+    const draggedCenterX = left + CIRCLE_RADIUS;
+    const draggedCenterY = top + CIRCLE_RADIUS;
+
+    for (const circleName of otherCircles) {
+      const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${circleName}`) as HTMLElement;
+      if (!otherCircle || !otherCircle.offsetParent) continue;
+
+      // Position de l'autre cercle
+      const otherLeft = otherCircle.offsetLeft;
+      const otherTop = otherCircle.offsetTop;
+      const otherCenterX = otherLeft + CIRCLE_RADIUS;
+      const otherCenterY = otherTop + CIRCLE_RADIUS;
+
+      // Calculer la distance entre les centres
+      const dx = draggedCenterX - otherCenterX;
+      const dy = draggedCenterY - otherCenterY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Si les cercles se chevauchent (distance < 2 * rayon)
+      const minDistance = CIRCLE_RADIUS * 2;
+      if (distance < minDistance && distance > 0) {
+        // Calculer le vecteur de répulsion
+        const overlap = minDistance - distance;
+        const pushX = (dx / distance) * overlap;
+        const pushY = (dy / distance) * overlap;
+
+        // Déplacer le cercle draggé pour éviter le chevauchement
+        left += pushX;
+        top += pushY;
+
+        // Recalculer le centre après déplacement
+        const newCenterX = left + CIRCLE_RADIUS;
+        const newCenterY = top + CIRCLE_RADIUS;
+      }
+    }
+
+    return { left: Math.round(left), top: Math.round(top) };
+  }
+
   private _onDragMove(e: MouseEvent | TouchEvent) {
     if (!this._draggedElement || !this._editMode) return;
 
@@ -881,6 +931,15 @@ export class PowerFlowCardPlus extends LitElement {
     let top = Math.round(y - CIRCLE_RADIUS);
 
     // Appliquer les limites pour que le cercle reste entièrement visible
+    left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
+    top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
+
+    // Vérifier les collisions et ajuster la position
+    const resolved = this._checkCollisionAndResolve(left, top, this._draggedElement, CIRCLE_RADIUS);
+    left = resolved.left;
+    top = resolved.top;
+
+    // Re-appliquer les limites après résolution de collision
     left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
     top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
 
