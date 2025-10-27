@@ -66,6 +66,7 @@ export class PowerFlowCardPlus extends LitElement {
   @state() private _width = 0;
   @state() private _editMode = false;
   @state() private _draggedElement: string | null = null;
+  @state() private _hasDragged = false;
 
   @query("#battery-grid-flow") batteryGridFlow?: SVGSVGElement;
   @query("#battery-home-flow") batteryToHomeFlow?: SVGSVGElement;
@@ -130,6 +131,12 @@ export class PowerFlowCardPlus extends LitElement {
     entityId?: string | undefined
   ): void {
     event.stopPropagation();
+
+    // Ne pas ouvrir les détails si un drag vient de se terminer
+    if (this._hasDragged) {
+      this._hasDragged = false;
+      return;
+    }
 
     if (!config) {
       if (!entityId || !this._config.clickable_entities) return;
@@ -835,6 +842,7 @@ export class PowerFlowCardPlus extends LitElement {
 
     e.preventDefault();
     this._draggedElement = element;
+    this._hasDragged = false; // Reset au début du drag
 
     const moveHandler = (e: MouseEvent | TouchEvent) => this._onDragMove(e);
     const upHandler = () => this._onDragEnd(moveHandler, upHandler);
@@ -850,6 +858,7 @@ export class PowerFlowCardPlus extends LitElement {
 
     e.preventDefault();
     e.stopPropagation();
+    this._hasDragged = true; // Marquer qu'un drag a eu lieu
 
     const card = this.shadowRoot?.querySelector('#power-flow-card-plus');
     if (!card) return;
