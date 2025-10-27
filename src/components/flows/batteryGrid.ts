@@ -7,6 +7,7 @@ import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
 type FlowBatteryGridFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
@@ -14,26 +15,30 @@ export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid
   const customStyles = getArrowStyles("grid_to_battery", config);
   const customTransform = getArrowTransform("grid_to_battery", config);
 
+  // Calculate dynamic positions
+  const batteryPos = calculateCirclePosition('battery', config);
+  const gridPos = calculateCirclePosition('grid', config);
+  const linePath = calculateLinePath(batteryPos, gridPos, 'straight');
+
   return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0))
-    ? html`<div
-        class="lines ${classMap({
-          high: battery.has || checkHasBottomIndividual(individual),
-          "individual1-individual2": !battery.has && individual.every((i) => i?.has),
-          "multi-individual": checkHasRightIndividual(individual),
-        })}"
+    ? html`<svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 400 400"
+        preserveAspectRatio="none"
+        id="battery-grid-flow"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"
       >
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" id="battery-grid-flow">
-          <path
-            id="battery-grid"
-            class=${styleLine(battery.state.toGrid || grid.state.toBattery || 0, config)}
-            d="M45,100 v-15 c0,-30 -10,-30 -30,-30 h-20"
-            vector-effect="non-scaling-stroke"
-            style="${customStyles}"
-            transform="${customTransform}"
-          ></path>
-          ${checkShouldShowDots(config) && grid.state.toBattery
-            ? svg`<circle
-          r="1"
+        <path
+          id="battery-grid"
+          class=${styleLine(battery.state.toGrid || grid.state.toBattery || 0, config)}
+          d="${linePath}"
+          vector-effect="non-scaling-stroke"
+          style="${customStyles}"
+          transform="${customTransform}"
+        ></path>
+        ${checkShouldShowDots(config) && grid.state.toBattery
+          ? svg`<circle
+          r="3"
           class="battery-from-grid"
           vector-effect="non-scaling-stroke"
         >
@@ -46,10 +51,10 @@ export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid
             <mpath xlink:href="#battery-grid" />
           </animateMotion>
         </circle>`
-            : ""}
-          ${checkShouldShowDots(config) && battery.state.toGrid
-            ? svg`<circle
-              r="1"
+          : ""}
+        ${checkShouldShowDots(config) && battery.state.toGrid
+          ? svg`<circle
+              r="3"
               class="battery-to-grid"
               vector-effect="non-scaling-stroke"
             >
@@ -61,8 +66,7 @@ export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid
                 <mpath xlink:href="#battery-grid" />
               </animateMotion>
             </circle>`
-            : ""}
-        </svg>
-      </div>`
+          : ""}
+      </svg>`
     : "";
 };

@@ -7,44 +7,48 @@ import { type Flows } from "./index";
 import { checkHasBottomIndividual, checkHasRightIndividual } from "@/utils/computeIndividualPosition";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
 export const flowSolarToGrid = (config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur }: Flows) => {
   const customStyles = getArrowStyles("solar_to_grid", config);
   const customTransform = getArrowTransform("solar_to_grid", config);
 
+  // Calculate dynamic positions
+  const solarPos = calculateCirclePosition('solar', config);
+  const gridPos = calculateCirclePosition('grid', config);
+  const linePath = calculateLinePath(solarPos, gridPos, 'straight');
+
   return grid.hasReturnToGrid && solar.has && showLine(config, solar.state.toGrid || 0)
-    ? html`<div
-        class="lines ${classMap({
-          high: battery.has || checkHasBottomIndividual(individual),
-          "individual1-individual2": !battery.has && individual.every((i) => i?.has),
-          "multi-individual": checkHasRightIndividual(individual),
-        })}"
+    ? html`<svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 400 400"
+        preserveAspectRatio="none"
+        id="solar-grid-flow"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"
       >
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" id="solar-grid-flow">
-          <path
-            id="return"
-            class="return ${styleLine(solar.state.toGrid || 0, config)}"
-            d="M${battery.has ? 45 : 47},0 v15 c0,${battery.has ? "30 -10,30 -30,30" : "35 -10,35 -30,35"} h-20"
-            vector-effect="non-scaling-stroke"
-            style="${customStyles}"
-            transform="${customTransform}"
-          ></path>
-          ${checkShouldShowDots(config) && solar.state.toGrid && solar.has
-            ? svg`<circle
-                r="1"
-                class="return"
-                vector-effect="non-scaling-stroke"
+        <path
+          id="return"
+          class="return ${styleLine(solar.state.toGrid || 0, config)}"
+          d="${linePath}"
+          vector-effect="non-scaling-stroke"
+          style="${customStyles}"
+          transform="${customTransform}"
+        ></path>
+        ${checkShouldShowDots(config) && solar.state.toGrid && solar.has
+          ? svg`<circle
+              r="3"
+              class="return"
+              vector-effect="non-scaling-stroke"
+            >
+              <animateMotion
+                dur="${newDur.solarToGrid}s"
+                repeatCount="indefinite"
+                calcMode="linear"
               >
-                <animateMotion
-                  dur="${newDur.solarToGrid}s"
-                  repeatCount="indefinite"
-                  calcMode="linear"
-                >
-                  <mpath xlink:href="#return" />
-                </animateMotion>
-              </circle>`
-            : ""}
-        </svg>
-      </div>`
+                <mpath xlink:href="#return" />
+              </animateMotion>
+            </circle>`
+          : ""}
+      </svg>`
     : "";
 };

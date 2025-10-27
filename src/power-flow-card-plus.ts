@@ -866,6 +866,19 @@ export class PowerFlowCardPlus extends LitElement {
     const x = clientX - rect.left;
     const y = clientY - rect.top;
 
+    // Constantes pour les limites
+    const CIRCLE_RADIUS = 40; // Rayon du cercle (moitié du diamètre de 80px)
+    const CARD_WIDTH = rect.width;
+    const CARD_HEIGHT = rect.height;
+
+    // Calculer la position avec contraintes pour rester dans la carte
+    let left = Math.round(x - CIRCLE_RADIUS);
+    let top = Math.round(y - CIRCLE_RADIUS);
+
+    // Appliquer les limites pour que le cercle reste entièrement visible
+    left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
+    top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
+
     // Créer une copie profonde de la config
     const newConfig = JSON.parse(JSON.stringify(this._config));
 
@@ -874,8 +887,8 @@ export class PowerFlowCardPlus extends LitElement {
     }
 
     newConfig.custom_positions[this._draggedElement] = {
-      left: Math.round(x - 40), // 40 = moitié de la largeur du cercle
-      top: Math.round(y - 40),
+      left: left,
+      top: top,
     };
 
     this._config = newConfig;
