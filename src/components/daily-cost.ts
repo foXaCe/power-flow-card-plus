@@ -15,15 +15,15 @@ export const dailyCostElement = (
   const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
   const displayUnit = dailyCost.unit?.split('/')[0] ?? "€";
 
-  const customStyle = _config.custom_positions?.['daily-cost']
-    ? `top: ${_config.custom_positions['daily-cost'].top}px; left: ${_config.custom_positions['daily-cost'].left}px; bottom: auto; right: auto; transform: none;`
+  const customStyle = _config.custom_positions?.daily_cost
+    ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
     : "";
 
   return html`<div
       class="circle-container daily-cost"
       style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily-cost')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily-cost')}
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily_cost')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily_cost')}
     >
     <span class="label">${dailyCost.name}</span>
     <div

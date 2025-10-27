@@ -14,15 +14,15 @@ export const dailyExportElement = (
   const displayRevenue = dailyExport.totalRevenue?.toFixed(dailyExport.decimals ?? 2) ?? "0.00";
   const displayUnit = "€";
 
-  const customStyle = _config.custom_positions?.['daily-export']
-    ? `top: ${_config.custom_positions['daily-export'].top}px; left: ${_config.custom_positions['daily-export'].left}px; bottom: auto; right: auto; transform: none;`
+  const customStyle = _config.custom_positions?.daily_export
+    ? `top: ${_config.custom_positions.daily_export.top}px; left: ${_config.custom_positions.daily_export.left}px; bottom: auto; right: auto; transform: none;`
     : "";
 
   return html`<div
       class="circle-container daily-export"
       style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily-export')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily-export')}
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily_export')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily_export')}
     >
     <span class="label">${dailyExport.name}</span>
     <div

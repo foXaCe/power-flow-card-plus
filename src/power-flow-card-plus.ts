@@ -102,6 +102,8 @@ export class PowerFlowCardPlus extends LitElement {
   public connectedCallback() {
     super.connectedCallback();
     this._tryConnectAll();
+    // Charger les positions depuis localStorage (config par appareil)
+    this._loadFromLocalStorage();
   }
 
   public disconnectedCallback() {
@@ -972,8 +974,8 @@ export class PowerFlowCardPlus extends LitElement {
     document.removeEventListener('touchend', upHandler);
     this._draggedElement = null;
 
-    // Sauvegarder automatiquement la configuration
-    this._saveConfig();
+    // Sauvegarder dans localStorage (config par appareil)
+    this._saveToLocalStorage();
   }
 
   private _resetPositions() {
@@ -981,8 +983,35 @@ export class PowerFlowCardPlus extends LitElement {
     const newConfig = JSON.parse(JSON.stringify(this._config));
     newConfig.custom_positions = {};
     this._config = newConfig;
-    this._saveConfig();
+
+    // Supprimer aussi du localStorage
+    localStorage.removeItem('power-flow-card-plus-positions');
+
     this.requestUpdate();
+  }
+
+  private _saveToLocalStorage() {
+    // Sauvegarder les positions dans localStorage pour config par appareil
+    if (this._config.custom_positions) {
+      localStorage.setItem('power-flow-card-plus-positions', JSON.stringify(this._config.custom_positions));
+    }
+  }
+
+  private _loadFromLocalStorage() {
+    // Charger les positions depuis localStorage
+    const saved = localStorage.getItem('power-flow-card-plus-positions');
+    if (saved) {
+      try {
+        const positions = JSON.parse(saved);
+        if (!this._config.custom_positions) {
+          this._config.custom_positions = {};
+        }
+        // Fusionner les positions sauvegardées
+        this._config.custom_positions = { ...this._config.custom_positions, ...positions };
+      } catch (e) {
+        console.error('Error loading positions from localStorage:', e);
+      }
+    }
   }
 
   private _saveConfig() {
