@@ -17,7 +17,7 @@ export const gridElement = (
 
   // Apply custom position if configured (override defaults)
   const customStyle = config.custom_positions?.grid
-    ? `${config.custom_positions.grid.top !== undefined ? `top: ${config.custom_positions.grid.top}px !important;` : ""} ${config.custom_positions.grid.left !== undefined ? `left: ${config.custom_positions.grid.left}px !important;` : ""}`
+    ? `top: ${config.custom_positions.grid.top}px !important; left: ${config.custom_positions.grid.left}px !important; bottom: auto; right: auto; transform: none;`
     : "";
 
   return html`<div

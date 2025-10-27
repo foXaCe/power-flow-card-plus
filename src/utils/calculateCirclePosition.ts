@@ -18,31 +18,46 @@ export function calculateCirclePosition(
   let x: number;
   let y: number;
 
-  // Calculate position based on circle type and custom positions
-  switch (circleType) {
-    case 'solar':
-      x = customPos?.left !== undefined ? customPos.left + CIRCLE_RADIUS : CARD_WIDTH / 2;
-      y = customPos?.top !== undefined ? customPos.top + CIRCLE_RADIUS : 20 + CIRCLE_RADIUS;
-      break;
+  // Si custom position existe, l'utiliser directement (déjà calculée sans transform)
+  if (customPos?.left !== undefined && customPos?.top !== undefined) {
+    x = customPos.left + CIRCLE_RADIUS;
+    y = customPos.top + CIRCLE_RADIUS;
+  } else {
+    // Sinon, utiliser les positions par défaut du CSS qui correspondent aux positions visuelles
+    // Les positions CSS sont définies dans style.ts avec les transforms
+    switch (circleType) {
+      case 'solar':
+        // CSS: top: 20px, left: 50%, transform: translateX(-50%)
+        // Position finale: left = 50% - 40px = 200px - 40px = 160px, top = 20px
+        x = CARD_WIDTH / 2;
+        y = 20 + CIRCLE_RADIUS;
+        break;
 
-    case 'battery':
-      x = customPos?.left !== undefined ? customPos.left + CIRCLE_RADIUS : CARD_WIDTH / 2;
-      y = customPos?.top !== undefined ? customPos.top + CIRCLE_RADIUS : CARD_HEIGHT - 20 - CIRCLE_RADIUS;
-      break;
+      case 'battery':
+        // CSS: bottom: 20px, left: 50%, transform: translateX(-50%)
+        // Position finale: left = 50% - 40px = 160px, bottom = 20px → top = 400 - 20 - 80 = 300px
+        x = CARD_WIDTH / 2;
+        y = CARD_HEIGHT - 20 - CIRCLE_RADIUS;
+        break;
 
-    case 'grid':
-      x = customPos?.left !== undefined ? customPos.left + CIRCLE_RADIUS : 20 + CIRCLE_RADIUS;
-      y = customPos?.top !== undefined ? customPos.top + CIRCLE_RADIUS : CARD_HEIGHT / 2;
-      break;
+      case 'grid':
+        // CSS: top: 50%, left: 20px, transform: translateY(-50%)
+        // Position finale: left = 20px, top = 50% - 40px = 200px - 40px = 160px
+        x = 20 + CIRCLE_RADIUS;
+        y = CARD_HEIGHT / 2;
+        break;
 
-    case 'home':
-      x = customPos?.left !== undefined ? customPos.left + CIRCLE_RADIUS : CARD_WIDTH - 20 - CIRCLE_RADIUS;
-      y = customPos?.top !== undefined ? customPos.top + CIRCLE_RADIUS : CARD_HEIGHT / 2;
-      break;
+      case 'home':
+        // CSS: top: 50%, right: 20px, transform: translateY(-50%)
+        // Position finale: right = 20px → left = 400 - 20 - 80 = 300px, top = 50% - 40px = 160px
+        x = CARD_WIDTH - 20 - CIRCLE_RADIUS;
+        y = CARD_HEIGHT / 2;
+        break;
 
-    default:
-      x = CARD_WIDTH / 2;
-      y = CARD_HEIGHT / 2;
+      default:
+        x = CARD_WIDTH / 2;
+        y = CARD_HEIGHT / 2;
+    }
   }
 
   return { x, y };

@@ -44,7 +44,7 @@ export const homeElement = (
 
   // Apply custom position if configured
   const customStyle = config.custom_positions?.home
-    ? `${config.custom_positions.home.top !== undefined ? `top: ${config.custom_positions.home.top}px;` : ""} ${config.custom_positions.home.left !== undefined ? `left: ${config.custom_positions.home.left}px;` : ""}`
+    ? `top: ${config.custom_positions.home.top}px; left: ${config.custom_positions.home.left}px; bottom: auto; right: auto; transform: none;`
     : "";
 
   return html`<div
