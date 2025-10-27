@@ -759,7 +759,7 @@ export const styles = css`
     position: absolute;
     bottom: 8px;
     right: 8px;
-    z-index: 1000;
+    z-index: 5;
     padding: 6px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
