@@ -21,20 +21,17 @@ export function calculateCirclePosition(
   // Si on a accès au shadowRoot, lire la position réelle du DOM
   if (shadowRoot) {
     const element = shadowRoot.querySelector(`.circle-container.${circleType}`) as HTMLElement;
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const cardElement = shadowRoot.querySelector('#power-flow-card-plus');
-      if (cardElement) {
-        const cardRect = cardElement.getBoundingClientRect();
-        // Calculer la position relative à la carte
-        const relativeLeft = rect.left - cardRect.left;
-        const relativeTop = rect.top - cardRect.top;
-        // Le centre du cercle
-        return {
-          x: relativeLeft + CIRCLE_RADIUS,
-          y: relativeTop + CIRCLE_RADIUS
-        };
-      }
+    if (element && element.offsetParent) {
+      // Utiliser offsetLeft/offsetTop qui sont relatifs au parent positionné
+      // Le parent est #power-flow-card-plus qui a position: relative
+      const left = element.offsetLeft;
+      const top = element.offsetTop;
+
+      // Le centre du cercle (les cercles font 80px de diamètre)
+      return {
+        x: left + CIRCLE_RADIUS,
+        y: top + CIRCLE_RADIUS
+      };
     }
   }
 
