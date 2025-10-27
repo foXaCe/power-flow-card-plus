@@ -1,5 +1,6 @@
 import { classMap } from "lit/directives/class-map.js";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
+import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { showLine } from "@/utils/showLine";
 import { html, svg } from "lit";
 import { styleLine } from "@/utils/styleLine";
@@ -11,13 +12,13 @@ import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCir
 
 type FlowBatteryGridFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
-export const flowBatteryGrid = (config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryGridFlows) => {
+export const flowBatteryGrid = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryGridFlows) => {
   const customStyles = getArrowStyles("grid_to_battery", config);
   const customTransform = getArrowTransform("grid_to_battery", config);
 
-  // Calculate dynamic positions
-  const batteryPos = calculateCirclePosition('battery', config);
-  const gridPos = calculateCirclePosition('grid', config);
+  // Calculate dynamic positions from DOM
+  const batteryPos = calculateCirclePosition('battery', config, main.shadowRoot);
+  const gridPos = calculateCirclePosition('grid', config, main.shadowRoot);
   const linePath = calculateLinePath(batteryPos, gridPos, 'straight');
 
   return grid.has && battery.has && showLine(config, Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0))

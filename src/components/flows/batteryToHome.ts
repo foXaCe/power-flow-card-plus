@@ -1,5 +1,6 @@
 import { classMap } from "lit/directives/class-map.js";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
+import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { showLine } from "@/utils/showLine";
 import { html, svg } from "lit";
 import { styleLine } from "@/utils/styleLine";
@@ -11,13 +12,13 @@ import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCir
 
 type FlowBatteryToHomeFlows = Pick<Flows, Exclude<keyof Flows, "solar">>;
 
-export const flowBatteryToHome = (config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryToHomeFlows) => {
+export const flowBatteryToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, newDur }: FlowBatteryToHomeFlows) => {
   const customStyles = getArrowStyles("battery_to_home", config);
   const customTransform = getArrowTransform("battery_to_home", config);
 
-  // Calculate dynamic positions
-  const batteryPos = calculateCirclePosition('battery', config);
-  const homePos = calculateCirclePosition('home', config);
+  // Calculate dynamic positions from DOM
+  const batteryPos = calculateCirclePosition('battery', config, main.shadowRoot);
+  const homePos = calculateCirclePosition('home', config, main.shadowRoot);
   const linePath = calculateLinePath(batteryPos, homePos, 'straight');
 
   return battery.has && showLine(config, battery.state.toHome) && !config.entities.home?.hide

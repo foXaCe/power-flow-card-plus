@@ -656,7 +656,7 @@ export class PowerFlowCardPlus extends LitElement {
                 ${dailyCostElement(this, this._config, { dailyCost })}
               </div>`
             : ""}
-          ${flowElement(this._config, {
+          ${flowElement(this, this._config, {
             battery,
             grid,
             individual: individualObjs,

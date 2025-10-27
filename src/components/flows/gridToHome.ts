@@ -1,4 +1,5 @@
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
+import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { showLine } from "@/utils/showLine";
 import { html, svg } from "lit";
 import { styleLine } from "@/utils/styleLine";
@@ -7,13 +8,13 @@ import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
 import { calculateCirclePosition, calculateLinePath } from "@/utils/calculateCirclePosition";
 
-export const flowGridToHome = (config: PowerFlowCardPlusConfig, { grid, newDur }: Flows) => {
+export const flowGridToHome = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { grid, newDur }: Flows) => {
   const customStyles = getArrowStyles("grid_to_home", config);
   const customTransform = getArrowTransform("grid_to_home", config);
 
-  // Calculate dynamic positions
-  const gridPos = calculateCirclePosition('grid', config);
-  const homePos = calculateCirclePosition('home', config);
+  // Calculate dynamic positions from DOM
+  const gridPos = calculateCirclePosition('grid', config, main.shadowRoot);
+  const homePos = calculateCirclePosition('home', config, main.shadowRoot);
   const linePath = calculateLinePath(gridPos, homePos, 'straight');
 
   return grid.has && showLine(config, grid.state.fromGrid) && !config.entities.home?.hide
