@@ -16,8 +16,11 @@ export interface Flows {
   newDur: NewDur;
 }
 
+// Rayon du cercle (80px de diamètre = 40px de rayon)
+const CIRCLE_RADIUS = 40;
+
 // Fonction pour obtenir le centre d'un cercle depuis le DOM
-function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { x: number; y: number } | null {
+function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { x: number; y: number; radius: number } | null {
   if (!shadowRoot) return null;
 
   const container = shadowRoot.querySelector('.card-content') as HTMLElement;
@@ -32,7 +35,33 @@ function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { 
   const x = circleRect.left - containerRect.left + (circleRect.width / 2);
   const y = circleRect.top - containerRect.top + (circleRect.height / 2);
 
-  return { x, y };
+  return { x, y, radius: CIRCLE_RADIUS };
+}
+
+// Calcule le point d'intersection entre une ligne et un cercle
+function getCircleEdgePoint(
+  centerX: number,
+  centerY: number,
+  radius: number,
+  targetX: number,
+  targetY: number
+): { x: number; y: number } {
+  // Vecteur du centre vers la cible
+  const dx = targetX - centerX;
+  const dy = targetY - centerY;
+
+  // Distance du centre à la cible
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  // Si la distance est 0, retourner le centre
+  if (distance === 0) return { x: centerX, y: centerY };
+
+  // Point sur le bord du cercle dans la direction de la cible
+  const ratio = radius / distance;
+  return {
+    x: centerX + dx * ratio,
+    y: centerY + dy * ratio
+  };
 }
 
 // Fonction pour créer une ligne entre deux cercles
@@ -51,10 +80,14 @@ function createLine(
 ) {
   if (!showLine(config, power)) return html``;
 
-  const from = getCircleCenter(main.shadowRoot, fromCircle);
-  const to = getCircleCenter(main.shadowRoot, toCircle);
+  const fromCenter = getCircleCenter(main.shadowRoot, fromCircle);
+  const toCenter = getCircleCenter(main.shadowRoot, toCircle);
 
-  if (!from || !to) return html``;
+  if (!fromCenter || !toCenter) return html``;
+
+  // Calculer les points sur les bords des cercles
+  const fromEdge = getCircleEdgePoint(fromCenter.x, fromCenter.y, fromCenter.radius, toCenter.x, toCenter.y);
+  const toEdge = getCircleEdgePoint(toCenter.x, toCenter.y, toCenter.radius, fromCenter.x, fromCenter.y);
 
   const customStyles = getArrowStyles(arrowKey as any, config);
   const customTransform = getArrowTransform(arrowKey as any, config);
@@ -63,10 +96,10 @@ function createLine(
     <line
       id="${lineId}"
       class="${lineClass} ${styleLine(power, config)}"
-      x1="${from.x}"
-      y1="${from.y}"
-      x2="${to.x}"
-      y2="${to.y}"
+      x1="${fromEdge.x}"
+      y1="${fromEdge.y}"
+      x2="${toEdge.x}"
+      y2="${toEdge.y}"
       vector-effect="non-scaling-stroke"
       style="${customStyles}"
       transform="${customTransform}"
