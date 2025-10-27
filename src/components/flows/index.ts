@@ -14,6 +14,7 @@ export interface Flows {
   individual: IndividualObject[];
   solar: any;
   newDur: NewDur;
+  dailyExport?: { enabled: boolean; energy: number };
 }
 
 // Rayon du cercle (80px de diamètre = 40px de rayon)
@@ -119,7 +120,7 @@ function createLine(
   `;
 }
 
-export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur }: Flows) => {
+export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur, dailyExport }: Flows) => {
   const container = main.shadowRoot?.querySelector('.card-content') as HTMLElement;
   if (!container) return html``;
 
@@ -140,6 +141,11 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
       ${grid.hasReturnToGrid && solar.has ? createLine(
         main, config, 'solar', 'grid', 'solar-grid', 'return',
         solar.state.toGrid || 0, !!solar.state.toGrid, newDur.solarToGrid, 'solar_to_grid'
+      ) : ''}
+
+      ${dailyExport?.enabled && solar.has ? createLine(
+        main, config, 'solar', 'daily-export', 'solar-daily-export', 'solar',
+        dailyExport.energy || 0, !!(dailyExport.energy), newDur.solarToGrid, 'solar_to_grid'
       ) : ''}
 
       ${battery.has && solar.has ? createLine(
