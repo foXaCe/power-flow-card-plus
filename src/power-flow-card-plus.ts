@@ -338,7 +338,7 @@ export class PowerFlowCardPlus extends LitElement {
     const dailyCost = {
       enabled: this._config.show_daily_cost ?? false,
       entity: this._config.daily_cost_energy_entity,
-      name: "Coût journalier",
+      name: "Coût",
       energy: this._config.daily_cost_energy_entity ? parseFloat(this.hass.states[this._config.daily_cost_energy_entity]?.state || "0") : 0,
       tariff: this._config.cost_entity && grid.cost ? grid.cost.tariff : 0,
       unit: grid.cost?.unit || "€",
@@ -351,7 +351,7 @@ export class PowerFlowCardPlus extends LitElement {
     const dailyExport = {
       enabled: this._config.show_daily_export ?? false,
       entity: this._config.daily_export_energy_entity,
-      name: "Revente journalière",
+      name: "Revente",
       energy: this._config.daily_export_energy_entity ? parseFloat(this.hass.states[this._config.daily_export_energy_entity]?.state || "0") : 0,
       price: this._config.daily_export_price ?? 0,
       decimals: this._config.daily_export_decimals ?? 2,
@@ -670,6 +670,7 @@ export class PowerFlowCardPlus extends LitElement {
             newDur,
             solar,
             dailyExport,
+            dailyCost,
           })}
           ${dailyExport.enabled && solar.has
             ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">
