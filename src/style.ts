@@ -107,6 +107,18 @@ export const styles = css`
     transform: translateX(-50%);
   }
 
+  .circle-container.daily-cost {
+    top: 160px;
+    left: 20px;
+    transform: none;
+  }
+
+  .circle-container.daily-export {
+    top: 20px;
+    right: 120px;
+    transform: none;
+  }
+
   .circle {
     width: 80px;
     height: 80px;
@@ -770,7 +782,7 @@ export const styles = css`
     padding: 6px;
     background: rgba(255, 255, 255, 0.1);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
     font-size: 16px;
@@ -790,7 +802,6 @@ export const styles = css`
 
   .reset-positions-button {
     background: rgba(255, 100, 100, 0.2);
-    border: 1px solid rgba(255, 100, 100, 0.5);
   }
 
   .reset-positions-button:hover {

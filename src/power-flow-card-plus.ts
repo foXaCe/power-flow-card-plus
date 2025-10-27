@@ -668,9 +668,7 @@ export class PowerFlowCardPlus extends LitElement {
             ? batteryElement(this, this._config, { battery, entities })
             : ""}
           ${dailyCost.enabled
-            ? html`<div class="daily-cost-container" style="${this._config.custom_positions?.daily_cost ? `${this._config.custom_positions.daily_cost.top !== undefined ? `top: ${this._config.custom_positions.daily_cost.top}px;` : ""} ${this._config.custom_positions.daily_cost.left !== undefined ? `left: ${this._config.custom_positions.daily_cost.left}px;` : ""}` : ""}">
-                ${dailyCostElement(this, this._config, { dailyCost })}
-              </div>`
+            ? dailyCostElement(this, this._config, { dailyCost })
             : ""}
           ${flowElement(this, this._config, {
             battery,
@@ -682,9 +680,7 @@ export class PowerFlowCardPlus extends LitElement {
             dailyCost,
           })}
           ${dailyExport.enabled && solar.has
-            ? html`<div class="daily-export-floating" style="${this._config.custom_positions?.daily_export ? `${this._config.custom_positions.daily_export.top !== undefined ? `top: ${this._config.custom_positions.daily_export.top}px;` : ""} ${this._config.custom_positions.daily_export.left !== undefined ? `left: ${this._config.custom_positions.daily_export.left}px;` : ""}` : ""}">
-                ${dailyExportElement(this, this._config, { dailyExport })}
-              </div>`
+            ? dailyExportElement(this, this._config, { dailyExport })
             : ""}
         </div>
         ${dashboardLinkElement(this._config, this.hass)}
