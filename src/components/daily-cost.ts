@@ -39,7 +39,7 @@ export const dailyCostElement = (
     const angle = hour * 30 - 90; // -90 pour commencer à 12h en haut
     const isMainHour = hour % 3 === 0; // 12, 3, 6, 9
     const outerRadius = 38;
-    const innerRadius = isMainHour ? 32 : 34; // Plus long pour heures principales
+    const innerRadius = isMainHour ? 32 : 33; // Plus long pour heures principales
 
     const x1 = 40 + outerRadius * Math.cos((angle * Math.PI) / 180);
     const y1 = 40 + outerRadius * Math.sin((angle * Math.PI) / 180);
@@ -52,8 +52,8 @@ export const dailyCostElement = (
       x2="${x2}"
       y2="${y2}"
       stroke="var(--primary-text-color)"
-      stroke-width="${isMainHour ? '2' : '1'}"
-      opacity="0.4"
+      stroke-width="${isMainHour ? '2.5' : '1.5'}"
+      opacity="0.5"
     />`;
   };
 
@@ -80,7 +80,7 @@ export const dailyCostElement = (
         }
       }}
     >
-      <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color);">
+      <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color); position: relative; z-index: 10;">
         ${displayCost} ${displayUnit}
       </span>
       <svg>
