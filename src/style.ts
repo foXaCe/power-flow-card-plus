@@ -259,6 +259,10 @@ export const styles = css`
     max-width: 120px;
   }
 
+  .self-sufficiency .label {
+    max-width: 120px;
+  }
+
   .daily-export .circle {
     cursor: pointer;
     display: flex;
