@@ -121,6 +121,9 @@ function createLine(
       style="${customStyles}"
       transform="${customTransform}"
       fill="none"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      shape-rendering="geometricPrecision"
     />
   `;
 
