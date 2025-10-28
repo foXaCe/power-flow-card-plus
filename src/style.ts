@@ -755,6 +755,57 @@ export const styles = css`
     }
   }
 
+  /* Animations pour les lignes */
+  @keyframes line-pulse {
+    0%, 100% {
+      stroke-opacity: 1;
+      filter: drop-shadow(0 0 0px transparent);
+    }
+    50% {
+      stroke-opacity: 0.7;
+      filter: drop-shadow(0 0 2px currentColor);
+    }
+  }
+
+  @keyframes line-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 2px currentColor);
+    }
+    50% {
+      filter: drop-shadow(0 0 8px currentColor);
+    }
+  }
+
+  /* Effet de pulsation sur les lignes actives */
+  #power-flow-lines path:not(.grey):not(.transparency) {
+    animation: line-pulse 2s ease-in-out infinite;
+  }
+
+  /* Effet de glow pour les lignes à fort débit (> 1000W) */
+  #power-flow-lines path.high-power {
+    animation: line-glow 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+
+  /* Gradients animés pour les lignes */
+  #power-flow-lines path.solar:not(.grey):not(.transparency) {
+    stroke: url(#gradient-solar);
+  }
+
+  #power-flow-lines path.grid:not(.grey):not(.transparency) {
+    stroke: url(#gradient-grid);
+  }
+
+  #power-flow-lines path.battery-home:not(.grey):not(.transparency),
+  #power-flow-lines path.battery-from-grid:not(.grey):not(.transparency),
+  #power-flow-lines path.battery-to-grid:not(.grey):not(.transparency) {
+    stroke: url(#gradient-battery);
+  }
+
+  #power-flow-lines path.return:not(.grey):not(.transparency) {
+    stroke: url(#gradient-return);
+  }
+
   /* Dots animés sur les lignes */
   #power-flow-lines circle {
     opacity: 1;

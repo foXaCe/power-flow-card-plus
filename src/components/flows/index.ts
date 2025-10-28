@@ -112,10 +112,13 @@ function createLine(
   const customStyles = getArrowStyles(arrowKey as any, config);
   const customTransform = getArrowTransform(arrowKey as any, config);
 
+  // Ajouter classe high-power pour effet glow si débit > 1000W
+  const highPowerClass = power > 1000 ? 'high-power' : '';
+
   const line = svg`
     <path
       id="${lineId}"
-      class="${lineClass} ${styleLine(power, config)}"
+      class="${lineClass} ${styleLine(power, config)} ${highPowerClass}"
       d="M ${fromEdge.x} ${fromEdge.y} L ${toEdge.x} ${toEdge.y}"
       vector-effect="non-scaling-stroke"
       style="${customStyles}"
@@ -169,6 +172,59 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
       id="power-flow-lines"
       style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"
     >
+      <defs>
+        <!-- Gradient animé pour les lignes solaires -->
+        <linearGradient id="gradient-solar" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ff9800" stop-opacity="0.3">
+            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="50%" stop-color="#ff9800" stop-opacity="1">
+            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="100%" stop-color="#ff9800" stop-opacity="0.3">
+            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
+          </stop>
+        </linearGradient>
+
+        <!-- Gradient animé pour les lignes grid -->
+        <linearGradient id="gradient-grid" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#4caf50" stop-opacity="0.3">
+            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="50%" stop-color="#4caf50" stop-opacity="1">
+            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="100%" stop-color="#4caf50" stop-opacity="0.3">
+            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
+          </stop>
+        </linearGradient>
+
+        <!-- Gradient animé pour les lignes battery -->
+        <linearGradient id="gradient-battery" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#ff6f91" stop-opacity="0.3">
+            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="50%" stop-color="#ff6f91" stop-opacity="1">
+            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="100%" stop-color="#ff6f91" stop-opacity="0.3">
+            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
+          </stop>
+        </linearGradient>
+
+        <!-- Gradient animé pour les lignes return -->
+        <linearGradient id="gradient-return" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#a280db" stop-opacity="0.3">
+            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="50%" stop-color="#a280db" stop-opacity="1">
+            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+          </stop>
+          <stop offset="100%" stop-color="#a280db" stop-opacity="0.3">
+            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
+          </stop>
+        </linearGradient>
+      </defs>
       ${solar.has && !config.entities.home?.hide ? createLine(
         main, config, 'solar', 'home', 'solar-home', 'solar',
         solar.state.toHome || 0, !!solar.state.toHome, newDur.solarToHome, 'solar_to_home'
