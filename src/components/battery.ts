@@ -45,6 +45,8 @@ export const batteryElement = (
   // Cercle de niveau de charge (state_of_charge)
   const stateOfCharge = battery.state_of_charge?.state || 0;
   const chargeCircumference = (stateOfCharge / 100) * circleCircumference;
+  // Offset pour commencer en haut (comme Home)
+  const chargeOffset = -(circleCircumference - chargeCircumference);
 
   // Fonction pour créer les marqueurs de niveau (tous les 10%)
   const createChargeMarker = (percent: number) => {
@@ -216,7 +218,7 @@ export const batteryElement = (
             cy="40"
             r="38"
             stroke-dasharray="${chargeCircumference} ${circleCircumference - chargeCircumference}"
-            stroke-dashoffset="-${circleCircumference - chargeCircumference}"
+            stroke-dashoffset="${chargeOffset}"
             shape-rendering="geometricPrecision"
             stroke="var(--energy-battery-out-color)"
             stroke-width="4"
