@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
@@ -14,6 +14,20 @@ export const dailyCostElement = (
   const displayCost = dailyCost.totalCost?.toFixed(dailyCost.decimals ?? 2) ?? "0.00";
   const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
   const displayUnit = dailyCost.unit?.split('/')[0] ?? "€";
+
+  // Calcul de la progression de la journée
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const seconds = now.getSeconds();
+  const totalSecondsInDay = 24 * 60 * 60;
+  const currentSecondsInDay = hours * 3600 + minutes * 60 + seconds;
+  const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
+
+  // Calcul du cercle de progression (rayon 38, circonférence = 2 * PI * r)
+  const radius = 38;
+  const circumference = 2 * Math.PI * radius;
+  const progressCircumference = (dayProgressPercentage / 100) * circumference;
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -41,6 +55,17 @@ export const dailyCostElement = (
       <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color);">
         ${displayCost} ${displayUnit}
       </span>
+      <svg class="daily-cost-progress-circle">
+        ${svg`<circle
+          class="daily-cost-progress"
+          cx="40"
+          cy="40"
+          r="${radius}"
+          stroke-dasharray="${progressCircumference} ${circumference - progressCircumference}"
+          stroke-dashoffset="${circumference / 4}"
+          shape-rendering="geometricPrecision"
+        />`}
+      </svg>
     </div>
   </div>`;
 };

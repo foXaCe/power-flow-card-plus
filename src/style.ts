@@ -325,6 +325,24 @@ export const styles = css`
     white-space: nowrap;
   }
 
+  .daily-cost-progress-circle {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 0;
+    left: 0;
+    fill: none;
+    transform: rotate(-90deg);
+    pointer-events: none;
+  }
+
+  circle.daily-cost-progress {
+    stroke: #ff4444;
+    stroke-width: 4;
+    fill: none;
+    stroke-linecap: round;
+  }
+
   .daily-cost-arrow {
     height: 35px;
     width: 20px;
