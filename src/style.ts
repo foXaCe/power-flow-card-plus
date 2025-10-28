@@ -358,10 +358,12 @@ export const styles = css`
     stroke-width: 1;
     fill: none;
   }
-  path.transparency {
+  path.transparency,
+  line.transparency {
     opacity: calc(calc(100 - var(--transparency)) / 100);
   }
-  path.grey {
+  path.grey,
+  line.grey {
     stroke: var(--greyed-out--line-color) !important;
   }
   .circle svg {
@@ -502,7 +504,8 @@ export const styles = css`
     color: var(--icon-solar-color);
   }
   circle.solar,
-  path.solar {
+  path.solar,
+  line.solar {
     stroke: var(--energy-solar-color);
   }
   circle.solar {
@@ -516,10 +519,12 @@ export const styles = css`
     line-height: 11px;
   }
   circle.battery,
-  path.battery {
+  path.battery,
+  line.battery {
     stroke: var(--energy-battery-out-color);
   }
   path.battery-home,
+  line.battery-home,
   circle.battery-home {
     stroke: var(--energy-battery-out-color);
   }
@@ -528,6 +533,7 @@ export const styles = css`
     fill: var(--energy-battery-out-color);
   }
   path.battery-solar,
+  line.battery-solar,
   circle.battery-solar {
     stroke: var(--energy-battery-in-color);
   }
@@ -547,10 +553,12 @@ export const styles = css`
   span.battery-out {
     color: var(--text-battery-out-color);
   }
-  path.battery-from-grid {
+  path.battery-from-grid,
+  line.battery-from-grid {
     stroke: var(--energy-grid-consumption-color);
   }
-  path.battery-to-grid {
+  path.battery-to-grid,
+  line.battery-to-grid {
     stroke: var(--battery-grid-line);
   }
   .battery ha-icon:not(.small) {
@@ -558,6 +566,7 @@ export const styles = css`
   }
 
   path.return,
+  line.return,
   circle.return,
   circle.battery-to-grid {
     stroke: var(--energy-grid-return-color);
@@ -584,7 +593,8 @@ export const styles = css`
   }
   circle.grid,
   circle.battery-from-grid,
-  path.grid {
+  path.grid,
+  line.grid {
     stroke: var(--energy-grid-consumption-color);
   }
   circle.grid,
