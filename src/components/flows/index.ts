@@ -73,15 +73,15 @@ function getCircleEdgePoint(
 // Fonction pour obtenir la couleur du dot selon la classe
 function getDotColor(lineClass: string): string {
   const colorMap: Record<string, string> = {
-    'solar': 'var(--energy-solar-color)',
-    'grid': 'var(--energy-grid-consumption-color)',
-    'return': 'var(--energy-grid-return-color)',
-    'battery-home': 'var(--energy-battery-out-color)',
-    'battery-from-grid': 'var(--energy-grid-consumption-color)',
-    'battery-to-grid': 'var(--energy-grid-return-color)',
-    'battery-solar': 'var(--energy-battery-in-color)',
+    'solar': '#ff9800',  // Orange
+    'grid': '#4caf50',   // Green
+    'return': '#a280db', // Purple
+    'battery-home': '#ff6f91', // Pink
+    'battery-from-grid': '#4caf50', // Green
+    'battery-to-grid': '#a280db', // Purple
+    'battery-solar': '#ffc107', // Amber
   };
-  return colorMap[lineClass] || 'var(--primary-color)';
+  return colorMap[lineClass] || '#2196f3'; // Blue par défaut
 }
 
 // Fonction pour créer une ligne entre deux cercles
