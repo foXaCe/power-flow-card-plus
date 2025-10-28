@@ -64,7 +64,6 @@ export class PowerFlowCardPlus extends LitElement {
   @state() private _templateResults: Partial<Record<string, RenderTemplateResult>> = {};
   @state() private _unsubRenderTemplates?: Map<string, Promise<UnsubscribeFunc>> = new Map();
   @state() private _width = 0;
-  @state() private _editMode = false;
   @state() private _draggedElement: string | null = null;
   @state() private _hasDragged = false;
 
@@ -614,20 +613,11 @@ export class PowerFlowCardPlus extends LitElement {
         style=${this._config.style_ha_card ? this._config.style_ha_card : ""}
       >
         <div
-          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config.circle_gradient_mode ? "gradient-mode" : ""} ${this._editMode ? "edit-mode" : ""}"
+          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config.circle_gradient_mode ? "gradient-mode" : ""}"
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
           <div class="edit-buttons-container">
-            <button
-              class="edit-mode-toggle"
-              @click=${this._toggleEditMode}
-              title="${this._editMode ? 'Quitter le mode édition' : 'Activer le mode édition'}"
-            >
-              ${this._editMode
-                ? html`<ha-icon icon="mdi:check"></ha-icon>`
-                : html`<ha-icon icon="mdi:pen"></ha-icon>`}
-            </button>
             <button
               class="reset-positions-button"
               @click=${this._resetPositions}
@@ -718,8 +708,6 @@ export class PowerFlowCardPlus extends LitElement {
         elem.removeEventListener('touchstart', handlers.touchStart);
       }
     });
-
-    if (!this._editMode) return;
 
     // Attacher les nouveaux listeners
     circles.forEach(circle => {
@@ -838,17 +826,7 @@ export class PowerFlowCardPlus extends LitElement {
     }
   }
 
-  private _toggleEditMode() {
-    this._editMode = !this._editMode;
-    if (!this._editMode) {
-      // Sauvegarder la config quand on quitte le mode édition
-      this._saveConfig();
-    }
-  }
-
   private _onDragStart(e: MouseEvent | TouchEvent, element: string) {
-    if (!this._editMode) return;
-
     e.preventDefault();
     this._draggedElement = element;
     this._hasDragged = false; // Reset au début du drag
@@ -915,7 +893,7 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   private _onDragMove(e: MouseEvent | TouchEvent) {
-    if (!this._draggedElement || !this._editMode) return;
+    if (!this._draggedElement) return;
 
     e.preventDefault();
     e.stopPropagation();

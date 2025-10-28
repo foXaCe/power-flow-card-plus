@@ -767,7 +767,7 @@ export const styles = css`
     background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
   }
 
-  /* Edit Mode */
+  /* Boutons d'édition */
   .edit-buttons-container {
     position: absolute;
     bottom: 8px;
@@ -777,10 +777,9 @@ export const styles = css`
     gap: 8px;
   }
 
-  .edit-mode-toggle,
   .reset-positions-button {
     padding: 6px;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 100, 100, 0.2);
     color: white;
     border: none;
     border-radius: 50%;
@@ -794,30 +793,17 @@ export const styles = css`
     transition: all 0.2s;
   }
 
-  .edit-mode-toggle:hover,
   .reset-positions-button:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 100, 100, 0.3);
     transform: scale(1.1);
   }
 
-  .reset-positions-button {
-    background: rgba(255, 100, 100, 0.2);
-  }
-
-  .reset-positions-button:hover {
-    background: rgba(255, 100, 100, 0.3);
-  }
-
-  .card-content.edit-mode {
-    border: 2px dashed var(--primary-color);
-  }
-
-  .card-content.edit-mode .circle-container {
+  /* Les bulles sont toujours déplaçables */
+  .circle-container {
     cursor: move !important;
   }
 
-  .card-content.edit-mode .circle {
+  .circle {
     cursor: move !important;
-    box-shadow: 0 0 0 2px var(--primary-color) inset;
   }
 `;
