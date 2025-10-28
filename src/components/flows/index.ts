@@ -127,16 +127,23 @@ function createLine(
 
 export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur, dailyExport, dailyCost }: Flows) => {
   const container = main.shadowRoot?.querySelector('.card-content') as HTMLElement;
-  if (!container) return html``;
+  if (!container) {
+    console.warn('Power Flow Card Plus: .card-content not found, flows will not be rendered');
+    return html``;
+  }
 
   const rect = container.getBoundingClientRect();
+  if (rect.width === 0 || rect.height === 0) {
+    console.warn('Power Flow Card Plus: container has no dimensions, flows will not be rendered');
+    return html``;
+  }
 
   return html`
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 ${rect.width} ${rect.height}"
       id="power-flow-lines"
-      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0;"
+      style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"
     >
       ${solar.has && !config.entities.home?.hide ? createLine(
         main, config, 'solar', 'home', 'solar-home', 'solar',
