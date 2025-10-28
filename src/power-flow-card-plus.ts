@@ -938,14 +938,10 @@ export class PowerFlowCardPlus extends LitElement {
     left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
     top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
 
-    // Vérifier les collisions et ajuster la position
-    const resolved = this._checkCollisionAndResolve(left, top, this._draggedElement, CIRCLE_RADIUS);
-    left = resolved.left;
-    top = resolved.top;
-
-    // Re-appliquer les limites après résolution de collision
-    left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
-    top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
+    // Détection de collision désactivée pour éviter les tremblements
+    // const resolved = this._checkCollisionAndResolve(left, top, this._draggedElement, CIRCLE_RADIUS);
+    // left = resolved.left;
+    // top = resolved.top;
 
     // Créer une copie profonde de la config
     const newConfig = JSON.parse(JSON.stringify(this._config));
