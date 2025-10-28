@@ -60,6 +60,16 @@ export const dailyCostElement = (
       <svg>
         ${svg`
           <circle
+            cx="40"
+            cy="40"
+            r="38"
+            shape-rendering="geometricPrecision"
+            stroke="var(--primary-text-color)"
+            stroke-width="4"
+            fill="none"
+            opacity="0.2"
+          />
+          <circle
             class="daily-cost-progress"
             cx="40"
             cy="40"
@@ -70,6 +80,7 @@ export const dailyCostElement = (
             stroke="#ff0000"
             stroke-width="4"
             fill="none"
+            opacity="1"
           />
         `}
       </svg>
