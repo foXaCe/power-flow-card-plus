@@ -24,16 +24,12 @@ export const dailyCostElement = (
   const currentSecondsInDay = hours * 3600 + minutes * 60 + seconds;
   const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
 
-  // Calcul du cercle de progression
+  // Calcul du cercle de progression (comme Home)
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
 
-  // Progression basée sur l'heure de la journée (0-100%)
-  const progressLength = (dayProgressPercentage / 100) * circumference;
-  const remainingLength = circumference - progressLength;
-
-  // Commencer en haut (12h) : offset de -90 degrés = -25% du cercle
-  const startOffset = -(circumference / 4);
+  // Longueur du cercle rouge basée sur la progression de la journée
+  const redCircumference = (dayProgressPercentage / 100) * circumference;
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -63,22 +59,13 @@ export const dailyCostElement = (
       </span>
       <svg>
         ${svg`
-          <!-- Cercle gris complet en fond -->
-          <circle
-            class="daily-cost-base"
-            cx="40"
-            cy="40"
-            r="${radius}"
-            shape-rendering="geometricPrecision"
-          />
-          <!-- Cercle rouge de progression par-dessus -->
           <circle
             class="daily-cost-progress"
             cx="40"
             cy="40"
-            r="${radius}"
-            stroke-dasharray="${progressLength} ${remainingLength}"
-            stroke-dashoffset="${startOffset}"
+            r="38"
+            stroke-dasharray="${redCircumference} ${circumference - redCircumference}"
+            stroke-dashoffset="-${circumference - redCircumference}"
             shape-rendering="geometricPrecision"
           />
         `}
