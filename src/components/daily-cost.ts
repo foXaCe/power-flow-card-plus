@@ -25,13 +25,15 @@ export const dailyCostElement = (
   const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
 
   // Calcul du cercle de progression
-  // Rayon et circonférence
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
 
-  // Pour debug : afficher 50% du cercle en rouge
-  const progressLength = circumference * 0.5;
+  // Progression basée sur l'heure de la journée
+  const progressLength = (dayProgressPercentage / 100) * circumference;
   const gapLength = circumference - progressLength;
+
+  // Commencer en haut (12h) : offset de -90 degrés = -25% du cercle
+  const startOffset = -(circumference / 4);
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -67,7 +69,7 @@ export const dailyCostElement = (
             cy="40"
             r="${radius}"
             stroke-dasharray="${progressLength} ${gapLength}"
-            stroke-dashoffset="0"
+            stroke-dashoffset="${startOffset}"
             shape-rendering="geometricPrecision"
           />
           <circle
