@@ -138,7 +138,8 @@ function createLine(
     />
   `;
 
-  const dot = showDots && checkShouldShowDots(config) ? (() => {
+  // Ne montrer les dots que si la puissance est supérieure à 1W
+  const dot = showDots && checkShouldShowDots(config) && power > 1 ? (() => {
     const dotColor = getDotColor(lineClass);
     return svg`
       <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${dotColor}" stroke="none" opacity="1">
