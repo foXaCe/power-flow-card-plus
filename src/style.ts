@@ -266,6 +266,7 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     gap: 2px;
+    border-width: 0;
   }
 
   .daily-export-arrow {
@@ -367,6 +368,7 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     gap: 2px;
+    border-width: 0;
   }
 
   line,
