@@ -506,15 +506,31 @@ export class PowerFlowCardPlus extends LitElement {
       (grid.state.toBattery ?? 0) +
       (battery.state.toGrid ?? 0);
 
-    // Battery SoC
+    // Battery SoC - icônes horizontales avec pourcentage
     if (battery.state_of_charge.state === null) {
       battery.icon = "mdi:battery";
-    } else if (battery.state_of_charge.state <= 72 && battery.state_of_charge.state > 44) {
-      battery.icon = "mdi:battery-medium";
-    } else if (battery.state_of_charge.state <= 44 && battery.state_of_charge.state > 16) {
-      battery.icon = "mdi:battery-low";
-    } else if (battery.state_of_charge.state <= 16) {
-      battery.icon = "mdi:battery-outline";
+    } else {
+      const soc = battery.state_of_charge.state;
+      const isCharging = battery.state.toBattery > 0;
+
+      let level = "";
+      if (soc >= 95) level = "100";
+      else if (soc >= 85) level = "90";
+      else if (soc >= 75) level = "80";
+      else if (soc >= 65) level = "70";
+      else if (soc >= 55) level = "60";
+      else if (soc >= 45) level = "50";
+      else if (soc >= 35) level = "40";
+      else if (soc >= 25) level = "30";
+      else if (soc >= 15) level = "20";
+      else if (soc >= 5) level = "10";
+      else level = "outline";
+
+      if (isCharging && level !== "outline") {
+        battery.icon = `mdi:battery-charging-${level}`;
+      } else {
+        battery.icon = level === "outline" ? "mdi:battery-outline" : `mdi:battery-${level}`;
+      }
     }
     if (entities.battery?.icon !== undefined) battery.icon = entities.battery?.icon;
 

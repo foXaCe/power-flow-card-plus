@@ -583,6 +583,7 @@ export const styles = css`
   }
   .battery ha-icon:not(.small) {
     color: var(--icon-battery-color);
+    transform: rotate(-90deg);
   }
 
   path.return,
