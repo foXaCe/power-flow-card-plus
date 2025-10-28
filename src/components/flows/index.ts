@@ -169,7 +169,7 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
         battery.state.toHome || 0, !!battery.state.toHome, newDur.batteryToHome, 'battery_to_home'
       ) : ''}
 
-      ${grid.has && battery.has && (grid.state.toBattery || battery.state.toGrid) ? createLine(
+      ${grid.has && battery.has ? createLine(
         main, config, 'battery', 'grid', 'battery-grid',
         grid.state.toBattery ? 'battery-from-grid' : 'battery-to-grid',
         Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0),
