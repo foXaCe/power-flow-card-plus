@@ -776,6 +776,20 @@ export const styles = css`
     }
   }
 
+  /* Optimisations SVG pour meilleures performances */
+  #power-flow-lines {
+    will-change: auto;
+    contain: layout style paint;
+  }
+
+  #power-flow-lines path {
+    will-change: stroke-opacity, filter;
+  }
+
+  #power-flow-lines circle {
+    will-change: transform;
+  }
+
   /* Effet de pulsation sur les lignes actives */
   #power-flow-lines path:not(.grey):not(.transparency) {
     animation: line-pulse 2s ease-in-out infinite;

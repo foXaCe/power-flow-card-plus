@@ -7,6 +7,7 @@ import { showLine } from "@/utils/showLine";
 import { styleLine } from "@/utils/styleLine";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import memoizeOne from "memoize-one";
 
 export interface Flows {
   battery: any;
@@ -21,8 +22,8 @@ export interface Flows {
 // Rayon du cercle (80px de diamètre = 40px de rayon)
 const CIRCLE_RADIUS = 40;
 
-// Fonction pour obtenir le centre d'un cercle depuis le DOM
-function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { x: number; y: number; radius: number } | null {
+// Fonction non-memoizée pour obtenir le centre d'un cercle depuis le DOM
+function _getCircleCenterInternal(shadowRoot: ShadowRoot | null, circleClass: string): { x: number; y: number; radius: number } | null {
   if (!shadowRoot) return null;
 
   const container = shadowRoot.querySelector('.card-content') as HTMLElement;
@@ -44,8 +45,11 @@ function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { 
   return { x, y, radius: CIRCLE_RADIUS };
 }
 
-// Calcule le point d'intersection entre une ligne et un cercle
-function getCircleEdgePoint(
+// Version memoizée pour éviter les recalculs inutiles
+const getCircleCenter = memoizeOne(_getCircleCenterInternal);
+
+// Calcule le point d'intersection entre une ligne et un cercle (non-memoizé)
+function _getCircleEdgePointInternal(
   centerX: number,
   centerY: number,
   radius: number,
@@ -69,6 +73,9 @@ function getCircleEdgePoint(
     y: centerY + dy * ratio
   };
 }
+
+// Version memoizée pour performance
+const getCircleEdgePoint = memoizeOne(_getCircleEdgePointInternal);
 
 // Fonction pour obtenir la couleur du dot selon la classe
 function getDotColor(lineClass: string): string {
