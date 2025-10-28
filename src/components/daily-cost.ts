@@ -30,10 +30,13 @@ export const dailyCostElement = (
 
   // Progression basée sur l'heure de la journée
   const progressLength = (dayProgressPercentage / 100) * circumference;
-  const gapLength = circumference - progressLength;
+  const remainingLength = circumference - progressLength;
 
   // Commencer en haut (12h) : offset de -90 degrés = -25% du cercle
   const startOffset = -(circumference / 4);
+
+  // Le cercle gris commence où le rouge s'arrête
+  const grayStartOffset = startOffset - progressLength;
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -68,6 +71,8 @@ export const dailyCostElement = (
             cx="40"
             cy="40"
             r="${radius}"
+            stroke-dasharray="${remainingLength} ${progressLength}"
+            stroke-dashoffset="${grayStartOffset}"
             shape-rendering="geometricPrecision"
           />
           <circle
@@ -75,7 +80,7 @@ export const dailyCostElement = (
             cx="40"
             cy="40"
             r="${radius}"
-            stroke-dasharray="${progressLength} ${gapLength}"
+            stroke-dasharray="${progressLength} ${remainingLength}"
             stroke-dashoffset="${startOffset}"
             shape-rendering="geometricPrecision"
           />
