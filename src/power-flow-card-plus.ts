@@ -617,15 +617,6 @@ export class PowerFlowCardPlus extends LitElement {
           id="power-flow-card-plus"
           style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
         >
-          <div class="edit-buttons-container">
-            <button
-              class="reset-positions-button"
-              @click=${this._resetPositions}
-              title="Réinitialiser les positions"
-            >
-              <ha-icon icon="mdi:restore"></ha-icon>
-            </button>
-          </div>
           ${solar.has
             ? solarElement(this, this._config, {
                 entities,
