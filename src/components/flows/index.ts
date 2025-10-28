@@ -26,12 +26,16 @@ function getCircleCenter(shadowRoot: ShadowRoot | null, circleClass: string): { 
   if (!shadowRoot) return null;
 
   const container = shadowRoot.querySelector('.card-content') as HTMLElement;
-  const circle = shadowRoot.querySelector(`.circle-container.${circleClass}`) as HTMLElement;
+  const circleContainer = shadowRoot.querySelector(`.circle-container.${circleClass}`) as HTMLElement;
 
-  if (!container || !circle) return null;
+  if (!container || !circleContainer) return null;
+
+  // Chercher la div.circle à l'intérieur du circle-container
+  const circleDiv = circleContainer.querySelector('.circle') as HTMLElement;
+  const elementToMeasure = circleDiv || circleContainer;
 
   const containerRect = container.getBoundingClientRect();
-  const circleRect = circle.getBoundingClientRect();
+  const circleRect = elementToMeasure.getBoundingClientRect();
 
   // Centre du cercle relatif au conteneur
   const x = circleRect.left - containerRect.left + (circleRect.width / 2);
