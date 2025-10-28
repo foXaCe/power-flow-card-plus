@@ -126,7 +126,6 @@ function createLine(
 
   const dot = showDots && checkShouldShowDots(config) ? (() => {
     const dotColor = getDotColor(lineClass);
-    console.log(`Creating dot for ${lineId}: class=${lineClass}, color=${dotColor}, showDots=${showDots}, duration=${duration}`);
     return svg`
       <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${dotColor}" stroke="none" opacity="1">
         <animateMotion
