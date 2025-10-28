@@ -62,19 +62,19 @@ export const dailyCostElement = (
       <svg>
         ${svg`
           <circle
-            class="daily-cost-base"
-            cx="40"
-            cy="40"
-            r="${radius}"
-            shape-rendering="geometricPrecision"
-          />
-          <circle
             class="daily-cost-progress"
             cx="40"
             cy="40"
             r="${radius}"
             stroke-dasharray="${progressLength} ${gapLength}"
             stroke-dashoffset="0"
+            shape-rendering="geometricPrecision"
+          />
+          <circle
+            class="daily-cost-base"
+            cx="40"
+            cy="40"
+            r="${radius}"
             shape-rendering="geometricPrecision"
           />
         `}
