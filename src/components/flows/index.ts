@@ -184,54 +184,66 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
       <defs>
         <!-- Gradient animé pour les lignes solaires -->
         <linearGradient id="gradient-solar" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff9800" stop-opacity="0.3">
-            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="50%" stop-color="#ff9800" stop-opacity="1">
-            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="100%" stop-color="#ff9800" stop-opacity="0.3">
-            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
-          </stop>
+          <stop offset="0%" stop-color="#ff9800" stop-opacity="0.3" />
+          <stop offset="25%" stop-color="#ff9800" stop-opacity="0.6" />
+          <stop offset="50%" stop-color="#ff9800" stop-opacity="1" />
+          <stop offset="75%" stop-color="#ff9800" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#ff9800" stop-opacity="0.3" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="0 0; 1 0"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
 
         <!-- Gradient animé pour les lignes grid -->
         <linearGradient id="gradient-grid" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#4caf50" stop-opacity="0.3">
-            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="50%" stop-color="#4caf50" stop-opacity="1">
-            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="100%" stop-color="#4caf50" stop-opacity="0.3">
-            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
-          </stop>
+          <stop offset="0%" stop-color="#4caf50" stop-opacity="0.3" />
+          <stop offset="25%" stop-color="#4caf50" stop-opacity="0.6" />
+          <stop offset="50%" stop-color="#4caf50" stop-opacity="1" />
+          <stop offset="75%" stop-color="#4caf50" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#4caf50" stop-opacity="0.3" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="0 0; 1 0"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
 
         <!-- Gradient animé pour les lignes battery -->
         <linearGradient id="gradient-battery" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#ff6f91" stop-opacity="0.3">
-            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="50%" stop-color="#ff6f91" stop-opacity="1">
-            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="100%" stop-color="#ff6f91" stop-opacity="0.3">
-            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
-          </stop>
+          <stop offset="0%" stop-color="#ff6f91" stop-opacity="0.3" />
+          <stop offset="25%" stop-color="#ff6f91" stop-opacity="0.6" />
+          <stop offset="50%" stop-color="#ff6f91" stop-opacity="1" />
+          <stop offset="75%" stop-color="#ff6f91" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#ff6f91" stop-opacity="0.3" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="0 0; 1 0"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
 
         <!-- Gradient animé pour les lignes return -->
         <linearGradient id="gradient-return" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#a280db" stop-opacity="0.3">
-            <animate attributeName="offset" values="0;1;0" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="50%" stop-color="#a280db" stop-opacity="1">
-            <animate attributeName="offset" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
-          </stop>
-          <stop offset="100%" stop-color="#a280db" stop-opacity="0.3">
-            <animate attributeName="offset" values="1;0;1" dur="2s" repeatCount="indefinite" />
-          </stop>
+          <stop offset="0%" stop-color="#a280db" stop-opacity="0.3" />
+          <stop offset="25%" stop-color="#a280db" stop-opacity="0.6" />
+          <stop offset="50%" stop-color="#a280db" stop-opacity="1" />
+          <stop offset="75%" stop-color="#a280db" stop-opacity="0.6" />
+          <stop offset="100%" stop-color="#a280db" stop-opacity="0.3" />
+          <animateTransform
+            attributeName="gradientTransform"
+            type="translate"
+            values="0 0; 1 0"
+            dur="2s"
+            repeatCount="indefinite"
+          />
         </linearGradient>
       </defs>
       ${solar.has && !config.entities.home?.hide ? createLine(

@@ -805,7 +805,9 @@ export const styles = css`
     filter: drop-shadow(0 0 4px currentColor);
   }
 
-  /* Gradients animés pour les lignes */
+  /* Gradients animés pour les lignes - désactivés car l'effet n'était pas dans le bon sens */
+  /* Les points animés suffisent à montrer le sens du flux */
+  /*
   #power-flow-lines path.solar:not(.grey):not(.transparency) {
     stroke: url(#gradient-solar);
   }
@@ -823,6 +825,7 @@ export const styles = css`
   #power-flow-lines path.return:not(.grey):not(.transparency) {
     stroke: url(#gradient-return);
   }
+  */
 
   /* Dots animés sur les lignes */
   #power-flow-lines circle {
