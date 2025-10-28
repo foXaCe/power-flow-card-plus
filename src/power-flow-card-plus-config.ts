@@ -76,6 +76,8 @@ interface mainConfigOptions {
   daily_export_decimals?: number;
   custom_positions?: CustomPositions;
   arrows?: ArrowsConfig;
+  show_self_sufficiency?: boolean;
+  self_sufficiency_position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {

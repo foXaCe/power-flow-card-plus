@@ -9,6 +9,7 @@ import { dailyExportElement } from "./components/daily-export";
 import { flowElement } from "./components/flows";
 import { gridElement } from "./components/grid";
 import { homeElement } from "./components/home";
+import { selfSufficiencyElement } from "./components/self-sufficiency";
 import { individualLeftBottomElement } from "./components/individualLeftBottomElement";
 import { individualLeftTopElement } from "./components/individualLeftTopElement";
 import { individualRightBottomElement } from "./components/individualRightBottomElement";
@@ -681,6 +682,11 @@ export class PowerFlowCardPlus extends LitElement {
           ${dailyExport.enabled && solar.has
             ? dailyExportElement(this, this._config, { dailyExport })
             : ""}
+          ${selfSufficiencyElement(this._config, {
+            solarToHome: solar.state.toHome || 0,
+            batteryToHome: battery.state.toHome || 0,
+            gridToHome: grid.state.toHome || 0,
+          })}
         </div>
         ${dashboardLinkElement(this._config, this.hass)}
       </ha-card>
