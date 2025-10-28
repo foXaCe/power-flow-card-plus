@@ -331,14 +331,15 @@ export const styles = css`
     stroke: var(--primary-text-color);
     fill: none;
     stroke-width: 4px;
-    opacity: 0.3;
+    opacity: 0.2;
   }
 
   circle.daily-cost-progress {
-    stroke: #ff4444;
+    stroke: #ff0000;
     fill: none;
     stroke-width: 4px;
     stroke-linecap: round;
+    opacity: 1;
   }
 
   .daily-cost-arrow {
