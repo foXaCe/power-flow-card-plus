@@ -532,6 +532,7 @@ export const styles = css`
     fill: var(--energy-solar-color);
   }
   .battery .circle {
+    border-width: 0;
     border-color: var(--circle-battery-color);
     gap: 0px;
     font-size: 11px;
