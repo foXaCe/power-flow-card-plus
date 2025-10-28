@@ -15,6 +15,7 @@ export interface CustomPositions {
   battery?: CirclePosition;
   daily_cost?: CirclePosition;
   daily_export?: CirclePosition;
+  self_sufficiency?: CirclePosition;
 }
 
 export interface ArrowConfig {
@@ -77,7 +78,6 @@ interface mainConfigOptions {
   custom_positions?: CustomPositions;
   arrows?: ArrowsConfig;
   show_self_sufficiency?: boolean;
-  self_sufficiency_position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
 }
 
 export interface PowerFlowCardPlusConfig extends LovelaceCardConfig, mainConfigOptions {

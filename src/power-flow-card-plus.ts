@@ -682,7 +682,7 @@ export class PowerFlowCardPlus extends LitElement {
           ${dailyExport.enabled && solar.has
             ? dailyExportElement(this, this._config, { dailyExport })
             : ""}
-          ${selfSufficiencyElement(this._config, {
+          ${selfSufficiencyElement(this, this._config, {
             solarToHome: solar.state.toHome || 0,
             batteryToHome: battery.state.toHome || 0,
             gridToHome: grid.state.toHome || 0,

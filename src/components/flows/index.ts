@@ -7,6 +7,7 @@ import { showLine } from "@/utils/showLine";
 import { styleLine } from "@/utils/styleLine";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
+import { selfSufficiencyLine } from "@/components/self-sufficiency-line";
 import memoizeOne from "memoize-one";
 
 export interface Flows {
@@ -275,6 +276,8 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
         newDur.batteryGrid, 'grid_to_battery',
         !!grid.state.toBattery
       ) : ''}
+
+      ${selfSufficiencyLine(main, config)}
     </svg>
   `;
 };

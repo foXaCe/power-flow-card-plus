@@ -1,6 +1,7 @@
-import { html } from "lit";
+import { html, svg } from "lit";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { calculateSelfSufficiency, getSelfSufficiencyColor } from "@/utils/calculateSelfSufficiency";
+import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 
 interface SelfSufficiencyProps {
   solarToHome: number;
@@ -9,6 +10,7 @@ interface SelfSufficiencyProps {
 }
 
 export const selfSufficiencyElement = (
+  main: PowerFlowCardPlus,
   config: PowerFlowCardPlusConfig,
   { solarToHome, batteryToHome, gridToHome }: SelfSufficiencyProps
 ) => {
@@ -23,45 +25,31 @@ export const selfSufficiencyElement = (
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percentage / 100) * circumference;
 
-  // Position par défaut: top-right
-  const position = config.self_sufficiency_position || 'top-right';
-  const positionStyles: Record<string, string> = {
-    'top-right': 'top: 10px; right: 10px;',
-    'top-left': 'top: 10px; left: 10px;',
-    'bottom-right': 'bottom: 10px; right: 10px;',
-    'bottom-left': 'bottom: 10px; left: 10px;'
-  };
+  // Position personnalisée ou par défaut sous home
+  const customStyle = config.custom_positions?.self_sufficiency
+    ? `top: ${config.custom_positions.self_sufficiency.top}px; left: ${config.custom_positions.self_sufficiency.left}px; bottom: auto; right: auto; transform: none;`
+    : "top: 322px; left: 401px;"; // Position par défaut sous home
 
   return html`
     <div
-      class="self-sufficiency-indicator"
-      style="position: absolute; ${positionStyles[position]} z-index: 100;"
+      class="circle-container self-sufficiency"
+      style="${customStyle}"
     >
-      <div style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background: var(--card-background-color);
-        border-radius: 12px;
-        padding: 8px 12px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        border: 1px solid var(--divider-color);
-      ">
-        <span style="
-          font-size: 10px;
-          color: var(--secondary-text-color);
-          margin-bottom: 4px;
-          font-weight: 500;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        ">Autosuffisance</span>
-
-        <div style="position: relative; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
-          <svg width="70" height="70" style="position: absolute; transform: rotate(-90deg);">
+      <span class="label">Autosuffisance</span>
+      <div class="circle" style="background-color: var(--card-background-color);">
+        <div style="
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        ">
+          <svg width="80" height="80" style="position: absolute; transform: rotate(-90deg);">
             <!-- Cercle de fond -->
             <circle
-              cx="35"
-              cy="35"
+              cx="40"
+              cy="40"
               r="${radius}"
               fill="none"
               stroke="var(--disabled-text-color)"
@@ -70,8 +58,8 @@ export const selfSufficiencyElement = (
             />
             <!-- Cercle de progression -->
             <circle
-              cx="35"
-              cy="35"
+              cx="40"
+              cy="40"
               r="${radius}"
               fill="none"
               stroke="${color}"
@@ -89,7 +77,7 @@ export const selfSufficiencyElement = (
             text-align: center;
           ">
             <div style="
-              font-size: 20px;
+              font-size: 22px;
               font-weight: 700;
               color: ${color};
               line-height: 1;
