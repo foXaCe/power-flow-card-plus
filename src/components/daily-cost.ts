@@ -25,13 +25,13 @@ export const dailyCostElement = (
   const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
 
   // Calcul du cercle de progression
-  // Comme la bulle Home: cercles SVG au lieu d'une bordure CSS
-  // Rayon 38px avec stroke-width 4px (total = 34 à 42px de rayon)
+  // Rayon et circonférence
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
-  const progressCircumference = (dayProgressPercentage / 100) * circumference;
-  // Offset pour commencer en haut (12h) = -1/4 du cercle
-  const quarterCircle = circumference / 4;
+
+  // Pour debug : afficher 50% du cercle en rouge
+  const progressLength = circumference * 0.5;
+  const gapLength = circumference - progressLength;
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -73,8 +73,8 @@ export const dailyCostElement = (
             cx="40"
             cy="40"
             r="${radius}"
-            stroke-dasharray="${progressCircumference} ${circumference - progressCircumference}"
-            stroke-dashoffset="${-quarterCircle}"
+            stroke-dasharray="${progressLength} ${gapLength}"
+            stroke-dashoffset="0"
             shape-rendering="geometricPrecision"
           />
         `}
