@@ -62,7 +62,7 @@ export const dailyCostElement = (
           cy="40"
           r="${radius}"
           stroke-dasharray="${progressCircumference} ${circumference - progressCircumference}"
-          stroke-dashoffset="${circumference / 4}"
+          stroke-dashoffset="${-circumference / 4}"
           shape-rendering="geometricPrecision"
         />`}
       </svg>

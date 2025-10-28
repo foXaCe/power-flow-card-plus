@@ -304,6 +304,7 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     gap: 2px;
+    position: relative;
   }
 
   .daily-cost #daily-cost-icon {
