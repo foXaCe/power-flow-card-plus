@@ -329,6 +329,7 @@ export const styles = css`
   circle.daily-cost-progress {
     stroke: #ff4444;
     fill: none;
+    stroke-width: 2px;
     stroke-linecap: round;
   }
 

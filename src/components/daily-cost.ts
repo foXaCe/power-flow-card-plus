@@ -24,8 +24,10 @@ export const dailyCostElement = (
   const currentSecondsInDay = hours * 3600 + minutes * 60 + seconds;
   const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
 
-  // Calcul du cercle de progression (rayon 38, circonférence = 2 * PI * r)
-  const radius = 38;
+  // Calcul du cercle de progression
+  // La bulle fait 80px de diamètre avec une bordure de 2px
+  // Le centre de la bordure est à rayon = 40px - 1px = 39px
+  const radius = 39;
   const circumference = 2 * Math.PI * radius;
   const progressCircumference = (dayProgressPercentage / 100) * circumference;
   const remainingCircumference = circumference - progressCircumference;
