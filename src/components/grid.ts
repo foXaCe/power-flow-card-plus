@@ -53,7 +53,7 @@ export const gridElement = (
     >
       ${generalSecondarySpan(main.hass, main, config, templatesObj, grid, "grid")}
       ${grid.icon !== " " ? html` <ha-icon id="grid-icon" .icon=${grid.icon} />` : null}
-      ${(entities.grid?.display_state === "two_way" ||
+      ${(grid.state.toGrid ?? 0) > 0 && (entities.grid?.display_state === "two_way" ||
         entities.grid?.display_state === undefined ||
         (entities.grid?.display_state === "one_way_no_zero" && (grid.state.toGrid ?? 0) > 0) ||
         (entities.grid?.display_state === "one_way" && (grid.state.fromGrid ?? 0) == 0)) &&
@@ -82,13 +82,13 @@ export const gridElement = (
             })}
           </span>`
         : null}
-      ${((entities.grid?.display_state === "two_way" ||
+      ${grid.state.fromGrid > 0 && (((entities.grid?.display_state === "two_way" ||
         entities.grid?.display_state === undefined ||
         (entities.grid?.display_state === "one_way_no_zero" && grid.state.fromGrid > 0) ||
         (entities.grid?.display_state === "one_way" && (grid.state.toGrid ?? 0) == 0 && grid.state.fromGrid > 0)) &&
         grid.state.fromGrid !== null &&
         !grid.powerOutage.isOutage) ||
-      (grid.powerOutage.isOutage && !!grid.powerOutage.entityGenerator)
+      (grid.powerOutage.isOutage && !!grid.powerOutage.entityGenerator))
         ? html` <span
             class="consumption"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {

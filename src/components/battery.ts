@@ -130,10 +130,10 @@ export const batteryElement = (
             }}
           />`
         : null}
-      ${entities.battery?.display_state === "two_way" ||
+      ${battery.state.toBattery > 0 && (entities.battery?.display_state === "two_way" ||
       entities.battery?.display_state === undefined ||
       (entities.battery?.display_state === "one_way_no_zero" && battery.state.toBattery > 0) ||
-      (entities.battery?.display_state === "one_way" && battery.state.toBattery !== 0)
+      (entities.battery?.display_state === "one_way" && battery.state.toBattery !== 0))
         ? html`<span
             class="battery-in"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -158,10 +158,10 @@ export const batteryElement = (
             })}</span
           >`
         : ""}
-      ${entities.battery?.display_state === "two_way" ||
+      ${battery.state.fromBattery > 0 && (entities.battery?.display_state === "two_way" ||
       entities.battery?.display_state === undefined ||
       (entities.battery?.display_state === "one_way_no_zero" && battery.state.fromBattery > 0) ||
-      (entities.battery?.display_state === "one_way" && (battery.state.toBattery === 0 || battery.state.fromBattery !== 0))
+      (entities.battery?.display_state === "one_way" && (battery.state.toBattery === 0 || battery.state.fromBattery !== 0)))
         ? html`<span
             class="battery-out"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
