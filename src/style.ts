@@ -755,6 +755,12 @@ export const styles = css`
     }
   }
 
+  /* Dots animés sur les lignes */
+  #power-flow-lines circle {
+    opacity: 1;
+    pointer-events: none;
+  }
+
   /* Compact Mode */
   .card-content.compact-mode {
     --size-circle-entity: 65px;
