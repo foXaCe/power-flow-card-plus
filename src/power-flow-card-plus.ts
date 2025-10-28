@@ -869,7 +869,7 @@ export class PowerFlowCardPlus extends LitElement {
     CIRCLE_RADIUS: number
   ): { left: number; top: number } {
     // Liste de tous les cercles possibles
-    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily-export', 'daily-cost'];
+    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily_export', 'daily_cost'];
     const otherCircles = allCircles.filter(c => c !== draggedElement);
 
     // Centre du cercle draggé
@@ -877,7 +877,9 @@ export class PowerFlowCardPlus extends LitElement {
     const draggedCenterY = top + CIRCLE_RADIUS;
 
     for (const circleName of otherCircles) {
-      const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${circleName}`) as HTMLElement;
+      // Convertir les underscores en tirets pour les classes CSS
+      const cssClassName = circleName.replace(/_/g, '-');
+      const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${cssClassName}`) as HTMLElement;
       if (!otherCircle || !otherCircle.offsetParent) continue;
 
       // Position de l'autre cercle
