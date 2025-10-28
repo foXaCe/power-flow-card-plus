@@ -67,7 +67,7 @@ export const homeElement = (
   >
     ${generalSecondarySpan(main.hass, main, config, templatesObj, home, "home")}
     ${home.icon !== " " ? html`<ha-icon id="home-icon" .icon=${home.icon} />` : null}
-    ${home.state?.total > 0 ? homeUsageToDisplay : ""}
+    ${homeUsageToDisplay}
     <svg class="home-circle-sections">
       ${
         homeSolarCircumference !== undefined
