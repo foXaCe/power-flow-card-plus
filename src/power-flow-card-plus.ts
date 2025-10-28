@@ -859,19 +859,22 @@ export class PowerFlowCardPlus extends LitElement {
     draggedElement: string,
     CIRCLE_RADIUS: number
   ): { left: number; top: number } {
-    // Liste de tous les cercles possibles (avec tirets comme les classes CSS)
-    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily-export', 'daily-cost', 'self-sufficiency'];
-    const otherCircles = allCircles.filter(c => c !== draggedElement);
+    // Récupérer uniquement les cercles visibles dans le DOM
+    const allCircleElements = this.shadowRoot?.querySelectorAll('.circle-container') || [];
 
     // Centre du cercle draggé
     const draggedCenterX = left + CIRCLE_RADIUS;
     const draggedCenterY = top + CIRCLE_RADIUS;
 
-    for (const circleName of otherCircles) {
-      // Convertir les underscores en tirets pour les classes CSS
-      const cssClassName = circleName.replace(/_/g, '-');
-      const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${cssClassName}`) as HTMLElement;
-      if (!otherCircle || !otherCircle.offsetParent) continue;
+    for (const element of Array.from(allCircleElements)) {
+      const otherCircle = element as HTMLElement;
+
+      // Extraire le nom de classe du cercle (solar, battery, etc.)
+      const classList = Array.from(otherCircle.classList);
+      const circleName = classList.find(c => c !== 'circle-container');
+
+      // Ignorer si c'est le cercle qu'on déplace ou si pas visible
+      if (!circleName || circleName === draggedElement || !otherCircle.offsetParent) continue;
 
       // Position de l'autre cercle
       const otherLeft = otherCircle.offsetLeft;
