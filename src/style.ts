@@ -767,35 +767,38 @@ export const styles = css`
     background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
   }
 
-  /* Boutons d'édition */
+  /* Bouton reset discret */
   .edit-buttons-container {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
+    bottom: 4px;
+    right: 4px;
     z-index: 5;
     display: flex;
     gap: 8px;
   }
 
   .reset-positions-button {
-    padding: 6px;
-    background: rgba(255, 100, 100, 0.2);
-    color: white;
+    padding: 4px;
+    background: transparent;
+    color: var(--secondary-text-color);
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    font-size: 16px;
-    width: 32px;
-    height: 32px;
+    font-size: 12px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: all 0.3s;
+    opacity: 0.3;
   }
 
   .reset-positions-button:hover {
-    background: rgba(255, 100, 100, 0.3);
-    transform: scale(1.1);
+    background: rgba(255, 100, 100, 0.2);
+    color: var(--primary-text-color);
+    opacity: 1;
+    transform: scale(1.2);
   }
 
   /* Les bulles sont toujours déplaçables */

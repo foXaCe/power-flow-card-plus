@@ -124,6 +124,5 @@ export const homeElement = (
     </svg>
   </div>
   ${!showHomeLabel ? html`<span class="label"></span>` : html`<span class="label">${home.name}</span>`}
-</div>
 </div>`;
 };
