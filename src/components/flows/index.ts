@@ -112,7 +112,7 @@ function createLine(
   const customStyles = getArrowStyles(arrowKey as any, config);
   const customTransform = getArrowTransform(arrowKey as any, config);
 
-  return svg`
+  const line = svg`
     <line
       id="${lineId}"
       class="${lineClass} ${styleLine(power, config)}"
@@ -124,23 +124,26 @@ function createLine(
       style="${customStyles}"
       transform="${customTransform}"
     />
-    ${showDots && checkShouldShowDots(config) ? (() => {
-      const dotColor = getDotColor(lineClass);
-      console.log(`Creating dot for ${lineId}: class=${lineClass}, color=${dotColor}, showDots=${showDots}, duration=${duration}`);
-      return svg`
-        <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${dotColor}" stroke="none" opacity="1">
-          <animateMotion
-            dur="${duration}s"
-            repeatCount="indefinite"
-            calcMode="linear"
-            ${reverse ? 'keyPoints="1;0" keyTimes="0;1"' : ''}
-          >
-            <mpath href="#${lineId}" />
-          </animateMotion>
-        </circle>
-      `;
-    })() : ''}
   `;
+
+  const dot = showDots && checkShouldShowDots(config) ? (() => {
+    const dotColor = getDotColor(lineClass);
+    console.log(`Creating dot for ${lineId}: class=${lineClass}, color=${dotColor}, showDots=${showDots}, duration=${duration}`);
+    return svg`
+      <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${dotColor}" stroke="none" opacity="1">
+        <animateMotion
+          dur="${duration}s"
+          repeatCount="indefinite"
+          calcMode="linear"
+          ${reverse ? 'keyPoints="1;0" keyTimes="0;1"' : ''}
+        >
+          <mpath href="#${lineId}" />
+        </animateMotion>
+      </circle>
+    `;
+  })() : svg``;
+
+  return svg`${line}${dot}`;
 }
 
 export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig, { battery, grid, individual, solar, newDur, dailyExport, dailyCost }: Flows) => {

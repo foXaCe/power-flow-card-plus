@@ -28,3 +28,7 @@ _site/
 storybook-static
 custom-elements.json
 # pnpm-lock.yaml
+
+# Debug files
+console.txt
+inspection.txt
