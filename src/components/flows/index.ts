@@ -111,7 +111,7 @@ function createLine(
       transform="${customTransform}"
     />
     ${showDots && checkShouldShowDots(config) ? svg`
-      <circle r="3" class="${lineClass}" vector-effect="non-scaling-stroke">
+      <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke">
         <animateMotion
           dur="${duration}s"
           repeatCount="indefinite"
