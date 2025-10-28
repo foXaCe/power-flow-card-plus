@@ -113,16 +113,14 @@ function createLine(
   const customTransform = getArrowTransform(arrowKey as any, config);
 
   const line = svg`
-    <line
+    <path
       id="${lineId}"
       class="${lineClass} ${styleLine(power, config)}"
-      x1="${fromEdge.x}"
-      y1="${fromEdge.y}"
-      x2="${toEdge.x}"
-      y2="${toEdge.y}"
+      d="M ${fromEdge.x} ${fromEdge.y} L ${toEdge.x} ${toEdge.y}"
       vector-effect="non-scaling-stroke"
       style="${customStyles}"
       transform="${customTransform}"
+      fill="none"
     />
   `;
 
