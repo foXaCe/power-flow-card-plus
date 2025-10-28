@@ -20,11 +20,6 @@ export const selfSufficiencyElement = (
   const percentage = calculateSelfSufficiency(solarToHome, batteryToHome, gridToHome);
   const color = getSelfSufficiencyColor(percentage);
 
-  // Cercle de progression SVG
-  const radius = 30;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference - (percentage / 100) * circumference;
-
   // Position personnalisée ou par défaut sous home
   const customStyle = config.custom_positions?.self_sufficiency
     ? `top: ${config.custom_positions.self_sufficiency.top}px; left: ${config.custom_positions.self_sufficiency.left}px; bottom: auto; right: auto; transform: none;`
@@ -34,57 +29,14 @@ export const selfSufficiencyElement = (
     <div
       class="circle-container self-sufficiency"
       style="${customStyle}"
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'self-sufficiency')}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'self-sufficiency')}
     >
-      <span class="label">Autosuffisance</span>
-      <div class="circle" style="background-color: var(--card-background-color);">
-        <div style="
-          position: relative;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        ">
-          <svg width="80" height="80" style="position: absolute; transform: rotate(-90deg);">
-            <!-- Cercle de fond -->
-            <circle
-              cx="40"
-              cy="40"
-              r="${radius}"
-              fill="none"
-              stroke="var(--disabled-text-color)"
-              stroke-width="4"
-              opacity="0.2"
-            />
-            <!-- Cercle de progression -->
-            <circle
-              cx="40"
-              cy="40"
-              r="${radius}"
-              fill="none"
-              stroke="${color}"
-              stroke-width="4"
-              stroke-dasharray="${circumference}"
-              stroke-dashoffset="${offset}"
-              stroke-linecap="round"
-              style="transition: stroke-dashoffset 0.5s ease, stroke 0.5s ease;"
-            />
-          </svg>
-
-          <div style="
-            position: relative;
-            z-index: 1;
-            text-align: center;
-          ">
-            <div style="
-              font-size: 22px;
-              font-weight: 700;
-              color: ${color};
-              line-height: 1;
-            ">${percentage}%</div>
-          </div>
-        </div>
+      <div class="circle">
+        <ha-icon icon="mdi:leaf" style="color: ${color};"></ha-icon>
+        <span class="self-sufficiency-value" style="color: ${color}; font-weight: 700;">${percentage}%</span>
       </div>
+      <span class="label">Autosuffisance</span>
     </div>
   `;
 };
