@@ -327,7 +327,7 @@ export const styles = css`
     white-space: nowrap;
   }
 
-  circle.daily-cost-base {
+  .daily-cost .circle svg circle.daily-cost-base {
     stroke: var(--primary-text-color);
     fill: none;
     stroke-width: 4px;
@@ -335,13 +335,11 @@ export const styles = css`
     pointer-events: none;
   }
 
-  circle.daily-cost-progress {
-    stroke: #ff0000;
+  .daily-cost .circle svg circle.daily-cost-progress {
+    stroke: #ff0000 !important;
     fill: none;
     stroke-width: 4px;
-    stroke-linecap: round;
-    opacity: 1;
-    z-index: 10;
+    opacity: 1 !important;
   }
 
   .daily-cost-arrow {
