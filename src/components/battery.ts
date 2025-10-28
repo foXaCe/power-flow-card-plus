@@ -42,6 +42,32 @@ export const batteryElement = (
     ? circleCircumference * (gridToBattery / totalCharging)
     : 0;
 
+  // Cercle de niveau de charge (state_of_charge)
+  const stateOfCharge = battery.state_of_charge?.state || 0;
+  const chargeCircumference = (stateOfCharge / 100) * circleCircumference;
+
+  // Fonction pour créer les marqueurs de niveau (tous les 10%)
+  const createChargeMarker = (percent: number) => {
+    const angle = (percent / 100) * 360 - 90; // -90 pour commencer en haut
+    const outerRadius = 38;
+    const innerRadius = 36;
+
+    const x1 = 40 + outerRadius * Math.cos((angle * Math.PI) / 180);
+    const y1 = 40 + outerRadius * Math.sin((angle * Math.PI) / 180);
+    const x2 = 40 + innerRadius * Math.cos((angle * Math.PI) / 180);
+    const y2 = 40 + innerRadius * Math.sin((angle * Math.PI) / 180);
+
+    return svg`<line
+      x1="${x1}"
+      y1="${y1}"
+      x2="${x2}"
+      y2="${y2}"
+      stroke="var(--primary-text-color)"
+      stroke-width="1.5"
+      opacity="0.3"
+    />`;
+  };
+
   return html`<div
       class="circle-container battery"
       style="${customStyle}"
@@ -161,24 +187,42 @@ export const batteryElement = (
           >`
         : ""}
       <svg>
-        ${batterySolarCircumference > 0 ? svg`<circle
-          class="solar"
-          cx="40"
-          cy="40"
-          r="38"
-          stroke-dasharray="${batterySolarCircumference} ${circleCircumference - batterySolarCircumference}"
-          stroke-dashoffset="-${circleCircumference - batterySolarCircumference}"
-          shape-rendering="geometricPrecision"
-        />` : ''}
-        ${batteryGridCircumference > 0 ? svg`<circle
-          class="grid"
-          cx="40"
-          cy="40"
-          r="38"
-          stroke-dasharray="${batteryGridCircumference} ${circleCircumference - batteryGridCircumference}"
-          stroke-dashoffset="-${circleCircumference - batteryGridCircumference - batterySolarCircumference}"
-          shape-rendering="geometricPrecision"
-        />` : ''}
+        ${totalCharging > 0 ? svg`
+          ${batterySolarCircumference > 0 ? svg`<circle
+            class="solar"
+            cx="40"
+            cy="40"
+            r="38"
+            stroke-dasharray="${batterySolarCircumference} ${circleCircumference - batterySolarCircumference}"
+            stroke-dashoffset="-${circleCircumference - batterySolarCircumference}"
+            shape-rendering="geometricPrecision"
+          />` : ''}
+          ${batteryGridCircumference > 0 ? svg`<circle
+            class="grid"
+            cx="40"
+            cy="40"
+            r="38"
+            stroke-dasharray="${batteryGridCircumference} ${circleCircumference - batteryGridCircumference}"
+            stroke-dashoffset="-${circleCircumference - batteryGridCircumference - batterySolarCircumference}"
+            shape-rendering="geometricPrecision"
+          />` : ''}
+        ` : svg`
+          <!-- Marqueurs tous les 10% -->
+          ${[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(percent => createChargeMarker(percent))}
+          <!-- Cercle de niveau de charge -->
+          <circle
+            class="battery"
+            cx="40"
+            cy="40"
+            r="38"
+            stroke-dasharray="${chargeCircumference} ${circleCircumference - chargeCircumference}"
+            stroke-dashoffset="-${circleCircumference - chargeCircumference}"
+            shape-rendering="geometricPrecision"
+            stroke="var(--energy-battery-out-color)"
+            stroke-width="4"
+            fill="none"
+          />
+        `}
       </svg>
     </div>
     <span class="label">${battery.name}</span>
