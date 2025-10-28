@@ -94,19 +94,6 @@ export const dailyCostElement = (
           fill="none"
           opacity="0.2"
         />`}
-        ${svg`<circle
-          class="daily-cost-progress"
-          cx="40"
-          cy="40"
-          r="38"
-          stroke-dasharray="${redCircumference} ${circumference - redCircumference}"
-          stroke-dashoffset="-${circumference - redCircumference}"
-          shape-rendering="geometricPrecision"
-          stroke="#ff0000"
-          stroke-width="4"
-          fill="none"
-          opacity="1"
-        />`}
         <!-- Marqueurs d'heures -->
         ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(hour => createHourMarker(hour))}
         <!-- Aiguille des heures -->
