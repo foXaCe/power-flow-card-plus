@@ -55,14 +55,14 @@ export const dailyCostElement = (
       <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color);">
         ${displayCost} ${displayUnit}
       </span>
-      <svg class="daily-cost-progress-circle">
+      <svg>
         ${svg`<circle
           class="daily-cost-progress"
           cx="40"
           cy="40"
           r="${radius}"
           stroke-dasharray="${progressCircumference} ${circumference - progressCircumference}"
-          stroke-dashoffset="${-circumference / 4}"
+          stroke-dashoffset="-${progressCircumference}"
           shape-rendering="geometricPrecision"
         />`}
       </svg>
