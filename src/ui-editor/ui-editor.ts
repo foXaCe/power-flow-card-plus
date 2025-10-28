@@ -33,7 +33,7 @@ const CONFIG_PAGES: {
   },
   {
     page: "solar",
-    icon: "mdi:solar-power",
+    icon: "mdi:solar-power-variant",
     schema: solarSchema,
   },
   {

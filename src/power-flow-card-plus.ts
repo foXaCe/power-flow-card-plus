@@ -235,7 +235,7 @@ export class PowerFlowCardPlus extends LitElement {
         toGrid: initialNumericState,
         toBattery: initialNumericState,
       },
-      icon: computeFieldIcon(this.hass, entities.solar, "mdi:solar-power"),
+      icon: computeFieldIcon(this.hass, entities.solar, "mdi:solar-power-variant"),
       name: computeFieldName(this.hass, entities.solar, this.hass.localize("ui.panel.lovelace.cards.energy.energy_distribution.solar")),
       tap_action: entities.solar?.tap_action,
       secondary: {
