@@ -915,4 +915,12 @@ export const styles = css`
   .circle {
     cursor: move !important;
   }
+
+  /* Responsive pour mobile */
+  @media (max-width: 500px) {
+    .circle-container.self-sufficiency {
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+  }
 `;

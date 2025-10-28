@@ -20,10 +20,10 @@ export const selfSufficiencyElement = (
   const percentage = calculateSelfSufficiency(solarToHome, batteryToHome, gridToHome);
   const color = getSelfSufficiencyColor(percentage);
 
-  // Position personnalisée ou par défaut sous home
+  // Position personnalisée ou par défaut sous home (centrée)
   const customStyle = config.custom_positions?.self_sufficiency
     ? `top: ${config.custom_positions.self_sufficiency.top}px; left: ${config.custom_positions.self_sufficiency.left}px; bottom: auto; right: auto; transform: none;`
-    : "top: 322px; left: 401px;"; // Position par défaut sous home
+    : "top: 322px; left: 50%; transform: translateX(-50%);"; // Position par défaut sous home, centrée
 
   return html`
     <div
