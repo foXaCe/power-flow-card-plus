@@ -60,13 +60,6 @@ export const dailyCostElement = (
       <svg>
         ${svg`
           <circle
-            class="daily-cost-base"
-            cx="40"
-            cy="40"
-            r="38"
-            shape-rendering="geometricPrecision"
-          />
-          <circle
             class="daily-cost-progress"
             cx="40"
             cy="40"
@@ -74,6 +67,9 @@ export const dailyCostElement = (
             stroke-dasharray="${redCircumference} ${circumference - redCircumference}"
             stroke-dashoffset="-${circumference - redCircumference}"
             shape-rendering="geometricPrecision"
+            stroke="#ff0000"
+            stroke-width="4"
+            fill="none"
           />
         `}
       </svg>
