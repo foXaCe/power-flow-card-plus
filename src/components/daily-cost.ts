@@ -28,6 +28,7 @@ export const dailyCostElement = (
   const radius = 38;
   const circumference = 2 * Math.PI * radius;
   const progressCircumference = (dayProgressPercentage / 100) * circumference;
+  const remainingCircumference = circumference - progressCircumference;
 
   const customStyle = _config.custom_positions?.daily_cost
     ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
@@ -61,8 +62,8 @@ export const dailyCostElement = (
           cx="40"
           cy="40"
           r="${radius}"
-          stroke-dasharray="${progressCircumference} ${circumference - progressCircumference}"
-          stroke-dashoffset="-${progressCircumference}"
+          stroke-dasharray="${progressCircumference} ${remainingCircumference}"
+          stroke-dashoffset="-${remainingCircumference}"
           shape-rendering="geometricPrecision"
         />`}
       </svg>
