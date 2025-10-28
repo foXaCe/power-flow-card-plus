@@ -331,7 +331,7 @@ export const styles = css`
     stroke: var(--primary-text-color);
     fill: none;
     stroke-width: 4px;
-    opacity: 0.1;
+    opacity: 0.3;
   }
 
   circle.daily-cost-progress {
