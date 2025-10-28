@@ -710,7 +710,7 @@ export class PowerFlowCardPlus extends LitElement {
   private _dragHandlers: Map<string, any> = new Map();
 
   private _attachDragListeners() {
-    const circles = ['solar', 'grid', 'home', 'battery'];
+    const circles = ['solar', 'grid', 'home', 'battery', 'daily-cost', 'daily-export', 'self-sufficiency'];
 
     // Détacher les anciens listeners
     circles.forEach(circle => {
@@ -860,7 +860,7 @@ export class PowerFlowCardPlus extends LitElement {
     CIRCLE_RADIUS: number
   ): { left: number; top: number } {
     // Liste de tous les cercles possibles
-    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily_export', 'daily_cost'];
+    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily_export', 'daily_cost', 'self_sufficiency'];
     const otherCircles = allCircles.filter(c => c !== draggedElement);
 
     // Centre du cercle draggé
@@ -951,7 +951,9 @@ export class PowerFlowCardPlus extends LitElement {
       newConfig.custom_positions = {};
     }
 
-    newConfig.custom_positions[this._draggedElement] = {
+    // Convertir les tirets en underscores pour la config
+    const configKey = this._draggedElement.replace(/-/g, '_');
+    newConfig.custom_positions[configKey] = {
       left: left,
       top: top,
     };
