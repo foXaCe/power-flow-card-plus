@@ -859,8 +859,8 @@ export class PowerFlowCardPlus extends LitElement {
     draggedElement: string,
     CIRCLE_RADIUS: number
   ): { left: number; top: number } {
-    // Liste de tous les cercles possibles
-    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily_export', 'daily_cost', 'self_sufficiency'];
+    // Liste de tous les cercles possibles (avec tirets comme les classes CSS)
+    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily-export', 'daily-cost', 'self-sufficiency'];
     const otherCircles = allCircles.filter(c => c !== draggedElement);
 
     // Centre du cercle draggé
