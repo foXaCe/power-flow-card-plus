@@ -331,7 +331,8 @@ export const styles = css`
     stroke: var(--primary-text-color);
     fill: none;
     stroke-width: 4px;
-    opacity: 0.3;
+    opacity: 0.15;
+    pointer-events: none;
   }
 
   circle.daily-cost-progress {
@@ -340,6 +341,7 @@ export const styles = css`
     stroke-width: 4px;
     stroke-linecap: round;
     opacity: 1;
+    z-index: 10;
   }
 
   .daily-cost-arrow {
