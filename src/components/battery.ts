@@ -1,4 +1,4 @@
-import { html } from "lit";
+import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { displayValue } from "../utils/displayValue";
@@ -9,9 +9,13 @@ export const batteryElement = (
   {
     battery,
     entities,
+    solar,
+    grid,
   }: {
     battery: any;
     entities: ConfigEntities;
+    solar?: any;
+    grid?: any;
   }
 ) => {
   // Safe check for pulse animation
@@ -23,6 +27,20 @@ export const batteryElement = (
   const customStyle = config.custom_positions?.battery
     ? `top: ${config.custom_positions.battery.top}px; left: ${config.custom_positions.battery.left}px; bottom: auto; right: auto; transform: none;`
     : "";
+
+  // Calculate colored circles based on charging source
+  const circleCircumference = 2 * Math.PI * 38;
+  const totalCharging = battery.state.toBattery || 0;
+  const solarToBattery = solar?.state?.toBattery || 0;
+  const gridToBattery = grid?.state?.toBattery || 0;
+
+  const batterySolarCircumference = totalCharging > 0 && solarToBattery > 0
+    ? circleCircumference * (solarToBattery / totalCharging)
+    : 0;
+
+  const batteryGridCircumference = totalCharging > 0 && gridToBattery > 0
+    ? circleCircumference * (gridToBattery / totalCharging)
+    : 0;
 
   return html`<div
       class="circle-container battery"
@@ -142,6 +160,26 @@ export const batteryElement = (
             })}</span
           >`
         : ""}
+      <svg>
+        ${batterySolarCircumference > 0 ? svg`<circle
+          class="solar"
+          cx="40"
+          cy="40"
+          r="38"
+          stroke-dasharray="${batterySolarCircumference} ${circleCircumference - batterySolarCircumference}"
+          stroke-dashoffset="-${circleCircumference - batterySolarCircumference}"
+          shape-rendering="geometricPrecision"
+        />` : ''}
+        ${batteryGridCircumference > 0 ? svg`<circle
+          class="grid"
+          cx="40"
+          cy="40"
+          r="38"
+          stroke-dasharray="${batteryGridCircumference} ${circleCircumference - batteryGridCircumference}"
+          stroke-dashoffset="-${circleCircumference - batteryGridCircumference - batterySolarCircumference}"
+          shape-rendering="geometricPrecision"
+        />` : ''}
+      </svg>
     </div>
     <span class="label">${battery.name}</span>
   </div>`;

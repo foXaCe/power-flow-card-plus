@@ -657,7 +657,7 @@ export class PowerFlowCardPlus extends LitElement {
               })
             : ""}
           ${battery.has
-            ? batteryElement(this, this._config, { battery, entities })
+            ? batteryElement(this, this._config, { battery, entities, solar, grid })
             : ""}
           ${dailyCost.enabled
             ? dailyCostElement(this, this._config, { dailyCost })
