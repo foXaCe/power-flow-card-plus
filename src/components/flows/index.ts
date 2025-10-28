@@ -70,6 +70,20 @@ function getCircleEdgePoint(
   };
 }
 
+// Fonction pour obtenir la couleur du dot selon la classe
+function getDotColor(lineClass: string): string {
+  const colorMap: Record<string, string> = {
+    'solar': 'var(--energy-solar-color)',
+    'grid': 'var(--energy-grid-consumption-color)',
+    'return': 'var(--energy-grid-return-color)',
+    'battery-home': 'var(--energy-battery-out-color)',
+    'battery-from-grid': 'var(--energy-grid-consumption-color)',
+    'battery-to-grid': 'var(--energy-grid-return-color)',
+    'battery-solar': 'var(--energy-battery-in-color)',
+  };
+  return colorMap[lineClass] || 'var(--primary-color)';
+}
+
 // Fonction pour créer une ligne entre deux cercles
 function createLine(
   main: PowerFlowCardPlus,
@@ -111,7 +125,7 @@ function createLine(
       transform="${customTransform}"
     />
     ${showDots && checkShouldShowDots(config) ? svg`
-      <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke">
+      <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${getDotColor(lineClass)}" stroke="none" opacity="1">
         <animateMotion
           dur="${duration}s"
           repeatCount="indefinite"
