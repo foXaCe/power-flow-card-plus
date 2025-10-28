@@ -103,9 +103,9 @@ export const dailyCostElement = (
           x2="${40 + 28 * Math.sin((hourAngle * Math.PI) / 180)}"
           y2="${40 - 28 * Math.cos((hourAngle * Math.PI) / 180)}"
           stroke="#ff0000"
-          stroke-width="2"
+          stroke-width="3.5"
           stroke-linecap="round"
-          opacity="0.8"
+          opacity="1"
         />`}
       </svg>
     </div>

@@ -89,9 +89,9 @@ export const dailyExportElement = (
           x2="${40 + 28 * Math.sin((hourAngle * Math.PI) / 180)}"
           y2="${40 - 28 * Math.cos((hourAngle * Math.PI) / 180)}"
           stroke="#4caf50"
-          stroke-width="2"
+          stroke-width="3.5"
           stroke-linecap="round"
-          opacity="0.8"
+          opacity="1"
         />`}
       </svg>
     </div>
