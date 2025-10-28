@@ -124,18 +124,22 @@ function createLine(
       style="${customStyles}"
       transform="${customTransform}"
     />
-    ${showDots && checkShouldShowDots(config) ? svg`
-      <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${getDotColor(lineClass)}" stroke="none" opacity="1">
-        <animateMotion
-          dur="${duration}s"
-          repeatCount="indefinite"
-          calcMode="linear"
-          ${reverse ? 'keyPoints="1;0" keyTimes="0;1"' : ''}
-        >
-          <mpath href="#${lineId}" />
-        </animateMotion>
-      </circle>
-    ` : ''}
+    ${showDots && checkShouldShowDots(config) ? (() => {
+      const dotColor = getDotColor(lineClass);
+      console.log(`Creating dot for ${lineId}: class=${lineClass}, color=${dotColor}, showDots=${showDots}, duration=${duration}`);
+      return svg`
+        <circle r="4" class="${lineClass}" vector-effect="non-scaling-stroke" fill="${dotColor}" stroke="none" opacity="1">
+          <animateMotion
+            dur="${duration}s"
+            repeatCount="indefinite"
+            calcMode="linear"
+            ${reverse ? 'keyPoints="1;0" keyTimes="0;1"' : ''}
+          >
+            <mpath href="#${lineId}" />
+          </animateMotion>
+        </circle>
+      `;
+    })() : ''}
   `;
 }
 
