@@ -25,9 +25,9 @@ export const dailyCostElement = (
   const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
 
   // Calcul du cercle de progression
-  // La bulle fait 80px de diamètre avec une bordure de 2px
-  // Le centre de la bordure est à rayon = 40px - 1px = 39px
-  const radius = 39;
+  // Comme la bulle Home: cercles SVG au lieu d'une bordure CSS
+  // Rayon 38px avec stroke-width 4px (total = 34 à 42px de rayon)
+  const radius = 38;
   const circumference = 2 * Math.PI * radius;
   const progressCircumference = (dayProgressPercentage / 100) * circumference;
   const remainingCircumference = circumference - progressCircumference;
@@ -59,15 +59,24 @@ export const dailyCostElement = (
         ${displayCost} ${displayUnit}
       </span>
       <svg>
-        ${svg`<circle
-          class="daily-cost-progress"
-          cx="40"
-          cy="40"
-          r="${radius}"
-          stroke-dasharray="${progressCircumference} ${remainingCircumference}"
-          stroke-dashoffset="-${remainingCircumference}"
-          shape-rendering="geometricPrecision"
-        />`}
+        ${svg`
+          <circle
+            class="daily-cost-base"
+            cx="40"
+            cy="40"
+            r="${radius}"
+            shape-rendering="geometricPrecision"
+          />
+          <circle
+            class="daily-cost-progress"
+            cx="40"
+            cy="40"
+            r="${radius}"
+            stroke-dasharray="${progressCircumference} ${remainingCircumference}"
+            stroke-dashoffset="-${remainingCircumference}"
+            shape-rendering="geometricPrecision"
+          />
+        `}
       </svg>
     </div>
   </div>`;

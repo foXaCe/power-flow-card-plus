@@ -305,6 +305,7 @@ export const styles = css`
     justify-content: center;
     gap: 2px;
     position: relative;
+    border-width: 0;
   }
 
   .daily-cost #daily-cost-icon {
@@ -326,10 +327,17 @@ export const styles = css`
     white-space: nowrap;
   }
 
+  circle.daily-cost-base {
+    stroke: var(--primary-text-color);
+    fill: none;
+    stroke-width: 4px;
+    opacity: 0.3;
+  }
+
   circle.daily-cost-progress {
     stroke: #ff4444;
     fill: none;
-    stroke-width: 2px;
+    stroke-width: 4px;
     stroke-linecap: round;
   }
 
