@@ -794,13 +794,13 @@ export const styles = css`
     will-change: transform;
   }
 
-  /* Effet de pulsation sur les lignes actives */
-  #power-flow-lines path:not(.grey):not(.transparency) {
+  /* Effet de pulsation sur les lignes actives (uniquement si flux > 1W) */
+  #power-flow-lines path:not(.grey):not(.transparency):not(.no-flow) {
     animation: line-pulse 2s ease-in-out infinite;
   }
 
   /* Effet de glow pour les lignes à fort débit (> 1000W) */
-  #power-flow-lines path.high-power {
+  #power-flow-lines path.high-power:not(.no-flow) {
     animation: line-glow 1.5s ease-in-out infinite;
     filter: drop-shadow(0 0 4px currentColor);
   }
