@@ -58,31 +58,29 @@ export const dailyCostElement = (
         ${displayCost} ${displayUnit}
       </span>
       <svg>
-        ${svg`
-          <circle
-            cx="40"
-            cy="40"
-            r="38"
-            shape-rendering="geometricPrecision"
-            stroke="var(--primary-text-color)"
-            stroke-width="4"
-            fill="none"
-            opacity="0.2"
-          />
-          <circle
-            class="daily-cost-progress"
-            cx="40"
-            cy="40"
-            r="38"
-            stroke-dasharray="${redCircumference} ${circumference - redCircumference}"
-            stroke-dashoffset="-${circumference - redCircumference}"
-            shape-rendering="geometricPrecision"
-            stroke="#ff0000"
-            stroke-width="4"
-            fill="none"
-            opacity="1"
-          />
-        `}
+        ${svg`<circle
+          cx="40"
+          cy="40"
+          r="38"
+          shape-rendering="geometricPrecision"
+          stroke="var(--primary-text-color)"
+          stroke-width="4"
+          fill="none"
+          opacity="0.2"
+        />`}
+        ${svg`<circle
+          class="daily-cost-progress"
+          cx="40"
+          cy="40"
+          r="38"
+          stroke-dasharray="${redCircumference} ${circumference - redCircumference}"
+          stroke-dashoffset="-${circumference - redCircumference}"
+          shape-rendering="geometricPrecision"
+          stroke="#ff0000"
+          stroke-width="4"
+          fill="none"
+          opacity="1"
+        />`}
       </svg>
     </div>
   </div>`;
