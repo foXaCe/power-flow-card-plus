@@ -282,12 +282,12 @@ export const flowElement = (main: PowerFlowCardPlus, config: PowerFlowCardPlusCo
       ) : ''}
 
       ${grid.has && battery.has ? createLine(
-        main, config, 'battery', 'grid', 'battery-grid',
+        main, config, 'grid', 'battery', 'battery-grid',
         grid.state.toBattery ? 'battery-from-grid' : 'battery-to-grid',
         Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0),
         !!(grid.state.toBattery || battery.state.toGrid),
         newDur.batteryGrid, 'grid_to_battery',
-        !!grid.state.toBattery
+        !!battery.state.toGrid
       ) : ''}
 
       ${selfSufficiencyLine(main, config)}
