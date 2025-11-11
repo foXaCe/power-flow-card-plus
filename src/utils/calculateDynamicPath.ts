@@ -41,20 +41,15 @@ export function calculateDynamicPath(
     const offsetY = nx * 30;
 
     return `M${startX},${startY} Q${midX + offsetX},${midY + offsetY} ${endX},${endY}`;
-  } else {
-    // Ligne droite
-    return `M${startX},${startY} L${endX},${endY}`;
   }
+  // Ligne droite
+  return `M${startX},${startY} L${endX},${endY}`;
 }
 
 /**
  * Convertit des coordonnées absolues en coordonnées viewBox SVG (0-100)
  */
-export function toSVGCoordinates(
-  point: { x: number; y: number },
-  cardWidth: number,
-  cardHeight: number
-): { x: number; y: number } {
+export function toSVGCoordinates(point: { x: number; y: number }, cardWidth: number, cardHeight: number): { x: number; y: number } {
   return {
     x: (point.x / cardWidth) * 100,
     y: (point.y / cardHeight) * 100,

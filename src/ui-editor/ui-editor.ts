@@ -92,9 +92,9 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
 
   private _adjustPreviewSize(): void {
     // Inject styles to make card preview display at real dashboard size
-    if (!document.getElementById('pfcp-preview-styles')) {
-      const style = document.createElement('style');
-      style.id = 'pfcp-preview-styles';
+    if (!document.getElementById("pfcp-preview-styles")) {
+      const style = document.createElement("style");
+      style.id = "pfcp-preview-styles";
       style.textContent = `
         /* Target the preview container in HA's card editor */
         hui-dialog-edit-card hui-card-preview {
@@ -112,7 +112,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    const style = document.getElementById('pfcp-preview-styles');
+    const style = document.getElementById("pfcp-preview-styles");
     if (style) {
       style.remove();
     }
@@ -198,9 +198,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
       `;
     };
 
-    const renderLinkSubPages = () => {
-      return CONFIG_PAGES.map((page) => renderLinkSubpage(page.page, page.icon));
-    };
+    const renderLinkSubPages = () => CONFIG_PAGES.map((page) => renderLinkSubpage(page.page, page.icon));
 
     return html`
       <div class="card-config">

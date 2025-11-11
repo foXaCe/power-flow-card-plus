@@ -301,15 +301,9 @@ export class CustomPositionsEditor extends LitElement {
                 />
                 <span class="input-suffix">px</span>
               </div>
-              <div class="default-hint">
-                ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "top")}
-              </div>
+              <div class="default-hint">${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "top")}</div>
             </div>
-            <button
-              class="reset-button"
-              @click=${() => this._reset(circle, "top")}
-              title="Reset to default"
-            >
+            <button class="reset-button" @click=${() => this._reset(circle, "top")} title="Reset to default">
               <ha-icon icon="mdi:restore"></ha-icon>
             </button>
           </div>
@@ -327,15 +321,9 @@ export class CustomPositionsEditor extends LitElement {
                 />
                 <span class="input-suffix">px</span>
               </div>
-              <div class="default-hint">
-                ${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "left")}
-              </div>
+              <div class="default-hint">${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "left")}</div>
             </div>
-            <button
-              class="reset-button"
-              @click=${() => this._reset(circle, "left")}
-              title="Reset to default"
-            >
+            <button class="reset-button" @click=${() => this._reset(circle, "left")} title="Reset to default">
               <ha-icon icon="mdi:restore"></ha-icon>
             </button>
           </div>
@@ -356,16 +344,13 @@ export class CustomPositionsEditor extends LitElement {
 
       <div class="card-dimensions">
         <strong>${this.localize("editor.card_dimensions")}:</strong>
-        ${this.localize("editor.card_max_width")}: 470px,
-        ${this.localize("editor.card_typical_height")}: ~400-500px
-        <br>
+        ${this.localize("editor.card_max_width")}: 470px, ${this.localize("editor.card_typical_height")}: ~400-500px
+        <br />
         <em>${this.localize("editor.position_tip")}</em>
       </div>
 
-      ${this._renderPositionSection("solar", this.localize("editor.solar"))}
-      ${this._renderPositionSection("grid", this.localize("editor.grid"))}
-      ${this._renderPositionSection("home", this.localize("editor.home"))}
-      ${this._renderPositionSection("battery", this.localize("editor.battery"))}
+      ${this._renderPositionSection("solar", this.localize("editor.solar"))} ${this._renderPositionSection("grid", this.localize("editor.grid"))}
+      ${this._renderPositionSection("home", this.localize("editor.home"))} ${this._renderPositionSection("battery", this.localize("editor.battery"))}
       ${this._renderPositionSection("daily_cost", this.localize("editor.daily_cost_title"))}
       ${this._renderPositionSection("daily_export", this.localize("editor.daily_export_title"))}
     `;

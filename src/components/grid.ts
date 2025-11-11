@@ -11,9 +11,7 @@ export const gridElement = (
   { entities, grid, templatesObj }: { entities: ConfigEntities; grid: any; templatesObj: TemplatesObj }
 ) => {
   // Safe check for pulse animation
-  const isPulsing = config.circle_pulse_animation &&
-    grid?.state &&
-    (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
+  const isPulsing = config.circle_pulse_animation && grid?.state && (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
 
   // Apply custom position if configured (override defaults)
   const customStyle = config.custom_positions?.grid
@@ -21,11 +19,11 @@ export const gridElement = (
     : "";
 
   return html`<div
-      class="circle-container grid"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'grid')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'grid')}
-    >
+    class="circle-container grid"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "grid")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "grid")}
+  >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -53,7 +51,8 @@ export const gridElement = (
     >
       ${generalSecondarySpan(main.hass, main, config, templatesObj, grid, "grid")}
       ${grid.icon !== " " ? html` <ha-icon id="grid-icon" .icon=${grid.icon} />` : null}
-      ${(grid.state.toGrid ?? 0) > 0 && (entities.grid?.display_state === "two_way" ||
+      ${(grid.state.toGrid ?? 0) > 0 &&
+      (entities.grid?.display_state === "two_way" ||
         entities.grid?.display_state === undefined ||
         (entities.grid?.display_state === "one_way_no_zero" && (grid.state.toGrid ?? 0) > 0) ||
         (entities.grid?.display_state === "one_way" && (grid.state.fromGrid ?? 0) == 0)) &&
@@ -82,13 +81,14 @@ export const gridElement = (
             })}
           </span>`
         : null}
-      ${grid.state.fromGrid > 0 && (((entities.grid?.display_state === "two_way" ||
+      ${grid.state.fromGrid > 0 &&
+      (((entities.grid?.display_state === "two_way" ||
         entities.grid?.display_state === undefined ||
         (entities.grid?.display_state === "one_way_no_zero" && grid.state.fromGrid > 0) ||
         (entities.grid?.display_state === "one_way" && (grid.state.toGrid ?? 0) == 0 && grid.state.fromGrid > 0)) &&
         grid.state.fromGrid !== null &&
         !grid.powerOutage.isOutage) ||
-      (grid.powerOutage.isOutage && !!grid.powerOutage.entityGenerator))
+        (grid.powerOutage.isOutage && !!grid.powerOutage.entityGenerator))
         ? html` <span
             class="consumption"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -116,7 +116,7 @@ export const gridElement = (
     <span class="label">${grid.name}</span>
     ${grid.cost?.enabled && grid.cost.tariff > 0 && grid.state.fromGrid > 0
       ? html`<span class="cost-info">
-          ${((grid.state.fromGrid / 1000) * grid.cost.tariff).toFixed(grid.cost.decimals)} ${grid.cost.unit.replace('/kWh', '/h')}
+          ${((grid.state.fromGrid / 1000) * grid.cost.tariff).toFixed(grid.cost.decimals)} ${grid.cost.unit.replace("/kWh", "/h")}
         </span>`
       : ""}
   </div>`;

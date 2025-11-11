@@ -11,11 +11,7 @@ export interface CirclePositions {
  * Calcule les positions réelles des cercles en fonction de custom_positions
  * Les positions par défaut sont en pourcentage de la carte
  */
-export function getCirclePositions(
-  config: PowerFlowCardPlusConfig,
-  cardWidth: number,
-  cardHeight: number
-): CirclePositions {
+export function getCirclePositions(config: PowerFlowCardPlusConfig, cardWidth: number, cardHeight: number): CirclePositions {
   // Positions par défaut (en px depuis le centre de la carte)
   const defaults = {
     solar: { x: cardWidth * 0.5, y: cardHeight * 0.15 }, // Haut centre

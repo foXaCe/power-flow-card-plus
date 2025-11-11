@@ -12,21 +12,17 @@ const getIndividualObjSortPowerMode = (individualObjs: IndividualObject[], index
   return filteredIndividualObjs?.[index] ?? undefined;
 };
 
-export const getTopLeftIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined => {
-  return getIndividualObjSortPowerMode(individualObjs, 0);
-};
+export const getTopLeftIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined =>
+  getIndividualObjSortPowerMode(individualObjs, 0);
 
-export const getBottomLeftIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined => {
-  return getIndividualObjSortPowerMode(individualObjs, 1);
-};
+export const getBottomLeftIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined =>
+  getIndividualObjSortPowerMode(individualObjs, 1);
 
-export const getTopRightIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined => {
-  return getIndividualObjSortPowerMode(individualObjs, 2);
-};
+export const getTopRightIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined =>
+  getIndividualObjSortPowerMode(individualObjs, 2);
 
-export const getBottomRightIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined => {
-  return getIndividualObjSortPowerMode(individualObjs, 3);
-};
+export const getBottomRightIndividual = (individualObjs: IndividualObject[]): IndividualObject | undefined =>
+  getIndividualObjSortPowerMode(individualObjs, 3);
 
 export const checkHasRightIndividual = (individualObjs: IndividualObject[]): boolean =>
   !!getTopRightIndividual(individualObjs) || !!getBottomRightIndividual(individualObjs);

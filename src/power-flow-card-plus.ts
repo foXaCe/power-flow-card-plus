@@ -349,7 +349,6 @@ export class PowerFlowCardPlus extends LitElement {
     };
     dailyCost.totalCost = dailyCost.energy * dailyCost.tariff;
 
-
     const dailyExport = {
       enabled: this._config.show_daily_export ?? false,
       entity: this._config.daily_export_energy_entity,
@@ -630,9 +629,14 @@ export class PowerFlowCardPlus extends LitElement {
         style=${this._config.style_ha_card ? this._config.style_ha_card : ""}
       >
         <div
-          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config.circle_gradient_mode ? "gradient-mode" : ""}"
+          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config
+            .circle_gradient_mode
+            ? "gradient-mode"
+            : ""}"
           id="power-flow-card-plus"
-          style="${this._config.style_card_content || ""}${this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""}"
+          style="${this._config.style_card_content || ""}${this._config.circle_border_width
+            ? `--circle-border-width: ${this._config.circle_border_width}px;`
+            : ""}"
         >
           ${solar.has
             ? solarElement(this, this._config, {
@@ -664,12 +668,8 @@ export class PowerFlowCardPlus extends LitElement {
                 individual: individualObjs,
               })
             : ""}
-          ${battery.has
-            ? batteryElement(this, this._config, { battery, entities, solar, grid })
-            : ""}
-          ${dailyCost.enabled
-            ? dailyCostElement(this, this._config, { dailyCost })
-            : ""}
+          ${battery.has ? batteryElement(this, this._config, { battery, entities, solar, grid }) : ""}
+          ${dailyCost.enabled ? dailyCostElement(this, this._config, { dailyCost }) : ""}
           ${flowElement(this, this._config, {
             battery,
             grid,
@@ -679,9 +679,7 @@ export class PowerFlowCardPlus extends LitElement {
             dailyExport,
             dailyCost,
           })}
-          ${dailyExport.enabled && solar.has
-            ? dailyExportElement(this, this._config, { dailyExport })
-            : ""}
+          ${dailyExport.enabled && solar.has ? dailyExportElement(this, this._config, { dailyExport }) : ""}
           ${selfSufficiencyElement(this, this._config, {
             solarToHome: solar.state.toHome || 0,
             batteryToHome: battery.state.toHome || 0,
@@ -710,20 +708,20 @@ export class PowerFlowCardPlus extends LitElement {
   private _dragHandlers: Map<string, any> = new Map();
 
   private _attachDragListeners() {
-    const circles = ['solar', 'grid', 'home', 'battery', 'daily-cost', 'daily-export', 'self-sufficiency'];
+    const circles = ["solar", "grid", "home", "battery", "daily-cost", "daily-export", "self-sufficiency"];
 
     // Détacher les anciens listeners
-    circles.forEach(circle => {
+    circles.forEach((circle) => {
       const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
       const handlers = this._dragHandlers.get(circle);
       if (elem && handlers) {
-        elem.removeEventListener('mousedown', handlers.mouseDown);
-        elem.removeEventListener('touchstart', handlers.touchStart);
+        elem.removeEventListener("mousedown", handlers.mouseDown);
+        elem.removeEventListener("touchstart", handlers.touchStart);
       }
     });
 
     // Attacher les nouveaux listeners
-    circles.forEach(circle => {
+    circles.forEach((circle) => {
       const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
       if (elem) {
         const mouseDownHandler = (e: Event) => {
@@ -735,12 +733,12 @@ export class PowerFlowCardPlus extends LitElement {
           this._onDragStart(e as TouchEvent, circle);
         };
 
-        elem.addEventListener('mousedown', mouseDownHandler);
-        elem.addEventListener('touchstart', touchStartHandler, { passive: false });
+        elem.addEventListener("mousedown", mouseDownHandler);
+        elem.addEventListener("touchstart", touchStartHandler, { passive: false });
 
         this._dragHandlers.set(circle, {
           mouseDown: mouseDownHandler,
-          touchStart: touchStartHandler
+          touchStart: touchStartHandler,
         });
       }
     });
@@ -847,20 +845,15 @@ export class PowerFlowCardPlus extends LitElement {
     const moveHandler = (e: MouseEvent | TouchEvent) => this._onDragMove(e);
     const upHandler = () => this._onDragEnd(moveHandler, upHandler);
 
-    document.addEventListener('mousemove', moveHandler);
-    document.addEventListener('touchmove', moveHandler);
-    document.addEventListener('mouseup', upHandler);
-    document.addEventListener('touchend', upHandler);
+    document.addEventListener("mousemove", moveHandler);
+    document.addEventListener("touchmove", moveHandler);
+    document.addEventListener("mouseup", upHandler);
+    document.addEventListener("touchend", upHandler);
   }
 
-  private _checkCollisionAndResolve(
-    left: number,
-    top: number,
-    draggedElement: string,
-    CIRCLE_RADIUS: number
-  ): { left: number; top: number } {
+  private _checkCollisionAndResolve(left: number, top: number, draggedElement: string, CIRCLE_RADIUS: number): { left: number; top: number } {
     // Liste de tous les cercles possibles
-    const allCircles = ['solar', 'battery', 'grid', 'home', 'daily-export', 'daily-cost', 'self-sufficiency'];
+    const allCircles = ["solar", "battery", "grid", "home", "daily-export", "daily-cost", "self-sufficiency"];
 
     // Centre du cercle draggé
     const draggedCenterX = left + CIRCLE_RADIUS;
@@ -915,12 +908,12 @@ export class PowerFlowCardPlus extends LitElement {
     e.stopPropagation();
     this._hasDragged = true; // Marquer qu'un drag a eu lieu
 
-    const card = this.shadowRoot?.querySelector('#power-flow-card-plus');
+    const card = this.shadowRoot?.querySelector("#power-flow-card-plus");
     if (!card) return;
 
     const rect = card.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const clientY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
     const x = clientX - rect.left;
     const y = clientY - rect.top;
@@ -951,7 +944,7 @@ export class PowerFlowCardPlus extends LitElement {
     }
 
     // Convertir les tirets en underscores pour la config
-    const configKey = this._draggedElement.replace(/-/g, '_');
+    const configKey = this._draggedElement.replace(/-/g, "_");
     newConfig.custom_positions[configKey] = {
       left: left,
       top: top,
@@ -962,10 +955,10 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   private _onDragEnd(moveHandler: any, upHandler: any) {
-    document.removeEventListener('mousemove', moveHandler);
-    document.removeEventListener('touchmove', moveHandler);
-    document.removeEventListener('mouseup', upHandler);
-    document.removeEventListener('touchend', upHandler);
+    document.removeEventListener("mousemove", moveHandler);
+    document.removeEventListener("touchmove", moveHandler);
+    document.removeEventListener("mouseup", upHandler);
+    document.removeEventListener("touchend", upHandler);
     this._draggedElement = null;
 
     // Sauvegarder dans localStorage (config par appareil)
@@ -979,7 +972,7 @@ export class PowerFlowCardPlus extends LitElement {
     this._config = newConfig;
 
     // Supprimer aussi du localStorage
-    localStorage.removeItem('power-flow-card-plus-positions');
+    localStorage.removeItem("power-flow-card-plus-positions");
 
     this.requestUpdate();
   }
@@ -987,13 +980,13 @@ export class PowerFlowCardPlus extends LitElement {
   private _saveToLocalStorage() {
     // Sauvegarder les positions dans localStorage pour config par appareil
     if (this._config.custom_positions) {
-      localStorage.setItem('power-flow-card-plus-positions', JSON.stringify(this._config.custom_positions));
+      localStorage.setItem("power-flow-card-plus-positions", JSON.stringify(this._config.custom_positions));
     }
   }
 
   private _loadFromLocalStorage() {
     // Charger les positions depuis localStorage
-    const saved = localStorage.getItem('power-flow-card-plus-positions');
+    const saved = localStorage.getItem("power-flow-card-plus-positions");
     if (saved) {
       try {
         const positions = JSON.parse(saved);
@@ -1003,14 +996,14 @@ export class PowerFlowCardPlus extends LitElement {
         // Fusionner les positions sauvegardées
         this._config.custom_positions = { ...this._config.custom_positions, ...positions };
       } catch (e) {
-        console.error('Error loading positions from localStorage:', e);
+        console.error("Error loading positions from localStorage:", e);
       }
     }
   }
 
   private _saveConfig() {
     // Dispatch un événement pour sauvegarder la config
-    const event = new CustomEvent('config-changed', {
+    const event = new CustomEvent("config-changed", {
       detail: { config: this._config },
       bubbles: true,
       composed: true,

@@ -1,9 +1,6 @@
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
-export const getArrowStyles = (
-  arrowName: keyof NonNullable<PowerFlowCardPlusConfig["arrows"]>,
-  config: PowerFlowCardPlusConfig
-): string => {
+export const getArrowStyles = (arrowName: keyof NonNullable<PowerFlowCardPlusConfig["arrows"]>, config: PowerFlowCardPlusConfig): string => {
   const arrowConfig = config.arrows?.[arrowName];
   if (!arrowConfig) return "";
 
@@ -20,10 +17,7 @@ export const getArrowStyles = (
   return styles.join("; ");
 };
 
-export const getArrowTransform = (
-  arrowName: keyof NonNullable<PowerFlowCardPlusConfig["arrows"]>,
-  config: PowerFlowCardPlusConfig
-): string => {
+export const getArrowTransform = (arrowName: keyof NonNullable<PowerFlowCardPlusConfig["arrows"]>, config: PowerFlowCardPlusConfig): string => {
   const arrowConfig = config.arrows?.[arrowName];
   if (!arrowConfig) return "";
 
@@ -37,4 +31,4 @@ export const getArrowTransform = (
   }
 
   return transforms.join(" ");
-}
+};

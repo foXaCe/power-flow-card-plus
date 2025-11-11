@@ -749,7 +749,8 @@ export const styles = css`
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       transform: scale(1);
       box-shadow: 0 0 0 0 rgba(128, 128, 128, 0.4);
     }
@@ -761,7 +762,8 @@ export const styles = css`
 
   /* Animations pour les lignes */
   @keyframes line-pulse {
-    0%, 100% {
+    0%,
+    100% {
       stroke-opacity: 1;
       filter: drop-shadow(0 0 0px transparent);
     }
@@ -772,7 +774,8 @@ export const styles = css`
   }
 
   @keyframes line-glow {
-    0%, 100% {
+    0%,
+    100% {
       filter: drop-shadow(0 0 2px currentColor);
     }
     50% {

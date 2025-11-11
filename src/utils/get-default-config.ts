@@ -26,9 +26,7 @@ export function getDefaultConfig(hass: HomeAssistant): object {
   }
 
   // Detect Enphase system
-  const isEnphaseSystem = Object.keys(hass.states).some((id) =>
-    id.includes("envoy_") || id.includes("enphase_")
-  );
+  const isEnphaseSystem = Object.keys(hass.states).some((id) => id.includes("envoy_") || id.includes("enphase_"));
 
   const powerEntities = Object.keys(hass.states).filter((entityId) => {
     const stateObj = hass.states[getFirstEntityName(entityId)];
@@ -63,27 +61,23 @@ export function getDefaultConfig(hass: HomeAssistant): object {
 
   if (isEnphaseSystem) {
     // Enphase Envoy Grid (net consumption)
-    firstGridPowerEntity = Object.keys(hass.states).find((id) =>
-      checkStrings(id, enphaseGridTests)
-    ) || "";
+    firstGridPowerEntity = Object.keys(hass.states).find((id) => checkStrings(id, enphaseGridTests)) || "";
 
     // Enphase Envoy Solar Production
-    firstSolarPowerEntity = Object.keys(hass.states).find((id) =>
-      checkStrings(id, enphaseProductionTests)
-    ) || "";
+    firstSolarPowerEntity = Object.keys(hass.states).find((id) => checkStrings(id, enphaseProductionTests)) || "";
 
     // Enphase Home Consumption
-    firstHomeConsumptionEntity = Object.keys(hass.states).find((id) =>
-      checkStrings(id, enphaseConsumptionTests)
-    ) || "";
+    firstHomeConsumptionEntity = Object.keys(hass.states).find((id) => checkStrings(id, enphaseConsumptionTests)) || "";
 
     // Enphase IQ Battery Power
-    firstBatteryPowerEntity = Object.keys(hass.states).find((id) =>
-      checkStrings(id, enphaseIQBatteryTests) &&
-      (id.includes("puissance") || id.includes("power")) &&
-      !id.includes("charge") &&
-      !id.includes("decharge")
-    ) || "";
+    firstBatteryPowerEntity =
+      Object.keys(hass.states).find(
+        (id) =>
+          checkStrings(id, enphaseIQBatteryTests) &&
+          (id.includes("puissance") || id.includes("power")) &&
+          !id.includes("charge") &&
+          !id.includes("decharge")
+      ) || "";
   }
 
   // Fallback to standard detection if Enphase entities not found
@@ -109,9 +103,7 @@ export function getDefaultConfig(hass: HomeAssistant): object {
   // Try Enphase battery SOC first
   let firstBatteryPercentageEntity = "";
   if (isEnphaseSystem) {
-    firstBatteryPercentageEntity = percentageEntities.find((id) =>
-      checkStrings(id, enphaseIQBatterySOCTests)
-    ) || "";
+    firstBatteryPercentageEntity = percentageEntities.find((id) => checkStrings(id, enphaseIQBatterySOCTests)) || "";
   }
 
   // Fallback to standard battery percentage detection

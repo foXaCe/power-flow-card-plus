@@ -2,18 +2,14 @@ import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
-export const dailyCostElement = (
-  main: PowerFlowCardPlus,
-  _config: PowerFlowCardPlusConfig,
-  { dailyCost }: { dailyCost: any }
-) => {
+export const dailyCostElement = (main: PowerFlowCardPlus, _config: PowerFlowCardPlusConfig, { dailyCost }: { dailyCost: any }) => {
   if (!dailyCost.enabled || !dailyCost.entity) {
     return html``;
   }
 
   const displayCost = dailyCost.totalCost?.toFixed(dailyCost.decimals ?? 2) ?? "0.00";
   const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
-  const displayUnit = dailyCost.unit?.split('/')[0] ?? "€";
+  const displayUnit = dailyCost.unit?.split("/")[0] ?? "€";
 
   // Calcul de la progression de la journée
   const now = new Date();
@@ -52,7 +48,7 @@ export const dailyCostElement = (
       x2="${x2}"
       y2="${y2}"
       stroke="var(--primary-text-color)"
-      stroke-width="${isMainHour ? '2.5' : '1.5'}"
+      stroke-width="${isMainHour ? "2.5" : "1.5"}"
       opacity="0.5"
     />`;
   };
@@ -62,11 +58,11 @@ export const dailyCostElement = (
     : "";
 
   return html`<div
-      class="circle-container daily-cost"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily_cost')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily_cost')}
-    >
+    class="circle-container daily-cost"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "daily_cost")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "daily_cost")}
+  >
     <span class="label">${dailyCost.name}</span>
     <div
       class="circle"
@@ -95,7 +91,7 @@ export const dailyCostElement = (
           opacity="0.2"
         />`}
         <!-- Marqueurs d'heures -->
-        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(hour => createHourMarker(hour))}
+        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((hour) => createHourMarker(hour))}
         <!-- Aiguille des heures -->
         ${svg`<line
           x1="40"

@@ -155,7 +155,7 @@ export class FlowsEditor extends LitElement {
     const newArrow = { ...currentArrow, [property]: value };
 
     // Nettoyer si toutes les valeurs sont undefined
-    const hasValues = Object.values(newArrow).some(v => v !== undefined && v !== null && v !== "");
+    const hasValues = Object.values(newArrow).some((v) => v !== undefined && v !== null && v !== "");
 
     const newArrows = { ...currentArrows };
     if (hasValues) {
@@ -166,7 +166,7 @@ export class FlowsEditor extends LitElement {
 
     const newConfig = {
       ...this.config,
-      arrows: Object.keys(newArrows).length > 0 ? newArrows : undefined
+      arrows: Object.keys(newArrows).length > 0 ? newArrows : undefined,
     };
 
     this.dispatchEvent(
@@ -201,9 +201,7 @@ export class FlowsEditor extends LitElement {
 
   render() {
     return html`
-      <div class="info-banner">
-        💡 ${this.localize("editor.flows_editor_info")}
-      </div>
+      <div class="info-banner">💡 ${this.localize("editor.flows_editor_info")}</div>
 
       <!-- Animation Speed Section -->
       <div class="section">

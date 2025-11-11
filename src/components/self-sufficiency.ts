@@ -29,8 +29,8 @@ export const selfSufficiencyElement = (
     <div
       class="circle-container self-sufficiency"
       style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'self-sufficiency')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'self-sufficiency')}
+      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "self-sufficiency")}
+      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "self-sufficiency")}
     >
       <div class="circle">
         <ha-icon icon="mdi:leaf" style="color: ${color};"></ha-icon>

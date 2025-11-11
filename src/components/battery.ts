@@ -19,9 +19,8 @@ export const batteryElement = (
   }
 ) => {
   // Safe check for pulse animation
-  const isPulsing = config.circle_pulse_animation &&
-    battery?.state &&
-    (Math.abs(battery.state.toBattery || 0) > 0 || Math.abs(battery.state.fromBattery || 0) > 0);
+  const isPulsing =
+    config.circle_pulse_animation && battery?.state && (Math.abs(battery.state.toBattery || 0) > 0 || Math.abs(battery.state.fromBattery || 0) > 0);
 
   // Apply custom position if configured
   const customStyle = config.custom_positions?.battery
@@ -34,13 +33,9 @@ export const batteryElement = (
   const solarToBattery = solar?.state?.toBattery || 0;
   const gridToBattery = grid?.state?.toBattery || 0;
 
-  const batterySolarCircumference = totalCharging > 0 && solarToBattery > 0
-    ? circleCircumference * (solarToBattery / totalCharging)
-    : 0;
+  const batterySolarCircumference = totalCharging > 0 && solarToBattery > 0 ? circleCircumference * (solarToBattery / totalCharging) : 0;
 
-  const batteryGridCircumference = totalCharging > 0 && gridToBattery > 0
-    ? circleCircumference * (gridToBattery / totalCharging)
-    : 0;
+  const batteryGridCircumference = totalCharging > 0 && gridToBattery > 0 ? circleCircumference * (gridToBattery / totalCharging) : 0;
 
   // Cercle de niveau de charge (state_of_charge)
   const stateOfCharge = battery.state_of_charge?.state || 0;
@@ -69,14 +64,14 @@ export const batteryElement = (
   };
 
   return html`<div
-      class="circle-container battery"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'battery')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'battery')}
-    >
+    class="circle-container battery"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "battery")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "battery")}
+  >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
-      @click=${(e: { stopPropagation: () => void; target: HTMLElement}) => {
+      @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!
           : typeof entities.battery?.entity === "string"
@@ -130,10 +125,11 @@ export const batteryElement = (
             }}
           />`
         : null}
-      ${battery.state.toBattery > 0 && (entities.battery?.display_state === "two_way" ||
-      entities.battery?.display_state === undefined ||
-      (entities.battery?.display_state === "one_way_no_zero" && battery.state.toBattery > 0) ||
-      (entities.battery?.display_state === "one_way" && battery.state.toBattery !== 0))
+      ${battery.state.toBattery > 0 &&
+      (entities.battery?.display_state === "two_way" ||
+        entities.battery?.display_state === undefined ||
+        (entities.battery?.display_state === "one_way_no_zero" && battery.state.toBattery > 0) ||
+        (entities.battery?.display_state === "one_way" && battery.state.toBattery !== 0))
         ? html`<span
             class="battery-in"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -158,10 +154,11 @@ export const batteryElement = (
             })}</span
           >`
         : ""}
-      ${battery.state.fromBattery > 0 && (entities.battery?.display_state === "two_way" ||
-      entities.battery?.display_state === undefined ||
-      (entities.battery?.display_state === "one_way_no_zero" && battery.state.fromBattery > 0) ||
-      (entities.battery?.display_state === "one_way" && (battery.state.toBattery === 0 || battery.state.fromBattery !== 0)))
+      ${battery.state.fromBattery > 0 &&
+      (entities.battery?.display_state === "two_way" ||
+        entities.battery?.display_state === undefined ||
+        (entities.battery?.display_state === "one_way_no_zero" && battery.state.fromBattery > 0) ||
+        (entities.battery?.display_state === "one_way" && (battery.state.toBattery === 0 || battery.state.fromBattery !== 0)))
         ? html`<span
             class="battery-out"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -187,8 +184,11 @@ export const batteryElement = (
           >`
         : ""}
       <svg>
-        ${totalCharging > 0 ? svg`
-          ${batterySolarCircumference > 0 ? svg`<circle
+        ${totalCharging > 0
+          ? svg`
+          ${
+            batterySolarCircumference > 0
+              ? svg`<circle
             class="solar"
             cx="40"
             cy="40"
@@ -196,8 +196,12 @@ export const batteryElement = (
             stroke-dasharray="${batterySolarCircumference} ${circleCircumference - batterySolarCircumference}"
             stroke-dashoffset="-${circleCircumference - batterySolarCircumference}"
             shape-rendering="geometricPrecision"
-          />` : ''}
-          ${batteryGridCircumference > 0 ? svg`<circle
+          />`
+              : ""
+          }
+          ${
+            batteryGridCircumference > 0
+              ? svg`<circle
             class="grid"
             cx="40"
             cy="40"
@@ -205,10 +209,13 @@ export const batteryElement = (
             stroke-dasharray="${batteryGridCircumference} ${circleCircumference - batteryGridCircumference}"
             stroke-dashoffset="-${circleCircumference - batteryGridCircumference - batterySolarCircumference}"
             shape-rendering="geometricPrecision"
-          />` : ''}
-        ` : svg`
+          />`
+              : ""
+          }
+        `
+          : svg`
           <!-- Marqueurs tous les 10% -->
-          ${[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(percent => createChargeMarker(percent))}
+          ${[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((percent) => createChargeMarker(percent))}
           <!-- Cercle de niveau de charge -->
           <circle
             class="battery"

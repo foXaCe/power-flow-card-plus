@@ -14,7 +14,7 @@ const CIRCLE_RADIUS = 40; // Half of 80px circle diameter
  * Cela permet un calcul dynamique qui fonctionne pendant le drag & drop
  */
 export function calculateCirclePosition(
-  circleType: 'solar' | 'grid' | 'home' | 'battery',
+  circleType: "solar" | "grid" | "home" | "battery",
   config: PowerFlowCardPlusConfig,
   shadowRoot?: ShadowRoot | null
 ): CirclePosition {
@@ -30,7 +30,7 @@ export function calculateCirclePosition(
       // Le centre du cercle (les cercles font 80px de diamètre)
       return {
         x: left + CIRCLE_RADIUS,
-        y: top + CIRCLE_RADIUS
+        y: top + CIRCLE_RADIUS,
       };
     }
   }
@@ -48,22 +48,22 @@ export function calculateCirclePosition(
   } else {
     // Sinon, utiliser les positions par défaut du CSS
     switch (circleType) {
-      case 'solar':
+      case "solar":
         x = CARD_WIDTH / 2;
         y = 20 + CIRCLE_RADIUS;
         break;
 
-      case 'battery':
+      case "battery":
         x = CARD_WIDTH / 2;
         y = CARD_HEIGHT - 20 - CIRCLE_RADIUS;
         break;
 
-      case 'grid':
+      case "grid":
         x = 20 + CIRCLE_RADIUS;
         y = CARD_HEIGHT / 2;
         break;
 
-      case 'home':
+      case "home":
         x = CARD_WIDTH - 20 - CIRCLE_RADIUS;
         y = CARD_HEIGHT / 2;
         break;
@@ -77,11 +77,7 @@ export function calculateCirclePosition(
   return { x, y };
 }
 
-export function calculateLinePath(
-  from: CirclePosition,
-  to: CirclePosition,
-  type: 'straight' | 'curved' = 'straight'
-): string {
+export function calculateLinePath(from: CirclePosition, to: CirclePosition, type: "straight" | "curved" = "straight"): string {
   // Calculate angle between circles
   const dx = to.x - from.x;
   const dy = to.y - from.y;
@@ -93,12 +89,11 @@ export function calculateLinePath(
   const toX = to.x - Math.cos(angle) * 40;
   const toY = to.y - Math.sin(angle) * 40;
 
-  if (type === 'straight') {
+  if (type === "straight") {
     return `M${fromX},${fromY} L${toX},${toY}`;
-  } else {
-    // Curved path with control point
-    const midX = (fromX + toX) / 2;
-    const midY = (fromY + toY) / 2;
-    return `M${fromX},${fromY} Q${midX},${midY} ${toX},${toY}`;
   }
+  // Curved path with control point
+  const midX = (fromX + toX) / 2;
+  const midY = (fromY + toY) / 2;
+  return `M${fromX},${fromY} Q${midX},${midY} ${toX},${toY}`;
 }

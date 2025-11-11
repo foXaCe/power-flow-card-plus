@@ -2,11 +2,7 @@ import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
-export const dailyExportElement = (
-  main: PowerFlowCardPlus,
-  _config: PowerFlowCardPlusConfig,
-  { dailyExport }: { dailyExport: any }
-) => {
+export const dailyExportElement = (main: PowerFlowCardPlus, _config: PowerFlowCardPlusConfig, { dailyExport }: { dailyExport: any }) => {
   if (!dailyExport.enabled || !dailyExport.entity) {
     return html``;
   }
@@ -38,7 +34,7 @@ export const dailyExportElement = (
       x2="${x2}"
       y2="${y2}"
       stroke="var(--primary-text-color)"
-      stroke-width="${isMainHour ? '2.5' : '1.5'}"
+      stroke-width="${isMainHour ? "2.5" : "1.5"}"
       opacity="0.5"
     />`;
   };
@@ -48,11 +44,11 @@ export const dailyExportElement = (
     : "";
 
   return html`<div
-      class="circle-container daily-export"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'daily_export')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'daily_export')}
-    >
+    class="circle-container daily-export"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "daily_export")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "daily_export")}
+  >
     <span class="label">${dailyExport.name}</span>
     <div
       class="circle"
@@ -81,7 +77,7 @@ export const dailyExportElement = (
           opacity="0.2"
         />`}
         <!-- Marqueurs d'heures -->
-        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(hour => createHourMarker(hour))}
+        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((hour) => createHourMarker(hour))}
         <!-- Aiguille des heures -->
         ${svg`<line
           x1="40"

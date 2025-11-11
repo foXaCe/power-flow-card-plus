@@ -9,7 +9,6 @@ export const solarElement = (
   main: PowerFlowCardPlus,
   config: PowerFlowCardPlusConfig,
   {
-    entities,
     solar,
     templatesObj,
   }: {
@@ -27,11 +26,11 @@ export const solarElement = (
     : "";
 
   return html`<div
-      class="circle-container solar"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'solar')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'solar')}
-    >
+    class="circle-container solar"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "solar")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "solar")}
+  >
     <span class="label">${solar.name}</span>
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"

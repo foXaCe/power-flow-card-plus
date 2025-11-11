@@ -48,29 +48,27 @@ export const homeElement = (
     : "";
 
   return html`<div
-      class="circle-container home"
-      style="${customStyle}"
-      @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, 'home')}
-      @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, 'home')}
-    >
-  <div
-    class="circle ${isPulsing ? "pulse-animation" : ""}"
-    id="home-circle"
-    @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
-      main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
-    }}
-    @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-      if (e.key === "Enter") {
-        main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
-      }
-    }}
+    class="circle-container home"
+    style="${customStyle}"
+    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "home")}
+    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "home")}
   >
-    ${generalSecondarySpan(main.hass, main, config, templatesObj, home, "home")}
-    ${home.icon !== " " ? html`<ha-icon id="home-icon" .icon=${home.icon} />` : null}
-    ${homeUsageToDisplay}
-    <svg class="home-circle-sections">
-      ${
-        homeSolarCircumference !== undefined
+    <div
+      class="circle ${isPulsing ? "pulse-animation" : ""}"
+      id="home-circle"
+      @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
+        main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
+      }}
+      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+        if (e.key === "Enter") {
+          main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
+        }
+      }}
+    >
+      ${generalSecondarySpan(main.hass, main, config, templatesObj, home, "home")}
+      ${home.icon !== " " ? html`<ha-icon id="home-icon" .icon=${home.icon} />` : null} ${homeUsageToDisplay}
+      <svg class="home-circle-sections">
+        ${homeSolarCircumference !== undefined
           ? svg`<circle
                 class="solar"
                 cx="40"
@@ -80,10 +78,8 @@ export const homeElement = (
                 shape-rendering="geometricPrecision"
                 stroke-dashoffset="-${circleCircumference - homeSolarCircumference}"
               />`
-          : ""
-      }
-      ${
-        homeBatteryCircumference
+          : ""}
+        ${homeBatteryCircumference
           ? svg`<circle
                 class="battery"
                 cx="40"
@@ -93,10 +89,8 @@ export const homeElement = (
                 stroke-dashoffset="-${circleCircumference - homeBatteryCircumference - (homeSolarCircumference || 0)}"
                 shape-rendering="geometricPrecision"
               />`
-          : ""
-      }
-      ${
-        homeNonFossilCircumference !== undefined
+          : ""}
+        ${homeNonFossilCircumference !== undefined
           ? svg`<circle
                 class="low-carbon"
                 cx="40"
@@ -108,21 +102,21 @@ export const homeElement = (
                 }"
                 shape-rendering="geometricPrecision"
               />`
-          : ""
-      }
-      <circle
-        class="grid"
-        cx="40"
-        cy="40"
-        r="38"
-        stroke-dasharray="${homeGridCircumference ?? circleCircumference - homeSolarCircumference! - (homeBatteryCircumference || 0)} ${
-    homeGridCircumference !== undefined ? circleCircumference - homeGridCircumference : homeSolarCircumference! + (homeBatteryCircumference || 0)
-  }"
-        stroke-dashoffset="0"
-        shape-rendering="geometricPrecision"
-      />
-    </svg>
-  </div>
-  ${!showHomeLabel ? html`<span class="label"></span>` : html`<span class="label">${home.name}</span>`}
-</div>`;
+          : ""}
+        <circle
+          class="grid"
+          cx="40"
+          cy="40"
+          r="38"
+          stroke-dasharray="${homeGridCircumference ??
+          circleCircumference - homeSolarCircumference! - (homeBatteryCircumference || 0)} ${homeGridCircumference !== undefined
+            ? circleCircumference - homeGridCircumference
+            : homeSolarCircumference! + (homeBatteryCircumference || 0)}"
+          stroke-dashoffset="0"
+          shape-rendering="geometricPrecision"
+        />
+      </svg>
+    </div>
+    ${!showHomeLabel ? html`<span class="label"></span>` : html`<span class="label">${home.name}</span>`}
+  </div>`;
 };

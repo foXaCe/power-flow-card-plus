@@ -22,7 +22,8 @@
   "homepage": "https://github.com/flixlix/power-flow-card-plus#readme",
   "scripts": {
     "build": "rollup -c",
-    "lint": "eslint src/*",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
     "release": "semantic-release",
     "start": "rollup -wc",
     "watch": "rollup -c --watch",
@@ -30,6 +31,7 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "test": "jest",
+    "clean": "pnpm lint:fix && pnpm format:write && pnpm typecheck",
     "precommit": "pnpm typecheck && pnpm format:write && pnpm test"
   },
   "dependencies": {
