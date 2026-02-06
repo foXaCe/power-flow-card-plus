@@ -67,6 +67,7 @@ export type TemplatesObj = {
   homeSecondary: string | undefined;
   individual: (string | undefined)[];
   nonFossilFuelSecondary: string | undefined;
+  [key: string]: string | undefined | (string | undefined)[];
 };
 
 export type HomeSources = {
@@ -86,6 +87,7 @@ export type HomeSources = {
     value: number;
     color: string;
   };
+  [key: string]: { value: number; color: string };
 };
 
 export type NewDur = {
@@ -97,6 +99,7 @@ export type NewDur = {
   solarToHome: number;
   individual: number[];
   nonFossil: number;
+  [key: string]: number | number[];
 };
 
 export type GridObject = {

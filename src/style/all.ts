@@ -191,7 +191,7 @@ export const allDynamicStyles = (
   //   Battery-Grid line
   main.style.setProperty(
     "--battery-grid-line",
-    grid.state.toBattery || 0 > 0 ? "var(--energy-grid-consumption-color)" : "var(--energy-grid-return-color)"
+    (grid.state.toBattery || 0) > 0 ? "var(--energy-grid-consumption-color)" : "var(--energy-grid-return-color)"
   );
 
   // Transparencies

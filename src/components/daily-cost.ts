@@ -8,26 +8,12 @@ export const dailyCostElement = (main: PowerFlowCardPlus, _config: PowerFlowCard
   }
 
   const displayCost = dailyCost.totalCost?.toFixed(dailyCost.decimals ?? 2) ?? "0.00";
-  const displayEnergy = dailyCost.energy?.toFixed(1) ?? "0.0";
   const displayUnit = dailyCost.unit?.split("/")[0] ?? "€";
 
-  // Calcul de la progression de la journée
+  // Calcul de l'angle de l'aiguille (0° = 12h en haut, sens horaire)
   const now = new Date();
   const hours = now.getHours();
   const minutes = now.getMinutes();
-  const seconds = now.getSeconds();
-  const totalSecondsInDay = 24 * 60 * 60;
-  const currentSecondsInDay = hours * 3600 + minutes * 60 + seconds;
-  const dayProgressPercentage = (currentSecondsInDay / totalSecondsInDay) * 100;
-
-  // Calcul du cercle de progression (comme Home)
-  const radius = 38;
-  const circumference = 2 * Math.PI * radius;
-
-  // Longueur du cercle rouge basée sur la progression de la journée
-  const redCircumference = (dayProgressPercentage / 100) * circumference;
-
-  // Calcul de l'angle de l'aiguille (0° = 12h en haut, sens horaire)
   const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30; // 30° par heure
 
   // Fonction pour créer les marqueurs d'heures

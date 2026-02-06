@@ -41,7 +41,7 @@ export class LinkSubpage extends LitElement {
     `;
   }
 
-  private _focusChanged(ev) {
+  private _focusChanged(ev: FocusEvent) {
     this.shadowRoot!.querySelector(".top")!.classList.toggle("focused", ev.type === "focus");
   }
 

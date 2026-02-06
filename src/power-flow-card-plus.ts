@@ -1,7 +1,7 @@
 /* eslint-disable wc/guard-super-call */
 import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { UnsubscribeFunc } from "home-assistant-js-websocket";
-import { html, svg, LitElement, PropertyValues, TemplateResult } from "lit";
+import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { batteryElement } from "./components/battery";
 import { dailyCostElement } from "./components/daily-cost";
@@ -10,12 +10,7 @@ import { flowElement } from "./components/flows";
 import { gridElement } from "./components/grid";
 import { homeElement } from "./components/home";
 import { selfSufficiencyElement } from "./components/self-sufficiency";
-import { individualLeftBottomElement } from "./components/individualLeftBottomElement";
-import { individualLeftTopElement } from "./components/individualLeftTopElement";
-import { individualRightBottomElement } from "./components/individualRightBottomElement";
-import { individualRightTopElement } from "./components/individualRightTopElement";
 import { dashboardLinkElement } from "./components/misc/dashboard_link";
-import { nonFossilElement } from "./components/nonFossil";
 import { solarElement } from "./components/solar";
 import { handleAction } from "./ha/panels/lovelace/common/handle-action";
 import { PowerFlowCardPlusConfig } from "./power-flow-card-plus-config";
@@ -35,14 +30,7 @@ import { RenderTemplateResult, subscribeRenderTemplate } from "./template/ha-web
 import { GridObject, HomeSources, NewDur, TemplatesObj } from "./type";
 import { computeFieldIcon, computeFieldName } from "./utils/computeFieldAttributes";
 import { computeFlowRate } from "./utils/computeFlowRate";
-import {
-  checkHasBottomIndividual,
-  checkHasRightIndividual,
-  getBottomLeftIndividual,
-  getBottomRightIndividual,
-  getTopLeftIndividual,
-  getTopRightIndividual,
-} from "./utils/computeIndividualPosition";
+
 import { displayValue } from "./utils/displayValue";
 import { defaultValues, getDefaultConfig } from "./utils/get-default-config";
 import { registerCustomCard } from "./utils/register-custom-card";
@@ -547,11 +535,11 @@ export class PowerFlowCardPlus extends LitElement {
     };
 
     // Smooth duration changes
-    ["batteryGrid", "batteryToHome", "gridToHome", "solarToBattery", "solarToGrid", "solarToHome"].forEach((flowName) => {
-      const flowSVGElement = this[`${flowName}Flow`] as SVGSVGElement;
+    (["batteryGrid", "batteryToHome", "gridToHome", "solarToBattery", "solarToGrid", "solarToHome"] as const).forEach((flowName) => {
+      const flowSVGElement = (this as any)[`${flowName}Flow`] as SVGSVGElement;
       if (flowSVGElement && this.previousDur[flowName] && this.previousDur[flowName] !== newDur[flowName]) {
         flowSVGElement.pauseAnimations();
-        flowSVGElement.setCurrentTime(flowSVGElement.getCurrentTime() * (newDur[flowName] / this.previousDur[flowName]));
+        flowSVGElement.setCurrentTime(flowSVGElement.getCurrentTime() * ((newDur[flowName] as number) / (this.previousDur[flowName] as number)));
         flowSVGElement.unpauseAnimations();
       }
       this.previousDur[flowName] = newDur[flowName];
@@ -578,17 +566,6 @@ export class PowerFlowCardPlus extends LitElement {
 
     const homeLargestSource = Object.keys(homeSources).reduce((a, b) => (homeSources[a].value > homeSources[b].value ? a : b));
 
-    const getIndividualDisplayState = (field?: IndividualObject) => {
-      if (!field) return "";
-      if (field?.state === undefined) return "";
-      return displayValue(this.hass, this._config, field?.state, {
-        decimals: field?.decimals,
-        unit: field?.unit,
-        unitWhiteSpace: field?.unit_white_space,
-        watt_threshold: this._config.watt_threshold,
-      });
-    };
-
     // Templates
     const templatesObj: TemplatesObj = {
       gridSecondary: this._templateResults.gridSecondary?.result,
@@ -614,13 +591,6 @@ export class PowerFlowCardPlus extends LitElement {
       nonFossil,
       isCardWideEnough,
     });
-
-    const sortedIndividualObjects = this._config.sort_individual_devices ? sortIndividualObjects(individualObjs) : individualObjs;
-
-    const individualFieldLeftTop = getTopLeftIndividual(sortedIndividualObjects);
-    const individualFieldLeftBottom = getBottomLeftIndividual(sortedIndividualObjects);
-    const individualFieldRightTop = getTopRightIndividual(sortedIndividualObjects);
-    const individualFieldRightBottom = getBottomRightIndividual(sortedIndividualObjects);
 
     return html`
       <ha-card
@@ -842,7 +812,7 @@ export class PowerFlowCardPlus extends LitElement {
     this._draggedElement = element;
     this._hasDragged = false; // Reset au début du drag
 
-    const moveHandler = (e: MouseEvent | TouchEvent) => this._onDragMove(e);
+    const moveHandler = (ev: MouseEvent | TouchEvent) => this._onDragMove(ev);
     const upHandler = () => this._onDragEnd(moveHandler, upHandler);
 
     document.addEventListener("mousemove", moveHandler);
@@ -860,41 +830,29 @@ export class PowerFlowCardPlus extends LitElement {
     const draggedCenterY = top + CIRCLE_RADIUS;
 
     for (const circleName of allCircles) {
-      // Ignorer si c'est le cercle qu'on déplace
-      if (circleName === draggedElement) continue;
+      if (circleName !== draggedElement) {
+        const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${circleName}`) as HTMLElement;
 
-      // Chercher le cercle dans le DOM
-      const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${circleName}`) as HTMLElement;
+        if (otherCircle && otherCircle.offsetParent) {
+          const otherLeft = otherCircle.offsetLeft;
+          const otherTop = otherCircle.offsetTop;
+          const otherCenterX = otherLeft + CIRCLE_RADIUS;
+          const otherCenterY = otherTop + CIRCLE_RADIUS;
 
-      // Ignorer si le cercle n'existe pas ou n'est pas visible
-      if (!otherCircle || !otherCircle.offsetParent) continue;
+          const dx = draggedCenterX - otherCenterX;
+          const dy = draggedCenterY - otherCenterY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
 
-      // Position de l'autre cercle
-      const otherLeft = otherCircle.offsetLeft;
-      const otherTop = otherCircle.offsetTop;
-      const otherCenterX = otherLeft + CIRCLE_RADIUS;
-      const otherCenterY = otherTop + CIRCLE_RADIUS;
+          const minDistance = CIRCLE_RADIUS * 2;
+          if (distance < minDistance && distance > 0) {
+            const overlap = minDistance - distance;
+            const pushX = (dx / distance) * overlap;
+            const pushY = (dy / distance) * overlap;
 
-      // Calculer la distance entre les centres
-      const dx = draggedCenterX - otherCenterX;
-      const dy = draggedCenterY - otherCenterY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      // Si les cercles se chevauchent (distance < 2 * rayon)
-      const minDistance = CIRCLE_RADIUS * 2;
-      if (distance < minDistance && distance > 0) {
-        // Calculer le vecteur de répulsion
-        const overlap = minDistance - distance;
-        const pushX = (dx / distance) * overlap;
-        const pushY = (dy / distance) * overlap;
-
-        // Déplacer le cercle draggé pour éviter le chevauchement
-        left += pushX;
-        top += pushY;
-
-        // Recalculer le centre après déplacement
-        const newCenterX = left + CIRCLE_RADIUS;
-        const newCenterY = top + CIRCLE_RADIUS;
+            left += pushX;
+            top += pushY;
+          }
+        }
       }
     }
 
@@ -946,8 +904,8 @@ export class PowerFlowCardPlus extends LitElement {
     // Convertir les tirets en underscores pour la config
     const configKey = this._draggedElement.replace(/-/g, "_");
     newConfig.custom_positions[configKey] = {
-      left: left,
-      top: top,
+      left,
+      top,
     };
 
     this._config = newConfig;
@@ -1012,14 +970,4 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   static styles = styles;
-}
-
-function sortIndividualObjects(individualObjs: IndividualObject[]) {
-  const sorted = [...individualObjs];
-  sorted
-    .sort((a, b) => {
-      return (a.state || 0) - (b.state || 0);
-    })
-    .reverse();
-  return sorted;
 }

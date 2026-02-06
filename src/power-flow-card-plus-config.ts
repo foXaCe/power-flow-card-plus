@@ -24,6 +24,7 @@ export interface ArrowConfig {
   length?: number;
   offset_x?: number;
   offset_y?: number;
+  [key: string]: string | number | undefined;
 }
 
 export interface ArrowsConfig {
@@ -34,6 +35,7 @@ export interface ArrowsConfig {
   solar_to_battery?: ArrowConfig;
   grid_to_battery?: ArrowConfig;
   solar_to_daily_export?: ArrowConfig;
+  [key: string]: ArrowConfig | undefined;
 }
 
 interface mainConfigOptions {
@@ -149,6 +151,7 @@ export type ConfigEntities = {
   home?: Home;
   fossil_fuel_percentage?: FossilFuelPercentage;
   individual?: IndividualField;
+  [key: string]: any;
 };
 
 export type ConfigEntity = Battery | Grid | Solar | Home | FossilFuelPercentage | IndividualDeviceType;

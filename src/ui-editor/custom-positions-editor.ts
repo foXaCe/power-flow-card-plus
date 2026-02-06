@@ -4,7 +4,7 @@ import { HomeAssistant } from "custom-card-helpers";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
 // Positions par défaut (en px depuis le container)
-const DEFAULT_POSITIONS = {
+const DEFAULT_POSITIONS: Record<string, { top: number | null; left: number | null }> = {
   solar: { top: null, left: null },
   grid: { top: null, left: null },
   home: { top: null, left: null },
@@ -19,7 +19,6 @@ export class CustomPositionsEditor extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property() public localize!: (key: string) => string;
   @state() private _positions: any = {};
-  @state() private _showPreview: boolean = true;
 
   static styles = css`
     .position-section {
@@ -195,6 +194,13 @@ export class CustomPositionsEditor extends LitElement {
     this._positions = this.config.custom_positions ? { ...this.config.custom_positions } : {};
   }
 
+  private _handleSectionKeyDown(e: KeyboardEvent) {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      this._toggleSection(e);
+    }
+  }
+
   private _toggleSection(e: Event) {
     const header = e.currentTarget as HTMLElement;
     const content = header.nextElementSibling as HTMLElement;
@@ -219,7 +225,7 @@ export class CustomPositionsEditor extends LitElement {
       newPositions[circle] = { ...newPositions[circle] };
     }
 
-    const numValue = value === "" ? undefined : parseInt(value);
+    const numValue = value === "" ? undefined : parseInt(value, 10);
     if (numValue === undefined) {
       delete newPositions[circle][axis];
     } else {
@@ -283,7 +289,7 @@ export class CustomPositionsEditor extends LitElement {
   private _renderPositionSection(circle: string, title: string) {
     return html`
       <div class="position-section">
-        <div class="section-header" @click=${this._toggleSection}>
+        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
           <span>${title}</span>
           <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
         </div>

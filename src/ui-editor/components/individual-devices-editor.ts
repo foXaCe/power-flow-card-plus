@@ -22,8 +22,8 @@ export interface EditorTarget extends EventTarget {
   config: ActionConfig;
 }
 
-export function processEditorEntities(entities): IndividualDeviceType[] {
-  return entities.map((entityConf) => {
+export function processEditorEntities(entities: (string | IndividualDeviceType)[]): IndividualDeviceType[] {
+  return entities.map((entityConf: string | IndividualDeviceType) => {
     if (typeof entityConf === "string") {
       return { entity: entityConf };
     }
@@ -72,7 +72,7 @@ export class IndividualDevicesEditor extends LitElement {
   }
 
   private _valueChanged(ev: any): void {
-    let config = ev.detail.value || "";
+    const config = ev.detail.value || "";
 
     if (!this.config || !this.hass) {
       return;
@@ -91,7 +91,7 @@ export class IndividualDevicesEditor extends LitElement {
         individual: ev.detail.entities,
       },
     };
-    this._configEntities = processEditorEntities(config.entities.individual);
+    this._configEntities = processEditorEntities(config.entities.individual || []);
 
     fireEvent(this, "config-changed", { config });
   }

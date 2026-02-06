@@ -1,6 +1,6 @@
 import { html } from "lit";
-import { baseSecondarySpan } from "./baseSecondarySpan";
 import { ActionConfig, HomeAssistant } from "custom-card-helpers";
+import { baseSecondarySpan } from "./baseSecondarySpan";
 import { displayValue } from "@/utils/displayValue";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { TemplatesObj } from "@/type";
@@ -26,8 +26,8 @@ export const generalSecondarySpan = (
     };
   },
   key: string
-) => {
-  return html` ${field?.secondary?.has || field?.secondary?.template
+) =>
+  html` ${field?.secondary?.has || field?.secondary?.template
     ? html` ${baseSecondarySpan({
         main,
         className: key,
@@ -41,7 +41,6 @@ export const generalSecondarySpan = (
           watt_threshold: config.watt_threshold,
         }),
         tap_action: field.secondary.tap_action,
-        template: templatesObj[`${key}Secondary`],
+        template: templatesObj[`${key}Secondary`] as string | undefined,
       })}`
     : ""}`;
-};

@@ -1,4 +1,5 @@
 import { html, svg } from "lit";
+import memoizeOne from "memoize-one";
 import { NewDur } from "@/type";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { IndividualObject } from "@/states/raw/individual/getIndividualObject";
@@ -8,7 +9,6 @@ import { styleLine } from "@/utils/styleLine";
 import { checkShouldShowDots } from "@/utils/checkShouldShowDots";
 import { getArrowStyles, getArrowTransform } from "@/utils/applyArrowStyles";
 import { selfSufficiencyLine } from "@/components/self-sufficiency-line";
-import memoizeOne from "memoize-one";
 
 export interface Flows {
   battery: any;
@@ -167,10 +167,10 @@ export const flowElement = (
       console.warn("Power Flow Card Plus: .card-content not found after RAF");
       return;
     }
-    const svg = main.shadowRoot?.querySelector("#power-flow-lines") as SVGElement;
-    if (svg) {
+    const svgEl = main.shadowRoot?.querySelector("#power-flow-lines") as SVGElement;
+    if (svgEl) {
       const rect = container.getBoundingClientRect();
-      svg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+      svgEl.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
     }
   });
 

@@ -1,4 +1,4 @@
-import { html, svg } from "lit";
+import { html } from "lit";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { calculateSelfSufficiency, getSelfSufficiencyColor } from "@/utils/calculateSelfSufficiency";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";

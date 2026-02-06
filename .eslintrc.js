@@ -8,13 +8,20 @@ module.exports = {
   extends: ["@open-wc", "prettier"],
   ignorePatterns: ["**/*.js", "dist/**", "node_modules/**"],
   plugins: ["@typescript-eslint"],
+  overrides: [
+    {
+      files: ["__tests__/**/*.ts"],
+      env: { jest: true },
+    },
+  ],
   rules: {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["warn"],
     "class-methods-use-this": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "no-use-before-define": ["error", { functions: false }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error", { functions: false, typedefs: false, ignoreTypeReferences: true }],
     "lines-between-class-members": "off",
     "no-console": ["warn", { allow: ["warn", "error", "groupCollapsed", "groupEnd", "log"] }],
     "no-debugger": "warn",

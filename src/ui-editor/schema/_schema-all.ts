@@ -3,7 +3,7 @@ import { any, assign, boolean, integer, number, object, optional, string } from 
 import memoizeOne from "memoize-one";
 import { batterySchema } from "./battery";
 import { displayZeroLinesSchema } from "./display_zero_lines";
-import { customPositionsSchema } from "./custom_positions";
+
 import { nonFossilSchema } from "./fossil_fuel_percentage";
 import { gridSchema } from "./grid";
 import { homeSchema } from "./home";

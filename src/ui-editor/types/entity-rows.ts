@@ -61,24 +61,6 @@ export interface ButtonsRowConfig {
   type: "buttons";
   entities: Array<string | EntityConfig>;
 }
-export type LovelaceRowConfig =
-  | EntityConfig
-  | DividerConfig
-  | SectionConfig
-  | WeblinkConfig
-  | CallServiceConfig
-  | CastConfig
-  | ButtonRowConfig
-  | ButtonsRowConfig
-  | ConditionalRowConfig
-  | AttributeRowConfig
-  | TextConfig;
-
-export interface LovelaceRow extends HTMLElement {
-  hass?: HomeAssistant;
-  editMode?: boolean;
-  setConfig(config: LovelaceRowConfig);
-}
 
 export interface Condition {
   entity: string;
@@ -102,14 +84,27 @@ export interface AttributeRowConfig extends EntityConfig {
   format?: TimestampRenderingFormat;
 }
 
-export interface LovelaceHeaderFooterConfig {
-  type: "buttons" | "graph" | "picture";
+export type LovelaceRowConfig =
+  | EntityConfig
+  | DividerConfig
+  | SectionConfig
+  | WeblinkConfig
+  | CallServiceConfig
+  | CastConfig
+  | ButtonRowConfig
+  | ButtonsRowConfig
+  | ConditionalRowConfig
+  | AttributeRowConfig
+  | TextConfig;
+
+export interface LovelaceRow extends HTMLElement {
+  hass?: HomeAssistant;
+  editMode?: boolean;
+  setConfig(config: LovelaceRowConfig): void;
 }
 
-export interface SubElementEditorConfig {
-  index?: number;
-  elementConfig?: LovelaceRowConfig | LovelaceHeaderFooterConfig;
-  type: "header" | "footer" | "row" | "tile-feature";
+export interface LovelaceHeaderFooterConfig {
+  type: "buttons" | "graph" | "picture";
 }
 
 export interface SubElementEditorConfig {
