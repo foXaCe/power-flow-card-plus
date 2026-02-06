@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { describe, expect, test } from "@jest/globals";
 
 import en from "../src/localize/languages/en.json";
@@ -22,83 +23,40 @@ import hi from "../src/localize/languages/hi-IN.json";
 function getAllKeys(obj: { [key: string]: any }): string[] {
   let keys: string[] = [];
 
-  for (const key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      keys.push(key);
-      if (typeof obj[key] === "object") {
-        const nestedKeys = getAllKeys(obj[key]);
-        keys = keys.concat(nestedKeys.map((nestedKey) => `${key}.${nestedKey}`));
-      }
+  Object.keys(obj).forEach((key) => {
+    keys.push(key);
+    if (typeof obj[key] === "object") {
+      const nestedKeys = getAllKeys(obj[key]);
+      keys = keys.concat(nestedKeys.map((nestedKey) => `${key}.${nestedKey}`));
     }
-  }
+  });
 
   return keys;
 }
 
 describe("Language files", () => {
-  const enKeys = getAllKeys(en);
-  test("cs.json should have the same properties as en.json", () => {
-    const csKeys = getAllKeys(cs);
-    expect(csKeys).toEqual(enKeys);
-  });
-  test("de.json should have the same properties as en.json", () => {
-    const deKeys = getAllKeys(de);
-    expect(deKeys).toEqual(enKeys);
-  });
-  test("dk.json should have the same properties as en.json", () => {
-    const dkKeys = getAllKeys(dk);
-    expect(dkKeys).toEqual(enKeys);
-  });
-  test("es.json should have the same properties as en.json", () => {
-    const esKeys = getAllKeys(es);
-    expect(esKeys).toEqual(enKeys);
-  });
-  test("fi.json should have the same properties as en.json", () => {
-    const fiKeys = getAllKeys(fi);
-    expect(fiKeys).toEqual(enKeys);
-  });
-  test("fr.json should have the same properties as en.json", () => {
-    const frKeys = getAllKeys(fr);
-    expect(frKeys).toEqual(enKeys);
-  });
-  test("it.json should have the same properties as en.json", () => {
-    const itKeys = getAllKeys(it);
-    expect(itKeys).toEqual(enKeys);
-  });
-  test("nl.json should have the same properties as en.json", () => {
-    const nlKeys = getAllKeys(nl);
-    expect(nlKeys).toEqual(enKeys);
-  });
-  test("pl.json should have the same properties as en.json", () => {
-    const plKeys = getAllKeys(pl);
-    expect(plKeys).toEqual(enKeys);
-  });
-  test("pt-BR.json should have the same properties as en.json", () => {
-    const ptBRKeys = getAllKeys(ptBR);
-    expect(ptBRKeys).toEqual(enKeys);
-  });
-  test("pt-PT.json should have the same properties as en.json", () => {
-    const ptKeys = getAllKeys(pt);
-    expect(ptKeys).toEqual(enKeys);
-  });
-  test("ru.json should have the same properties as en.json", () => {
-    const ruKeys = getAllKeys(ru);
-    expect(ruKeys).toEqual(enKeys);
-  });
-  test("sk.json should have the same properties as en.json", () => {
-    const skKeys = getAllKeys(sk);
-    expect(skKeys).toEqual(enKeys);
-  });
-  test("sv.json should have the same properties as en.json", () => {
-    const svKeys = getAllKeys(sv);
-    expect(svKeys).toEqual(enKeys);
-  });
-  test("ua.json should have the same properties as en.json", () => {
-    const uaKeys = getAllKeys(ua);
-    expect(uaKeys).toEqual(enKeys);
-  });
-  test("hi-IN.json should have the same properties as en.json", () => {
-    const hiKeys = getAllKeys(hi);
-    expect(hiKeys).toEqual(enKeys);
+  const enKeys = getAllKeys(en).sort();
+
+  const languages: Record<string, { [key: string]: any }> = {
+    cs,
+    de,
+    dk,
+    es,
+    fi,
+    fr,
+    it,
+    nl,
+    pl,
+    "pt-BR": ptBR,
+    "pt-PT": pt,
+    ru,
+    sk,
+    sv,
+    ua,
+    "hi-IN": hi,
+  };
+
+  test.each(Object.entries(languages))("%s.json should have the same properties as en.json", (_lang, data) => {
+    expect(getAllKeys(data).sort()).toEqual(enKeys);
   });
 });

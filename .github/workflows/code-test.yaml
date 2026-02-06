@@ -2,7 +2,7 @@ name: Code Test
 on:
   push:
     branches:
-      - '*'
+      - "*"
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -31,5 +31,5 @@ jobs:
         if: steps.cache-modules.outputs.cache-hit != 'true'
         run: pnpm install --no-frozen-lockfile
 
-      - name: Test
-        run: pnpm test
+      - name: Test with coverage
+        run: pnpm test -- --coverage
