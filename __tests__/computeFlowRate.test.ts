@@ -17,36 +17,40 @@ const makeConfig = (overrides: Partial<PowerFlowCardPlusConfig> = {}): PowerFlow
   } as PowerFlowCardPlusConfig);
 
 describe("computeFlowRate", () => {
-  it("uses new flow rate model by default", () => {
+  it("computes precise rate with new model (default)", () => {
     const config = makeConfig();
-    const result = computeFlowRate(config, 1000, 2000);
-    expect(result).toBeGreaterThan(0);
-    expect(typeof result).toBe("number");
+    // newFlowRateMapRange(1000, 6, 0.75, 0, 2000) = ((1000-0)*(0.75-6))/(2000-0)+6 = 3.375
+    expect(computeFlowRate(config, 1000, 2000)).toBe(3.375);
   });
 
-  it("uses old flow rate model when configured", () => {
+  it("computes precise rate with old model", () => {
     const config = makeConfig({ use_new_flow_rate_model: false });
-    const result = computeFlowRate(config, 1000, 2000);
-    expect(result).toBeGreaterThan(0);
-    expect(typeof result).toBe("number");
+    // oldFlowRate: 6 - (500/1000) * (6-0.75) = 6 - 2.625 = 3.375
+    expect(computeFlowRate(config, 500, 1000)).toBe(3.375);
+  });
+
+  it("old and new models differ when total != max_expected_power", () => {
+    const configNew = makeConfig();
+    const configOld = makeConfig({ use_new_flow_rate_model: false });
+    // New model ignores total: 6 - 500*5.25/2000 = 4.6875
+    // Old model uses total: 6 - (500/1000)*5.25 = 3.375
+    expect(computeFlowRate(configNew, 500, 1000)).toBe(4.6875);
+    expect(computeFlowRate(configOld, 500, 1000)).toBe(3.375);
   });
 
   it("returns max rate for zero power (new model)", () => {
     const config = makeConfig();
-    const result = computeFlowRate(config, 0, 1000);
-    expect(result).toBe(config.max_flow_rate);
+    expect(computeFlowRate(config, 0, 1000)).toBe(6);
   });
 
   it("returns min rate for max power (new model)", () => {
     const config = makeConfig();
-    const result = computeFlowRate(config, 2000, 2000);
-    expect(result).toBe(config.min_flow_rate);
+    expect(computeFlowRate(config, 2000, 2000)).toBe(0.75);
   });
 
-  it("clamps to max out for values exceeding max power (new model)", () => {
+  it("clamps to min rate for values exceeding max power (new model)", () => {
     const config = makeConfig();
-    const result = computeFlowRate(config, 5000, 5000);
-    expect(result).toBe(config.min_flow_rate);
+    expect(computeFlowRate(config, 5000, 5000)).toBe(0.75);
   });
 });
 

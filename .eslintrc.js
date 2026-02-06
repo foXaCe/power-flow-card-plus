@@ -40,6 +40,7 @@ module.exports = {
     "wc/guard-super-call": "off",
     "radix": "warn",
     "lit-a11y/click-events-have-key-events": "warn",
-    "no-shadow": "warn",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": "warn",
   },
 };

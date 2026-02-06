@@ -4,6 +4,7 @@ import { customElement, property, state } from "lit/decorators.js";
 import { fireEvent, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { assert } from "superstruct";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
+import { BaseConfigEntity } from "../type";
 import { cardConfigStruct, generalConfigSchema, advancedOptionsSchema } from "./schema/_schema-all";
 import localize from "../localize/localize";
 import { defaultValues } from "../utils/get-default-config";
@@ -182,7 +183,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
       if (page === null) return html``;
       const getIconToUse = () => {
         if (page === "individual" || page === "advanced" || page === "custom_positions" || page === "flows") return fallbackIcon;
-        return this?._config?.entities[page]?.icon || fallbackIcon;
+        return (this?._config?.entities[page] as BaseConfigEntity | undefined)?.icon || fallbackIcon;
       };
       const icon = getIconToUse();
       return html`

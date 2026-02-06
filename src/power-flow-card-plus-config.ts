@@ -151,7 +151,7 @@ export type ConfigEntities = {
   home?: Home;
   fossil_fuel_percentage?: FossilFuelPercentage;
   individual?: IndividualField;
-  [key: string]: any;
+  [key: string]: Battery | Grid | Solar | Home | FossilFuelPercentage | IndividualField | undefined;
 };
 
 export type ConfigEntity = Battery | Grid | Solar | Home | FossilFuelPercentage | IndividualDeviceType;
