@@ -36,13 +36,12 @@ jobs:
           run_install: false
 
       - name: Install Packages
-        if: steps.cache-modules.outputs.cache-hit != 'true'
         run: pnpm install
 
       - name: Build
         run: pnpm build
 
       - name: Release
-        run: pnpx semantic-release
+        run: pnpm exec semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
