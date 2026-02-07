@@ -24,7 +24,6 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: latest
           run_install: false
 
       - name: Install Packages
@@ -32,4 +31,4 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Test with coverage
-        run: pnpm test -- --coverage
+        run: npx jest --coverage
