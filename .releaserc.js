@@ -6,7 +6,7 @@ module.exports = {
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     [
-      "@google/semantic-release-replace-plugin",
+      "semantic-release-replace-plugin",
       {
         replacements: [
           {
