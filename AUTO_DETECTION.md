@@ -17,17 +17,18 @@ Lorsque vous ajoutez la carte sans configuration (ou avec une configuration mini
 La carte détecte automatiquement les systèmes Enphase et utilise les entités spécifiques :
 
 #### **Détection Enphase**
+
 Le système est identifié comme Enphase si des entités contenant `envoy_` ou `enphase_` sont trouvées.
 
 #### **Entités Enphase Détectées**
 
-| Composant | Patterns Recherchés | Exemple d'Entité |
-|-----------|---------------------|------------------|
-| **Grid (Réseau)** | `current_net_power_consumption`, `net_consumption` | `sensor.envoy_122050042807_current_net_power_consumption` |
-| **Solar (Solaire)** | `production_d_electricite_actuelle`, `current_power_production` | `sensor.envoy_122050042807_production_d_electricite_actuelle` |
-| **Home (Maison)** | `consommation_electrique_actuelle`, `current_power_consumption` | `sensor.envoy_122050042807_consommation_electrique_actuelle` |
-| **Battery (Batterie)** | `enphase_battery`, `iq_5p_puissance`, `iq_battery` | `sensor.enphase_battery_iq_5p_puissance` |
-| **Battery SOC** | `iq_5p_etat_de_charge`, `enphase_battery.*state_of_charge` | `sensor.enphase_battery_iq_5p_etat_de_charge` |
+| Composant              | Patterns Recherchés                                             | Exemple d'Entité                                              |
+| ---------------------- | --------------------------------------------------------------- | ------------------------------------------------------------- |
+| **Grid (Réseau)**      | `current_net_power_consumption`, `net_consumption`              | `sensor.envoy_122050042807_current_net_power_consumption`     |
+| **Solar (Solaire)**    | `production_d_electricite_actuelle`, `current_power_production` | `sensor.envoy_122050042807_production_d_electricite_actuelle` |
+| **Home (Maison)**      | `consommation_electrique_actuelle`, `current_power_consumption` | `sensor.envoy_122050042807_consommation_electrique_actuelle`  |
+| **Battery (Batterie)** | `enphase_battery`, `iq_5p_puissance`, `iq_battery`              | `sensor.enphase_battery_iq_5p_puissance`                      |
+| **Battery SOC**        | `iq_5p_etat_de_charge`, `enphase_battery.*state_of_charge`      | `sensor.enphase_battery_iq_5p_etat_de_charge`                 |
 
 ---
 
@@ -37,13 +38,13 @@ Si aucun système Enphase n'est détecté, la carte utilise des patterns génér
 
 #### **Patterns Génériques**
 
-| Composant | Mots-clés Recherchés |
-|-----------|---------------------|
-| **Grid** | `grid`, `utility`, `net`, `meter` |
-| **Solar** | `solar`, `pv`, `photovoltaic`, `inverter`, `production` |
-| **Battery** | `battery`, `batterie` |
+| Composant       | Mots-clés Recherchés                                                                         |
+| --------------- | -------------------------------------------------------------------------------------------- |
+| **Grid**        | `grid`, `utility`, `net`, `meter`                                                            |
+| **Solar**       | `solar`, `pv`, `photovoltaic`, `inverter`, `production`                                      |
+| **Battery**     | `battery`, `batterie`                                                                        |
 | **Battery SOC** | `battery_percent`, `battery_level`, `state_of_charge`, `soc`, `percentage`, `etat_de_charge` |
-| **Home** | `home`, `house`, `consumption`, `consommation`, `maison`, `domicile` |
+| **Home**        | `home`, `house`, `consumption`, `consommation`, `maison`, `domicile`                         |
 
 ---
 
@@ -58,6 +59,7 @@ type: custom:power-flow-card-plus
 ```
 
 La carte va automatiquement :
+
 - ✅ Détecter votre système (Enphase ou standard)
 - ✅ Trouver les bonnes entités
 - ✅ Configurer les paramètres optimaux
@@ -99,14 +101,14 @@ entities:
 Lorsque la détection automatique s'active, elle applique ces paramètres :
 
 ```yaml
-clickable_entities: true          # Entités cliquables
-display_zero_lines: true          # Affiche les lignes à zéro
-use_new_flow_rate_model: true     # Nouveau modèle d'animation
-w_decimals: 0                     # Pas de décimales pour watts
-kw_decimals: 1                    # 1 décimale pour kilowatts
-min_flow_rate: 0.75               # Vitesse minimale flux
-max_flow_rate: 6                  # Vitesse maximale flux
-watt_threshold: 1000              # Seuil W → kW
+clickable_entities: true # Entités cliquables
+display_zero_lines: true # Affiche les lignes à zéro
+use_new_flow_rate_model: true # Nouveau modèle d'animation
+w_decimals: 0 # Pas de décimales pour watts
+kw_decimals: 1 # 1 décimale pour kilowatts
+min_flow_rate: 0.75 # Vitesse minimale flux
+max_flow_rate: 6 # Vitesse maximale flux
+watt_threshold: 1000 # Seuil W → kW
 ```
 
 ---
@@ -134,6 +136,7 @@ La carte recherche des entités qui correspondent aux critères suivants :
 ### **Exemple 1 : Système Enphase Complet**
 
 **Entités Home Assistant :**
+
 ```
 sensor.envoy_122050042807_current_net_power_consumption
 sensor.envoy_122050042807_production_d_electricite_actuelle
@@ -143,12 +146,14 @@ sensor.enphase_battery_iq_5p_etat_de_charge
 ```
 
 **Détection automatique :**
+
 ```yaml
 # Aucune config requise !
 type: custom:power-flow-card-plus
 ```
 
 **Résultat :**
+
 - ✅ Grid : `sensor.envoy_122050042807_current_net_power_consumption`
 - ✅ Solar : `sensor.envoy_122050042807_production_d_electricite_actuelle`
 - ✅ Home : `sensor.envoy_122050042807_consommation_electrique_actuelle`
@@ -160,6 +165,7 @@ type: custom:power-flow-card-plus
 ### **Exemple 2 : Système Standard (Growatt, Solis, etc.)**
 
 **Entités Home Assistant :**
+
 ```
 sensor.growatt_grid_power
 sensor.growatt_solar_power
@@ -169,11 +175,13 @@ sensor.home_power_consumption
 ```
 
 **Détection automatique :**
+
 ```yaml
 type: custom:power-flow-card-plus
 ```
 
 **Résultat :**
+
 - ✅ Grid : `sensor.growatt_grid_power`
 - ✅ Solar : `sensor.growatt_solar_power`
 - ✅ Battery : `sensor.growatt_battery_power`
@@ -201,6 +209,7 @@ entities:
 ### **Problème : Mauvaise Entité Détectée**
 
 **Solution 1 : Spécifier manuellement**
+
 ```yaml
 entities:
   grid:
@@ -210,6 +219,7 @@ entities:
 **Solution 2 : Renommer votre entité**
 
 Ajoutez un mot-clé reconnu dans le nom de votre entité :
+
 - Ajoutez `grid` pour réseau
 - Ajoutez `solar` pour solaire
 - Ajoutez `battery` pour batterie
@@ -219,6 +229,7 @@ Ajoutez un mot-clé reconnu dans le nom de votre entité :
 **Vérifications :**
 
 1. **Device Class**
+
    ```yaml
    # Dans customize.yaml
    sensor.mon_capteur:
@@ -226,6 +237,7 @@ Ajoutez un mot-clé reconnu dans le nom de votre entité :
    ```
 
 2. **Unité de mesure**
+
    - Vérifiez que l'unité est `W` ou `kW`
    - Pour le SOC : `%`
 
@@ -237,6 +249,7 @@ Ajoutez un mot-clé reconnu dans le nom de votre entité :
 **Solution :** Vérifiez que vos entités contiennent bien `envoy_` ou `enphase_` dans leur ID.
 
 Si vos entités ont été renommées :
+
 ```yaml
 # Configuration manuelle requise
 entities:
@@ -274,6 +287,7 @@ logger:
 ### **1. Nommage Cohérent**
 
 Utilisez des noms explicites pour vos entités :
+
 ```
 ✅ sensor.solar_production_power
 ✅ sensor.grid_import_export
@@ -288,6 +302,7 @@ Utilisez des noms explicites pour vos entités :
 ### **2. Device Class**
 
 Configurez toujours le `device_class` :
+
 ```yaml
 # customize.yaml
 sensor.mon_capteur_solaire:
@@ -298,6 +313,7 @@ sensor.mon_capteur_solaire:
 ### **3. Friendly Names**
 
 Utilisez des friendly names clairs :
+
 ```yaml
 sensor.envoy_production:
   friendly_name: "Solar Production Power"
@@ -315,12 +331,12 @@ sensor.envoy_production:
 
 ## ✅ Résumé
 
-| Fonctionnalité | Support |
-|----------------|---------|
-| Détection Enphase | ✅ Oui |
-| Détection Standard | ✅ Oui |
-| Configuration Mix | ✅ Oui |
-| Multi-langues | ✅ Oui (FR/EN) |
-| Fallback | ✅ Oui |
+| Fonctionnalité     | Support        |
+| ------------------ | -------------- |
+| Détection Enphase  | ✅ Oui         |
+| Détection Standard | ✅ Oui         |
+| Configuration Mix  | ✅ Oui         |
+| Multi-langues      | ✅ Oui (FR/EN) |
+| Fallback           | ✅ Oui         |
 
 **La détection automatique vous fait gagner du temps tout en restant flexible !** 🚀
