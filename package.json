@@ -56,11 +56,11 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.9",
-    "@babel/eslint-parser": "^7.17.0",
-    "@babel/eslint-plugin": "^7.17.7",
-    "@babel/preset-env": "^7.24.4",
-    "@babel/preset-typescript": "^7.24.1",
+    "@babel/core": "^7.29.0",
+    "@babel/eslint-parser": "^7.28.6",
+    "@babel/eslint-plugin": "^7.27.1",
+    "@babel/preset-env": "^7.29.0",
+    "@babel/preset-typescript": "^7.28.5",
     "@jest/globals": "^29.7.0",
     "@open-wc/eslint-config": "^7.0.0",
     "@rollup/plugin-babel": "^5.3.1",
