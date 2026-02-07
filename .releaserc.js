@@ -11,17 +11,8 @@ module.exports = {
         replacements: [
           {
             files: ["dist/power-flow-card-plus.js"],
-            from: /Power Flow Card Plus v(\d+\.\d+\.\d+)/,
+            from: /Power Flow Card Plus v(\d+\.\d+\.\d+)/g,
             to: "Power Flow Card Plus v${nextRelease.version}",
-            results: [
-              {
-                file: "dist/power-flow-card-plus.js",
-                hasChanged: true,
-                numMatches: 2,
-                numReplacements: 2,
-              },
-            ],
-            countMatches: true,
           },
         ],
       },
