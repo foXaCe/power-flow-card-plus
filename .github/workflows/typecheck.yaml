@@ -3,7 +3,7 @@ name: Typecheck
 on:
   push:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   typecheck:
