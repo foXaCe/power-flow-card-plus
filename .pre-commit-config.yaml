@@ -14,7 +14,8 @@ repos:
     hooks:
       - id: prettier
         name: prettier
-        entry: npx prettier --write
-        language: system
+        entry: prettier --write --ignore-unknown
+        language: node
         types_or: [json, yaml, markdown]
         files: \.(json|ya?ml|md)$
+        additional_dependencies: ["prettier@2.8.8"]
