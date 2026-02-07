@@ -5,7 +5,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import serve from "rollup-plugin-serve";
 import terser  from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
-import minifyHTML from 'rollup-plugin-minify-html-literals';
+import minifyHTML from 'rollup-plugin-html-literals';
 
 const dev = process.env.ROLLUP_WATCH;
 
