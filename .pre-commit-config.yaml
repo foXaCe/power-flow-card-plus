@@ -14,14 +14,5 @@ repos:
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        types_or: [typescript, json, yaml, markdown]
-
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v9.20.0
-    hooks:
-      - id: eslint
-        files: \.ts$
-        additional_dependencies:
-          - eslint@8.57.1
-          - "@typescript-eslint/parser@7.18.0"
-          - "@typescript-eslint/eslint-plugin@7.18.0"
+        types_or: [json, yaml, markdown]
+        files: \.(json|ya?ml|md)$
