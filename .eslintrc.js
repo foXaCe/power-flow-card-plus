@@ -29,6 +29,7 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": "off",
     "prefer-const": "warn",
     "no-var": "error",
+    "no-undef": "off",
     "no-nested-ternary": "off",
     "lit/no-invalid-html": "off",
     "camelcase": "off",

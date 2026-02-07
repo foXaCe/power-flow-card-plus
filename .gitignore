@@ -29,6 +29,9 @@ storybook-static
 custom-elements.json
 # pnpm-lock.yaml
 
+# environment
+.env*
+
 # Debug files
 console.txt
 inspection.txt

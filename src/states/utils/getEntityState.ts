@@ -17,7 +17,7 @@ export const getEntityState = (hass: HomeAssistant, entity: string | undefined):
   for (const id of ids) {
     tempNumber = coerceNumber(hass.states[id].state);
     // somehow using += does not work here (maybe something with rollup?)
-    endResult = endResult + tempNumber;
+    endResult += tempNumber;
   }
 
   return endResult;

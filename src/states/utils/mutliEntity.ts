@@ -1,6 +1,4 @@
-export const getEntityNames = (entities: string): string[] => {
-  return entities?.split("|").map((p) => p.trim());
-};
+export const getEntityNames = (entities: string): string[] => entities?.split("|").map((p) => p.trim());
 
 export const getFirstEntityName = (entities: string): string => {
   const names = getEntityNames(entities);

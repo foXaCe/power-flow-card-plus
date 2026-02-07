@@ -32,7 +32,7 @@ export const individualSecondarySpan = (
     : undefined;
 
   const shouldShowSecondary = () => {
-    if (!!templateResult) return true;
+    if (templateResult) return true;
     if (individual?.secondary?.displayZero === true) return true;
     if (!individual?.secondary?.state) return false;
     if (!isNumberValue(individual?.secondary?.state)) return true;
@@ -46,7 +46,7 @@ export const individualSecondarySpan = (
 
   return html` ${shouldShowSecondary()
     ? html`${baseSecondarySpan({
-        main: main,
+        main,
         className: key,
         entityId: individual?.secondary.entity || undefined,
         icon: individual?.secondary?.icon || undefined,

@@ -44,7 +44,7 @@ export class IndividualRowEditor extends LitElement {
 
   public connectedCallback(): void {
     super.connectedCallback();
-    void loadHaForm();
+    loadHaForm();
   }
 
   public disconnectedCallback() {
@@ -77,7 +77,9 @@ export class IndividualRowEditor extends LitElement {
             .label=${this.hass!.localize("ui.components.entity.entity-picker.clear")}
             .path=${mdiClose}
             class="remove-icon"
-            @click=${() => (this._indexBeingEdited = -1)}
+            @click=${() => {
+              this._indexBeingEdited = -1;
+            }}
           ></ha-icon-button>
         </div>
         <ha-form

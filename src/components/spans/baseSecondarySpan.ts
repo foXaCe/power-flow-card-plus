@@ -1,7 +1,7 @@
 import { html } from "lit";
+import { ActionConfig } from "custom-card-helpers";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { offlineStr } from "@/type";
-import { ActionConfig } from "custom-card-helpers";
 
 type BaseSecondarySpan = {
   main: PowerFlowCardPlus;

@@ -1,9 +1,9 @@
 import { html } from "lit";
-import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { HomeAssistant } from "custom-card-helpers";
+import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 
-export const dashboardLinkElement = (config: PowerFlowCardPlusConfig, hass: HomeAssistant) => {
-  return config.dashboard_link || config.second_dashboard_link
+export const dashboardLinkElement = (config: PowerFlowCardPlusConfig, hass: HomeAssistant) =>
+  config.dashboard_link || config.second_dashboard_link
     ? html`
         <div class="card-actions">
           ${config.dashboard_link
@@ -28,4 +28,3 @@ export const dashboardLinkElement = (config: PowerFlowCardPlusConfig, hass: Home
         </div>
       `
     : html``;
-};

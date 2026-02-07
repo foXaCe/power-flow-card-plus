@@ -7,7 +7,5 @@ export const loadHaForm = async () => {
   }
   if (customElements.get("ha-form")) return;
 
-  const helpers = await (window as any).loadCardHelpers?.();
-
-  if (!helpers) return;
+  await (window as any).loadCardHelpers?.();
 };

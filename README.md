@@ -35,28 +35,35 @@ Your contributions help me continue improving this project and adding new featur
 ## ✨ New Features in Modern Edition
 
 ### 🎨 Arrow Customization (v0.10.0+)
+
 Customize the appearance and position of energy flow arrows:
+
 - **Color** - Any hex color for each arrow
 - **Thickness** - Line width from 0.5 to 10px
 - **Horizontal/Vertical Offset** - Position adjustment (-200 to +200px)
 
 Currently available for:
+
 - Solar → Home
 - Grid → Home
 - Solar → Daily Export
 
 ### 📍 Custom Circle Positioning (v0.8.0+)
+
 Move any circle to a custom position on the card:
+
 - Manual positioning with pixel precision
 - Reset buttons to restore defaults
 - Visual position editor with current values
 
 ### 💰 Daily Cost & Export Tracking (v0.7.0+)
+
 - **Daily Cost** - Track daily energy costs with real-time tariff integration
 - **Daily Export Revenue** - Monitor earnings from grid export
 - Configurable decimal places and units
 
 ### 🖱️ Enhanced Editor (v0.10.1+)
+
 - **Wider modal** - 90% viewport width (max 1200px)
 - **Real-size preview** - See the card as it appears on dashboard
 - **Dedicated editors** - Separate pages for positioning, flows, and arrows
@@ -87,6 +94,7 @@ resources:
 ```
 
 Or via UI:
+
 1. Settings → Dashboards → Resources
 2. Add resource: `/local/power-flow-card-plus.js` (type: JavaScript Module)
 
@@ -188,29 +196,29 @@ All original Power Flow Card Plus features are included:
 
 ### Entities Object
 
-| Name | Type | Description |
-|------|------|-------------|
-| `grid` | object | Grid consumption/production entity |
-| `solar` | object | Solar production entity |
-| `battery` | object | Battery charge/discharge and state of charge |
-| `home` | object | Home consumption entity |
-| `individual` | array | Individual device entities (up to 4) |
-| `fossil_fuel_percentage` | object | Low-carbon energy percentage |
+| Name                     | Type   | Description                                  |
+| ------------------------ | ------ | -------------------------------------------- |
+| `grid`                   | object | Grid consumption/production entity           |
+| `solar`                  | object | Solar production entity                      |
+| `battery`                | object | Battery charge/discharge and state of charge |
+| `home`                   | object | Home consumption entity                      |
+| `individual`             | array  | Individual device entities (up to 4)         |
+| `fossil_fuel_percentage` | object | Low-carbon energy percentage                 |
 
 ### Card Options
 
-| Name | Type | Default | Description |
-|------|------|---------|-------------|
-| `watt_threshold` | number | 0 | Watts before converting to kW |
-| `kw_decimals` | number | 1 | Decimal places for kW |
-| `w_decimals` | number | 1 | Decimal places for W |
-| `min_flow_rate` | number | 0.75 | Fastest dot speed (seconds) |
-| `max_flow_rate` | number | 6 | Slowest dot speed (seconds) |
-| `clickable_entities` | boolean | false | Click entities to open more-info |
-| `disable_dots` | boolean | false | Hide animated dots |
-| `circle_border_width` | number | 2 | Circle border thickness (1-10px) |
-| `circle_pulse_animation` | boolean | false | Animate circles when energy flows |
-| `circle_gradient_mode` | boolean | false | Use gradient colors for circles |
+| Name                     | Type    | Default | Description                       |
+| ------------------------ | ------- | ------- | --------------------------------- |
+| `watt_threshold`         | number  | 0       | Watts before converting to kW     |
+| `kw_decimals`            | number  | 1       | Decimal places for kW             |
+| `w_decimals`             | number  | 1       | Decimal places for W              |
+| `min_flow_rate`          | number  | 0.75    | Fastest dot speed (seconds)       |
+| `max_flow_rate`          | number  | 6       | Slowest dot speed (seconds)       |
+| `clickable_entities`     | boolean | false   | Click entities to open more-info  |
+| `disable_dots`           | boolean | false   | Hide animated dots                |
+| `circle_border_width`    | number  | 2       | Circle border thickness (1-10px)  |
+| `circle_pulse_animation` | boolean | false   | Animate circles when energy flows |
+| `circle_gradient_mode`   | boolean | false   | Use gradient colors for circles   |
 
 ### Arrow Customization
 
@@ -231,7 +239,7 @@ arrows:
 ```yaml
 custom_positions:
   solar:
-    top: 20      # pixels from default position
+    top: 20 # pixels from default position
     left: 50
   grid:
     top: -10
@@ -265,12 +273,14 @@ daily_export_decimals: 2
 Use the built-in visual editors for easy configuration:
 
 ### Position Editor
+
 1. Open card editor
 2. Click "Custom Positions"
 3. Enter pixel values or use reset buttons
 4. See default positions as reference
 
 ### Flows & Appearance Editor
+
 1. Open card editor
 2. Click "Flows & Appearance"
 3. Adjust animation speed, circle appearance, and display options
@@ -284,11 +294,52 @@ Use the built-in visual editors for easy configuration:
 
 ---
 
+## 🗑️ Removal
+
+### HACS
+
+1. Open HACS
+2. Go to "Frontend"
+3. Find "Power Flow Card Plus" in the list
+4. Click the 3 dots and select "Remove"
+5. Restart Home Assistant
+
+### Manual
+
+1. Remove `power-flow-card-plus.js` from your `config/www` directory
+2. Remove the resource reference from Settings > Dashboards > Resources
+3. Restart Home Assistant
+
+---
+
+## ⚠️ Known Limitations
+
+- **Maximum 4 individual devices** - The card supports up to 4 individual device entities
+- **Power values only** - The card displays instantaneous power (W/kW), not accumulated energy (kWh). For energy values, see [Energy Flow Card Plus](https://github.com/flixlix/energy-flow-card-plus)
+- **Custom positions persist in localStorage** - Position data is stored in the browser; clearing browser data resets custom positions
+- **Arrow customization partial** - Currently 3 of 7 possible arrow paths are customizable (solar-to-home, grid-to-home, solar-to-export)
+
+---
+
+## 🔧 Troubleshooting
+
+| Problem                         | Solution                                                                                                        |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| Card not showing                | Verify the resource is added in Settings > Dashboards > Resources                                               |
+| "Custom element doesn't exist"  | Clear browser cache and reload. Ensure the JS file is in `config/www/`                                          |
+| Values showing 0                | Check that your entity IDs are correct and the entities have a `unit_of_measurement` attribute                  |
+| Animations not working          | Ensure `disable_dots` is not set to `true` in your configuration                                                |
+| Editor not opening              | Try clearing browser cache. If using HACS, ensure the latest version is installed                               |
+| Daily cost showing wrong values | Verify `cost_entity` returns a numeric price per kWh and `daily_cost_energy_entity` returns daily energy in kWh |
+
+---
+
 ## 📝 Changelog
 
 See [Releases](https://github.com/foXaCe/power-flow-card-plus/releases) for detailed changelog.
 
 ### Recent Versions
+
 - **v0.10.1** - Expanded editor modal for real-size preview
 - **v0.10.0** - Arrow customization (3/7 arrows)
 - **v0.9.4** - Fixed schema validation for arrows
@@ -311,7 +362,7 @@ Contributions are welcome! This is a community-driven modernization effort.
 
 ## 📄 License
 
-ISC License - Same as original project
+MIT License - See [LICENSE](LICENSE) for details
 
 ---
 
