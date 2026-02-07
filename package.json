@@ -12,14 +12,14 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/flixlix/power-flow-card-plus.git"
+    "url": "git+https://github.com/foXaCe/power-flow-card-plus.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/flixlix/power-flow-card-plus/issues"
+    "url": "https://github.com/foXaCe/power-flow-card-plus/issues"
   },
-  "homepage": "https://github.com/flixlix/power-flow-card-plus#readme",
+  "homepage": "https://github.com/foXaCe/power-flow-card-plus#readme",
   "scripts": {
     "build": "rollup -c",
     "lint": "eslint src/**/*.ts",
