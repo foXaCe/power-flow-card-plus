@@ -76,7 +76,7 @@
     "@types/sortablejs": "^1.15.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "conventional-changelog-conventionalcommits": "^4.6.3",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^8.10.2",
     "eslint-plugin-wc": "^1.5.0",
