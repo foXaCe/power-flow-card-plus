@@ -1,5 +1,8 @@
 /* eslint-disable no-redeclare */
-export const round = (value: number, decimalPlaces: number): number => Number(`${Math.round(Number(`${value}e${decimalPlaces}`))}e-${decimalPlaces}`);
+export const round = (value: number, decimalPlaces: number): number => {
+  const factor = 10 ** decimalPlaces;
+  return Math.round(value * factor) / factor;
+};
 
 /**
  * @license

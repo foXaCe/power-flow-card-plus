@@ -24,8 +24,8 @@ export const getArrowTransform = (arrowName: keyof NonNullable<PowerFlowCardPlus
   const transforms: string[] = [];
 
   if (arrowConfig.offset_x !== undefined || arrowConfig.offset_y !== undefined) {
-    const x = arrowConfig.offset_x || 0;
-    const y = arrowConfig.offset_y || 0;
+    const x = arrowConfig.offset_x ?? 0;
+    const y = arrowConfig.offset_y ?? 0;
     // SVG transform syntax without units
     transforms.push(`translate(${x}, ${y})`);
   }

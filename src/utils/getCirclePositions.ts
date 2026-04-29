@@ -24,39 +24,16 @@ export function getCirclePositions(config: PowerFlowCardPlusConfig, cardWidth: n
 
   // Appliquer les custom_positions si elles existent
   if (config.custom_positions) {
-    if (config.custom_positions.solar) {
-      if (config.custom_positions.solar.left !== undefined) {
-        positions.solar.x = config.custom_positions.solar.left;
-      }
-      if (config.custom_positions.solar.top !== undefined) {
-        positions.solar.y = config.custom_positions.solar.top;
-      }
-    }
-
-    if (config.custom_positions.grid) {
-      if (config.custom_positions.grid.left !== undefined) {
-        positions.grid.x = config.custom_positions.grid.left;
-      }
-      if (config.custom_positions.grid.top !== undefined) {
-        positions.grid.y = config.custom_positions.grid.top;
-      }
-    }
-
-    if (config.custom_positions.home) {
-      if (config.custom_positions.home.left !== undefined) {
-        positions.home.x = config.custom_positions.home.left;
-      }
-      if (config.custom_positions.home.top !== undefined) {
-        positions.home.y = config.custom_positions.home.top;
-      }
-    }
-
-    if (config.custom_positions.battery) {
-      if (config.custom_positions.battery.left !== undefined) {
-        positions.battery.x = config.custom_positions.battery.left;
-      }
-      if (config.custom_positions.battery.top !== undefined) {
-        positions.battery.y = config.custom_positions.battery.top;
+    const circles: Array<keyof CirclePositions> = ["solar", "grid", "home", "battery"];
+    for (const key of circles) {
+      const custom = config.custom_positions[key];
+      if (custom) {
+        if (custom.left !== undefined) {
+          positions[key].x = custom.left;
+        }
+        if (custom.top !== undefined) {
+          positions[key].y = custom.top;
+        }
       }
     }
   }

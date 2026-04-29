@@ -1,8 +1,11 @@
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
+import { defaultValues } from "./get-default-config";
 
 const newFlowRateMapRange = (value: number, minOut: number, maxOut: number, minIn: number, maxIn: number): number => {
-  if (value > maxIn) return maxOut;
-  return ((value - minIn) * (maxOut - minOut)) / (maxIn - minIn) + minOut;
+  if (maxIn === minIn) return minOut;
+  const clamped = Math.max(minIn, Math.min(maxIn, value));
+  if (clamped > maxIn) return maxOut;
+  return ((clamped - minIn) * (maxOut - minOut)) / (maxIn - minIn) + minOut;
 };
 
 const newFlowRate = (config: PowerFlowCardPlusConfig, value: number): number => {
@@ -14,9 +17,10 @@ const newFlowRate = (config: PowerFlowCardPlusConfig, value: number): number => 
 };
 
 const oldFlowRate = (config: PowerFlowCardPlusConfig, value: number, total: number): number => {
-  const min = config?.min_flow_rate!;
-  const max = config?.max_flow_rate!;
-  return max - (value / (total > 0 ? total : value)) * (max - min);
+  const min = config?.min_flow_rate ?? defaultValues.minFlowRate;
+  const max = config?.max_flow_rate ?? defaultValues.maxFlowRate;
+  if (total <= 0) return max;
+  return max - (value / total) * (max - min);
 };
 
 export const computeFlowRate = (config: PowerFlowCardPlusConfig, value: number, total: number): number => {

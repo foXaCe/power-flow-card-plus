@@ -3,6 +3,10 @@
  * Autosuffisance = (Production solaire directe + Batterie vers maison) / Consommation totale
  */
 export function calculateSelfSufficiency(solarToHome: number, batteryToHome: number, gridToHome: number): number {
+  const sanitize = (n: number) => (Number.isFinite(n) && n > 0 ? n : 0);
+  solarToHome = sanitize(solarToHome);
+  batteryToHome = sanitize(batteryToHome);
+  gridToHome = sanitize(gridToHome);
   const renewableEnergy = solarToHome + batteryToHome;
   const totalConsumption = solarToHome + batteryToHome + gridToHome;
 

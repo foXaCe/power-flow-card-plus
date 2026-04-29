@@ -17,7 +17,7 @@ export const displayNonFossilState = (
     return "NaN";
   }
   const unitWhiteSpace = config.entities.fossil_fuel_percentage?.unit_white_space ?? true;
-  const unitOfMeasurement: "W" | "%" = config.entities.fossil_fuel_percentage?.state_type === "percentage" ? "%" : "W" || "W";
+  const unitOfMeasurement: "W" | "%" = config.entities.fossil_fuel_percentage?.state_type === "percentage" ? "%" : "W";
   const nonFossilFuelDecimal: number = 1 - (getEntityState(hass, entityFossil) ?? 0) / 100;
   let gridConsumption: number;
   if (typeof config.entities.grid?.entity === "string") {

@@ -1,10 +1,6 @@
 import { IndividualObject } from "../states/raw/individual/getIndividualObject";
 
-const filterUnusedIndividualObjs = (individualObjs: IndividualObject[]): IndividualObject[] => {
-  const cloneIndividualObjs = JSON.parse(JSON.stringify(individualObjs)) as IndividualObject[];
-  const individualObjsWithHas = cloneIndividualObjs.filter((i) => i?.has);
-  return individualObjsWithHas;
-};
+const filterUnusedIndividualObjs = (individualObjs: IndividualObject[]): IndividualObject[] => individualObjs.filter((i) => i?.has);
 
 const getIndividualObjSortPowerMode = (individualObjs: IndividualObject[], index: number): IndividualObject | undefined => {
   const filteredIndividualObjs = filterUnusedIndividualObjs(individualObjs);

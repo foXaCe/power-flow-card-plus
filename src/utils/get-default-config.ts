@@ -30,6 +30,7 @@ export function getDefaultConfig(hass: HomeAssistant): object {
 
   const powerEntities = Object.keys(hass.states).filter((entityId) => {
     const stateObj = hass.states[getFirstEntityName(entityId)];
+    if (!stateObj) return false;
     const isAvailable =
       (stateObj.state && stateObj.attributes && stateObj.attributes.device_class === "power") ||
       stateObj.entity_id.includes("power") ||
@@ -44,7 +45,8 @@ export function getDefaultConfig(hass: HomeAssistant): object {
   const enphaseProductionTests = ["production_d_electricite_actuelle", "current_power_production"];
   const enphaseConsumptionTests = ["consommation_electrique_actuelle", "current_power_consumption"];
   const enphaseIQBatteryTests = ["enphase_battery", "iq_5p_puissance", "iq_battery"];
-  const enphaseIQBatterySOCTests = ["iq_5p_etat_de_charge", "enphase_battery.*state_of_charge"];
+  const enphaseIQBatterySOCTests = ["iq_5p_etat_de_charge"];
+  const enphaseIQBatterySOCRegex = /enphase_battery.*state_of_charge/i;
 
   // Standard patterns
   const gridPowerTestString = ["grid", "utility", "net", "meter"];
@@ -103,7 +105,8 @@ export function getDefaultConfig(hass: HomeAssistant): object {
   // Try Enphase battery SOC first
   let firstBatteryPercentageEntity = "";
   if (isEnphaseSystem) {
-    firstBatteryPercentageEntity = percentageEntities.find((id) => checkStrings(id, enphaseIQBatterySOCTests)) || "";
+    firstBatteryPercentageEntity =
+      percentageEntities.find((id) => checkStrings(id, enphaseIQBatterySOCTests) || enphaseIQBatterySOCRegex.test(id)) || "";
   }
 
   // Fallback to standard battery percentage detection

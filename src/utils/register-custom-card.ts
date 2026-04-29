@@ -12,6 +12,6 @@ export function registerCustomCard(params: RegisterCardParams) {
   windowWithCards.customCards.push({
     ...params,
     preview: true,
-    documentationURL: `https://github.com/flixlix/power-flow-card-plus`,
+    documentationURL: `https://github.com/foXaCe/power-flow-card-plus`,
   });
 }

@@ -37,7 +37,7 @@ export const displayValue = (
 
   const valueInNumber = Number(value);
 
-  const isKW = unit === undefined && valueInNumber >= watt_threshold;
+  const isKW = unit === undefined && Math.abs(valueInNumber) >= watt_threshold;
 
   const decimalsToRound = decimals ?? (isKW ? config.kw_decimals : config.w_decimals);
 
@@ -48,5 +48,5 @@ export const displayValue = (
     hass.locale
   );
 
-  return `${v}${unitWhiteSpace === false ? "" : " "}${unit || (isKW ? "kW" : "W")}`;
+  return `${v}${space}${unit || (isKW ? "kW" : "W")}`;
 };

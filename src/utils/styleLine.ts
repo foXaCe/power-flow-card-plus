@@ -11,7 +11,7 @@ export const styleLine = (power: number, config: PowerFlowCardPlusConfig): strin
 
   if (displayZeroMode === "transparency" || displayZeroMode === "custom") {
     const transparency = config?.display_zero_lines?.transparency;
-    if (transparency ?? 50 > 0) styleclass += "transparency ";
+    if ((transparency ?? 50) > 0) styleclass += "transparency ";
   }
   if (displayZeroMode === "grey_out" || displayZeroMode === "custom") {
     styleclass += "grey";
