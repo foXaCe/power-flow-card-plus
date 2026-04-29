@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
+  pull_request:
 jobs:
   hacs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout
-        uses: "actions/checkout@v6"
+        uses: "actions/checkout@v4"
       - name: Validate HACS
         uses: "hacs/action@main"
         with:

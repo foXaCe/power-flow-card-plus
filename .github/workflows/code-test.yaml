@@ -3,32 +3,27 @@ on:
   push:
     branches:
       - "*"
+  pull_request:
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Cache pnpm modules
-        id: cache-modules
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.pnpm-store
-            **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'rollup.config.js') }}
-          restore-keys: |
-            ${{ runner.os }}-
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           run_install: false
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
       - name: Install Packages
-        if: steps.cache-modules.outputs.cache-hit != 'true'
-        run: pnpm install --no-frozen-lockfile
+        run: pnpm install
 
       - name: Test with coverage
-        run: npx jest --coverage
+        run: pnpm test:coverage

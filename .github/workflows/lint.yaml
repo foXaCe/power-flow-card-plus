@@ -1,4 +1,4 @@
-name: Format Check
+name: Lint
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  format-check:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,5 +28,5 @@ jobs:
       - name: Install Packages
         run: pnpm install
 
-      - name: Format Check
-        run: pnpm format:check
+      - name: Lint
+        run: pnpm lint
