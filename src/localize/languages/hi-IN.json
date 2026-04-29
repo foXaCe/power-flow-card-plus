@@ -3,7 +3,8 @@
     "label": {
       "car": "कार",
       "motorbike": "मोटरसाइकिल"
-    }
+    },
+    "self_sufficiency": "Self-Sufficiency"
   },
   "editor": {
     "entity_generator": "जनरेटर",

@@ -40,20 +40,32 @@ const languages: Record<string, unknown> = {
 
 const defaultLang = "en";
 
+let cachedLang: string | null = null;
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (e) => {
+    if (e.key === "selectedLanguage") cachedLang = null;
+  });
+}
+
+function getCurrentLang(): string {
+  if (cachedLang) return cachedLang;
+  cachedLang = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_");
+  return cachedLang;
+}
+
 function getTranslatedString(key: string, lang: string): string | undefined {
-  try {
-    return key.split(".").reduce((o, i) => (o as Record<string, unknown>)[i], languages[lang]) as string;
-  } catch (_) {
-    return undefined;
-  }
+  const root = languages[lang];
+  if (!root) return undefined;
+  const result = key.split(".").reduce<unknown>((o, k) => (o && typeof o === "object" ? (o as Record<string, unknown>)[k] : undefined), root);
+  return typeof result === "string" ? result : undefined;
 }
 
 export function setupCustomlocalize(key: string) {
-  const lang = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_");
+  const lang = getCurrentLang();
 
   let translated = getTranslatedString(key, lang);
   if (!translated) translated = getTranslatedString(key, defaultLang);
-  return translated ?? key;
+  return translated ?? key.split(".").pop()?.replace(/_/g, " ") ?? key;
 }
 
 export default setupCustomlocalize;

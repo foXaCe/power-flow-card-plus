@@ -3,7 +3,8 @@
     "label": {
       "car": "Auto",
       "motorbike": "Motocicletta"
-    }
+    },
+    "self_sufficiency": "Autosufficienza"
   },
   "editor": {
     "entity_generator": "Generatore",
