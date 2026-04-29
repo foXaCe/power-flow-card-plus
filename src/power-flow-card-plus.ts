@@ -1,4 +1,3 @@
-/* eslint-disable wc/guard-super-call */
 import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { UnsubscribeFunc } from "home-assistant-js-websocket";
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
@@ -35,6 +34,7 @@ import { displayValue } from "./utils/displayValue";
 import { defaultValues, getDefaultConfig } from "./utils/get-default-config";
 import { registerCustomCard } from "./utils/register-custom-card";
 import { coerceNumber } from "./utils/utils";
+import { setupCustomlocalize } from "./localize/localize";
 
 const circleCircumference = 238.76104;
 
@@ -70,32 +70,65 @@ export class PowerFlowCardPlus extends LitElement {
     if (!config.entities || (!config.entities?.battery?.entity && !config.entities?.grid?.entity && !config.entities?.solar?.entity)) {
       throw new Error("At least one entity for battery, grid or solar must be defined");
     }
+    // Deep clone the incoming config to avoid mutating the external Lovelace config
+    const clonedConfig: PowerFlowCardPlusConfig = JSON.parse(JSON.stringify(config));
     this._config = {
-      ...config,
-      kw_decimals: coerceNumber(config.kw_decimals, defaultValues.kilowattDecimals),
-      min_flow_rate: coerceNumber(config.min_flow_rate, defaultValues.minFlowRate),
-      max_flow_rate: coerceNumber(config.max_flow_rate, defaultValues.maxFlowRate),
-      w_decimals: coerceNumber(config.w_decimals, defaultValues.wattDecimals),
-      watt_threshold: coerceNumber(config.watt_threshold, defaultValues.wattThreshold),
-      max_expected_power: coerceNumber(config.max_expected_power, defaultValues.maxExpectedPower),
-      min_expected_power: coerceNumber(config.min_expected_power, defaultValues.minExpectedPower),
+      ...clonedConfig,
+      kw_decimals: coerceNumber(clonedConfig.kw_decimals, defaultValues.kilowattDecimals),
+      min_flow_rate: coerceNumber(clonedConfig.min_flow_rate, defaultValues.minFlowRate),
+      max_flow_rate: coerceNumber(clonedConfig.max_flow_rate, defaultValues.maxFlowRate),
+      w_decimals: coerceNumber(clonedConfig.w_decimals, defaultValues.wattDecimals),
+      watt_threshold: coerceNumber(clonedConfig.watt_threshold, defaultValues.wattThreshold),
+      max_expected_power: coerceNumber(clonedConfig.max_expected_power, defaultValues.maxExpectedPower),
+      min_expected_power: coerceNumber(clonedConfig.min_expected_power, defaultValues.minExpectedPower),
       display_zero_lines: {
-        mode: config.display_zero_lines?.mode ?? defaultValues.displayZeroLines.mode,
-        transparency: coerceNumber(config.display_zero_lines?.transparency, defaultValues.displayZeroLines.transparency),
-        grey_color: config.display_zero_lines?.grey_color ?? defaultValues.displayZeroLines.grey_color,
+        mode: clonedConfig.display_zero_lines?.mode ?? defaultValues.displayZeroLines.mode,
+        transparency: coerceNumber(clonedConfig.display_zero_lines?.transparency, defaultValues.displayZeroLines.transparency),
+        grey_color: clonedConfig.display_zero_lines?.grey_color ?? defaultValues.displayZeroLines.grey_color,
       },
     };
   }
+
+  private _clockInterval?: number;
+  private _activeDragHandlers?: { moveHandler: (ev: MouseEvent | TouchEvent) => void; upHandler: () => void };
 
   public connectedCallback() {
     super.connectedCallback();
     this._tryConnectAll();
     // Charger les positions depuis localStorage (config par appareil)
     this._loadFromLocalStorage();
+    // Refresh daily clocks (cost / export) every minute so the hour hand updates
+    if (this._clockInterval === undefined) {
+      this._clockInterval = window.setInterval(() => {
+        if (this._config?.show_daily_cost || this._config?.show_daily_export) {
+          this.requestUpdate();
+        }
+      }, 60_000);
+    }
   }
 
   public disconnectedCallback() {
-    this._tryDisconnectAll();
+    super.disconnectedCallback();
+    for (const topic of this._unsubRenderTemplates?.keys() ?? []) {
+      this._tryDisconnect(topic);
+    }
+    // Clear any in-progress drag (release document listeners)
+    if (this._activeDragHandlers) {
+      const { moveHandler, upHandler } = this._activeDragHandlers;
+      this._onDragEnd(moveHandler, upHandler);
+    }
+    if (this._clockInterval !== undefined) {
+      clearInterval(this._clockInterval);
+      this._clockInterval = undefined;
+    }
+  }
+
+  protected shouldUpdate(changed: PropertyValues): boolean {
+    if (changed.has("_config") || changed.has("_templateResults") || changed.has("_width") || changed.has("_draggedElement")) {
+      return true;
+    }
+    if (!changed.has("hass")) return false;
+    return true;
   }
 
   // do not use ui editor for now, as it is not working
@@ -110,7 +143,11 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   public getCardSize(): Promise<number> | number {
-    return 3;
+    let size = 8; // base ~400px
+    if (this._config?.entities?.fossil_fuel_percentage?.entity) size += 1;
+    if (this._config?.show_daily_cost) size += 1;
+    if (this._config?.show_daily_export) size += 1;
+    return size;
   }
 
   private previousDur: { [name: string]: number } = {};
@@ -209,7 +246,7 @@ export class PowerFlowCardPlus extends LitElement {
       cost: {
         enabled: this._config.show_cost ?? false,
         entity: this._config.cost_entity,
-        tariff: this._config.cost_entity ? parseFloat(this.hass.states[this._config.cost_entity]?.state || "0") : 0,
+        tariff: this._safeStateNumber(this._config.cost_entity),
         unit: this._config.cost_unit || "€/kWh",
         decimals: this._config.cost_decimals ?? 2,
       },
@@ -328,8 +365,8 @@ export class PowerFlowCardPlus extends LitElement {
     const dailyCost = {
       enabled: this._config.show_daily_cost ?? false,
       entity: this._config.daily_cost_energy_entity,
-      name: "Coût",
-      energy: this._config.daily_cost_energy_entity ? parseFloat(this.hass.states[this._config.daily_cost_energy_entity]?.state || "0") : 0,
+      name: setupCustomlocalize("editor.daily_cost_title"),
+      energy: this._safeStateNumber(this._config.daily_cost_energy_entity),
       tariff: this._config.cost_entity && grid.cost ? grid.cost.tariff : 0,
       unit: grid.cost?.unit || "€",
       decimals: this._config.daily_cost_decimals ?? 2,
@@ -340,8 +377,8 @@ export class PowerFlowCardPlus extends LitElement {
     const dailyExport = {
       enabled: this._config.show_daily_export ?? false,
       entity: this._config.daily_export_energy_entity,
-      name: "Revente",
-      energy: this._config.daily_export_energy_entity ? parseFloat(this.hass.states[this._config.daily_export_energy_entity]?.state || "0") : 0,
+      name: setupCustomlocalize("editor.daily_export_title"),
+      energy: this._safeStateNumber(this._config.daily_export_energy_entity),
       price: this._config.daily_export_price ?? 0,
       decimals: this._config.daily_export_decimals ?? 2,
       totalRevenue: 0,
@@ -424,14 +461,14 @@ export class PowerFlowCardPlus extends LitElement {
       battery.state.toHome = (battery.state.fromBattery ?? 0) - (battery.state.toGrid ?? 0);
     }
 
-    grid.state.toHome = Math.max(grid.state.fromGrid - (grid.state.toBattery ?? 0), 0);
+    grid.state.toHome = Math.max((grid.state.fromGrid ?? 0) - (grid.state.toBattery ?? 0), 0);
 
     if (solar.has && grid.state.toGrid) solar.state.toGrid = grid.state.toGrid - (battery.state.toGrid ?? 0);
 
     // Handle Power Outage
     if (grid.powerOutage.isOutage) {
       grid.state.fromGrid = grid.powerOutage.entityGenerator ? Math.max(getEntityStateWatts(this.hass, grid.powerOutage.entityGenerator), 0) : 0;
-      grid.state.toHome = Math.max(grid.state.fromGrid - (grid.state.toBattery ?? 0), 0);
+      grid.state.toHome = Math.max((grid.state.fromGrid ?? 0) - (grid.state.toBattery ?? 0), 0);
       grid.state.toGrid = 0;
       battery.state.toGrid = 0;
       solar.state.toGrid = 0;
@@ -452,13 +489,19 @@ export class PowerFlowCardPlus extends LitElement {
     // Calculate Total Consumptions
     const totalHomeConsumption = Math.max(grid.state.toHome + (solar.state.toHome ?? 0) + (battery.state.toHome ?? 0), 0);
 
-    // Calculate Circumferences
-    const homeBatteryCircumference = battery.state.toHome ? circleCircumference * (battery.state.toHome / totalHomeConsumption) : 0;
-    const homeSolarCircumference = solar.state.toHome ? circleCircumference * (solar.state.toHome / totalHomeConsumption) : 0;
-    const homeNonFossilCircumference = nonFossil.state.power ? circleCircumference * (nonFossil.state.power / totalHomeConsumption) : 0;
+    // Calculate Circumferences (guard against division by zero)
+    const safeTotalHomeConsumption = totalHomeConsumption > 0 ? totalHomeConsumption : 1;
+    const homeBatteryCircumference =
+      battery.state.toHome && totalHomeConsumption > 0 ? circleCircumference * (battery.state.toHome / safeTotalHomeConsumption) : 0;
+    const homeSolarCircumference =
+      solar.state.toHome && totalHomeConsumption > 0 ? circleCircumference * (solar.state.toHome / safeTotalHomeConsumption) : 0;
+    const homeNonFossilCircumference =
+      nonFossil.state.power && totalHomeConsumption > 0 ? circleCircumference * (nonFossil.state.power / safeTotalHomeConsumption) : 0;
     const homeGridCircumference =
-      circleCircumference *
-      ((totalHomeConsumption - (nonFossil.state.power ?? 0) - (battery.state.toHome ?? 0) - (solar.state.toHome ?? 0)) / totalHomeConsumption);
+      totalHomeConsumption > 0
+        ? circleCircumference *
+          ((totalHomeConsumption - (nonFossil.state.power ?? 0) - (battery.state.toHome ?? 0) - (solar.state.toHome ?? 0)) / safeTotalHomeConsumption)
+        : 0;
 
     const homeUsageToDisplay =
       entities.home?.override_state && entities.home.entity
@@ -714,31 +757,35 @@ export class PowerFlowCardPlus extends LitElement {
     });
   }
 
-  private _tryConnectAll() {
+  private _collectTemplateTopics(): { [topic: string]: string | undefined } {
     const { entities } = this._config;
-    const templatesObj = {
+    const topics: { [topic: string]: string | undefined } = {
       gridSecondary: entities.grid?.secondary_info?.template,
       solarSecondary: entities.solar?.secondary_info?.template,
       homeSecondary: entities.home?.secondary_info?.template,
-      individualSecondary: entities.individual?.map((individual) => individual.secondary_info?.template),
       nonFossilFuelSecondary: entities.fossil_fuel_percentage?.secondary_info?.template,
     };
+    entities.individual?.forEach((individual, index) => {
+      topics[`individual${index}Secondary`] = individual.secondary_info?.template;
+    });
+    return topics;
+  }
 
-    for (const [key, value] of Object.entries(templatesObj)) {
+  private _tryConnectAll() {
+    const topics = this._collectTemplateTopics();
+    for (const [key, value] of Object.entries(topics)) {
       if (value) {
-        if (Array.isArray(value)) {
-          value.forEach((template, index) => {
-            if (template) this._tryConnect(template, `individual${index}Secondary`);
-          });
-        } else {
-          this._tryConnect(value, key);
-        }
+        this._tryConnect(value, key);
       }
     }
   }
 
   private async _tryConnect(inputTemplate: string, topic: string): Promise<void> {
-    if (!this.hass || !this._config || this._unsubRenderTemplates?.get(topic) !== undefined || inputTemplate === "") {
+    if (!this.hass || !this._config || inputTemplate === "") {
+      return;
+    }
+    // Use .has() and reserve the slot synchronously to avoid races with concurrent calls
+    if (this._unsubRenderTemplates?.has(topic)) {
       return;
     }
 
@@ -758,6 +805,7 @@ export class PowerFlowCardPlus extends LitElement {
           strict: true,
         }
       );
+      // Reserve the slot BEFORE awaiting so concurrent calls bail out via .has()
       this._unsubRenderTemplates?.set(topic, sub);
       await sub;
     } catch (_err) {
@@ -769,22 +817,6 @@ export class PowerFlowCardPlus extends LitElement {
         },
       };
       this._unsubRenderTemplates?.delete(topic);
-    }
-  }
-
-  private async _tryDisconnectAll() {
-    const { entities } = this._config;
-    const templatesObj = {
-      gridSecondary: entities.grid?.secondary_info?.template,
-      solarSecondary: entities.solar?.secondary_info?.template,
-      homeSecondary: entities.home?.secondary_info?.template,
-      individualSecondary: entities.individual?.map((individual) => individual.secondary_info?.template),
-    };
-
-    for (const [key, value] of Object.entries(templatesObj)) {
-      if (value) {
-        this._tryDisconnect(key);
-      }
     }
   }
 
@@ -816,47 +848,11 @@ export class PowerFlowCardPlus extends LitElement {
     const upHandler = () => this._onDragEnd(moveHandler, upHandler);
 
     document.addEventListener("mousemove", moveHandler);
-    document.addEventListener("touchmove", moveHandler);
+    document.addEventListener("touchmove", moveHandler, { passive: false });
     document.addEventListener("mouseup", upHandler);
     document.addEventListener("touchend", upHandler);
-  }
 
-  private _checkCollisionAndResolve(left: number, top: number, draggedElement: string, CIRCLE_RADIUS: number): { left: number; top: number } {
-    // Liste de tous les cercles possibles
-    const allCircles = ["solar", "battery", "grid", "home", "daily-export", "daily-cost", "self-sufficiency"];
-
-    // Centre du cercle draggé
-    const draggedCenterX = left + CIRCLE_RADIUS;
-    const draggedCenterY = top + CIRCLE_RADIUS;
-
-    for (const circleName of allCircles) {
-      if (circleName !== draggedElement) {
-        const otherCircle = this.shadowRoot?.querySelector(`.circle-container.${circleName}`) as HTMLElement;
-
-        if (otherCircle && otherCircle.offsetParent) {
-          const otherLeft = otherCircle.offsetLeft;
-          const otherTop = otherCircle.offsetTop;
-          const otherCenterX = otherLeft + CIRCLE_RADIUS;
-          const otherCenterY = otherTop + CIRCLE_RADIUS;
-
-          const dx = draggedCenterX - otherCenterX;
-          const dy = draggedCenterY - otherCenterY;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          const minDistance = CIRCLE_RADIUS * 2;
-          if (distance < minDistance && distance > 0) {
-            const overlap = minDistance - distance;
-            const pushX = (dx / distance) * overlap;
-            const pushY = (dy / distance) * overlap;
-
-            left += pushX;
-            top += pushY;
-          }
-        }
-      }
-    }
-
-    return { left: Math.round(left), top: Math.round(top) };
+    this._activeDragHandlers = { moveHandler, upHandler };
   }
 
   private _onDragMove(e: MouseEvent | TouchEvent) {
@@ -889,11 +885,6 @@ export class PowerFlowCardPlus extends LitElement {
     left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
     top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
 
-    // Détection de collision désactivée pour éviter les tremblements
-    // const resolved = this._checkCollisionAndResolve(left, top, this._draggedElement, CIRCLE_RADIUS);
-    // left = resolved.left;
-    // top = resolved.top;
-
     // Créer une copie profonde de la config
     const newConfig = JSON.parse(JSON.stringify(this._config));
 
@@ -918,55 +909,52 @@ export class PowerFlowCardPlus extends LitElement {
     document.removeEventListener("mouseup", upHandler);
     document.removeEventListener("touchend", upHandler);
     this._draggedElement = null;
+    this._activeDragHandlers = undefined;
 
     // Sauvegarder dans localStorage (config par appareil)
     this._saveToLocalStorage();
   }
 
-  private _resetPositions() {
-    // Supprimer toutes les positions personnalisées
-    const newConfig = JSON.parse(JSON.stringify(this._config));
-    newConfig.custom_positions = {};
-    this._config = newConfig;
+  private get _storageKey(): string {
+    if (!this._config) return "power-flow-card-plus-positions:default";
+    const gridEntity = this._config.entities?.grid?.entity;
+    const solarEntity = this._config.entities?.solar?.entity;
+    const gridSig = typeof gridEntity === "string" ? gridEntity : gridEntity?.consumption || gridEntity?.production || "";
+    const solarSig = typeof solarEntity === "string" ? solarEntity : "";
+    const sig = this._config.title || [gridSig, solarSig].filter(Boolean).join("|") || "default";
+    return `power-flow-card-plus-positions:${sig}`;
+  }
 
-    // Supprimer aussi du localStorage
-    localStorage.removeItem("power-flow-card-plus-positions");
-
-    this.requestUpdate();
+  private _safeStateNumber(entityId?: string): number {
+    if (!entityId || !this.hass) return 0;
+    const raw = this.hass.states[entityId]?.state;
+    if (!raw || raw === "unavailable" || raw === "unknown" || raw === "none") return 0;
+    const n = parseFloat(raw);
+    return Number.isFinite(n) ? n : 0;
   }
 
   private _saveToLocalStorage() {
     // Sauvegarder les positions dans localStorage pour config par appareil
     if (this._config.custom_positions) {
-      localStorage.setItem("power-flow-card-plus-positions", JSON.stringify(this._config.custom_positions));
+      localStorage.setItem(this._storageKey, JSON.stringify(this._config.custom_positions));
     }
   }
 
   private _loadFromLocalStorage() {
     // Charger les positions depuis localStorage
-    const saved = localStorage.getItem("power-flow-card-plus-positions");
+    const saved = localStorage.getItem(this._storageKey);
     if (saved) {
       try {
         const positions = JSON.parse(saved);
-        if (!this._config.custom_positions) {
-          this._config.custom_positions = {};
-        }
-        // Fusionner les positions sauvegardées
-        this._config.custom_positions = { ...this._config.custom_positions, ...positions };
+        // Avoid mutating the external Lovelace config: replace _config with a new object
+        this._config = {
+          ...this._config,
+          custom_positions: { ...this._config.custom_positions, ...positions },
+        };
       } catch (e) {
         console.error("Error loading positions from localStorage:", e);
       }
     }
-  }
-
-  private _saveConfig() {
-    // Dispatch un événement pour sauvegarder la config
-    const event = new CustomEvent("config-changed", {
-      detail: { config: this._config },
-      bubbles: true,
-      composed: true,
-    });
-    this.dispatchEvent(event);
   }
 
   static styles = styles;
