@@ -1,3 +1,14 @@
+## <small>0.42.7 (2026-04-29)</small>
+
+- fix(card): fuite WS, race templates, NaN/div0, shouldUpdate, drag cleanup ([ba0c07d](https://github.com/foXaCe/power-flow-card-plus/commit/ba0c07d))
+- fix(editor): refondre pipeline \_valueChanged, NaN-safe, scoper preview styles ([4850b04](https://github.com/foXaCe/power-flow-card-plus/commit/4850b04))
+- fix(i18n): cacher localStorage lang, resolution clef robuste, ajouter self_sufficiency ([c6e7936](https://github.com/foXaCe/power-flow-card-plus/commit/c6e7936))
+- fix(style): securiser homeSources, eliminer mutations, hoister constantes ([1d86576](https://github.com/foXaCe/power-flow-card-plus/commit/1d86576))
+- fix(utils): corriger bugs precedence/NaN/div0, factoriser duplication ([0044011](https://github.com/foXaCe/power-flow-card-plus/commit/0044011))
+- refactor(components): factoriser individual×4 + daily×2, a11y, null-safety ([783694b](https://github.com/foXaCe/power-flow-card-plus/commit/783694b))
+- ci: ajouter job lint, durcir release, retirer no-frozen-lockfile ([343d6b0](https://github.com/foXaCe/power-flow-card-plus/commit/343d6b0))
+- chore(build): durcir configs rollup/babel/ts/jest ([3fd6b50](https://github.com/foXaCe/power-flow-card-plus/commit/3fd6b50))
+
 ## <small>0.42.6 (2026-02-07)</small>
 
 - fix: correction .pre-commit-config.yaml (type tag typescript invalide) ([f2ae373](https://github.com/foXaCe/power-flow-card-plus/commit/f2ae373))
