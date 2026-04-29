@@ -27,11 +27,11 @@ export default [
         dir: "dist",
         format: "es",
         inlineDynamicImports: true,
+        sourcemap: true,
       },
     ],
     plugins: [
       minifyHTML(),
-      terser({ output: { comments: false } }),
       typescript({
         declaration: false,
       }),
@@ -44,7 +44,7 @@ export default [
         exclude: "node_modules/**",
         babelHelpers: "bundled",
       }),
-      ...(dev ? [serve(serveOptions)] : [terser()]),
+      ...(dev ? [serve(serveOptions)] : [terser({ output: { comments: false } })]),
     ],
     moduleContext: (id) => {
       const thisAsWindowForModules = [

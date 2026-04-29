@@ -9,12 +9,11 @@
     "dashboard",
     "custom-cards"
   ],
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/foXaCe/power-flow-card-plus.git"
   },
-  "author": "",
+  "author": "foXaCe",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/foXaCe/power-flow-card-plus/issues"
@@ -31,6 +30,10 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "audit:prod": "pnpm audit --prod",
+    "validate": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test",
     "clean": "pnpm lint:fix && pnpm format:write && pnpm typecheck",
     "prepare": "husky"
   },
