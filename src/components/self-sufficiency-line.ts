@@ -1,4 +1,4 @@
-import { svg } from "lit";
+import { svg, nothing } from "lit";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 
@@ -42,12 +42,28 @@ function getCircleEdgePoint(centerX: number, centerY: number, radius: number, ta
 }
 
 export const selfSufficiencyLine = (main: PowerFlowCardPlus, config: PowerFlowCardPlusConfig) => {
-  if (!config.show_self_sufficiency) return svg``;
+  if (!config.show_self_sufficiency) return nothing;
+
+  // Guard: shadowRoot may not be ready yet during the initial render path.
+  if (!main.shadowRoot) return nothing;
+  const homeContainer = main.shadowRoot.querySelector(".circle-container.home");
+  const selfSufficiencyContainer = main.shadowRoot.querySelector(".circle-container.self-sufficiency");
+  if (!homeContainer || !selfSufficiencyContainer) return nothing;
 
   const homeCenter = getCircleCenter(main.shadowRoot, "home");
   const selfSufficiencyCenter = getCircleCenter(main.shadowRoot, "self-sufficiency");
 
-  if (!homeCenter || !selfSufficiencyCenter) return svg``;
+  if (!homeCenter || !selfSufficiencyCenter) return nothing;
+
+  // Guard against NaN coordinates (rect not measured yet)
+  if (
+    !Number.isFinite(homeCenter.x) ||
+    !Number.isFinite(homeCenter.y) ||
+    !Number.isFinite(selfSufficiencyCenter.x) ||
+    !Number.isFinite(selfSufficiencyCenter.y)
+  ) {
+    return nothing;
+  }
 
   // Calculer les points sur les bords des cercles
   const fromEdge = getCircleEdgePoint(homeCenter.x, homeCenter.y, homeCenter.radius, selfSufficiencyCenter.x, selfSufficiencyCenter.y);

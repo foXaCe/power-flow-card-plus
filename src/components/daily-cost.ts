@@ -1,95 +1,20 @@
-import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
+import { dailyClockElement } from "./daily-clock";
 
-export const dailyCostElement = (main: PowerFlowCardPlus, _config: PowerFlowCardPlusConfig, { dailyCost }: { dailyCost: any }) => {
-  if (!dailyCost.enabled || !dailyCost.entity) {
-    return html``;
-  }
-
-  const displayCost = dailyCost.totalCost?.toFixed(dailyCost.decimals ?? 2) ?? "0.00";
-  const displayUnit = dailyCost.unit?.split("/")[0] ?? "€";
-
-  // Calcul de l'angle de l'aiguille (0° = 12h en haut, sens horaire)
-  const now = new Date();
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30; // 30° par heure
-
-  // Fonction pour créer les marqueurs d'heures
-  const createHourMarker = (hour: number) => {
-    const angle = hour * 30 - 90; // -90 pour commencer à 12h en haut
-    const isMainHour = hour % 3 === 0; // 12, 3, 6, 9
-    const outerRadius = 38;
-    const innerRadius = isMainHour ? 32 : 33; // Plus long pour heures principales
-
-    const x1 = 40 + outerRadius * Math.cos((angle * Math.PI) / 180);
-    const y1 = 40 + outerRadius * Math.sin((angle * Math.PI) / 180);
-    const x2 = 40 + innerRadius * Math.cos((angle * Math.PI) / 180);
-    const y2 = 40 + innerRadius * Math.sin((angle * Math.PI) / 180);
-
-    return svg`<line
-      x1="${x1}"
-      y1="${y1}"
-      x2="${x2}"
-      y2="${y2}"
-      stroke="var(--primary-text-color)"
-      stroke-width="${isMainHour ? "2.5" : "1.5"}"
-      opacity="0.5"
-    />`;
-  };
-
-  const customStyle = _config.custom_positions?.daily_cost
-    ? `top: ${_config.custom_positions.daily_cost.top}px; left: ${_config.custom_positions.daily_cost.left}px; bottom: auto; right: auto; transform: none;`
-    : "";
-
-  return html`<div
-    class="circle-container daily-cost"
-    style="${customStyle}"
-    @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "daily_cost")}
-    @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "daily_cost")}
-  >
-    <span class="label">${dailyCost.name}</span>
-    <div
-      class="circle"
-      style="background-color: var(--card-background-color);"
-      @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
-        main.openDetails(e, undefined, dailyCost.entity);
-      }}
-      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-        if (e.key === "Enter") {
-          main.openDetails(e, undefined, dailyCost.entity);
-        }
-      }}
-    >
-      <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color); position: relative; z-index: 10;">
-        ${displayCost} ${displayUnit}
-      </span>
-      <svg>
-        ${svg`<circle
-          cx="40"
-          cy="40"
-          r="38"
-          shape-rendering="geometricPrecision"
-          stroke="var(--primary-text-color)"
-          stroke-width="4"
-          fill="none"
-          opacity="0.2"
-        />`}
-        <!-- Marqueurs d'heures -->
-        ${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((hour) => createHourMarker(hour))}
-        <!-- Aiguille des heures -->
-        ${svg`<line
-          x1="40"
-          y1="40"
-          x2="${40 + 28 * Math.sin((hourAngle * Math.PI) / 180)}"
-          y2="${40 - 28 * Math.cos((hourAngle * Math.PI) / 180)}"
-          stroke="#ff0000"
-          stroke-width="3.5"
-          stroke-linecap="round"
-          opacity="1"
-        />`}
-      </svg>
-    </div>
-  </div>`;
-};
+export const dailyCostElement = (main: PowerFlowCardPlus, _config: PowerFlowCardPlusConfig, { dailyCost }: { dailyCost: any }) =>
+  dailyClockElement(main, _config, {
+    kind: "daily_cost",
+    className: "daily-cost",
+    needleColor: "#ff0000",
+    dragKey: "daily_cost",
+    positionKey: "daily_cost",
+    data: {
+      enabled: dailyCost?.enabled,
+      entity: dailyCost?.entity,
+      total: dailyCost?.totalCost,
+      decimals: dailyCost?.decimals,
+      unit: dailyCost?.unit,
+      name: dailyCost?.name,
+    },
+  });

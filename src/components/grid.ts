@@ -26,6 +26,9 @@ export const gridElement = (
   >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
+      role="button"
+      tabindex="0"
+      aria-label="${grid.name ?? "Grid"}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const outageTarget = grid.powerOutage?.entityGenerator ?? entities.grid?.power_outage?.entity;
         const target =
@@ -57,7 +60,7 @@ export const gridElement = (
         (entities.grid?.display_state === "one_way_no_zero" && (grid.state.toGrid ?? 0) > 0) ||
         (entities.grid?.display_state === "one_way" && (grid.state.fromGrid ?? 0) === 0)) &&
       grid.state.toGrid !== null &&
-      !grid.powerOutage.isOutage
+      !grid.powerOutage?.isOutage
         ? html`<span
             class="return"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -81,14 +84,14 @@ export const gridElement = (
             })}
           </span>`
         : null}
-      ${grid.state.fromGrid > 0 &&
+      ${(grid.state.fromGrid ?? 0) > 0 &&
       (((entities.grid?.display_state === "two_way" ||
         entities.grid?.display_state === undefined ||
-        (entities.grid?.display_state === "one_way_no_zero" && grid.state.fromGrid > 0) ||
-        (entities.grid?.display_state === "one_way" && (grid.state.toGrid ?? 0) === 0 && grid.state.fromGrid > 0)) &&
+        (entities.grid?.display_state === "one_way_no_zero" && (grid.state.fromGrid ?? 0) > 0) ||
+        (entities.grid?.display_state === "one_way" && (grid.state.toGrid ?? 0) === 0 && (grid.state.fromGrid ?? 0) > 0)) &&
         grid.state.fromGrid !== null &&
-        !grid.powerOutage.isOutage) ||
-        (grid.powerOutage.isOutage && !!grid.powerOutage.entityGenerator))
+        !grid.powerOutage?.isOutage) ||
+        (grid.powerOutage?.isOutage && !!grid.powerOutage?.entityGenerator))
         ? html` <span
             class="consumption"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -114,7 +117,7 @@ export const gridElement = (
       ${grid.powerOutage?.isOutage && !grid.powerOutage?.entityGenerator ? html`<span class="grid power-outage">${grid.powerOutage.name}</span>` : ""}
     </div>
     <span class="label">${grid.name}</span>
-    ${grid.cost?.enabled && grid.cost.tariff > 0 && grid.state.fromGrid > 0
+    ${grid.cost?.enabled && Number.isFinite(grid.cost.tariff) && grid.cost.tariff > 0 && (grid.state.fromGrid ?? 0) > 0
       ? html`<span class="cost-info">
           ${((grid.state.fromGrid / 1000) * grid.cost.tariff).toFixed(grid.cost.decimals)} ${grid.cost.unit.replace("/kWh", "/h")}
         </span>`

@@ -46,6 +46,12 @@ export const homeElement = (
     ? `top: ${config.custom_positions.home.top}px; left: ${config.custom_positions.home.left}px; bottom: auto; right: auto; transform: none;`
     : "";
 
+  // Safe defaults for stroke-dasharray calculations
+  const safeSolar = homeSolarCircumference ?? 0;
+  const safeBattery = homeBatteryCircumference ?? 0;
+  const safeGrid = homeGridCircumference ?? circleCircumference - safeSolar - safeBattery;
+  const dashArray = `${safeGrid} ${circleCircumference - safeGrid}`;
+
   return html`<div
     class="circle-container home"
     style="${customStyle}"
@@ -55,6 +61,9 @@ export const homeElement = (
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       id="home-circle"
+      role="button"
+      tabindex="0"
+      aria-label="${home.name ?? "Home"}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
       }}
@@ -102,18 +111,7 @@ export const homeElement = (
                 shape-rendering="geometricPrecision"
               />`
           : ""}
-        <circle
-          class="grid"
-          cx="40"
-          cy="40"
-          r="38"
-          stroke-dasharray="${homeGridCircumference ??
-          circleCircumference - homeSolarCircumference! - (homeBatteryCircumference || 0)} ${homeGridCircumference !== undefined
-            ? circleCircumference - homeGridCircumference
-            : homeSolarCircumference! + (homeBatteryCircumference || 0)}"
-          stroke-dashoffset="0"
-          shape-rendering="geometricPrecision"
-        />
+        <circle class="grid" cx="40" cy="40" r="38" stroke-dasharray="${dashArray}" stroke-dashoffset="0" shape-rendering="geometricPrecision" />
       </svg>
     </div>
     ${!showHomeLabel ? html`<span class="label"></span>` : html`<span class="label">${home.name}</span>`}

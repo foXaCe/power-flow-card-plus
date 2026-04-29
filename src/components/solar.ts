@@ -34,6 +34,9 @@ export const solarElement = (
     <span class="label">${solar.name}</span>
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
+      role="button"
+      tabindex="0"
+      aria-label="${solar.name ?? "Solar"}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         main.openDetails(e, solar.tap_action, solar.entity);
       }}

@@ -28,6 +28,9 @@ export const nonFossilElement = (
         <span class="label">${nonFossil.name}</span>
         <div
           class="circle"
+          role="button"
+          tabindex="0"
+          aria-label="${nonFossil.name ?? "Non-Fossil"}"
           @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
             main.openDetails(e, entities.fossil_fuel_percentage?.tap_action, entities.fossil_fuel_percentage?.entity);
           }}
@@ -52,7 +55,7 @@ export const nonFossilElement = (
           ? html`
               <svg width="80" height="30">
                 <path d="M40 -10 v40" class="low-carbon ${styleLine(nonFossil.state.power || 0, config)}" id="low-carbon" />
-                ${checkShouldShowDots(config) && nonFossil.has && nonFossil.state.power > 0
+                ${checkShouldShowDots(config) && nonFossil.has && (nonFossil.state.power ?? 0) > 0
                   ? svg`<circle
                 r="1.75"
                 class="low-carbon"

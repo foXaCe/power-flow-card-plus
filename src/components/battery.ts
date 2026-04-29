@@ -71,6 +71,9 @@ export const batteryElement = (
   >
     <div
       class="circle ${isPulsing ? "pulse-animation" : ""}"
+      role="button"
+      tabindex="0"
+      aria-label="${battery.name ?? "Battery"}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!
@@ -90,7 +93,7 @@ export const batteryElement = (
         }
       }}
     >
-      ${battery.state_of_charge.state !== null && entities.battery?.show_state_of_charge !== false
+      ${battery.state_of_charge?.state != null && entities.battery?.show_state_of_charge !== false
         ? html` <span
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
               main.openDetails(e, entities.battery?.tap_action, entities.battery?.state_of_charge!);
@@ -129,7 +132,7 @@ export const batteryElement = (
       (entities.battery?.display_state === "two_way" ||
         entities.battery?.display_state === undefined ||
         (entities.battery?.display_state === "one_way_no_zero" && battery.state.toBattery > 0) ||
-        (entities.battery?.display_state === "one_way" && battery.state.toBattery !== 0))
+        entities.battery?.display_state === "one_way")
         ? html`<span
             class="battery-in"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
@@ -158,7 +161,7 @@ export const batteryElement = (
       (entities.battery?.display_state === "two_way" ||
         entities.battery?.display_state === undefined ||
         (entities.battery?.display_state === "one_way_no_zero" && battery.state.fromBattery > 0) ||
-        (entities.battery?.display_state === "one_way" && (battery.state.toBattery === 0 || battery.state.fromBattery !== 0)))
+        (entities.battery?.display_state === "one_way" && battery.state.toBattery === 0))
         ? html`<span
             class="battery-out"
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {

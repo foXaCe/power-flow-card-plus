@@ -1,7 +1,9 @@
 import { html } from "lit";
+import { styleMap } from "lit/directives/style-map.js";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { calculateSelfSufficiency, getSelfSufficiencyColor } from "@/utils/calculateSelfSufficiency";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
+import localize from "../localize/localize";
 
 interface SelfSufficiencyProps {
   solarToHome: number;
@@ -32,11 +34,11 @@ export const selfSufficiencyElement = (
       @mousedown=${(e: MouseEvent) => (main as any)._onDragStart?.(e, "self-sufficiency")}
       @touchstart=${(e: TouchEvent) => (main as any)._onDragStart?.(e, "self-sufficiency")}
     >
-      <div class="circle">
-        <ha-icon icon="mdi:leaf" style="color: ${color};"></ha-icon>
-        <span class="self-sufficiency-value" style="color: ${color}; font-weight: 700;">${percentage}%</span>
+      <div class="circle" role="button" tabindex="0">
+        <ha-icon icon="mdi:leaf" style=${styleMap({ color })}></ha-icon>
+        <span class="self-sufficiency-value" style=${styleMap({ color, fontWeight: "700" })}>${percentage}%</span>
       </div>
-      <span class="label">Autosuffisance</span>
+      <span class="label">${localize("card.self_sufficiency")}</span>
     </div>
   `;
 };
