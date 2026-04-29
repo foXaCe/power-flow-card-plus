@@ -8,7 +8,6 @@ import { BaseConfigEntity } from "../type";
 import { cardConfigStruct, generalConfigSchema, advancedOptionsSchema } from "./schema/_schema-all";
 import localize from "../localize/localize";
 import { defaultValues } from "../utils/get-default-config";
-import { LovelaceRowConfig } from "./types/entity-rows";
 import "./components/individual-devices-editor";
 import "./components/link-subpage";
 import "./components/subpage-header";
@@ -75,7 +74,6 @@ const CONFIG_PAGES: {
 export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @state() private _config?: PowerFlowCardPlusConfig;
-  @state() private _configEntities?: LovelaceRowConfig[] = [];
   @state() private _currentConfigPage: ConfigPage = null;
 
   public async setConfig(config: PowerFlowCardPlusConfig): Promise<void> {
@@ -91,29 +89,35 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
 
   private _adjustPreviewSize(): void {
     // Inject styles to make card preview display at real dashboard size
-    if (!document.getElementById("pfcp-preview-styles")) {
-      const style = document.createElement("style");
+    let style = document.getElementById("pfcp-preview-styles") as HTMLStyleElement | null;
+    if (!style) {
+      style = document.createElement("style");
       style.id = "pfcp-preview-styles";
       style.textContent = `
-        /* Target the preview container in HA's card editor */
-        hui-dialog-edit-card hui-card-preview {
-          max-width: 500px !important;
-          width: 100%;
-        }
-        hui-dialog-edit-card hui-card-preview > * {
+        /* Scoped to our card preview only */
+        hui-dialog-edit-card hui-card-preview power-flow-card-plus {
           max-width: 500px !important;
           width: 100%;
         }
       `;
+      style.dataset.pfcpRefs = "0";
       document.head.appendChild(style);
     }
+    const refs = parseInt(style.dataset.pfcpRefs ?? "0", 10) || 0;
+    style.dataset.pfcpRefs = String(refs + 1);
   }
 
   disconnectedCallback(): void {
     super.disconnectedCallback();
-    const style = document.getElementById("pfcp-preview-styles");
+    const style = document.getElementById("pfcp-preview-styles") as HTMLStyleElement | null;
     if (style) {
-      style.remove();
+      const refs = parseInt(style.dataset.pfcpRefs ?? "0", 10) || 0;
+      const next = refs - 1;
+      if (next <= 0) {
+        style.remove();
+      } else {
+        style.dataset.pfcpRefs = String(next);
+      }
     }
   }
 
@@ -165,7 +169,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         currentPage === "advanced"
           ? advancedOptionsSchema(localize, this._config.display_zero_lines?.mode ?? defaultValues.displayZeroLines.mode)
           : CONFIG_PAGES.find((page) => page.page === currentPage)?.schema;
-      const dataForForm = currentPage === "advanced" ? data : data.entities[currentPage];
+      const dataForForm = currentPage === "advanced" ? data : data.entities[currentPage] ?? {};
 
       return html`
         <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
@@ -214,20 +218,36 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
   }
 
   private _valueChanged(ev: any): void {
-    let config = ev.detail.value || "";
-
     if (!this._config || !this.hass) {
       return;
     }
 
-    if (this._currentConfigPage !== null && this._currentConfigPage !== "advanced" && this._currentConfigPage !== "individual") {
+    // Sub-editors (individual / custom-positions / flows) emit a fully-built
+    // config under `detail.config`. Pass it through unchanged.
+    if (ev.detail?.config !== undefined) {
+      fireEvent(this, "config-changed", { config: ev.detail.config });
+      return;
+    }
+
+    const delta = ev.detail?.value ?? {};
+    let config: any;
+
+    if (this._currentConfigPage === "advanced") {
+      // Merge the delta into the existing config so materialized defaults are preserved.
+      config = { ...this._config, ...delta };
+    } else if (this._currentConfigPage !== null) {
+      // Entity page: merge delta with existing entity config.
+      const currentEntity = (this._config.entities as any)?.[this._currentConfigPage] ?? {};
       config = {
         ...this._config,
         entities: {
           ...this._config.entities,
-          [this._currentConfigPage]: config,
+          [this._currentConfigPage]: { ...currentEntity, ...delta },
         },
       };
+    } else {
+      // Top-level (general settings) form: merge with existing config.
+      config = { ...this._config, ...delta };
     }
 
     fireEvent(this, "config-changed", { config });
@@ -251,10 +271,6 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
 
       ha-icon-button {
         align-self: center;
-      }
-
-      .entities-section * {
-        background-color: #f00;
       }
 
       .card-config {

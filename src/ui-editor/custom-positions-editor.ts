@@ -1,5 +1,6 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import { HomeAssistant } from "custom-card-helpers";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
@@ -19,6 +20,7 @@ export class CustomPositionsEditor extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
   @property() public localize!: (key: string) => string;
   @state() private _positions: any = {};
+  @state() private _openSections: Record<string, boolean> = {};
 
   static styles = css`
     .position-section {
@@ -191,28 +193,34 @@ export class CustomPositionsEditor extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this._positions = this.config.custom_positions ? { ...this.config.custom_positions } : {};
+    this._positions = this.config?.custom_positions ? { ...this.config.custom_positions } : {};
+  }
+
+  protected willUpdate(changed: PropertyValues): void {
+    if (changed.has("config")) {
+      this._positions = this.config?.custom_positions ? { ...this.config.custom_positions } : {};
+    }
   }
 
   private _handleSectionKeyDown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      this._toggleSection(e);
+      const id = (e.currentTarget as HTMLElement).dataset.sectionId;
+      if (id) this._toggleSectionById(id);
     }
   }
 
   private _toggleSection(e: Event) {
-    const header = e.currentTarget as HTMLElement;
-    const content = header.nextElementSibling as HTMLElement;
-    const chevron = header.querySelector(".chevron") as HTMLElement;
+    const id = (e.currentTarget as HTMLElement).dataset.sectionId;
+    if (id) this._toggleSectionById(id);
+  }
 
-    if (content.classList.contains("open")) {
-      content.classList.remove("open");
-      chevron.classList.remove("open");
-    } else {
-      content.classList.add("open");
-      chevron.classList.add("open");
-    }
+  private _toggleSectionById(id: string) {
+    this._openSections = { ...this._openSections, [id]: !this._openSections[id] };
+  }
+
+  private _isOpen(id: string): boolean {
+    return Boolean(this._openSections[id]);
   }
 
   private _valueChanged(circle: string, axis: "top" | "left", value: string) {
@@ -225,11 +233,12 @@ export class CustomPositionsEditor extends LitElement {
       newPositions[circle] = { ...newPositions[circle] };
     }
 
-    const numValue = value === "" ? undefined : parseInt(value, 10);
-    if (numValue === undefined) {
+    if (value === "") {
       delete newPositions[circle][axis];
     } else {
-      newPositions[circle][axis] = numValue;
+      const n = Number(value);
+      if (!Number.isFinite(n)) return;
+      newPositions[circle][axis] = n;
     }
 
     // Nettoyer si les deux valeurs sont undefined
@@ -259,15 +268,19 @@ export class CustomPositionsEditor extends LitElement {
 
     this._positions = newPositions;
     this._fireChanged();
-    this.requestUpdate();
   }
 
   private _fireChanged() {
-    const customPositions = Object.keys(this._positions).length > 0 ? { ...this._positions } : undefined;
+    const newConfig: any = { ...this.config };
+    if (Object.keys(this._positions).length > 0) {
+      newConfig.custom_positions = { ...this._positions };
+    } else {
+      delete newConfig.custom_positions;
+    }
 
     this.dispatchEvent(
       new CustomEvent("config-changed", {
-        detail: { config: { ...this.config, custom_positions: customPositions } },
+        detail: { config: newConfig },
         bubbles: true,
         composed: true,
       })
@@ -287,13 +300,22 @@ export class CustomPositionsEditor extends LitElement {
   }
 
   private _renderPositionSection(circle: string, title: string) {
+    const open = this._isOpen(circle);
     return html`
       <div class="position-section">
-        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
+        <div
+          class="section-header"
+          role="button"
+          tabindex="0"
+          aria-expanded=${open ? "true" : "false"}
+          data-section-id=${circle}
+          @click=${this._toggleSection}
+          @keydown=${this._handleSectionKeyDown}
+        >
           <span>${title}</span>
-          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
+          <ha-icon class="chevron ${classMap({ open })}" icon="mdi:chevron-down"></ha-icon>
         </div>
-        <div class="section-content">
+        <div class="section-content ${classMap({ open })}">
           <div class="position-row">
             <div class="position-label">${this.localize("editor.position_top")}</div>
             <div class="position-input">

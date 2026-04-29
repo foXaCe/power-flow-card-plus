@@ -1,11 +1,13 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
 @customElement("flows-editor")
 export class FlowsEditor extends LitElement {
   @property({ attribute: false }) public config!: PowerFlowCardPlusConfig;
   @property() public localize!: (key: string) => string;
+  @state() private _openSections: Record<string, boolean> = {};
 
   static styles = css`
     :host {
@@ -126,26 +128,49 @@ export class FlowsEditor extends LitElement {
   private _handleSectionKeyDown(e: KeyboardEvent) {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      this._toggleSection(e);
+      const id = (e.currentTarget as HTMLElement).dataset.sectionId;
+      if (id) this._toggleSectionById(id);
     }
   }
 
   private _toggleSection(e: Event) {
-    const header = e.currentTarget as HTMLElement;
-    const content = header.nextElementSibling as HTMLElement;
-    const chevron = header.querySelector(".chevron") as HTMLElement;
+    const id = (e.currentTarget as HTMLElement).dataset.sectionId;
+    if (id) this._toggleSectionById(id);
+  }
 
-    if (content.classList.contains("open")) {
-      content.classList.remove("open");
-      chevron.classList.remove("open");
-    } else {
-      content.classList.add("open");
-      chevron.classList.add("open");
+  private _toggleSectionById(id: string) {
+    this._openSections = { ...this._openSections, [id]: !this._openSections[id] };
+  }
+
+  private _isOpen(id: string): boolean {
+    return Boolean(this._openSections[id]);
+  }
+
+  private _onNumberInput(key: string, value: string) {
+    if (value === "") {
+      this._valueChanged(key, undefined);
+      return;
     }
+    const n = parseFloat(value);
+    if (Number.isFinite(n)) this._valueChanged(key, n);
+  }
+
+  private _onArrowNumberInput(arrow: string, prop: string, value: string) {
+    if (value === "") {
+      this._arrowChanged(arrow, prop, undefined);
+      return;
+    }
+    const n = parseFloat(value);
+    if (Number.isFinite(n)) this._arrowChanged(arrow, prop, n);
   }
 
   private _valueChanged(prop: string, value: any) {
-    const newConfig = { ...this.config, [prop]: value };
+    const newConfig: any = { ...this.config };
+    if (value === undefined || value === "" || (typeof value === "number" && !Number.isFinite(value))) {
+      delete newConfig[prop];
+    } else {
+      newConfig[prop] = value;
+    }
     this.dispatchEvent(
       new CustomEvent("config-changed", {
         detail: { config: newConfig },
@@ -157,24 +182,29 @@ export class FlowsEditor extends LitElement {
 
   private _arrowChanged(arrow: string, prop: string, value: any) {
     const currentArrows = this.config.arrows || {};
-    const currentArrow = currentArrows[arrow] || {};
+    const currentArrow = { ...(currentArrows[arrow] || {}) };
 
-    const newArrow = { ...currentArrow, [prop]: value };
+    if (value === undefined || value === null || value === "" || (typeof value === "number" && !Number.isFinite(value))) {
+      delete currentArrow[prop];
+    } else {
+      currentArrow[prop] = value;
+    }
 
-    // Nettoyer si toutes les valeurs sont undefined
-    const hasValues = Object.values(newArrow).some((v) => v !== undefined && v !== null && v !== "");
+    const hasValues = Object.values(currentArrow).some((v) => v !== undefined && v !== null && v !== "");
 
-    const newArrows = { ...currentArrows };
+    const newArrows: Record<string, any> = { ...currentArrows };
     if (hasValues) {
-      newArrows[arrow] = newArrow;
+      newArrows[arrow] = currentArrow;
     } else {
       delete newArrows[arrow];
     }
 
-    const newConfig = {
-      ...this.config,
-      arrows: Object.keys(newArrows).length > 0 ? newArrows : undefined,
-    };
+    const newConfig: any = { ...this.config };
+    if (Object.keys(newArrows).length > 0) {
+      newConfig.arrows = newArrows;
+    } else {
+      delete newConfig.arrows;
+    }
 
     this.dispatchEvent(
       new CustomEvent("config-changed", {
@@ -185,7 +215,7 @@ export class FlowsEditor extends LitElement {
     );
   }
 
-  private _getArrowValue(arrow: string, prop: string): any {
+  private _getArrowValue(arrow: string, prop: string): string | number {
     const value = this.config.arrows?.[arrow]?.[prop];
     if (value === undefined || value === null) {
       // Retourner les valeurs par défaut selon la propriété
@@ -193,12 +223,12 @@ export class FlowsEditor extends LitElement {
         case "color":
           return "#8cd867";
         case "thickness":
-          return "1.5";
+          return 1.5;
         case "length":
-          return "80";
+          return 80;
         case "offset_x":
         case "offset_y":
-          return "0";
+          return 0;
         default:
           return "";
       }
@@ -211,19 +241,17 @@ export class FlowsEditor extends LitElement {
       <div class="info-banner">💡 ${this.localize("editor.flows_editor_info")}</div>
 
       <!-- Animation Speed Section -->
-      <div class="section">
-        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
-          <span>${this.localize("editor.animation_speed")}</span>
-          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
-        </div>
-        <div class="section-content">
+      ${this._renderSection(
+        "animation_speed",
+        this.localize("editor.animation_speed"),
+        html`
           <div class="control-row">
             <div class="control-label">${this.localize("editor.min_flow_rate")}</div>
             <div class="control-input">
               <input
                 type="number"
                 .value=${this.config.min_flow_rate ?? 0.75}
-                @input=${(e: any) => this._valueChanged("min_flow_rate", parseFloat(e.target.value))}
+                @input=${(e: any) => this._onNumberInput("min_flow_rate", e.target.value)}
                 min="0.1"
                 max="10"
                 step="0.1"
@@ -238,7 +266,7 @@ export class FlowsEditor extends LitElement {
               <input
                 type="number"
                 .value=${this.config.max_flow_rate ?? 6}
-                @input=${(e: any) => this._valueChanged("max_flow_rate", parseFloat(e.target.value))}
+                @input=${(e: any) => this._onNumberInput("max_flow_rate", e.target.value)}
                 min="0.1"
                 max="100"
                 step="0.1"
@@ -258,23 +286,21 @@ export class FlowsEditor extends LitElement {
               <div class="hint">${this.localize("editor.disable_dots_hint")}</div>
             </div>
           </div>
-        </div>
-      </div>
+        `
+      )}
 
       <!-- Circle Appearance Section -->
-      <div class="section">
-        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
-          <span>${this.localize("editor.circle_appearance")}</span>
-          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
-        </div>
-        <div class="section-content">
+      ${this._renderSection(
+        "circle_appearance",
+        this.localize("editor.circle_appearance"),
+        html`
           <div class="control-row">
             <div class="control-label">${this.localize("editor.circle_border_width")}</div>
             <div class="control-input">
               <input
                 type="number"
                 .value=${this.config.circle_border_width ?? 2}
-                @input=${(e: any) => this._valueChanged("circle_border_width", parseInt(e.target.value, 10))}
+                @input=${(e: any) => this._onNumberInput("circle_border_width", e.target.value)}
                 min="1"
                 max="10"
                 step="1"
@@ -306,23 +332,21 @@ export class FlowsEditor extends LitElement {
               <div class="hint">${this.localize("editor.circle_gradient_mode_hint")}</div>
             </div>
           </div>
-        </div>
-      </div>
+        `
+      )}
 
       <!-- Display Options Section -->
-      <div class="section">
-        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
-          <span>${this.localize("editor.display_options")}</span>
-          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
-        </div>
-        <div class="section-content">
+      ${this._renderSection(
+        "display_options",
+        this.localize("editor.display_options"),
+        html`
           <div class="control-row">
             <div class="control-label">${this.localize("editor.watt_threshold")}</div>
             <div class="control-input">
               <input
                 type="number"
                 .value=${this.config.watt_threshold ?? 1000}
-                @input=${(e: any) => this._valueChanged("watt_threshold", parseInt(e.target.value, 10))}
+                @input=${(e: any) => this._onNumberInput("watt_threshold", e.target.value)}
                 min="100"
                 max="10000"
                 step="100"
@@ -337,7 +361,7 @@ export class FlowsEditor extends LitElement {
               <input
                 type="number"
                 .value=${this.config.w_decimals ?? 0}
-                @input=${(e: any) => this._valueChanged("w_decimals", parseInt(e.target.value, 10))}
+                @input=${(e: any) => this._onNumberInput("w_decimals", e.target.value)}
                 min="0"
                 max="5"
                 step="1"
@@ -352,7 +376,7 @@ export class FlowsEditor extends LitElement {
               <input
                 type="number"
                 .value=${this.config.kw_decimals ?? 2}
-                @input=${(e: any) => this._valueChanged("kw_decimals", parseInt(e.target.value, 10))}
+                @input=${(e: any) => this._onNumberInput("kw_decimals", e.target.value)}
                 min="0"
                 max="5"
                 step="1"
@@ -360,16 +384,14 @@ export class FlowsEditor extends LitElement {
               <div class="hint">${this.localize("editor.kw_decimals_hint")}</div>
             </div>
           </div>
-        </div>
-      </div>
+        `
+      )}
 
       <!-- Arrows Section -->
-      <div class="section">
-        <div class="section-header" @click=${this._toggleSection} @keydown=${this._handleSectionKeyDown}>
-          <span>${this.localize("editor.arrows_customization")}</span>
-          <ha-icon class="chevron" icon="mdi:chevron-down"></ha-icon>
-        </div>
-        <div class="section-content">
+      ${this._renderSection(
+        "arrows_customization",
+        this.localize("editor.arrows_customization"),
+        html`
           ${this._renderArrowConfig("solar_to_daily_export", this.localize("editor.arrow_solar_to_daily_export"))}
           ${this._renderArrowConfig("grid_to_home", this.localize("editor.arrow_grid_to_home"))}
           ${this._renderArrowConfig("solar_to_home", this.localize("editor.arrow_solar_to_home"))}
@@ -377,7 +399,28 @@ export class FlowsEditor extends LitElement {
           ${this._renderArrowConfig("battery_to_home", this.localize("editor.arrow_battery_to_home"))}
           ${this._renderArrowConfig("solar_to_battery", this.localize("editor.arrow_solar_to_battery"))}
           ${this._renderArrowConfig("grid_to_battery", this.localize("editor.arrow_grid_to_battery"))}
+        `
+      )}
+    `;
+  }
+
+  private _renderSection(id: string, label: string, content: unknown) {
+    const open = this._isOpen(id);
+    return html`
+      <div class="section">
+        <div
+          class="section-header"
+          role="button"
+          tabindex="0"
+          aria-expanded=${open ? "true" : "false"}
+          data-section-id=${id}
+          @click=${this._toggleSection}
+          @keydown=${this._handleSectionKeyDown}
+        >
+          <span>${label}</span>
+          <ha-icon class="chevron ${classMap({ open })}" icon="mdi:chevron-down"></ha-icon>
         </div>
+        <div class="section-content ${classMap({ open })}">${content}</div>
       </div>
     `;
   }
@@ -404,7 +447,7 @@ export class FlowsEditor extends LitElement {
             <input
               type="number"
               .value=${this._getArrowValue(arrow, "thickness") || 1.5}
-              @input=${(e: any) => this._arrowChanged(arrow, "thickness", parseFloat(e.target.value))}
+              @input=${(e: any) => this._onArrowNumberInput(arrow, "thickness", e.target.value)}
               min="0.5"
               max="10"
               step="0.5"
@@ -419,7 +462,7 @@ export class FlowsEditor extends LitElement {
             <input
               type="number"
               .value=${this._getArrowValue(arrow, "length") || 80}
-              @input=${(e: any) => this._arrowChanged(arrow, "length", parseInt(e.target.value, 10))}
+              @input=${(e: any) => this._onArrowNumberInput(arrow, "length", e.target.value)}
               min="20"
               max="300"
               step="10"
@@ -434,7 +477,7 @@ export class FlowsEditor extends LitElement {
             <input
               type="number"
               .value=${this._getArrowValue(arrow, "offset_x") || 0}
-              @input=${(e: any) => this._arrowChanged(arrow, "offset_x", parseInt(e.target.value, 10))}
+              @input=${(e: any) => this._onArrowNumberInput(arrow, "offset_x", e.target.value)}
               min="-200"
               max="200"
               step="5"
@@ -449,7 +492,7 @@ export class FlowsEditor extends LitElement {
             <input
               type="number"
               .value=${this._getArrowValue(arrow, "offset_y") || 0}
-              @input=${(e: any) => this._arrowChanged(arrow, "offset_y", parseInt(e.target.value, 10))}
+              @input=${(e: any) => this._onArrowNumberInput(arrow, "offset_y", e.target.value)}
               min="-200"
               max="200"
               step="5"

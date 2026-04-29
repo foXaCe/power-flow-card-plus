@@ -63,16 +63,15 @@ export const fireEvent = <HassEvent extends ValidHassDomEvent>(
     cancelable?: boolean;
     composed?: boolean;
   }
-) => {
-  options = options || {};
-  // @ts-ignore
-  detail = detail === null || detail === undefined ? {} : detail;
-  const event = new Event(type, {
-    bubbles: options.bubbles === undefined ? true : options.bubbles,
-    cancelable: Boolean(options.cancelable),
-    composed: options.composed === undefined ? true : options.composed,
+): CustomEvent<HASSDomEvents[HassEvent]> => {
+  const opts = options || {};
+  const eventDetail = (detail === null || detail === undefined ? {} : detail) as HASSDomEvents[HassEvent];
+  const event = new CustomEvent<HASSDomEvents[HassEvent]>(type, {
+    bubbles: opts.bubbles === undefined ? true : opts.bubbles,
+    cancelable: Boolean(opts.cancelable),
+    composed: opts.composed === undefined ? true : opts.composed,
+    detail: eventDetail,
   });
-  (event as any).detail = detail;
   node.dispatchEvent(event);
   return event;
 };
