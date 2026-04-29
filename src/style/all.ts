@@ -11,6 +11,9 @@ interface AllDynamicStyles {
   [key: string]: any;
 }
 
+const INDIVIDUAL_COLORS = ["#d0cc5b", "#964cb5", "#b54c9d", "#5bd0cc"];
+const INDIVIDUAL_FIELD_NAMES: string[] = ["left-top", "left-bottom", "right-top", "right-bottom"];
+
 export const allDynamicStyles = (
   main: PowerFlowCardPlus,
   {
@@ -55,17 +58,13 @@ export const allDynamicStyles = (
   );
 
   if (grid.color.fromGrid !== undefined) {
-    if (typeof grid.color.fromGrid === "object") {
-      grid.color.fromGrid = convertColorListToHex(grid.color.fromGrid);
-    }
-    main.style.setProperty("--energy-grid-consumption-color", grid.color.fromGrid || "#a280db");
+    const gridFromGrid = typeof grid.color.fromGrid === "object" ? convertColorListToHex(grid.color.fromGrid) : grid.color.fromGrid;
+    main.style.setProperty("--energy-grid-consumption-color", gridFromGrid || "#a280db");
   }
 
   if (grid.color.toGrid !== undefined) {
-    if (typeof grid.color.toGrid === "object") {
-      grid.color.toGrid = convertColorListToHex(grid.color.toGrid);
-    }
-    main.style.setProperty("--energy-grid-return-color", grid.color.toGrid || "#a280db");
+    const gridToGrid = typeof grid.color.toGrid === "object" ? convertColorListToHex(grid.color.toGrid) : grid.color.toGrid;
+    main.style.setProperty("--energy-grid-return-color", gridToGrid || "#a280db");
   }
 
   main.style.setProperty(
@@ -106,12 +105,13 @@ export const allDynamicStyles = (
 
   // Battery
   if (battery.color.fromBattery !== undefined) {
-    if (typeof battery.color.fromBattery === "object") battery.color.fromBattery = convertColorListToHex(battery.color.fromBattery);
-    main.style.setProperty("--energy-battery-out-color", battery.color.fromBattery || "#4db6ac");
+    const batteryFromBattery =
+      typeof battery.color.fromBattery === "object" ? convertColorListToHex(battery.color.fromBattery) : battery.color.fromBattery;
+    main.style.setProperty("--energy-battery-out-color", batteryFromBattery || "#4db6ac");
   }
   if (battery.color.toBattery !== undefined) {
-    if (typeof battery.color.toBattery === "object") battery.color.toBattery = convertColorListToHex(battery.color.toBattery);
-    main.style.setProperty("--energy-battery-in-color", battery.color.toBattery || "#a280db");
+    const batteryToBattery = typeof battery.color.toBattery === "object" ? convertColorListToHex(battery.color.toBattery) : battery.color.toBattery;
+    main.style.setProperty("--energy-battery-in-color", batteryToBattery || "#a280db");
   }
   battery.color.icon_type = entities.battery?.color_icon;
   main.style.setProperty(
@@ -161,12 +161,12 @@ export const allDynamicStyles = (
 
   // Non-fossil
   if (nonFossil.color !== undefined) {
-    if (typeof nonFossil.color === "object") nonFossil.color = convertColorListToHex(nonFossil.color);
-    main.style.setProperty("--non-fossil-color", nonFossil.color || "var(--energy-non-fossil-color)");
+    const nonFossilColor = typeof nonFossil.color === "object" ? convertColorListToHex(nonFossil.color) : nonFossil.color;
+    main.style.setProperty("--non-fossil-color", nonFossilColor || "var(--energy-non-fossil-color)");
   }
   main.style.setProperty(
     "--icon-non-fossil-color",
-    entities.fossil_fuel_percentage?.color_icon ? "var(--non-fossil-color)" : "var(--primary-text-color)" || "var(--non-fossil-color)"
+    entities.fossil_fuel_percentage?.color_icon ? "var(--non-fossil-color)" : "var(--primary-text-color)"
   );
   main.style.setProperty(
     "--text-non-fossil-color",
@@ -195,7 +195,7 @@ export const allDynamicStyles = (
   );
 
   // Transparencies
-  main.style.setProperty("--transparency-unused-lines", display_zero_lines_transparency ? display_zero_lines_transparency.toString() : "0");
+  main.style.setProperty("--transparency-unused-lines", String(display_zero_lines_transparency ?? 0));
 
   if (display_zero_lines_grey_color !== undefined) {
     let greyColor = display_zero_lines_grey_color;
@@ -206,17 +206,13 @@ export const allDynamicStyles = (
   if (solar.has) {
     if (battery.has) {
       // has solar, battery and grid
-      // main.style.setProperty("--lines-svg-not-flat-line-height", isCardWideEnough ? "106%" : "102%");
       main.style.setProperty("--lines-svg-not-flat-line-height", "106%");
-      // main.style.setProperty("--lines-svg-not-flat-line-top", isCardWideEnough ? "-3%" : "-1%");
       main.style.setProperty("--lines-svg-not-flat-line-top", "-3%");
       main.style.setProperty("--lines-svg-flat-width", isCardWideEnough ? "calc(100% - 160px)" : "calc(100% - 160px)");
       main.style.setProperty("--lines-svg-flat-left", "0");
       main.style.setProperty("--lines-svg-not-flat-left", "0");
     } else {
       // has solar but no battery
-      // main.style.setProperty("--lines-svg-not-flat-line-height", isCardWideEnough ? "104%" : "102%");
-      // main.style.setProperty("--lines-svg-not-flat-line-top", isCardWideEnough ? "-2%" : "-1%");
       main.style.setProperty("--lines-svg-not-flat-line-top", "-2%");
       main.style.setProperty("--lines-svg-flat-width", isCardWideEnough ? "calc(100% - 154px)" : "calc(100% - 157px)");
       main.style.setProperty("--lines-svg-not-flat-width", isCardWideEnough ? "calc(103% - 172px)" : "calc(103% - 169px)");
@@ -227,14 +223,11 @@ export const allDynamicStyles = (
 
   if (individual?.some((ind) => ind.has)) {
     const getStylesForIndividual = (field: IndividualDeviceType, index: number) => {
-      const colors = ["#d0cc5b", "#964cb5", "#b54c9d", "#5bd0cc"];
-      const fieldNames: string[] = ["left-top", "left-bottom", "right-top", "right-bottom"];
-
-      const fieldName = fieldNames?.[index] || "left-top";
+      const fieldName = INDIVIDUAL_FIELD_NAMES?.[index] || "left-top";
 
       let individualColor = field?.color;
       if (typeof individualColor === "object") individualColor = convertColorListToHex(individualColor);
-      main.style.setProperty(`--individual-${fieldName}-color`, individualColor || colors[index] || "#d0cc5b");
+      main.style.setProperty(`--individual-${fieldName}-color`, individualColor || INDIVIDUAL_COLORS[index] || "#d0cc5b");
 
       main.style.setProperty(
         `--icon-individual-${fieldName}-color`,
@@ -253,7 +246,9 @@ export const allDynamicStyles = (
     let individualIndex = 0;
     individual.forEach((_, index) => {
       if (!individual[index].has) return;
-      getStylesForIndividual(entities!.individual![index], individualIndex);
+      const entry = entities?.individual?.[index];
+      if (!entry) return;
+      getStylesForIndividual(entry, individualIndex);
       individualIndex++;
     });
   }
