@@ -1,148 +1,29 @@
-import { LitElement, html, css, PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map.js";
+import { LitElement, html, css, nothing } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { HomeAssistant } from "@/ha";
-import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
+import { PowerFlowCardPlusConfig, CustomPositions, CirclePosition } from "../power-flow-card-plus-config";
+import { loadHaForm } from "./utils/loadHAForm";
+import { customPositionsSchema } from "./schema/custom_positions";
 
-// Positions par défaut (en px depuis le container)
-const DEFAULT_POSITIONS: Record<string, { top: number | null; left: number | null }> = {
-  solar: { top: null, left: null },
-  grid: { top: null, left: null },
-  home: { top: null, left: null },
-  battery: { top: null, left: null },
-  daily_cost: { top: -120, left: null },
-  daily_export: { top: 0, left: 200 },
-};
+type LocalizeFn = (key: string) => string;
+
+const POSITION_KEYS: ReadonlyArray<keyof CustomPositions> = ["solar", "grid", "home", "battery", "daily_cost", "daily_export"] as const;
 
 @customElement("custom-positions-editor")
 export class CustomPositionsEditor extends LitElement {
+  @property({ attribute: false }) public hass?: HomeAssistant;
   @property({ attribute: false }) public config!: PowerFlowCardPlusConfig;
-  @property({ attribute: false }) public hass!: HomeAssistant;
-  @property() public localize!: (key: string) => string;
-  @state() private _positions: any = {};
-  @state() private _openSections: Record<string, boolean> = {};
+  @property({ attribute: false }) public localize!: LocalizeFn;
 
   static styles = css`
-    .position-section {
-      margin-bottom: 16px;
-      border: 1px solid var(--divider-color);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .section-header {
-      background: var(--secondary-background-color);
-      padding: 12px 16px;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-header:hover {
-      background: var(--divider-color);
-    }
-
-    .section-content {
-      padding: 16px;
-      display: none;
-    }
-
-    .section-content.open {
+    :host {
       display: block;
+      padding: 16px;
     }
 
-    .position-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .position-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .position-label {
-      min-width: 80px;
-      color: var(--secondary-text-color);
-    }
-
-    .position-input {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .input-wrapper {
-      position: relative;
-      margin-bottom: 6px;
-    }
-
-    .position-number-input {
+    ha-form {
+      display: block;
       width: 100%;
-      padding: 8px 40px 8px 8px;
-      border: 1px solid var(--divider-color);
-      border-radius: 4px;
-      background: var(--card-background-color);
-      color: var(--primary-text-color);
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .position-number-input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-    }
-
-    .input-suffix {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--secondary-text-color);
-      pointer-events: none;
-      font-size: 13px;
-    }
-
-    .reset-button {
-      background: transparent;
-      border: 1px solid var(--divider-color);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      padding: 0;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--secondary-text-color);
-      transition: all 0.2s;
-    }
-
-    .reset-button:hover {
-      background: var(--secondary-background-color);
-      border-color: var(--primary-color);
-      color: var(--primary-color);
-    }
-
-    .reset-button ha-icon {
-      --mdc-icon-size: 20px;
-    }
-
-    .default-hint {
-      font-size: 11px;
-      color: var(--secondary-text-color);
-      margin-top: 6px;
-      font-style: italic;
-    }
-
-    .chevron {
-      transition: transform 0.3s;
-    }
-
-    .chevron.open {
-      transform: rotate(180deg);
     }
 
     .info-banner {
@@ -189,198 +70,126 @@ export class CustomPositionsEditor extends LitElement {
     .card-dimensions strong {
       color: var(--primary-text-color);
     }
+
+    .reset-all {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px;
+    }
+
+    mwc-button {
+      --mdc-theme-primary: var(--primary-color);
+    }
   `;
 
-  connectedCallback() {
+  public connectedCallback(): void {
     super.connectedCallback();
-    this._positions = this.config?.custom_positions ? { ...this.config.custom_positions } : {};
+    loadHaForm();
   }
 
-  protected willUpdate(changed: PropertyValues): void {
-    if (changed.has("config")) {
-      this._positions = this.config?.custom_positions ? { ...this.config.custom_positions } : {};
-    }
+  private get _formData(): Record<string, unknown> {
+    const config = this.config ?? ({} as PowerFlowCardPlusConfig);
+    return {
+      custom_positions: config.custom_positions ?? {},
+    };
   }
 
-  private _handleSectionKeyDown(e: KeyboardEvent) {
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      const id = (e.currentTarget as HTMLElement).dataset.sectionId;
-      if (id) this._toggleSectionById(id);
-    }
-  }
+  private _computeLabel = (schema: { name?: string; label?: string; title?: string }) => schema.label ?? schema.title ?? schema.name ?? "";
 
-  private _toggleSection(e: Event) {
-    const id = (e.currentTarget as HTMLElement).dataset.sectionId;
-    if (id) this._toggleSectionById(id);
-  }
+  /**
+   * Sanitize positions emitted by ha-form: drop entries where both axes are
+   * blank, and drop the whole `custom_positions` key when nothing is left so
+   * default behaviour is restored when the user clears the inputs.
+   */
+  private _sanitize(value: Record<string, unknown>): PowerFlowCardPlusConfig {
+    const baseConfig = (this.config ?? {}) as PowerFlowCardPlusConfig;
+    const rawPositions = (value.custom_positions ?? {}) as Record<string, CirclePosition | undefined>;
+    const cleaned: CustomPositions = {};
 
-  private _toggleSectionById(id: string) {
-    this._openSections = { ...this._openSections, [id]: !this._openSections[id] };
-  }
-
-  private _isOpen(id: string): boolean {
-    return Boolean(this._openSections[id]);
-  }
-
-  private _valueChanged(circle: string, axis: "top" | "left", value: string) {
-    // Créer une nouvelle copie pour forcer la détection de changement
-    const newPositions = { ...this._positions };
-
-    if (!newPositions[circle]) {
-      newPositions[circle] = {};
-    } else {
-      newPositions[circle] = { ...newPositions[circle] };
+    for (const key of POSITION_KEYS) {
+      const pos = rawPositions[key];
+      if (pos) {
+        const next: CirclePosition = {};
+        if (typeof pos.top === "number" && Number.isFinite(pos.top)) next.top = pos.top;
+        if (typeof pos.left === "number" && Number.isFinite(pos.left)) next.left = pos.left;
+        if (next.top !== undefined || next.left !== undefined) {
+          cleaned[key] = next;
+        }
+      }
     }
 
-    if (value === "") {
-      delete newPositions[circle][axis];
-    } else {
-      const n = Number(value);
-      if (!Number.isFinite(n)) return;
-      newPositions[circle][axis] = n;
-    }
-
-    // Nettoyer si les deux valeurs sont undefined
-    if (newPositions[circle].top === undefined && newPositions[circle].left === undefined) {
-      delete newPositions[circle];
-    }
-
-    this._positions = newPositions;
-    this._fireChanged();
-  }
-
-  private _reset(circle: string, axis: "top" | "left") {
-    // Créer une nouvelle copie pour forcer la détection de changement
-    const newPositions = { ...this._positions };
-
-    if (!newPositions[circle]) {
-      return;
-    }
-
-    newPositions[circle] = { ...newPositions[circle] };
-    delete newPositions[circle][axis];
-
-    // Nettoyer si les deux valeurs sont undefined
-    if (newPositions[circle].top === undefined && newPositions[circle].left === undefined) {
-      delete newPositions[circle];
-    }
-
-    this._positions = newPositions;
-    this._fireChanged();
-  }
-
-  private _fireChanged() {
-    const newConfig: any = { ...this.config };
-    if (Object.keys(this._positions).length > 0) {
-      newConfig.custom_positions = { ...this._positions };
+    const newConfig: PowerFlowCardPlusConfig = { ...baseConfig };
+    if (Object.keys(cleaned).length > 0) {
+      newConfig.custom_positions = cleaned;
     } else {
       delete newConfig.custom_positions;
     }
+    return newConfig;
+  }
 
+  private _valueChanged = (ev: CustomEvent) => {
+    ev.stopPropagation();
+    const value = (ev.detail?.value ?? {}) as Record<string, unknown>;
+    this._fireChanged(this._sanitize(value));
+  };
+
+  private _resetAll = () => {
+    const baseConfig = (this.config ?? {}) as PowerFlowCardPlusConfig;
+    const newConfig: PowerFlowCardPlusConfig = { ...baseConfig };
+    delete newConfig.custom_positions;
+    this._fireChanged(newConfig);
+  };
+
+  private _fireChanged(config: PowerFlowCardPlusConfig): void {
     this.dispatchEvent(
       new CustomEvent("config-changed", {
-        detail: { config: newConfig },
+        detail: { config },
         bubbles: true,
         composed: true,
       })
     );
   }
 
-  private _getCurrentValue(circle: string, axis: "top" | "left"): string {
-    return this._positions[circle]?.[axis]?.toString() ?? "";
-  }
-
-  private _getDefaultValue(circle: string, axis: "top" | "left"): string {
-    const defaultVal = DEFAULT_POSITIONS[circle]?.[axis];
-    if (defaultVal === null) {
-      return this.localize("editor.position_auto");
-    }
-    return `${defaultVal}px`;
-  }
-
-  private _renderPositionSection(circle: string, title: string) {
-    const open = this._isOpen(circle);
-    return html`
-      <div class="position-section">
-        <div
-          class="section-header"
-          role="button"
-          tabindex="0"
-          aria-expanded=${open ? "true" : "false"}
-          data-section-id=${circle}
-          @click=${this._toggleSection}
-          @keydown=${this._handleSectionKeyDown}
-        >
-          <span>${title}</span>
-          <ha-icon class="chevron ${classMap({ open })}" icon="mdi:chevron-down"></ha-icon>
-        </div>
-        <div class="section-content ${classMap({ open })}">
-          <div class="position-row">
-            <div class="position-label">${this.localize("editor.position_top")}</div>
-            <div class="position-input">
-              <div class="input-wrapper">
-                <input
-                  type="number"
-                  class="position-number-input"
-                  .value=${this._getCurrentValue(circle, "top")}
-                  @input=${(e: any) => this._valueChanged(circle, "top", e.target.value)}
-                  placeholder="Auto"
-                />
-                <span class="input-suffix">px</span>
-              </div>
-              <div class="default-hint">${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "top")}</div>
-            </div>
-            <button class="reset-button" @click=${() => this._reset(circle, "top")} title="Reset to default">
-              <ha-icon icon="mdi:restore"></ha-icon>
-            </button>
-          </div>
-
-          <div class="position-row">
-            <div class="position-label">${this.localize("editor.position_left")}</div>
-            <div class="position-input">
-              <div class="input-wrapper">
-                <input
-                  type="number"
-                  class="position-number-input"
-                  .value=${this._getCurrentValue(circle, "left")}
-                  @input=${(e: any) => this._valueChanged(circle, "left", e.target.value)}
-                  placeholder="Auto"
-                />
-                <span class="input-suffix">px</span>
-              </div>
-              <div class="default-hint">${this.localize("editor.position_default")}: ${this._getDefaultValue(circle, "left")}</div>
-            </div>
-            <button class="reset-button" @click=${() => this._reset(circle, "left")} title="Reset to default">
-              <ha-icon icon="mdi:restore"></ha-icon>
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }
-
   render() {
+    if (!this.config || !this.localize) return nothing;
+    const localize = this.localize;
+    const schema = customPositionsSchema(localize);
     return html`
       <div class="info-banner">
         <ha-icon icon="mdi:information"></ha-icon>
         <div class="info-content">
-          <div class="info-title">${this.localize("editor.position_editor_info_title")}</div>
-          <div class="info-text">${this.localize("editor.position_editor_info_text")}</div>
+          <div class="info-title">${localize("editor.position_editor_info_title")}</div>
+          <div class="info-text">${localize("editor.position_editor_info_text")}</div>
         </div>
       </div>
 
       <div class="card-dimensions">
-        <strong>${this.localize("editor.card_dimensions")}:</strong>
-        ${this.localize("editor.card_max_width")}: 470px, ${this.localize("editor.card_typical_height")}: ~400-500px
+        <strong>${localize("editor.card_dimensions")}:</strong>
+        ${localize("editor.card_max_width")}: 470px, ${localize("editor.card_typical_height")}: ~400-500px
         <br />
-        <em>${this.localize("editor.position_tip")}</em>
+        <em>${localize("editor.position_tip")}</em>
       </div>
 
-      ${this._renderPositionSection("solar", this.localize("editor.solar"))} ${this._renderPositionSection("grid", this.localize("editor.grid"))}
-      ${this._renderPositionSection("home", this.localize("editor.home"))} ${this._renderPositionSection("battery", this.localize("editor.battery"))}
-      ${this._renderPositionSection("daily_cost", this.localize("editor.daily_cost_title"))}
-      ${this._renderPositionSection("daily_export", this.localize("editor.daily_export_title"))}
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._formData}
+        .schema=${schema}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
+
+      <div class="reset-all">
+        <mwc-button @click=${this._resetAll}>
+          <ha-icon icon="mdi:restore" slot="icon"></ha-icon>
+          ${localize("editor.position_default")}
+        </mwc-button>
+      </div>
     `;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "custom-positions-editor": CustomPositionsEditor;
   }
 }
