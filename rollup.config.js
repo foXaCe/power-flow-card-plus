@@ -1,11 +1,11 @@
-import babel from "@rollup/plugin-babel";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
-import serve from "rollup-plugin-serve";
-import terser  from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
-import minifyHTML from 'rollup-plugin-html-literals';
+import babel from "@rollup/plugin-babel";
+import terser from "@rollup/plugin-terser";
+import minifyHTML from "rollup-plugin-html-literals";
+import serve from "rollup-plugin-serve";
 
 const dev = process.env.ROLLUP_WATCH;
 
@@ -31,19 +31,20 @@ export default [
       },
     ],
     plugins: [
-      minifyHTML(),
-      typescript({
-        declaration: false,
-      }),
+      // Canonical plugin order: resolve -> commonjs -> json -> typescript -> babel -> minifyHTML -> terser
       nodeResolve(),
+      commonjs(),
       json({
         compact: true,
       }),
-      commonjs(),
+      typescript({
+        declaration: false,
+      }),
       babel({
         exclude: "node_modules/**",
         babelHelpers: "bundled",
       }),
+      minifyHTML(),
       ...(dev ? [serve(serveOptions)] : [terser({ output: { comments: false } })]),
     ],
     moduleContext: (id) => {
@@ -51,9 +52,10 @@ export default [
         "node_modules/@formatjs/intl-utils/lib/src/diff.js",
         "node_modules/@formatjs/intl-utils/lib/src/resolve-locale.js",
       ];
-      if (thisAsWindowForModules.some((id_) => id.trimRight().endsWith(id_))) {
+      if (thisAsWindowForModules.some((id_) => id.trimEnd().endsWith(id_))) {
         return "window";
       }
+      return undefined;
     },
   },
 ];
