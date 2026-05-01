@@ -1,3 +1,21 @@
+## <small>0.43.1 (2026-05-01)</small>
+
+- test(card): jsdom + 17 tests sur le composant principal ([b609678](https://github.com/foXaCe/power-flow-card-plus/commit/b609678))
+- refactor(editor): convertir flows + custom-positions vers ha-form natif ([0dc2cd5](https://github.com/foXaCe/power-flow-card-plus/commit/0dc2cd5))
+- perf(card): refondre le drag avec state separe au lieu de cloner \_config a 60fps ([5ec999c](https://github.com/foXaCe/power-flow-card-plus/commit/5ec999c))
+- ci(deps): bump pnpm/action-setup from 4 to 6 (#46) ([ee6398a](https://github.com/foXaCe/power-flow-card-plus/commit/ee6398a)), closes [#46](https://github.com/foXaCe/power-flow-card-plus/issues/46)
+- chore(deps): bump ajv from 6.12.6 to 6.14.0 (#33) ([cd2fffb](https://github.com/foXaCe/power-flow-card-plus/commit/cd2fffb)), closes [#33](https://github.com/foXaCe/power-flow-card-plus/issues/33)
+- chore(deps): bump brace-expansion from 1.1.12 to 1.1.13 (#43) ([7f163b0](https://github.com/foXaCe/power-flow-card-plus/commit/7f163b0)), closes [#43](https://github.com/foXaCe/power-flow-card-plus/issues/43)
+- chore(deps): bump flatted from 3.3.3 to 3.4.1 (#38) ([56fe12e](https://github.com/foXaCe/power-flow-card-plus/commit/56fe12e)), closes [#38](https://github.com/foXaCe/power-flow-card-plus/issues/38)
+- chore(deps): bump handlebars from 4.7.8 to 4.7.9 (#42) ([7b49e26](https://github.com/foXaCe/power-flow-card-plus/commit/7b49e26)), closes [#42](https://github.com/foXaCe/power-flow-card-plus/issues/42)
+- chore(deps): bump lodash from 4.17.23 to 4.18.1 (#45) ([697d3f6](https://github.com/foXaCe/power-flow-card-plus/commit/697d3f6)), closes [#45](https://github.com/foXaCe/power-flow-card-plus/issues/45)
+- chore(deps): bump lodash-es from 4.17.23 to 4.18.1 (#44) ([9256797](https://github.com/foXaCe/power-flow-card-plus/commit/9256797)), closes [#44](https://github.com/foXaCe/power-flow-card-plus/issues/44)
+- chore(deps): bump minimatch from 3.1.2 to 3.1.3 (#34) ([26361a6](https://github.com/foXaCe/power-flow-card-plus/commit/26361a6)), closes [#34](https://github.com/foXaCe/power-flow-card-plus/issues/34)
+- chore(deps): bump picomatch from 2.3.1 to 2.3.2 (#40) ([53d9d9c](https://github.com/foXaCe/power-flow-card-plus/commit/53d9d9c)), closes [#40](https://github.com/foXaCe/power-flow-card-plus/issues/40)
+- chore(deps): bump undici from 6.23.0 to 6.24.0 (#37) ([4360678](https://github.com/foXaCe/power-flow-card-plus/commit/4360678)), closes [#37](https://github.com/foXaCe/power-flow-card-plus/issues/37)
+- chore(deps): bump yaml from 2.8.2 to 2.8.3 (#41) ([30f9487](https://github.com/foXaCe/power-flow-card-plus/commit/30f9487)), closes [#41](https://github.com/foXaCe/power-flow-card-plus/issues/41)
+- build: moderniser la stack Lit 2 -> 3 et Rollup 2 -> 4 ([8e54e2a](https://github.com/foXaCe/power-flow-card-plus/commit/8e54e2a))
+
 ## 0.43.0 (2026-05-01)
 
 - feat(card): valider setConfig via superstruct + getGridOptions ([ba6cdc4](https://github.com/foXaCe/power-flow-card-plus/commit/ba6cdc4))
