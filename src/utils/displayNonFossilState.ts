@@ -4,7 +4,7 @@ import { isEntityAvailable } from "../states/utils/existenceEntity";
 import { unavailableOrMisconfiguredError } from "./unavailableError";
 import { getEntityState } from "../states/utils/getEntityState";
 import { getEntityStateWatts } from "../states/utils/getEntityStateWatts";
-import { displayValue } from "./displayValue";
+import { displayValue, formatEntityValue } from "./displayValue";
 
 export const displayNonFossilState = (
   hass: HomeAssistant,
@@ -36,6 +36,8 @@ export const displayNonFossilState = (
         nonFossilFuelWatts = 0;
       }
     }
+    // Synthetic value (computed from grid × ratio): no entity to delegate to,
+    // keep the legacy formatter which handles W ↔ kW threshold conversion.
     return displayValue(hass, config, nonFossilFuelWatts, {
       unitWhiteSpace,
       watt_threshold: config.watt_threshold,
@@ -47,7 +49,11 @@ export const displayNonFossilState = (
       nonFossilFuelPercentage = 0;
     }
   }
-  return displayValue(hass, config, nonFossilFuelPercentage, {
+  // Percentage path: the value is derived from the fossil entity itself, so
+  // we can delegate formatting to HA's helper to honor display_precision and
+  // locale. `formatEntityValue` falls back to `displayValue` when the helper
+  // is unavailable.
+  return formatEntityValue(hass, config, entityFossil, nonFossilFuelPercentage, {
     unit: "%",
     unitWhiteSpace,
     decimals: 0,

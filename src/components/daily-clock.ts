@@ -2,6 +2,7 @@ import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { createHourMarker } from "../utils/clockMarkers";
+import { formatNumber } from "@/ha";
 
 export type DailyClockKind = "daily_cost" | "daily_export";
 
@@ -23,6 +24,38 @@ export interface DailyClockProps {
   positionKey: "daily_cost" | "daily_export";
 }
 
+/**
+ * Format the clock total. Uses `hass.formatEntityState` when an entity is
+ * available so locale, currency symbol and display_precision are honored.
+ * Falls back to a manual formatting when the modern helper is missing or
+ * the state object cannot be resolved.
+ */
+const formatClockDisplay = (main: PowerFlowCardPlus, data: DailyClockData): string => {
+  const decimals = data.decimals ?? 2;
+  const total = Number.isFinite(data.total) ? (data.total as number) : 0;
+
+  if (data.entity && typeof main.hass?.formatEntityState === "function") {
+    const stateObj = main.hass.states?.[data.entity];
+    if (stateObj) {
+      try {
+        const formatted = main.hass.formatEntityState(stateObj, total.toString());
+        if (typeof formatted === "string" && formatted.length > 0) {
+          return formatted;
+        }
+      } catch {
+        // fall through to legacy formatting
+      }
+    }
+  }
+
+  const numberPart = formatNumber(Number(total.toFixed(decimals)), main.hass?.locale, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  const unit = data.unit?.split("/")[0] ?? "€";
+  return `${numberPart} ${unit}`;
+};
+
 export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCardPlusConfig, props: DailyClockProps) => {
   const { className, needleColor, data, dragKey, positionKey } = props;
 
@@ -30,8 +63,7 @@ export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCar
     return html``;
   }
 
-  const displayValue = data.total?.toFixed(data.decimals ?? 2) ?? "0.00";
-  const displayUnit = data.unit?.split("/")[0] ?? "€";
+  const display = formatClockDisplay(main, data);
 
   // Calcul de l'angle de l'aiguille (0° = 12h en haut, sens horaire)
   const now = new Date();
@@ -63,9 +95,7 @@ export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCar
         }
       }}
     >
-      <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color); position: relative; z-index: 10;">
-        ${displayValue} ${displayUnit}
-      </span>
+      <span style="font-size: 14px; font-weight: bold; color: var(--primary-text-color); position: relative; z-index: 10;"> ${display} </span>
       <svg>
         ${svg`<circle
           cx="40"

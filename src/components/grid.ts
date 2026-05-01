@@ -1,9 +1,52 @@
 import { html } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
-import { displayValue } from "../utils/displayValue";
+import { displayValue, getEntityUnit } from "../utils/displayValue";
 import { generalSecondarySpan } from "./spans/generalSecondarySpan";
 import { TemplatesObj } from "../type";
 import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
+import { formatNumber, HomeAssistant } from "@/ha";
+
+/**
+ * Resolve the grid consumption entity id. Used to discover the real unit of
+ * measurement (W, kW, …) so we don't hardcode the W → kW conversion.
+ */
+const resolveGridConsumptionEntityId = (entities: ConfigEntities): string | undefined => {
+  const ent = entities.grid?.entity;
+  if (!ent) return undefined;
+  if (typeof ent === "string") return ent;
+  return ent.consumption ?? ent.production;
+};
+
+/**
+ * Compute the hourly cost from the current grid power and tariff using the
+ * real unit of the grid entity (W, kW, MW). Returns a localized formatted
+ * string ready for display.
+ */
+const formatHourlyCost = (hass: HomeAssistant, entities: ConfigEntities, grid: any): string => {
+  const tariff = Number(grid?.cost?.tariff ?? 0); // currency / kWh
+  const fromGridRaw = Number(grid?.state?.fromGrid ?? 0);
+  const decimals: number = grid?.cost?.decimals ?? 2;
+  const rawUnitLabel: string = grid?.cost?.unit ?? "/kWh";
+  const unitLabel = rawUnitLabel.replace("/kWh", "/h");
+
+  const entityId = resolveGridConsumptionEntityId(entities);
+  const entityUnit = (getEntityUnit(hass, entityId) ?? "W").toUpperCase();
+
+  // Convert the grid power value to kW depending on the real unit.
+  let powerKW = fromGridRaw;
+  if (entityUnit === "W") {
+    powerKW = fromGridRaw / 1000;
+  } else if (entityUnit === "MW") {
+    powerKW = fromGridRaw * 1000;
+  } // KW or anything else -> assume already kW
+
+  const hourly = powerKW * tariff;
+  const formatted = formatNumber(hourly, hass?.locale, {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+  return `${formatted} ${unitLabel}`;
+};
 
 export const gridElement = (
   main: PowerFlowCardPlus,
@@ -118,9 +161,7 @@ export const gridElement = (
     </div>
     <span class="label">${grid.name}</span>
     ${grid.cost?.enabled && Number.isFinite(grid.cost.tariff) && grid.cost.tariff > 0 && (grid.state.fromGrid ?? 0) > 0
-      ? html`<span class="cost-info">
-          ${((grid.state.fromGrid / 1000) * grid.cost.tariff).toFixed(grid.cost.decimals)} ${grid.cost.unit.replace("/kWh", "/h")}
-        </span>`
+      ? html`<span class="cost-info"> ${formatHourlyCost(main.hass, entities, grid)} </span>`
       : ""}
   </div>`;
 };
