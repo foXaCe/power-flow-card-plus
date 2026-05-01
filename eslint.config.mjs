@@ -74,7 +74,7 @@ export default [
       "lit/no-invalid-html": "off",
       camelcase: "off",
       "prefer-destructuring": "off",
-      eqeqeq: "warn",
+      eqeqeq: ["warn", "smart"],
       "no-param-reassign": "off",
       "no-self-compare": "warn",
       "no-plusplus": "off",

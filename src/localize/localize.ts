@@ -96,11 +96,8 @@ function translate(key: string, lang: string): string {
 //   setupCustomlocalize()                -> returns (key) => translated string using localStorage fallback
 //   setupCustomlocalize("editor.foo")    -> returns the translated string (legacy / no hass)
 export function setupCustomlocalize(hass: LocalizeHass | undefined): (key: string) => string;
-// eslint-disable-next-line no-redeclare
 export function setupCustomlocalize(): (key: string) => string;
-// eslint-disable-next-line no-redeclare
 export function setupCustomlocalize(key: string): string;
-// eslint-disable-next-line no-redeclare
 export function setupCustomlocalize(hassOrKey?: LocalizeHass | string): string | ((key: string) => string) {
   if (typeof hassOrKey === "string") {
     return translate(hassOrKey, getCurrentLang(undefined));
