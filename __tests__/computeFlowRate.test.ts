@@ -14,7 +14,7 @@ const makeConfig = (overrides: Partial<PowerFlowCardPlusConfig> = {}): PowerFlow
     kw_decimals: 2,
     clickable_entities: true,
     ...overrides,
-  } as PowerFlowCardPlusConfig);
+  }) as PowerFlowCardPlusConfig;
 
 describe("computeFlowRate", () => {
   it("computes precise rate with new model (default)", () => {

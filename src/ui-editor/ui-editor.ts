@@ -1,4 +1,3 @@
-/* eslint-disable no-use-before-define */
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { assert } from "superstruct";
@@ -170,7 +169,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         currentPage === "advanced"
           ? advancedOptionsSchema(localize, this._config.display_zero_lines?.mode ?? defaultValues.displayZeroLines.mode)
           : CONFIG_PAGES.find((page) => page.page === currentPage)?.schema;
-      const dataForForm = currentPage === "advanced" ? data : data.entities[currentPage] ?? {};
+      const dataForForm = currentPage === "advanced" ? data : (data.entities[currentPage] ?? {});
 
       return html`
         <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>

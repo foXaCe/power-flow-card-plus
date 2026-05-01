@@ -78,8 +78,8 @@ export const gridElement = (
           grid.powerOutage?.isOutage && outageTarget
             ? outageTarget
             : typeof entities.grid!.entity === "string"
-            ? entities.grid!.entity
-            : entities.grid!.entity.consumption!;
+              ? entities.grid!.entity
+              : entities.grid!.entity.consumption!;
         main.openDetails(e, entities.grid?.tap_action, target);
       }}
       @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
@@ -89,8 +89,8 @@ export const gridElement = (
             grid.powerOutage?.isOutage && outageTarget
               ? outageTarget
               : typeof entities.grid!.entity === "string"
-              ? entities.grid!.entity
-              : entities.grid!.entity.consumption!;
+                ? entities.grid!.entity
+                : entities.grid!.entity.consumption!;
           main.openDetails(e, entities.grid?.tap_action, target);
         }
       }}

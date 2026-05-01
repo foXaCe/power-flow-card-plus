@@ -3,5 +3,5 @@ export const getEntityNames = (entities: string): string[] => entities?.split("|
 export const getFirstEntityName = (entities: string): string => {
   const names = getEntityNames(entities);
 
-  return names.length > 0 ? names[0] ?? "" : "";
+  return names.length > 0 ? (names[0] ?? "") : "";
 };

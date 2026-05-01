@@ -78,8 +78,8 @@ export const batteryElement = (
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!
           : typeof entities.battery?.entity === "string"
-          ? entities.battery?.entity!
-          : entities.battery?.entity!.production;
+            ? entities.battery?.entity!
+            : entities.battery?.entity!.production;
         main.openDetails(e, entities.battery?.tap_action, target);
       }}
       @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
@@ -87,8 +87,8 @@ export const batteryElement = (
           const target = entities.battery?.state_of_charge!
             ? entities.battery?.state_of_charge!
             : typeof entities.battery!.entity === "string"
-            ? entities.battery!.entity!
-            : entities.battery!.entity!.production;
+              ? entities.battery!.entity!
+              : entities.battery!.entity!.production;
           main.openDetails(e, entities.battery?.tap_action, target);
         }
       }}

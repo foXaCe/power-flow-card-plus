@@ -54,7 +54,7 @@ export const makeHass = (overrides: Partial<HomeAssistant> = {}): HomeAssistant 
     connected: true,
     services: {} as any,
     ...overrides,
-  } as HomeAssistant);
+  }) as HomeAssistant;
 
 /**
  * Build a minimal `HassEntity`-like object usable as a value in `hass.states`.

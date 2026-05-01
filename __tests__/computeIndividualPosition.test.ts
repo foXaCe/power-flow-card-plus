@@ -15,7 +15,7 @@ const makeIndividualObj = (has: boolean, state = 100): IndividualObject =>
     entity: `sensor.test_${state}`,
     name: `Test ${state}`,
     icon: "mdi:flash",
-  } as IndividualObject);
+  }) as IndividualObject;
 
 describe("getTopLeftIndividual", () => {
   it("returns first active individual", () => {
