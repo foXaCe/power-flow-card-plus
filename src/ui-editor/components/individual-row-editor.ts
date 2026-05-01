@@ -1,9 +1,9 @@
 import { mdiClose, mdiDrag, mdiPencil } from "@mdi/js";
-import { HomeAssistant } from "custom-card-helpers";
 import { css, CSSResultGroup, html, LitElement } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import type { SortableEvent } from "sortablejs";
+import { HomeAssistant } from "@/ha";
 import { EditSubElementEvent, EntityConfig, LovelaceRowConfig } from "../types/entity-rows";
 import { fireEvent } from "../utils/fire_event";
 import { sortableStyles } from "../utils/sortable_styles";
@@ -11,7 +11,7 @@ import { loadSortable, SortableInstance } from "../utils/sortable.ondemand";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { loadHaForm } from "@/ui-editor/utils/loadHAForm";
 import { individualSchema } from "@/ui-editor/schema/individual";
-import localize from "@/localize/localize";
+import { setupCustomlocalize } from "@/localize/localize";
 
 declare global {
   interface HASSDomEvents {
@@ -68,6 +68,8 @@ export class IndividualRowEditor extends LitElement {
     if (!this.entities || !this.hass) {
       return html` <p>No entities configured.</p> `;
     }
+
+    const localize = setupCustomlocalize(this.hass);
 
     if (this._indexBeingEdited !== -1) {
       return html`
@@ -174,7 +176,7 @@ export class IndividualRowEditor extends LitElement {
   }
 
   private _computeLabelCallback = (schema: any) =>
-    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || localize(`editor.${schema?.name}`);
+    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || setupCustomlocalize(this.hass)(`editor.${schema?.name}`);
 
   private async _createSortable() {
     const Sortable = await loadSortable();
@@ -222,7 +224,9 @@ export class IndividualRowEditor extends LitElement {
 
     const newEntities = this.entities!.concat();
 
-    newEntities.splice(ev.newIndex!, 0, newEntities.splice(ev.oldIndex!, 1)[0]);
+    const [moved] = newEntities.splice(ev.oldIndex!, 1);
+    if (!moved) return;
+    newEntities.splice(ev.newIndex!, 0, moved);
 
     fireEvent(this, "entities-changed", { entities: newEntities });
   }

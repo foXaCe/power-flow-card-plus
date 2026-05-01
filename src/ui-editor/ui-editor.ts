@@ -1,12 +1,12 @@
 /* eslint-disable no-use-before-define */
 import { LitElement, css, html, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { fireEvent, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { assert } from "superstruct";
+import { fireEvent, HomeAssistant, LovelaceCardEditor } from "@/ha";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { BaseConfigEntity } from "../type";
 import { cardConfigStruct, generalConfigSchema, advancedOptionsSchema } from "./schema/_schema-all";
-import localize from "../localize/localize";
+import { setupCustomlocalize } from "../localize/localize";
 import { defaultValues } from "../utils/get-default-config";
 import "./components/individual-devices-editor";
 import "./components/link-subpage";
@@ -133,6 +133,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
     if (!this.hass || !this._config) {
       return nothing;
     }
+    const localize = setupCustomlocalize(this.hass);
     const data = {
       ...this._config,
       display_zero_lines: {
@@ -254,7 +255,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
   }
 
   private _computeLabelCallback = (schema: any) =>
-    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || localize(`editor.${schema?.name}`);
+    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || setupCustomlocalize(this.hass)(`editor.${schema?.name}`);
 
   static get styles() {
     return css`

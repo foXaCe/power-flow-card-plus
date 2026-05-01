@@ -40,6 +40,14 @@ const languages: Record<string, unknown> = {
 
 const defaultLang = "en";
 
+// Minimal structural type — accepts both the vendored project HomeAssistant
+// (src/ha/types.ts) and the one shipped by custom-card-helpers without coupling
+// localize.ts to either definition.
+export interface LocalizeHass {
+  locale?: { language?: string };
+  language?: string;
+}
+
 let cachedLang: string | null = null;
 if (typeof window !== "undefined") {
   window.addEventListener("storage", (e) => {
@@ -47,10 +55,27 @@ if (typeof window !== "undefined") {
   });
 }
 
-function getCurrentLang(): string {
+function normalize(lang: string): string {
+  return lang.replace(/['"]+/g, "").replace("-", "_");
+}
+
+function getCurrentLang(hass?: LocalizeHass): string {
+  // Priority 1: hass.locale.language (canonical HA source)
+  if (hass?.locale?.language) {
+    return normalize(hass.locale.language);
+  }
+  // Priority 2: hass.language (legacy HA fallback)
+  if (hass?.language) {
+    return normalize(hass.language);
+  }
+  // Priority 3: cached value (filled from localStorage previously)
   if (cachedLang) return cachedLang;
-  cachedLang = (localStorage.getItem("selectedLanguage") || "en").replace(/['"]+/g, "").replace("-", "_");
-  return cachedLang;
+  // Priority 4: localStorage (historical fallback)
+  if (typeof localStorage !== "undefined") {
+    cachedLang = normalize(localStorage.getItem("selectedLanguage") || "en");
+    return cachedLang;
+  }
+  return defaultLang;
 }
 
 function getTranslatedString(key: string, lang: string): string | undefined {
@@ -60,12 +85,28 @@ function getTranslatedString(key: string, lang: string): string | undefined {
   return typeof result === "string" ? result : undefined;
 }
 
-export function setupCustomlocalize(key: string) {
-  const lang = getCurrentLang();
-
+function translate(key: string, lang: string): string {
   let translated = getTranslatedString(key, lang);
   if (!translated) translated = getTranslatedString(key, defaultLang);
   return translated ?? key.split(".").pop()?.replace(/_/g, " ") ?? key;
+}
+
+// Overloads:
+//   setupCustomlocalize(hass)            -> returns (key) => translated string using hass.locale.language
+//   setupCustomlocalize()                -> returns (key) => translated string using localStorage fallback
+//   setupCustomlocalize("editor.foo")    -> returns the translated string (legacy / no hass)
+export function setupCustomlocalize(hass: LocalizeHass | undefined): (key: string) => string;
+// eslint-disable-next-line no-redeclare
+export function setupCustomlocalize(): (key: string) => string;
+// eslint-disable-next-line no-redeclare
+export function setupCustomlocalize(key: string): string;
+// eslint-disable-next-line no-redeclare
+export function setupCustomlocalize(hassOrKey?: LocalizeHass | string): string | ((key: string) => string) {
+  if (typeof hassOrKey === "string") {
+    return translate(hassOrKey, getCurrentLang(undefined));
+  }
+  const hass = hassOrKey;
+  return (key: string) => translate(key, getCurrentLang(hass));
 }
 
 export default setupCustomlocalize;

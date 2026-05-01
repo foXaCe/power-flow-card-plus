@@ -1,9 +1,9 @@
-import { ActionConfig, HASSDomEvent, HomeAssistant, fireEvent } from "custom-card-helpers";
 import { css, CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, state } from "lit-element";
+import { customElement, property, state } from "lit/decorators.js";
+import { ActionConfig, HASSDomEvent, HomeAssistant, fireEvent } from "@/ha";
 import { EditSubElementEvent, LovelaceRowConfig, SubElementEditorConfig } from "../types/entity-rows";
 import { individualDevicesSchema } from "../schema/_schema-all";
-import localize from "@/localize/localize";
+import { setupCustomlocalize } from "@/localize/localize";
 import { IndividualDeviceType } from "@/type";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import "./individual-row-editor";
@@ -97,7 +97,7 @@ export class IndividualDevicesEditor extends LitElement {
   }
 
   private _computeLabelCallback = (schema: any) =>
-    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || localize(`editor.${schema?.name}`);
+    this.hass!.localize(`ui.panel.lovelace.editor.card.generic.${schema?.name}`) || setupCustomlocalize(this.hass)(`editor.${schema?.name}`);
 
   private _editDetailElement(ev: HASSDomEvent<EditSubElementEvent>): void {
     this._subElementEditorConfig = ev.detail.subElementConfig;

@@ -3,7 +3,7 @@ import { styleMap } from "lit/directives/style-map.js";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { calculateSelfSufficiency, getSelfSufficiencyColor } from "@/utils/calculateSelfSufficiency";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
-import localize from "../localize/localize";
+import { setupCustomlocalize } from "../localize/localize";
 
 interface SelfSufficiencyProps {
   solarToHome: number;
@@ -19,6 +19,7 @@ export const selfSufficiencyElement = (
   // Si la fonctionnalité n'est pas activée, ne rien afficher
   if (!config.show_self_sufficiency) return html``;
 
+  const localize = setupCustomlocalize(main.hass);
   const percentage = calculateSelfSufficiency(solarToHome, batteryToHome, gridToHome);
   const color = getSelfSufficiencyColor(percentage);
 
