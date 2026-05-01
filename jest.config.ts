@@ -28,10 +28,13 @@ const config: Config = {
 
   coverageThreshold: {
     global: {
-      branches: 35,
-      functions: 18,
-      lines: 2,
-      statements: 2,
+      // Thresholds set 1 point below the current measured coverage (see
+      // `pnpm test:coverage`). They give a small safety margin against minor
+      // drift while still preventing silent regressions.
+      branches: 49,
+      functions: 49,
+      lines: 37,
+      statements: 37,
     },
   },
 
@@ -80,6 +83,10 @@ const config: Config = {
 
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
+    // Strip explicit `.js` extension on relative imports — used in TS source
+    // for NodeNext-style ESM (e.g. `import "./template/ha-websocket.js"`)
+    // even though the on-disk file is `.ts`.
+    "^(\\.{1,2}/.*)\\.js$": "$1",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -127,7 +134,7 @@ const config: Config = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ["<rootDir>/__tests__/setup.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -136,7 +143,7 @@ const config: Config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: "node",
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -144,11 +151,10 @@ const config: Config = {
   // Adds a location field to test results
   // testLocationInResults: false,
 
-  // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  // Restrict test discovery to actual `*.test.ts` files. Without this Jest's default
+  // `**/__tests__/**/*.ts` glob would treat helpers (setup, fixtures) as test suites
+  // and fail with "Your test suite must contain at least one test."
+  testMatch: ["**/?(*.)+(spec|test).[tj]s?(x)"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
@@ -166,13 +172,17 @@ const config: Config = {
 
   transform: {
     "^.+\\.ts$": "ts-jest",
+    // `lit` and friends ship as native ESM. Run them through babel-jest so jsdom
+    // tests that import the Lit-based card don't choke on `import` statements.
+    "^.+\\.m?js$": "babel-jest",
   },
 
-  // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-  // transformIgnorePatterns: [
-  //   "/node_modules/",
-  //   "\\.pnp\\.[^\\/]+$"
-  // ],
+  // Whitelist Lit (and related) packages so the `^.+\.m?js$` transform above
+  // actually runs on them. The default `transformIgnorePatterns` excludes
+  // everything under `node_modules`. The negative lookahead matches both the
+  // top-level `node_modules/<pkg>` layout and pnpm's `.pnpm/<pkg>@.../node_modules/<pkg>`
+  // layout (where scoped names use `+` instead of `/` in the directory name).
+  transformIgnorePatterns: ["/node_modules/(?!(?:\\.pnpm/)?(?:@?lit|@lit-labs|lit-html|lit-element)[+@/])"],
 
   // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
   // unmockedModulePathPatterns: undefined,
