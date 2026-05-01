@@ -1,6 +1,7 @@
 import { UnsubscribeFunc } from "home-assistant-js-websocket";
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { assert, StructError } from "superstruct";
 import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "./ha";
 import { batteryElement } from "./components/battery";
 import { dailyCostElement } from "./components/daily-cost";
@@ -13,6 +14,7 @@ import { dashboardLinkElement } from "./components/misc/dashboard_link";
 import { solarElement } from "./components/solar";
 import { handleAction } from "./ha/panels/lovelace/common/handle-action";
 import { PowerFlowCardPlusConfig } from "./power-flow-card-plus-config";
+import { cardConfigStruct } from "./power-flow-card-plus-config-schema";
 import { getBatteryInState, getBatteryOutState, getBatteryStateOfCharge } from "./states/raw/battery";
 import { getGridConsumptionState, getGridProductionState, getGridSecondaryState } from "./states/raw/grid";
 import { getHomeSecondaryState } from "./states/raw/home";
@@ -64,8 +66,22 @@ export class PowerFlowCardPlus extends LitElement {
   @query("#solar-home-flow") solarToHomeFlow?: SVGSVGElement;
 
   setConfig(config: PowerFlowCardPlusConfig): void {
-    if ((config.entities as any).individual1 || (config.entities as any).individual2) {
+    // Backward-compat: legacy `individual1`/`individual2` keys must be detected before
+    // structural validation so users get a targeted upgrade message rather than a
+    // generic schema error.
+    if ((config?.entities as any)?.individual1 || (config?.entities as any)?.individual2) {
       throw new Error("You are using an outdated configuration. Please update your configuration to the latest version.");
+    }
+    // Structural validation — `cardConfigStruct` is permissive (uses `type()`),
+    // so extra/unknown keys pass through unchanged. Only obvious type mismatches
+    // (e.g. `min_flow_rate: "fast"`) are rejected with a readable message.
+    try {
+      assert(config, cardConfigStruct);
+    } catch (err) {
+      if (err instanceof StructError) {
+        throw new Error(`Power Flow Card Plus: invalid configuration — ${err.message}`);
+      }
+      throw err;
     }
     if (!config.entities || (!config.entities?.battery?.entity && !config.entities?.grid?.entity && !config.entities?.solar?.entity)) {
       throw new Error("At least one entity for battery, grid or solar must be defined");
@@ -148,6 +164,27 @@ export class PowerFlowCardPlus extends LitElement {
     if (this._config?.show_daily_cost) size += 1;
     if (this._config?.show_daily_export) size += 1;
     return size;
+  }
+
+  // Lovelace section views (HA 2024.3+) — placement intelligent dans la grille de la section
+  public getGridOptions(): {
+    columns: number | "full";
+    rows: number | "auto";
+    min_columns?: number;
+    max_columns?: number;
+    min_rows?: number;
+    max_rows?: number;
+  } {
+    let rows = 6; // base ~400px (50px par row)
+    if (this._config?.entities?.fossil_fuel_percentage?.entity) rows += 1;
+    if (this._config?.show_daily_cost || this._config?.show_daily_export) rows += 1;
+    return {
+      columns: 12,
+      rows,
+      min_columns: 6,
+      max_columns: 12,
+      min_rows: rows,
+    };
   }
 
   private previousDur: { [name: string]: number } = {};
