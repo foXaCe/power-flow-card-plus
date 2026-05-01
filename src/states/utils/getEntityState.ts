@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { isEntityAvailable } from "./existenceEntity";
 import { unavailableOrMisconfiguredError } from "@/utils/unavailableError";
 import { coerceNumber } from "@/utils/utils";
@@ -13,11 +13,12 @@ export const getEntityState = (hass: HomeAssistant, entity: string | undefined):
   const ids = getEntityNames(entity);
 
   let endResult: number = 0;
-  let tempNumber: number;
   for (const id of ids) {
-    tempNumber = coerceNumber(hass.states[id].state);
-    // somehow using += does not work here (maybe something with rollup?)
-    endResult += tempNumber;
+    const stateObj = hass.states[id];
+    if (stateObj) {
+      // somehow using += does not work here (maybe something with rollup?)
+      endResult += coerceNumber(stateObj.state);
+    }
   }
 
   return endResult;

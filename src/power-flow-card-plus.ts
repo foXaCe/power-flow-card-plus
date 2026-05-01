@@ -1,7 +1,7 @@
-import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import { UnsubscribeFunc } from "home-assistant-js-websocket";
 import { html, LitElement, PropertyValues, TemplateResult } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
+import { ActionConfig, HomeAssistant, LovelaceCardEditor } from "./ha";
 import { batteryElement } from "./components/battery";
 import { dailyCostElement } from "./components/daily-cost";
 import { dailyExportElement } from "./components/daily-export";
@@ -362,10 +362,12 @@ export class PowerFlowCardPlus extends LitElement {
       },
     };
 
+    const localize = setupCustomlocalize(this.hass);
+
     const dailyCost = {
       enabled: this._config.show_daily_cost ?? false,
       entity: this._config.daily_cost_energy_entity,
-      name: setupCustomlocalize("editor.daily_cost_title"),
+      name: localize("editor.daily_cost_title"),
       energy: this._safeStateNumber(this._config.daily_cost_energy_entity),
       tariff: this._config.cost_entity && grid.cost ? grid.cost.tariff : 0,
       unit: grid.cost?.unit || "€",
@@ -377,7 +379,7 @@ export class PowerFlowCardPlus extends LitElement {
     const dailyExport = {
       enabled: this._config.show_daily_export ?? false,
       entity: this._config.daily_export_energy_entity,
-      name: setupCustomlocalize("editor.daily_export_title"),
+      name: localize("editor.daily_export_title"),
       energy: this._safeStateNumber(this._config.daily_export_energy_entity),
       price: this._config.daily_export_price ?? 0,
       decimals: this._config.daily_export_decimals ?? 2,
@@ -607,7 +609,8 @@ export class PowerFlowCardPlus extends LitElement {
       },
     };
 
-    const homeLargestSource = Object.keys(homeSources).reduce((a, b) => (homeSources[a].value > homeSources[b].value ? a : b));
+    const homeSourcesEntries = Object.entries(homeSources) as [keyof HomeSources, HomeSources[keyof HomeSources]][];
+    const homeLargestSource = homeSourcesEntries.reduce((largest, current) => (current[1].value > largest[1].value ? current : largest))[0];
 
     // Templates
     const templatesObj: TemplatesObj = {
@@ -808,7 +811,7 @@ export class PowerFlowCardPlus extends LitElement {
       // Reserve the slot BEFORE awaiting so concurrent calls bail out via .has()
       this._unsubRenderTemplates?.set(topic, sub);
       await sub;
-    } catch (_err) {
+    } catch {
       this._templateResults = {
         ...this._templateResults,
         [topic]: {
@@ -866,8 +869,10 @@ export class PowerFlowCardPlus extends LitElement {
     if (!card) return;
 
     const rect = card.getBoundingClientRect();
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    const touch = "touches" in e ? e.touches[0] : null;
+    if ("touches" in e && !touch) return;
+    const clientX = touch ? touch.clientX : (e as MouseEvent).clientX;
+    const clientY = touch ? touch.clientY : (e as MouseEvent).clientY;
 
     const x = clientX - rect.left;
     const y = clientY - rect.top;

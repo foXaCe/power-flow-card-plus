@@ -244,8 +244,8 @@ export const allDynamicStyles = (
     };
 
     let individualIndex = 0;
-    individual.forEach((_, index) => {
-      if (!individual[index].has) return;
+    individual.forEach((ind, index) => {
+      if (!ind.has) return;
       const entry = entities?.individual?.[index];
       if (!entry) return;
       getStylesForIndividual(entry, individualIndex);

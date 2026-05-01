@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { DisplayZeroLinesMode } from "../power-flow-card-plus-config";
 import { getFirstEntityName } from "../states/utils/mutliEntity";
 
@@ -84,16 +84,16 @@ export function getDefaultConfig(hass: HomeAssistant): object {
 
   // Fallback to standard detection if Enphase entities not found
   if (!firstGridPowerEntity) {
-    firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0];
+    firstGridPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, gridPowerTestString))[0] ?? "";
   }
   if (!firstSolarPowerEntity) {
-    firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0];
+    firstSolarPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, solarTests))[0] ?? "";
   }
   if (!firstBatteryPowerEntity) {
-    firstBatteryPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0];
+    firstBatteryPowerEntity = powerEntities.filter((entityId) => checkStrings(entityId, batteryTests))[0] ?? "";
   }
   if (!firstHomeConsumptionEntity) {
-    firstHomeConsumptionEntity = powerEntities.filter((entityId) => checkStrings(entityId, homeConsumptionTests))[0];
+    firstHomeConsumptionEntity = powerEntities.filter((entityId) => checkStrings(entityId, homeConsumptionTests))[0] ?? "";
   }
 
   const percentageEntities = Object.keys(hass.states).filter((entityId) => {
@@ -111,7 +111,7 @@ export function getDefaultConfig(hass: HomeAssistant): object {
 
   // Fallback to standard battery percentage detection
   if (!firstBatteryPercentageEntity) {
-    firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0];
+    firstBatteryPercentageEntity = percentageEntities.filter((entityId) => checkStrings(entityId, batteryPercentTests))[0] ?? "";
   }
   return {
     entities: {

@@ -14,7 +14,7 @@
     "strict": true,
     "noImplicitAny": true,
     "isolatedModules": true,
-    // TODO: enable "noUncheckedIndexedAccess": true once existing access patterns are guarded (currently 16+ errors).
+    "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,

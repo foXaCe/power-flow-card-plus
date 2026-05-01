@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { BaseConfigEntity, EntityType } from "@/type";
 import { isNumberValue } from "@/utils/utils";
@@ -13,6 +13,7 @@ export const getSecondaryState = (hass: HomeAssistant, config: PowerFlowCardPlus
   if (typeof entity !== "string") return null;
 
   const entityObj = hass.states[getFirstEntityName(entity)];
+  if (!entityObj) return null;
   const secondaryState = entityObj.state;
 
   if (isNumberValue(secondaryState)) return Number(secondaryState);

@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { getEntityState } from "./getEntityState";
 import { getFirstEntityName } from "./mutliEntity";
 
@@ -16,7 +16,7 @@ export const getEntityStateWatts = (hass: HomeAssistant, entity: string | undefi
   const state = getEntityState(hass, entity);
   if (!entity || state === null) return 0;
 
-  const unit = hass.states[getFirstEntityName(entity)].attributes.unit_of_measurement ?? "";
+  const unit = hass.states[getFirstEntityName(entity)]?.attributes.unit_of_measurement ?? "";
 
   return convertUnitToWatts(state, unit);
 };
