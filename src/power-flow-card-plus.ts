@@ -57,6 +57,9 @@ export class PowerFlowCardPlus extends LitElement {
   @state() private _width = 0;
   @state() private _draggedElement: string | null = null;
   @state() private _hasDragged = false;
+  // Position transitoire pendant le drag — évite de cloner toute la config Lovelace à chaque frame.
+  // Le commit définitif dans `_config.custom_positions` se fait dans `_onDragEnd`.
+  @state() private _dragPositionOverride?: { element: string; left: number; top: number };
 
   @query("#battery-grid-flow") batteryGridFlow?: SVGSVGElement;
   @query("#battery-home-flow") batteryToHomeFlow?: SVGSVGElement;
@@ -140,7 +143,13 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   protected shouldUpdate(changed: PropertyValues): boolean {
-    if (changed.has("_config") || changed.has("_templateResults") || changed.has("_width") || changed.has("_draggedElement")) {
+    if (
+      changed.has("_config") ||
+      changed.has("_templateResults") ||
+      changed.has("_width") ||
+      changed.has("_draggedElement") ||
+      changed.has("_dragPositionOverride")
+    ) {
       return true;
     }
     if (!changed.has("hass")) return false;
@@ -231,6 +240,22 @@ export class PowerFlowCardPlus extends LitElement {
     }
 
     const { entities } = this._config;
+
+    // `effectiveConfig` reflète la position transitoire pendant le drag sans cloner
+    // toute la config Lovelace à chaque frame. Pas de drag actif → on réutilise
+    // `this._config` tel quel (référence inchangée).
+    const effectiveConfig: PowerFlowCardPlusConfig = this._dragPositionOverride
+      ? {
+          ...this._config,
+          custom_positions: {
+            ...(this._config.custom_positions ?? {}),
+            [this._dragPositionOverride.element.replace(/-/g, "_")]: {
+              left: this._dragPositionOverride.left,
+              top: this._dragPositionOverride.top,
+            },
+          },
+        }
+      : this._config;
 
     this.style.setProperty("--clickable-cursor", this._config.clickable_entities ? "pointer" : "default");
 
@@ -692,21 +717,21 @@ export class PowerFlowCardPlus extends LitElement {
             : ""}"
         >
           ${solar.has
-            ? solarElement(this, this._config, {
+            ? solarElement(this, effectiveConfig, {
                 entities,
                 solar,
                 templatesObj,
               })
             : ""}
           ${grid.has
-            ? gridElement(this, this._config, {
+            ? gridElement(this, effectiveConfig, {
                 entities,
                 grid,
                 templatesObj,
               })
             : ""}
           ${!entities.home?.hide
-            ? homeElement(this, this._config, {
+            ? homeElement(this, effectiveConfig, {
                 circleCircumference,
                 entities,
                 grid,
@@ -721,8 +746,8 @@ export class PowerFlowCardPlus extends LitElement {
                 individual: individualObjs,
               })
             : ""}
-          ${battery.has ? batteryElement(this, this._config, { battery, entities, solar, grid }) : ""}
-          ${dailyCost.enabled ? dailyCostElement(this, this._config, { dailyCost }) : ""}
+          ${battery.has ? batteryElement(this, effectiveConfig, { battery, entities, solar, grid }) : ""}
+          ${dailyCost.enabled ? dailyCostElement(this, effectiveConfig, { dailyCost }) : ""}
           ${flowElement(this, this._config, {
             battery,
             grid,
@@ -732,8 +757,8 @@ export class PowerFlowCardPlus extends LitElement {
             dailyExport,
             dailyCost,
           })}
-          ${dailyExport.enabled && solar.has ? dailyExportElement(this, this._config, { dailyExport }) : ""}
-          ${selfSufficiencyElement(this, this._config, {
+          ${dailyExport.enabled && solar.has ? dailyExportElement(this, effectiveConfig, { dailyExport }) : ""}
+          ${selfSufficiencyElement(this, effectiveConfig, {
             solarToHome: solar.state.toHome || 0,
             batteryToHome: battery.state.toHome || 0,
             gridToHome: grid.state.toHome || 0,
@@ -927,22 +952,9 @@ export class PowerFlowCardPlus extends LitElement {
     left = Math.max(0, Math.min(left, CARD_WIDTH - CIRCLE_RADIUS * 2));
     top = Math.max(0, Math.min(top, CARD_HEIGHT - CIRCLE_RADIUS * 2));
 
-    // Créer une copie profonde de la config
-    const newConfig = JSON.parse(JSON.stringify(this._config));
-
-    if (!newConfig.custom_positions) {
-      newConfig.custom_positions = {};
-    }
-
-    // Convertir les tirets en underscores pour la config
-    const configKey = this._draggedElement.replace(/-/g, "_");
-    newConfig.custom_positions[configKey] = {
-      left,
-      top,
-    };
-
-    this._config = newConfig;
-    this.requestUpdate();
+    // Mise à jour purement transitoire — pas de clone de config, pas de recalcul de flux/templates.
+    // Le `@state` déclenche un re-render léger (juste le `customStyle` du cercle déplacé).
+    this._dragPositionOverride = { element: this._draggedElement, left, top };
   }
 
   private _onDragEnd(moveHandler: any, upHandler: any) {
@@ -950,7 +962,26 @@ export class PowerFlowCardPlus extends LitElement {
     document.removeEventListener("touchmove", moveHandler);
     document.removeEventListener("mouseup", upHandler);
     document.removeEventListener("touchend", upHandler);
+
+    // Commit la position finale dans la config Lovelace en une seule passe.
+    // L'override transitoire `_dragPositionOverride` peut être absent si l'utilisateur
+    // a juste cliqué sans bouger (mousedown → mouseup direct) — dans ce cas on ne fait rien.
+    const override = this._dragPositionOverride;
+    const draggedElement = this._draggedElement;
+    if (override && draggedElement && override.element === draggedElement) {
+      const configKey = draggedElement.replace(/-/g, "_");
+      const previousPositions = this._config.custom_positions ?? {};
+      this._config = {
+        ...this._config,
+        custom_positions: {
+          ...previousPositions,
+          [configKey]: { left: override.left, top: override.top },
+        },
+      };
+    }
+
     this._draggedElement = null;
+    this._dragPositionOverride = undefined;
     this._activeDragHandlers = undefined;
 
     // Sauvegarder dans localStorage (config par appareil)
