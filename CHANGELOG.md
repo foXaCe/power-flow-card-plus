@@ -1,3 +1,26 @@
+## <small>0.43.2 (2026-05-01)</small>
+
+### Security
+
+- chore(security): forcer les versions patchees via pnpm.overrides ([15472b8](https://github.com/foXaCe/power-flow-card-plus/commit/15472b8)) — neutralise 24 vulnérabilités Dependabot (1 critical, 11 high, 11 moderate, 1 low)
+
+### Changed
+
+- chore(eslint): migrer ESLint 8 EOL -> 9 flat config ([059c661](https://github.com/foXaCe/power-flow-card-plus/commit/059c661))
+- chore(lint): nettoyer les 9 warnings ESLint residuels ([2fd8790](https://github.com/foXaCe/power-flow-card-plus/commit/2fd8790))
+- style: reformater code avec Prettier 3 ([396eaf7](https://github.com/foXaCe/power-flow-card-plus/commit/396eaf7))
+
+### Dependencies
+
+- chore(deps): bump majeurs Prettier 3, Jest 30, types/node 25, ha-ws 9, conventional-changelog 9 ([8d4b03f](https://github.com/foXaCe/power-flow-card-plus/commit/8d4b03f))
+- ci(deps): bump actions/setup-node from 4 to 6 ([#22](https://github.com/foXaCe/power-flow-card-plus/pull/22))
+- chore(deps): bump lodash + lodash-es 4.17.23 -> 4.18.1 ([#52](https://github.com/foXaCe/power-flow-card-plus/pull/52), [#53](https://github.com/foXaCe/power-flow-card-plus/pull/53))
+- chore(deps): bump flatted 3.3.3 -> 3.4.2 ([#51](https://github.com/foXaCe/power-flow-card-plus/pull/51))
+- chore(deps): bump minimatch 3.1.2 -> 3.1.5 ([#50](https://github.com/foXaCe/power-flow-card-plus/pull/50))
+- chore(deps): bump undici 6.23.0 -> 6.25.0 ([#49](https://github.com/foXaCe/power-flow-card-plus/pull/49))
+- chore(deps): bump picomatch 2.3.1 -> 2.3.2 ([#48](https://github.com/foXaCe/power-flow-card-plus/pull/48))
+- chore(deps): bump handlebars 4.7.8 -> 4.7.9 ([#47](https://github.com/foXaCe/power-flow-card-plus/pull/47))
+
 ## <small>0.43.1 (2026-05-01)</small>
 
 - test(card): jsdom + 17 tests sur le composant principal ([b609678](https://github.com/foXaCe/power-flow-card-plus/commit/b609678))
