@@ -1,3 +1,12 @@
+## 0.43.0 (2026-05-01)
+
+- feat(card): valider setConfig via superstruct + getGridOptions ([ba6cdc4](https://github.com/foXaCe/power-flow-card-plus/commit/ba6cdc4))
+- feat(format): utiliser hass.formatEntityState avec fallback ([a748ab0](https://github.com/foXaCe/power-flow-card-plus/commit/a748ab0))
+- chore(hacs): exiger Home Assistant 2024.6+ ([056e90f](https://github.com/foXaCe/power-flow-card-plus/commit/056e90f))
+- chore(ts): upgrade TypeScript 4.9 -> 5, activer noUncheckedIndexedAccess ([94cbecb](https://github.com/foXaCe/power-flow-card-plus/commit/94cbecb))
+- refactor: internaliser custom-card-helpers, supprimer lit-element v2 ([aa22412](https://github.com/foXaCe/power-flow-card-plus/commit/aa22412))
+- refactor(i18n): utiliser hass.locale.language au lieu de localStorage ([892efd1](https://github.com/foXaCe/power-flow-card-plus/commit/892efd1))
+
 ## <small>0.42.7 (2026-04-29)</small>
 
 - fix(card): fuite WS, race templates, NaN/div0, shouldUpdate, drag cleanup ([ba0c07d](https://github.com/foXaCe/power-flow-card-plus/commit/ba0c07d))
