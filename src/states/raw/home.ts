@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { getSecondaryState } from "./base";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 

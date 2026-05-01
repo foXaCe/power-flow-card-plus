@@ -1,5 +1,5 @@
 import { HassEntity } from "home-assistant-js-websocket";
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { isEntityAvailable } from "./existenceEntity";
 import { unavailableOrMisconfiguredError } from "@/utils/unavailableError";
 import { getFirstEntityName } from "./mutliEntity";

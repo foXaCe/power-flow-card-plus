@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { debounce } from "custom-card-helpers";
+import { debounce } from "./ha";
 import { version } from "../package.json";
 
 // Log Version

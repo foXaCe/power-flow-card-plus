@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 
 export const dashboardLinkElement = (config: PowerFlowCardPlusConfig, hass: HomeAssistant) =>

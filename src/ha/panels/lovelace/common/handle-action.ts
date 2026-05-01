@@ -1,4 +1,4 @@
-import { ActionConfig, HomeAssistant } from "custom-card-helpers";
+import { ActionConfig, HomeAssistant } from "@/ha";
 import { fireEvent } from "@/ha/common/dom/fire_event";
 
 export type ActionConfigParams = {

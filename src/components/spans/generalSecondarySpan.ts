@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { ActionConfig, HomeAssistant } from "custom-card-helpers";
+import { ActionConfig, HomeAssistant } from "@/ha";
 import { baseSecondarySpan } from "./baseSecondarySpan";
 import { displayValue } from "@/utils/displayValue";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";

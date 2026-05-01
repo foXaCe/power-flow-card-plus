@@ -1,4 +1,4 @@
-import { HomeAssistant, formatNumber } from "custom-card-helpers";
+import { HomeAssistant, formatNumber } from "@/ha";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { isNumberValue, round } from "./utils";
 

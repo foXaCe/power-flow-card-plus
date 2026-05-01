@@ -1,4 +1,4 @@
-import { ActionConfig, HomeAssistant } from "custom-card-helpers";
+import { ActionConfig, HomeAssistant } from "@/ha";
 import { IndividualDeviceType } from "@/type";
 import { computeFieldIcon, computeFieldName } from "@/utils/computeFieldAttributes";
 import { getIndividualSecondaryState, getIndividualState } from ".";

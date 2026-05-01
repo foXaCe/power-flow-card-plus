@@ -1,5 +1,5 @@
-import { HomeAssistant } from "custom-card-helpers";
 import { html } from "lit";
+import { HomeAssistant } from "@/ha";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { TemplatesObj } from "@/type";
 import { displayValue } from "@/utils/displayValue";

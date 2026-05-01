@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { getEntityStateWatts } from "@/states/utils/getEntityStateWatts";
 import { IndividualDeviceType } from "@/type";
 import { isNumberValue } from "@/utils/utils";

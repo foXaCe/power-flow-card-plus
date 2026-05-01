@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { isNumberValue } from "@/utils/utils";
 import { getEntityNames } from "./mutliEntity";
 

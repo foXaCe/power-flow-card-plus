@@ -30,7 +30,15 @@
 
 declare global {
   // eslint-disable-next-line
-  interface HASSDomEvents {}
+  interface HASSDomEvents {
+    "value-changed": { value: unknown };
+    "config-changed": { config: any };
+    "hass-more-info": { entityId: string | null };
+    "ll-rebuild": Record<string, unknown>;
+    "ll-custom": Record<string, unknown>;
+    "location-changed": { replace: boolean };
+    "show-dialog": Record<string, unknown>;
+  }
 }
 
 export type ValidHassDomEvent = keyof HASSDomEvents;

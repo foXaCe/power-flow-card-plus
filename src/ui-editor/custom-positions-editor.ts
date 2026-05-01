@@ -1,7 +1,7 @@
 import { LitElement, html, css, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 
 // Positions par défaut (en px depuis le container)

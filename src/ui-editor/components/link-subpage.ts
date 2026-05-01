@@ -1,7 +1,7 @@
 import { mdiChevronRight } from "@mdi/js";
 import { css, CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property, query } from "lit-element";
-import { fireEvent } from "custom-card-helpers";
+import { customElement, property, query } from "lit/decorators.js";
+import { fireEvent } from "@/ha";
 
 @customElement("link-subpage")
 export class LinkSubpage extends LitElement {

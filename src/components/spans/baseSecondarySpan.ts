@@ -1,5 +1,5 @@
 import { html } from "lit";
-import { ActionConfig } from "custom-card-helpers";
+import { ActionConfig } from "@/ha";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { offlineStr } from "@/type";
 

@@ -1,8 +1,8 @@
 import { mdiArrowLeft } from "@mdi/js";
-import { HomeAssistant, fireEvent } from "custom-card-helpers";
 import { css, CSSResultGroup, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit-element";
-import localize from "@/localize/localize";
+import { customElement, property } from "lit/decorators.js";
+import { HomeAssistant, fireEvent } from "@/ha";
+import { setupCustomlocalize } from "@/localize/localize";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { ConfigPage } from "../types/config-page";
 
@@ -19,6 +19,7 @@ export class SubpageHeader extends LitElement {
   @property() protected page?: ConfigPage;
 
   protected render(): TemplateResult {
+    const localize = setupCustomlocalize(this.hass);
     return html`
       <div class="header">
         <div class="back-title">

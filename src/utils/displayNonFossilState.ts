@@ -1,4 +1,4 @@
-import { HomeAssistant } from "custom-card-helpers";
+import { HomeAssistant } from "@/ha";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { isEntityAvailable } from "../states/utils/existenceEntity";
 import { unavailableOrMisconfiguredError } from "./unavailableError";

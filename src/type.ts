@@ -1,5 +1,5 @@
 import { TemplateResult } from "lit";
-import { ActionConfig } from "custom-card-helpers";
+import { ActionConfig } from "./ha";
 
 export type ComboEntity = {
   consumption: string;

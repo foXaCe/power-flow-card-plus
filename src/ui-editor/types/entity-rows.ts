@@ -1,4 +1,4 @@
-import { ActionConfig, HomeAssistant } from "custom-card-helpers";
+import { ActionConfig, HomeAssistant } from "@/ha";
 
 export interface EntityConfig {
   entity: string;
