@@ -51,7 +51,7 @@
     "home-assistant-js-websocket": "^9.6.0",
     "lit": "^3.3.2",
     "memoize-one": "^6.0.0",
-    "sortablejs": "^1.15.6",
+    "sortablejs": "^1.15.7",
     "superstruct": "^1.0.4",
     "tslib": "^2.8.1"
   },
