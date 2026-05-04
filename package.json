@@ -59,7 +59,7 @@
     "@babel/core": "^7.29.0",
     "@babel/eslint-parser": "^7.28.6",
     "@babel/eslint-plugin": "^7.27.1",
-    "@babel/preset-env": "^7.29.0",
+    "@babel/preset-env": "^7.29.3",
     "@babel/preset-typescript": "^7.28.5",
     "@jest/globals": "^30.3.0",
     "@open-wc/eslint-config": "^13.0.0",
