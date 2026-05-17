@@ -4,6 +4,7 @@ import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { calculateSelfSufficiency, getSelfSufficiencyColor } from "@/utils/calculateSelfSufficiency";
 import { PowerFlowCardPlus } from "@/power-flow-card-plus";
 import { setupCustomlocalize } from "../localize/localize";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 interface SelfSufficiencyProps {
   solarToHome: number;
@@ -24,9 +25,7 @@ export const selfSufficiencyElement = (
   const color = getSelfSufficiencyColor(percentage);
 
   // Position personnalisée ou par défaut sous home (centrée)
-  const customStyle = config.custom_positions?.self_sufficiency
-    ? `top: ${config.custom_positions.self_sufficiency.top}px; left: ${config.custom_positions.self_sufficiency.left}px; bottom: auto; right: auto; transform: none;`
-    : "top: 322px; left: 50%; transform: translateX(-50%);"; // Position par défaut sous home, centrée
+  const customStyle = customPositionStyle(config.custom_positions?.self_sufficiency) || "top: 322px; left: 50%; transform: translateX(-50%);";
 
   return html`
     <div

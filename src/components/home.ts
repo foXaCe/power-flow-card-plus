@@ -4,6 +4,7 @@ import { generalSecondarySpan } from "./spans/generalSecondarySpan";
 import { NewDur, TemplatesObj } from "../type";
 import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { IndividualObject } from "../states/raw/individual/getIndividualObject";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 interface Home {
   home: any;
@@ -42,9 +43,7 @@ export const homeElement = (
   const isPulsing = config.circle_pulse_animation && home?.state?.total != null && home.state.total > 0;
 
   // Apply custom position if configured
-  const customStyle = config.custom_positions?.home
-    ? `top: ${config.custom_positions.home.top}px; left: ${config.custom_positions.home.left}px; bottom: auto; right: auto; transform: none;`
-    : "";
+  const customStyle = customPositionStyle(config.custom_positions?.home);
 
   // Safe defaults for stroke-dasharray calculations
   const safeSolar = homeSolarCircumference ?? 0;

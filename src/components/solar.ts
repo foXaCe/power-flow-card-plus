@@ -4,6 +4,7 @@ import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus
 import { generalSecondarySpan } from "./spans/generalSecondarySpan";
 import { displayValue } from "../utils/displayValue";
 import { TemplatesObj } from "../type";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 export const solarElement = (
   main: PowerFlowCardPlus,
@@ -21,9 +22,7 @@ export const solarElement = (
   const isPulsing = config.circle_pulse_animation && solar?.state?.total != null && solar.state.total > 0;
 
   // Apply custom position if configured
-  const customStyle = config.custom_positions?.solar
-    ? `top: ${config.custom_positions.solar.top}px; left: ${config.custom_positions.solar.left}px; bottom: auto; right: auto; transform: none;`
-    : "";
+  const customStyle = customPositionStyle(config.custom_positions?.solar);
 
   return html`<div
     class="circle-container solar"

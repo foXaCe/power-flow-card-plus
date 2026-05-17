@@ -5,6 +5,7 @@ import { generalSecondarySpan } from "./spans/generalSecondarySpan";
 import { TemplatesObj } from "../type";
 import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { formatNumber, HomeAssistant } from "@/ha";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 /**
  * Resolve the grid consumption entity id. Used to discover the real unit of
@@ -57,9 +58,7 @@ export const gridElement = (
   const isPulsing = config.circle_pulse_animation && grid?.state && (Math.abs(grid.state.fromGrid || 0) > 0 || Math.abs(grid.state.toGrid || 0) > 0);
 
   // Apply custom position if configured (override defaults)
-  const customStyle = config.custom_positions?.grid
-    ? `top: ${config.custom_positions.grid.top}px !important; left: ${config.custom_positions.grid.left}px !important; bottom: auto; right: auto; transform: none;`
-    : "";
+  const customStyle = customPositionStyle(config.custom_positions?.grid, true);
 
   return html`<div
     class="circle-container grid"

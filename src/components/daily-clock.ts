@@ -3,6 +3,7 @@ import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { createHourMarker } from "../utils/clockMarkers";
 import { formatNumber } from "@/ha";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 export type DailyClockKind = "daily_cost" | "daily_export";
 
@@ -72,9 +73,7 @@ export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCar
   const hourAngle = (hours % 12) * 30 + (minutes / 60) * 30; // 30° par heure
 
   const customPosition = _config.custom_positions?.[positionKey];
-  const customStyle = customPosition
-    ? `top: ${customPosition.top}px; left: ${customPosition.left}px; bottom: auto; right: auto; transform: none;`
-    : "";
+  const customStyle = customPositionStyle(customPosition);
 
   return html`<div
     class="circle-container ${className}"

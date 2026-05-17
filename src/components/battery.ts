@@ -2,6 +2,7 @@ import { html, svg } from "lit";
 import { PowerFlowCardPlus } from "../power-flow-card-plus";
 import { ConfigEntities, PowerFlowCardPlusConfig } from "../power-flow-card-plus-config";
 import { displayValue } from "../utils/displayValue";
+import { customPositionStyle } from "@/utils/customPositionStyle";
 
 export const batteryElement = (
   main: PowerFlowCardPlus,
@@ -23,9 +24,7 @@ export const batteryElement = (
     config.circle_pulse_animation && battery?.state && (Math.abs(battery.state.toBattery || 0) > 0 || Math.abs(battery.state.fromBattery || 0) > 0);
 
   // Apply custom position if configured
-  const customStyle = config.custom_positions?.battery
-    ? `top: ${config.custom_positions.battery.top}px; left: ${config.custom_positions.battery.left}px; bottom: auto; right: auto; transform: none;`
-    : "";
+  const customStyle = customPositionStyle(config.custom_positions?.battery);
 
   // Calculate colored circles based on charging source
   const circleCircumference = 2 * Math.PI * 38;
