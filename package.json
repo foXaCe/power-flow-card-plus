@@ -78,7 +78,7 @@
     "@typescript-eslint/parser": "^8.59.3",
     "babel-jest": "^30.4.1",
     "conventional-changelog-conventionalcommits": "^9.3.1",
-    "eslint": "^9.39.4",
+    "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-html": "^8",
     "eslint-plugin-lit": "^2",
@@ -116,6 +116,11 @@
       "yaml": "^2.8.3",
       "serialize-javascript": "^7.0.5",
       "@babel/plugin-transform-modules-systemjs": "^7.29.4"
+    },
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@open-wc/eslint-config>eslint": "10"
+      }
     }
   }
 }
