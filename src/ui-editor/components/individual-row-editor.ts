@@ -12,6 +12,7 @@ import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import { loadHaForm } from "@/ui-editor/utils/loadHAForm";
 import { individualSchema } from "@/ui-editor/schema/individual";
 import { setupCustomlocalize } from "@/localize/localize";
+import { localizeSchema } from "@/ui-editor/utils/localizeSchema";
 
 declare global {
   interface HASSDomEvents {
@@ -87,7 +88,7 @@ export class IndividualRowEditor extends LitElement {
         <ha-form
           .hass=${this.hass}
           .data=${this.entities[this._indexBeingEdited]}
-          .schema=${individualSchema}
+          .schema=${localizeSchema(individualSchema, localize)}
           .computeLabel=${this._computeLabelCallback}
           @value-changed=${this._configChanged}
         ></ha-form>

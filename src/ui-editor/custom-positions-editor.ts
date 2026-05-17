@@ -7,7 +7,15 @@ import { customPositionsSchema } from "./schema/custom_positions";
 
 type LocalizeFn = (key: string) => string;
 
-const POSITION_KEYS: ReadonlyArray<keyof CustomPositions> = ["solar", "grid", "home", "battery", "daily_cost", "daily_export"] as const;
+const POSITION_KEYS: ReadonlyArray<keyof CustomPositions> = [
+  "solar",
+  "grid",
+  "home",
+  "battery",
+  "daily_cost",
+  "daily_export",
+  "self_sufficiency",
+] as const;
 
 @customElement("custom-positions-editor")
 export class CustomPositionsEditor extends LitElement {
@@ -112,7 +120,7 @@ export class CustomPositionsEditor extends LitElement {
         const next: CirclePosition = {};
         if (typeof pos.top === "number" && Number.isFinite(pos.top)) next.top = pos.top;
         if (typeof pos.left === "number" && Number.isFinite(pos.left)) next.left = pos.left;
-        if (next.top !== undefined || next.left !== undefined) {
+        if (next.top !== undefined && next.left !== undefined) {
           cleaned[key] = next;
         }
       }

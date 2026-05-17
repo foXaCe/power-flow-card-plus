@@ -144,6 +144,29 @@ export const customPositionsSchema = memoizeOne((localize) => [
           },
         ],
       },
+      {
+        name: "self_sufficiency",
+        type: "expandable",
+        title: localize("card.self_sufficiency"),
+        schema: [
+          {
+            type: "grid",
+            column_min_width: "200px",
+            schema: [
+              {
+                name: "top",
+                label: localize("editor.position_top"),
+                selector: { number: { mode: "box", step: 1 } },
+              },
+              {
+                name: "left",
+                label: localize("editor.position_left"),
+                selector: { number: { mode: "box", step: 1 } },
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ]);

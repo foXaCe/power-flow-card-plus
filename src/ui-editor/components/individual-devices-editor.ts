@@ -7,6 +7,7 @@ import { setupCustomlocalize } from "@/localize/localize";
 import { IndividualDeviceType } from "@/type";
 import { PowerFlowCardPlusConfig } from "@/power-flow-card-plus-config";
 import "./individual-row-editor";
+import { localizeSchema } from "@/ui-editor/utils/localizeSchema";
 
 export interface GUIModeChangedEvent {
   guiMode: boolean;
@@ -44,6 +45,7 @@ export class IndividualDevicesEditor extends LitElement {
     if (!this.config || !this.hass) {
       return html`<div>no config</div>`;
     }
+    const localize = setupCustomlocalize(this.hass);
 
     this._configEntities = this.config.entities.individual;
 
@@ -53,7 +55,7 @@ export class IndividualDevicesEditor extends LitElement {
           .hass=${this.hass}
           @value-changed=${this._valueChanged}
           .data=${this.config}
-          .schema=${individualDevicesSchema(this.hass)}
+          .schema=${localizeSchema(individualDevicesSchema(localize), localize)}
           .computeLabel=${this._computeLabelCallback}
         ></ha-form>
       `;
