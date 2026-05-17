@@ -1,3 +1,15 @@
+## [0.44.0](https://github.com/foXaCe/power-flow-card-plus/compare/v0.43.2...v0.44.0) (2026-05-17)
+
+### Features
+
+- **editor:** appliquer localizeSchema et propager hass aux sous-pages ([939b590](https://github.com/foXaCe/power-flow-card-plus/commit/939b59081f654c1cb46db0b9e77f4a46a7e77451))
+- **editor:** traduire les schemas ha-form + position self_sufficiency ([6ab6ad6](https://github.com/foXaCe/power-flow-card-plus/commit/6ab6ad694f766d49985f8f1e7b575e11b9a8f6f2))
+
+### Bug Fixes
+
+- **card:** re-souscrire les templates quand la config change ([4bdbd77](https://github.com/foXaCe/power-flow-card-plus/commit/4bdbd775f0f42a1fb5a8337f287bc90cb8adfdce))
+- **editor:** ameliorer l'accessibilite clavier des sous-pages ([5643ac0](https://github.com/foXaCe/power-flow-card-plus/commit/5643ac0267e536e2b344e0ea0f583bc0ced0e97e))
+
 ## <small>0.43.2 (2026-05-01)</small>
 
 ### Security
