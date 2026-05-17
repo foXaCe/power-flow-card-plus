@@ -54,6 +54,8 @@ export class PowerFlowCardPlus extends LitElement {
 
   @state() private _templateResults: Partial<Record<string, RenderTemplateResult>> = {};
   @state() private _unsubRenderTemplates?: Map<string, Promise<UnsubscribeFunc>> = new Map();
+  private _renderTemplateSubscriptionKeys = new Map<string, string>();
+  private _renderTemplateContextKey = "";
   @state() private _width = 0;
   @state() private _draggedElement: string | null = null;
   @state() private _hasDragged = false;
@@ -106,6 +108,10 @@ export class PowerFlowCardPlus extends LitElement {
         grey_color: clonedConfig.display_zero_lines?.grey_color ?? defaultValues.displayZeroLines.grey_color,
       },
     };
+    this._renderTemplateContextKey = JSON.stringify({
+      entity_ids: this._config.entity_id,
+      config: this._config,
+    });
   }
 
   private _clockInterval?: number;
@@ -823,7 +829,7 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   private _collectTemplateTopics(): { [topic: string]: string | undefined } {
-    const { entities } = this._config;
+    const entities = this._config?.entities ?? {};
     const topics: { [topic: string]: string | undefined } = {
       gridSecondary: entities.grid?.secondary_info?.template,
       solarSecondary: entities.solar?.secondary_info?.template,
@@ -838,11 +844,26 @@ export class PowerFlowCardPlus extends LitElement {
 
   private _tryConnectAll() {
     const topics = this._collectTemplateTopics();
+
+    for (const topic of Array.from(this._unsubRenderTemplates?.keys() ?? [])) {
+      const nextTemplate = topics[topic];
+      if (!nextTemplate || this._renderTemplateSubscriptionKeys.get(topic) !== this._renderTemplateSubscriptionKey(nextTemplate)) {
+        this._tryDisconnect(topic);
+      }
+    }
+
     for (const [key, value] of Object.entries(topics)) {
       if (value) {
         this._tryConnect(value, key);
       }
     }
+  }
+
+  private _renderTemplateSubscriptionKey(inputTemplate: string): string {
+    return JSON.stringify({
+      template: inputTemplate,
+      context: this._renderTemplateContextKey,
+    });
   }
 
   private async _tryConnect(inputTemplate: string, topic: string): Promise<void> {
@@ -855,17 +876,25 @@ export class PowerFlowCardPlus extends LitElement {
     }
 
     try {
+      const subscriptionKey = this._renderTemplateSubscriptionKey(inputTemplate);
+      this._renderTemplateSubscriptionKeys.set(topic, subscriptionKey);
       const sub = subscribeRenderTemplate(
         this.hass.connection,
         (result) => {
-          this._templateResults[topic] = result;
+          if (this._renderTemplateSubscriptionKeys.get(topic) !== subscriptionKey) {
+            return;
+          }
+          this._templateResults = {
+            ...this._templateResults,
+            [topic]: result,
+          };
         },
         {
           template: inputTemplate,
           entity_ids: this._config.entity_id,
           variables: {
             config: this._config,
-            user: this.hass.user!.name,
+            user: this.hass.user?.name ?? "",
           },
           strict: true,
         }
@@ -874,6 +903,9 @@ export class PowerFlowCardPlus extends LitElement {
       this._unsubRenderTemplates?.set(topic, sub);
       await sub;
     } catch {
+      if (this._renderTemplateSubscriptionKeys.get(topic) !== this._renderTemplateSubscriptionKey(inputTemplate)) {
+        return;
+      }
       this._templateResults = {
         ...this._templateResults,
         [topic]: {
@@ -882,6 +914,7 @@ export class PowerFlowCardPlus extends LitElement {
         },
       };
       this._unsubRenderTemplates?.delete(topic);
+      this._renderTemplateSubscriptionKeys.delete(topic);
     }
   }
 
@@ -891,10 +924,14 @@ export class PowerFlowCardPlus extends LitElement {
       return;
     }
 
+    this._unsubRenderTemplates?.delete(topic);
+    this._renderTemplateSubscriptionKeys.delete(topic);
+    const { [topic]: _removed, ...remainingResults } = this._templateResults;
+    this._templateResults = remainingResults;
+
     try {
       const unsub = await unsubRenderTemplate;
       unsub();
-      this._unsubRenderTemplates?.delete(topic);
     } catch (err: any) {
       if (err.code === "not_found" || err.code === "template_error") {
         // If we get here, the connection was probably already closed. Ignore.
