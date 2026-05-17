@@ -14,7 +14,7 @@ declare global {
 
 @customElement("subpage-header")
 export class SubpageHeader extends LitElement {
-  public hass!: HomeAssistant;
+  @property({ attribute: false }) public hass!: HomeAssistant;
   @property({ attribute: false }) public config!: PowerFlowCardPlusConfig;
   @property() protected page?: ConfigPage;
 

@@ -28,6 +28,7 @@ export class LinkSubpage extends LitElement {
         @focus=${this._focusChanged}
         @blur=${this._focusChanged}
         role="button"
+        tabindex="0"
       >
         <ha-icon icon=${this.icon} class="summary-icon"></ha-icon>
         <slot name="header">
@@ -42,10 +43,11 @@ export class LinkSubpage extends LitElement {
   }
 
   private _focusChanged(ev: FocusEvent) {
-    this.shadowRoot!.querySelector(".top")!.classList.toggle("focused", ev.type === "focus");
+    this.shadowRoot?.querySelector(".link-subpage")?.classList.toggle("focused", ev.type === "focus");
   }
 
-  private _openSubElementPage(): void {
+  private _openSubElementPage(ev?: Event): void {
+    if (ev instanceof KeyboardEvent && ev.key !== "Enter" && ev.key !== " ") return;
     fireEvent(this, "open-sub-element-editor", { open: true });
   }
 
