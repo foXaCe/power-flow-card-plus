@@ -19,6 +19,7 @@ import { batterySchema } from "./schema/battery";
 import { nonFossilSchema } from "./schema/fossil_fuel_percentage";
 import { homeSchema } from "./schema/home";
 import { ConfigPage } from "./types/config-page";
+import { localizeSchema } from "./utils/localizeSchema";
 
 const CONFIG_PAGES: {
   page: ConfigPage;
@@ -145,22 +146,27 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
     if (this._currentConfigPage !== null) {
       if (this._currentConfigPage === "individual") {
         return html`
-          <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+          <subpage-header .hass=${this.hass} @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
           <individual-devices-editor .hass=${this.hass} .config=${this._config} @config-changed=${this._valueChanged}></individual-devices-editor>
         `;
       }
 
       if (this._currentConfigPage === "custom_positions") {
         return html`
-          <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
-          <custom-positions-editor .config=${this._config} .localize=${localize} @config-changed=${this._valueChanged}></custom-positions-editor>
+          <subpage-header .hass=${this.hass} @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+          <custom-positions-editor
+            .hass=${this.hass}
+            .config=${this._config}
+            .localize=${localize}
+            @config-changed=${this._valueChanged}
+          ></custom-positions-editor>
         `;
       }
 
       if (this._currentConfigPage === "flows") {
         return html`
-          <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
-          <flows-editor .config=${this._config} .localize=${localize} @config-changed=${this._valueChanged}></flows-editor>
+          <subpage-header .hass=${this.hass} @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+          <flows-editor .hass=${this.hass} .config=${this._config} .localize=${localize} @config-changed=${this._valueChanged}></flows-editor>
         `;
       }
 
@@ -172,11 +178,11 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
       const dataForForm = currentPage === "advanced" ? data : (data.entities[currentPage] ?? {});
 
       return html`
-        <subpage-header @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
+        <subpage-header .hass=${this.hass} @go-back=${this._goBack} page=${this._currentConfigPage}> </subpage-header>
         <ha-form
           .hass=${this.hass}
           .data=${dataForForm}
-          .schema=${schema}
+          .schema=${localizeSchema(schema, localize)}
           .computeLabel=${this._computeLabelCallback}
           @value-changed=${this._valueChanged}
         ></ha-form>
@@ -208,7 +214,7 @@ export class PowerFlowCardPlusEditor extends LitElement implements LovelaceCardE
         <ha-form
           .hass=${this.hass}
           .data=${data}
-          .schema=${generalConfigSchema}
+          .schema=${localizeSchema(generalConfigSchema, localize)}
           .computeLabel=${this._computeLabelCallback}
           @value-changed=${this._valueChanged}
         ></ha-form>
