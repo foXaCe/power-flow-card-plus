@@ -5,6 +5,10 @@ import "../src/power-flow-card-plus";
 
 describe("PowerFlowCardPlus", () => {
   let card: any;
+  const renderTemplateResult = (result: string) => ({
+    result,
+    listeners: { all: false, domains: [], entities: [], time: false },
+  });
 
   beforeEach(() => {
     card = document.createElement("power-flow-card-plus");
@@ -208,6 +212,137 @@ describe("PowerFlowCardPlus", () => {
       await card.updateComplete;
       // Without `hass`, `render()` returns an empty template — no <ha-card>.
       expect(card.shadowRoot.querySelector("ha-card")).toBeFalsy();
+    });
+  });
+
+  describe("template subscriptions", () => {
+    it("updates template results immutably when a render_template result arrives", async () => {
+      const callbacks: Array<(result: ReturnType<typeof renderTemplateResult>) => void> = [];
+      const hass = makeHass({
+        connection: {
+          subscribeMessage: jest.fn((callback: (result: ReturnType<typeof renderTemplateResult>) => void) => {
+            callbacks.push(callback);
+            return Promise.resolve(jest.fn());
+          }),
+          subscribeEvents: jest.fn(() => Promise.resolve(() => {})),
+          sendMessagePromise: jest.fn(() => Promise.resolve({})),
+        } as any,
+      });
+
+      card.hass = hass;
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        entities: {
+          grid: {
+            entity: "sensor.grid_power",
+            secondary_info: { template: "{{ states('sensor.grid_power') }}" },
+          },
+        },
+      });
+
+      card._tryConnectAll();
+      await Promise.resolve();
+      expect(callbacks).toHaveLength(1);
+
+      const callback = callbacks[0]!;
+      callback(renderTemplateResult("first"));
+      const firstResultsRef = card._templateResults;
+      expect(card._templateResults.gridSecondary.result).toBe("first");
+
+      callback(renderTemplateResult("second"));
+      expect(card._templateResults).not.toBe(firstResultsRef);
+      expect(card._templateResults.gridSecondary.result).toBe("second");
+    });
+
+    it("resubscribes when a configured template changes", async () => {
+      const unsubs = [jest.fn(), jest.fn()];
+      let unsubscribeIndex = 0;
+      const subscribeMessage = jest.fn((_callback: unknown, _params: { template: string }) => Promise.resolve(unsubs[unsubscribeIndex++]!));
+      const hass = makeHass({
+        connection: {
+          subscribeMessage,
+          subscribeEvents: jest.fn(() => Promise.resolve(() => {})),
+          sendMessagePromise: jest.fn(() => Promise.resolve({})),
+        } as any,
+      });
+
+      card.hass = hass;
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        entities: {
+          grid: {
+            entity: "sensor.grid_power",
+            secondary_info: { template: "{{ states('sensor.a') }}" },
+          },
+        },
+      });
+      card._tryConnectAll();
+      await Promise.resolve();
+
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        entities: {
+          grid: {
+            entity: "sensor.grid_power",
+            secondary_info: { template: "{{ states('sensor.b') }}" },
+          },
+        },
+      });
+      card._tryConnectAll();
+      await Promise.resolve();
+
+      expect(subscribeMessage).toHaveBeenCalledTimes(2);
+      expect(subscribeMessage.mock.calls[0]![1].template).toBe("{{ states('sensor.a') }}");
+      expect(subscribeMessage.mock.calls[1]![1].template).toBe("{{ states('sensor.b') }}");
+      expect(unsubs[0]).toHaveBeenCalled();
+    });
+
+    it("resubscribes when template variables change with the same template text", async () => {
+      const unsubs = [jest.fn(), jest.fn()];
+      let unsubscribeIndex = 0;
+      const subscribeMessage = jest.fn((_callback: unknown, _params: { variables: { config: { title?: string } } }) =>
+        Promise.resolve(unsubs[unsubscribeIndex++]!)
+      );
+      const hass = makeHass({
+        connection: {
+          subscribeMessage,
+          subscribeEvents: jest.fn(() => Promise.resolve(() => {})),
+          sendMessagePromise: jest.fn(() => Promise.resolve({})),
+        } as any,
+      });
+
+      const template = "{{ config.title }}";
+      card.hass = hass;
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        title: "First title",
+        entities: {
+          grid: {
+            entity: "sensor.grid_power",
+            secondary_info: { template },
+          },
+        },
+      });
+      card._tryConnectAll();
+      await Promise.resolve();
+
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        title: "Second title",
+        entities: {
+          grid: {
+            entity: "sensor.grid_power",
+            secondary_info: { template },
+          },
+        },
+      });
+      card._tryConnectAll();
+      await Promise.resolve();
+
+      expect(subscribeMessage).toHaveBeenCalledTimes(2);
+      expect(subscribeMessage.mock.calls[0]![1].variables.config.title).toBe("First title");
+      expect(subscribeMessage.mock.calls[1]![1].variables.config.title).toBe("Second title");
+      expect(unsubs[0]).toHaveBeenCalled();
     });
   });
 });
