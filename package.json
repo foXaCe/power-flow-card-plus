@@ -114,7 +114,8 @@
       "picomatch": "^2.3.2",
       "undici": "^6.25.0",
       "yaml": "^2.8.3",
-      "serialize-javascript": "^7.0.5"
+      "serialize-javascript": "^7.0.5",
+      "@babel/plugin-transform-modules-systemjs": "^7.29.4"
     }
   }
 }
