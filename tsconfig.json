@@ -3,7 +3,8 @@
     "declaration": true,
     "target": "es2017",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
     "lib": ["es2017", "dom", "dom.iterable"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -18,11 +19,11 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
+    "types": ["jest", "node"],
     "outDir": "dist",
     "rootDir": ".",
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["**/*.ts"],
