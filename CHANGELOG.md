@@ -1,3 +1,11 @@
+## [0.44.1](https://github.com/foXaCe/power-flow-card-plus/compare/v0.44.0...v0.44.1) (2026-05-17)
+
+### Build System
+
+- **deps:** bump majeurs TypeScript 6, lint-staged 17, @rollup/plugin-terser 1 ([2d433db](https://github.com/foXaCe/power-flow-card-plus/commit/2d433db))
+  - migration tsconfig pour TypeScript 6 : `moduleResolution` `node` → `bundler`, retrait de `baseUrl`, `types` explicite, `ignoreDeprecations` pour ts-jest
+  - lit 3.3.3, jest 30.4.2, @types/node 25.9, @babel/preset-env 7.29.5, @typescript-eslint 8.59.4
+
 ## [0.44.0](https://github.com/foXaCe/power-flow-card-plus/compare/v0.43.2...v0.44.0) (2026-05-17)
 
 ### Features
