@@ -90,7 +90,7 @@
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "lint-staged": "^17.0.5",
-    "prettier": "3.8.3",
+    "prettier": "3.8.4",
     "rollup": "^4.60.4",
     "rollup-plugin-html-literals": "^2.0.1",
     "rollup-plugin-serve": "^3.0.0",
