@@ -81,6 +81,9 @@ importers:
       "@semantic-release/changelog":
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@25.0.5(typescript@6.0.3))
+      "@semantic-release/exec":
+        specifier: ^7.1.0
+        version: 7.1.0(semantic-release@25.0.5(typescript@6.0.3))
       "@types/jest":
         specifier: ^30.0.0
         version: 30.0.0
@@ -153,9 +156,6 @@ importers:
       semantic-release:
         specifier: ^25.0.5
         version: 25.0.5(typescript@6.0.3)
-      semantic-release-replace-plugin:
-        specifier: ^1.2.7
-        version: 1.2.7(semantic-release@25.0.5(typescript@6.0.3))
       ts-jest:
         specifier: ^29.4.11
         version: 29.4.11(@babel/core@7.29.7)(@jest/transform@30.4.1)(@jest/types@30.4.1)(babel-jest@30.4.1(@babel/core@7.29.7))(jest-util@30.4.1)(jest@30.4.2(@types/node@25.9.4)(ts-node@10.9.2(@types/node@25.9.4)(typescript@6.0.3)))(typescript@6.0.3)
@@ -952,10 +952,6 @@ packages:
       node-notifier:
         optional: true
 
-  "@jest/schemas@29.6.3":
-    resolution: { integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA== }
-    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
-
   "@jest/schemas@30.4.1":
     resolution: { integrity: sha512-i6b4qw5qnP8c5FEeBJg/uZQ4ddrkN6Ca8qISJh0pr7a5hfn3h3v5x60BEbOC7OYAGZNMs1LfFLwnW2CuK8F57Q== }
     engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
@@ -1324,6 +1320,12 @@ packages:
     resolution: { integrity: sha512-mgdxrHTLOjOddRVYIYDo0fR3/v61GNN1YGkfbrjuIKg/uMgCd+Qzo3UAXJ+woLQQpos4pl5Esuw5A7AoNlzjUQ== }
     engines: { node: ">=18" }
 
+  "@semantic-release/exec@7.1.0":
+    resolution: { integrity: sha512-4ycZ2atgEUutspPZ2hxO6z8JoQt4+y/kkHvfZ1cZxgl9WKJId1xPj+UadwInj+gMn2Gsv+fLnbrZ4s+6tK2TFQ== }
+    engines: { node: ">=20.8.1" }
+    peerDependencies:
+      semantic-release: ">=24.1.0"
+
   "@semantic-release/github@12.0.8":
     resolution: { integrity: sha512-tej5AAgK5X9wHRoDmYhecMXEHEkFeGOY1XsEblKxu8pIQwahzf1STYyr7iPU6Lpbg6C5I3N2w/ocXrBo+L7jhw== }
     engines: { node: ^22.14.0 || >= 24.10.0 }
@@ -1345,9 +1347,6 @@ packages:
   "@simple-libs/stream-utils@1.2.0":
     resolution: { integrity: sha512-KxXvfapcixpz6rVEB6HPjOUZT22yN6v0vI0urQSk1L8MlEWPDFCZkhw2xmkyoTGYeFw7tWTZd7e3lVzRZRN/EA== }
     engines: { node: ">=18" }
-
-  "@sinclair/typebox@0.27.10":
-    resolution: { integrity: sha512-MTBk/3jGLNB2tVxv6uLlFh1iu64iYOQ2PbdOSK3NW8JZsmlaOh2q6sdtKowBhfw8QFLmYNzTW4/oK4uATIi6ZA== }
 
   "@sinclair/typebox@0.34.49":
     resolution: { integrity: sha512-brySQQs7Jtn0joV8Xh9ZV/hZb9Ozb0pmazDIASBkYKCjXrXU3mpcFahmK/z4YDhGkQvP9mWJbVyahdtU5wQA+A== }
@@ -2041,10 +2040,6 @@ packages:
     resolution: { integrity: sha512-TLz+x/vEXm/Y7P7wn1EJFNLxYpUD4TgMosxY6fAVJUnJMbupHBOncxyWUG9OpTaH9EBD7uFI5LfEgmMOc54DsA== }
     engines: { node: ">=8" }
 
-  diff-sequences@29.6.3:
-    resolution: { integrity: sha512-EjePK1srD3P08o2j4f0ExnylqRs5B9tJjcp9t1krH2qRi8CCdsYfwe9JgSLurFBWwq4uOlipzfk5fHNvwFKr8Q== }
-    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
-
   diff@4.0.4:
     resolution: { integrity: sha512-X07nttJQkwkfKfvTPG/KSnE2OMdcUCao6+eXF3wmnIQRn2aPAHH3VxDbDOdegkd6JbPsXqShpvEOHfAT+nCNwQ== }
     engines: { node: ">=0.3.1" }
@@ -2441,11 +2436,6 @@ packages:
     resolution: { integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q== }
     deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
-  glob@8.1.0:
-    resolution: { integrity: sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ== }
-    engines: { node: ">=12" }
-    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
-
   globals@16.5.0:
     resolution: { integrity: sha512-c/c15i26VrJ4IRt5Z89DnIzCGDn9EcebibhAOjw5ibqEHsE1wLUgkPn9RDmNcUKyU87GeaL633nyJ+pplFR2ZQ== }
     engines: { node: ">=18" }
@@ -2734,10 +2724,6 @@ packages:
       ts-node:
         optional: true
 
-  jest-diff@29.7.0:
-    resolution: { integrity: sha512-LMIgiIrhigmPrs03JHpxUh2yISK3vLFPkAodPeo0+BuF7wA2FoQbkEg1u8gBYBThncu7e1oEDUfIXVuTqLRUjw== }
-    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
-
   jest-diff@30.4.1:
     resolution: { integrity: sha512-CRpFK0RtLriVDGcPPAnR6HMVI8bSR2jnUIgralhauzYQZIb4RH9AtEInTuQr65LmmGggGcRT6HIASxwqsVsmlA== }
     engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
@@ -2762,10 +2748,6 @@ packages:
   jest-environment-node@30.4.1:
     resolution: { integrity: sha512-4FZYVOk85hz2AyT6BbarKy9u37g6DbrDyCdFhsnDdXqyrueYQvB+0zO4f/kqLCRD0BsPRXPMNJeQwihKZV8naw== }
     engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
-
-  jest-get-type@29.6.3:
-    resolution: { integrity: sha512-zrteXnqYxfQh7l5FHyL38jL39di8H8rHoecLH3JNxH3BwOrBsNeabdap5e0I23lD4HHI8W5VFBZqG4Eaq5LNcw== }
-    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
 
   jest-haste-map@30.4.1:
     resolution: { integrity: sha512-rFrcONd8jeFsyw+Z9CrScJgglRf2+NFmNam8dKu7n+SoHqNYT47mn0DdEcVUZJpvh7Iz6/si7f7yUH7GJHVgnw== }
@@ -3408,10 +3390,6 @@ packages:
     engines: { node: ">=14" }
     hasBin: true
 
-  pretty-format@29.7.0:
-    resolution: { integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ== }
-    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
-
   pretty-format@30.4.1:
     resolution: { integrity: sha512-K6KiKMHTL4jjX4u3Kir2EW07nRfcqVTXIImx50wbjHQTcZPgg+gjVeNTIT3l3L1Rd4UefxfogquC9J37SoFyyw== }
     engines: { node: ^18.14.0 || ^20.0.0 || ^22.0.0 || >=24.0.0 }
@@ -3497,11 +3475,6 @@ packages:
     resolution: { integrity: sha512-G08Dxvm4iDN3MLM0EsP62EDV9IuhXPR6blNz6Utcp7zyV3tr4HVNINt6MpaRWbxoOHT3Q7YN2P+jaHX8vUbgog== }
     engines: { node: ">= 0.10" }
 
-  replace-in-file@7.2.0:
-    resolution: { integrity: sha512-CiLXVop3o8/h2Kd1PwKPPimmS9wUV0Ki6Fl8+1ITD35nB3Gl/PrW5IONpTE0AXk0z4v8WYcpEpdeZqMXvSnWpg== }
-    engines: { node: ">=10" }
-    hasBin: true
-
   require-directory@2.1.1:
     resolution: { integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q== }
     engines: { node: ">=0.10.0" }
@@ -3559,12 +3532,6 @@ packages:
   saxes@6.0.0:
     resolution: { integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA== }
     engines: { node: ">=v12.22.7" }
-
-  semantic-release-replace-plugin@1.2.7:
-    resolution: { integrity: sha512-BfFQVnfC8O7+NpyfjWZuQQEkXwxf1ABbGEQuXqMsrBi7ItCnkSlO3mwuqUllxxuh1WgKx5oYKMVhmZJ0aMaqVQ== }
-    engines: { node: ">=18" }
-    peerDependencies:
-      semantic-release: ">=20.1.0"
 
   semantic-release@25.0.5:
     resolution: { integrity: sha512-mn61SUJwtM8ThrWn2WmgLVpwVJeG/hPSupua1psdMoufmwRIPyvRLkRkL0JDXkP67OntlLWUYnBnfVc8EDO3/g== }
@@ -5164,10 +5131,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  "@jest/schemas@29.6.3":
-    dependencies:
-      "@sinclair/typebox": 0.27.10
-
   "@jest/schemas@30.4.1":
     dependencies:
       "@sinclair/typebox": 0.34.49
@@ -5526,6 +5489,18 @@ snapshots:
 
   "@semantic-release/error@4.0.0": {}
 
+  "@semantic-release/exec@7.1.0(semantic-release@25.0.5(typescript@6.0.3))":
+    dependencies:
+      "@semantic-release/error": 4.0.0
+      aggregate-error: 3.1.0
+      debug: 4.4.3
+      execa: 9.6.1
+      lodash-es: 4.18.1
+      parse-json: 8.3.0
+      semantic-release: 25.0.5(typescript@6.0.3)
+    transitivePeerDependencies:
+      - supports-color
+
   "@semantic-release/github@12.0.8(semantic-release@25.0.5(typescript@6.0.3))":
     dependencies:
       "@octokit/core": 7.0.6
@@ -5584,8 +5559,6 @@ snapshots:
       - supports-color
 
   "@simple-libs/stream-utils@1.2.0": {}
-
-  "@sinclair/typebox@0.27.10": {}
 
   "@sinclair/typebox@0.34.49": {}
 
@@ -6248,8 +6221,6 @@ snapshots:
 
   detect-newline@3.1.0: {}
 
-  diff-sequences@29.6.3: {}
-
   diff@4.0.4: {}
 
   dir-glob@3.0.1:
@@ -6678,14 +6649,6 @@ snapshots:
       once: 1.4.0
       path-is-absolute: 1.0.1
 
-  glob@8.1.0:
-    dependencies:
-      fs.realpath: 1.0.0
-      inflight: 1.0.6
-      inherits: 2.0.4
-      minimatch: 10.2.5
-      once: 1.4.0
-
   globals@16.5.0: {}
 
   globals@17.6.0: {}
@@ -7012,13 +6975,6 @@ snapshots:
       - babel-plugin-macros
       - supports-color
 
-  jest-diff@29.7.0:
-    dependencies:
-      chalk: 4.1.2
-      diff-sequences: 29.6.3
-      jest-get-type: 29.6.3
-      pretty-format: 29.7.0
-
   jest-diff@30.4.1:
     dependencies:
       "@jest/diff-sequences": 30.4.0
@@ -7057,8 +7013,6 @@ snapshots:
       jest-mock: 30.4.1
       jest-util: 30.4.1
       jest-validate: 30.4.1
-
-  jest-get-type@29.6.3: {}
 
   jest-haste-map@30.4.1:
     dependencies:
@@ -7739,12 +7693,6 @@ snapshots:
 
   prettier@3.8.4: {}
 
-  pretty-format@29.7.0:
-    dependencies:
-      "@jest/schemas": 29.6.3
-      ansi-styles: 5.2.0
-      react-is: 18.3.1
-
   pretty-format@30.4.1:
     dependencies:
       "@jest/schemas": 30.4.1
@@ -7842,12 +7790,6 @@ snapshots:
 
   relateurl@0.2.7: {}
 
-  replace-in-file@7.2.0:
-    dependencies:
-      chalk: 4.1.2
-      glob: 8.1.0
-      yargs: 17.7.3
-
   require-directory@2.1.1: {}
 
   resolve-cwd@3.0.0:
@@ -7925,13 +7867,6 @@ snapshots:
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
-
-  semantic-release-replace-plugin@1.2.7(semantic-release@25.0.5(typescript@6.0.3)):
-    dependencies:
-      jest-diff: 29.7.0
-      lodash-es: 4.18.1
-      replace-in-file: 7.2.0
-      semantic-release: 25.0.5(typescript@6.0.3)
 
   semantic-release@25.0.5(typescript@6.0.3):
     dependencies:
