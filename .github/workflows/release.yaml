@@ -44,9 +44,8 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: Build
-        run: pnpm build
-
+      # No standalone build: @semantic-release/exec (prepareCmd) builds the bundle
+      # AFTER package.json is bumped, so the embedded version is correct.
       - name: Release
         id: semantic
         run: pnpm exec semantic-release

@@ -1,6 +1,6 @@
 {
   "name": "power-flow-card-plus",
-  "version": "0.44.1",
+  "version": "0.45.2",
   "description": "A power flow card for Home Assistant",
   "keywords": [
     "home-assistant",
@@ -68,6 +68,7 @@
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
     "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/exec": "^7.1.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.9.4",
     "@types/sortablejs": "^1.15.9",
@@ -92,7 +93,6 @@
     "rollup-plugin-html-literals": "^2.0.1",
     "rollup-plugin-serve": "^3.0.0",
     "semantic-release": "^25.0.5",
-    "semantic-release-replace-plugin": "^1.2.7",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
