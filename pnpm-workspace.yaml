@@ -1,13 +1,9 @@
-# pnpm 10+ ne lit plus le champ `pnpm` de package.json : overrides et
-# peerDependencyRules vivent désormais ici (cf. https://pnpm.io/settings).
-# Ces overrides sont des pins de sécurité — ils forcent des versions corrigées
-# de dépendances transitives. Ne pas baisser sans vérifier les CVE associées.
 overrides:
   handlebars: ^4.7.9
   "minimatch@<3.1.3": ^3.1.5
   "minimatch@>=5.0.0 <5.1.8": ^5.1.8
   "brace-expansion@<1.1.13": ^1.1.13
-  "brace-expansion@>=2.0.0 <2.0.3": ^2.0.3
+  "brace-expansion@>=2.0.0 <2.0.3": ^5.0.0
   flatted: ^3.4.2
   lodash: ^4.18.1
   lodash-es: ^4.18.1
