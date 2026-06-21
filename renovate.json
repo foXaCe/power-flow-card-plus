@@ -57,6 +57,15 @@
       "automerge": true,
       "platformAutomerge": true
     },
+    {
+      "description": "Auto-merge the pnpm packageManager bump (minor/patch); majors stay manual",
+      "matchDepNames": ["pnpm"],
+      "matchDepTypes": ["packageManager"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "platformAutomerge": true,
+      "addLabels": ["auto-merge"]
+    },
     { "matchPackageNames": ["/^@babel\\//"], "groupName": "babel" },
     { "matchPackageNames": ["/^@rollup\\//", "/^rollup/"], "groupName": "rollup" },
     {
