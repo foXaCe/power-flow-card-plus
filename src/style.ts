@@ -278,11 +278,11 @@ export const styles = css`
     min-height: 20px;
   }
 
-  .daily-export .label {
-    max-width: 120px;
-  }
-
-  .self-sufficiency .label {
+  /* Clock/extra bubbles carry descriptive names (e.g. "Coût journalier"); give
+     their labels room so they aren't truncated at the default 80px. */
+  .daily-export .label,
+  .self-sufficiency .label,
+  .daily-cost .label {
     max-width: 120px;
   }
 
