@@ -45,6 +45,31 @@ registerCustomCard({
   name: "Power Flow Card Plus",
   description:
     "An extended version of the power flow card with richer options, advanced features and a few small UI enhancements. Inspired by the Energy Dashboard.",
+  // HA 2026.6+ : auto-suggestion dans le card picker. On ne se propose que pour
+  // des capteurs de puissance (W/kW), en pré-remplissant le rôle le plus
+  // probable d'après le nom de l'entité (solaire / batterie / réseau). L'utilisateur
+  // complète ensuite les autres sources. On renvoie `undefined` partout ailleurs
+  // pour ne pas polluer le picker.
+  getEntitySuggestion: (hass, entityId) => {
+    const stateObj = hass.states[entityId];
+    if (!stateObj) return undefined;
+    const unit = (stateObj.attributes.unit_of_measurement ?? "").toLowerCase();
+    const deviceClass = stateObj.attributes.device_class;
+    const isPower = deviceClass === "power" || unit === "w" || unit === "kw";
+    if (!isPower) return undefined;
+
+    const haystack = `${entityId} ${stateObj.attributes.friendly_name ?? ""}`.toLowerCase();
+    let role: "solar" | "battery" | "grid" = "grid";
+    if (/solar|pv|photovolta/.test(haystack)) role = "solar";
+    else if (/batt/.test(haystack)) role = "battery";
+
+    return {
+      config: {
+        type: "custom:power-flow-card-plus",
+        entities: { [role]: { entity: entityId } },
+      },
+    };
+  },
 });
 
 @customElement("power-flow-card-plus")
@@ -162,7 +187,7 @@ export class PowerFlowCardPlus extends LitElement {
     return true;
   }
 
-  // do not use ui editor for now, as it is not working
+  // Visual editor (chargé à la demande pour ne pas alourdir le bundle initial).
   public static async getConfigElement(): Promise<LovelaceCardEditor> {
     await import("./ui-editor/ui-editor");
     return document.createElement("power-flow-card-plus-editor");

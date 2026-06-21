@@ -28,9 +28,16 @@ const config: Config = {
 
   coverageThreshold: {
     global: {
-      // Thresholds set 1 point below the current measured coverage (see
-      // `pnpm test:coverage`). They give a small safety margin against minor
-      // drift while still preventing silent regressions.
+      // Thresholds kept a comfortable margin below the current measured
+      // coverage (see `pnpm test:coverage`) to guard against silent regressions
+      // without being brittle. Measured (overhaul): branches ~50%, functions
+      // ~61%, lines/statements ~69%.
+      //
+      // NB on ES2022: at the ES2022 build target the optional chaining (`?.`)
+      // and nullish (`??`) operators are emitted natively instead of being
+      // down-levelled, so v8 counts each short-circuit as a branch — this
+      // changed the branch denominator. Branch coverage was recovered above the
+      // historical 49% guard by the unit tests added during the overhaul.
       branches: 49,
       functions: 49,
       lines: 37,

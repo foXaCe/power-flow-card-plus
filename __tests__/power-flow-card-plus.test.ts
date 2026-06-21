@@ -124,6 +124,63 @@ describe("PowerFlowCardPlus", () => {
     });
   });
 
+  describe("getEntitySuggestion (card picker, HA 2026.6+)", () => {
+    // The hook is registered as a property on the window.customCards entry.
+    const getSuggestion = () => {
+      const entry = (window as any).customCards?.find((c: any) => c.type === "power-flow-card-plus");
+      return entry?.getEntitySuggestion as ((hass: any, entityId: string) => { config: Record<string, unknown> } | undefined) | undefined;
+    };
+
+    it("is exposed on the customCards registry entry", () => {
+      expect(typeof getSuggestion()).toBe("function");
+    });
+
+    it("returns undefined for an unknown entity", () => {
+      const hass = makeHass({ states: {} });
+      expect(getSuggestion()!(hass, "sensor.nope")).toBeUndefined();
+    });
+
+    it("returns undefined for a non-power entity (e.g. temperature)", () => {
+      const hass = makeHass({
+        states: { "sensor.temp": makeStateObj("21", { unit_of_measurement: "°C", device_class: "temperature" }) },
+      });
+      expect(getSuggestion()!(hass, "sensor.temp")).toBeUndefined();
+    });
+
+    it("suggests the grid role for a generic power sensor", () => {
+      const hass = makeHass({
+        states: { "sensor.house_power": makeStateObj("100", { unit_of_measurement: "W", device_class: "power" }) },
+      });
+      const res = getSuggestion()!(hass, "sensor.house_power");
+      expect(res?.config.type).toBe("custom:power-flow-card-plus");
+      expect((res?.config.entities as any).grid.entity).toBe("sensor.house_power");
+    });
+
+    it("detects a power sensor by unit alone (no device_class)", () => {
+      const hass = makeHass({
+        states: { "sensor.load": makeStateObj("42", { unit_of_measurement: "W" }) },
+      });
+      const res = getSuggestion()!(hass, "sensor.load");
+      expect((res?.config.entities as any).grid.entity).toBe("sensor.load");
+    });
+
+    it("infers the solar role from the entity name", () => {
+      const hass = makeHass({
+        states: { "sensor.pv_production": makeStateObj("2000", { unit_of_measurement: "W", device_class: "power" }) },
+      });
+      const res = getSuggestion()!(hass, "sensor.pv_production");
+      expect((res?.config.entities as any).solar.entity).toBe("sensor.pv_production");
+    });
+
+    it("infers the battery role from the friendly name", () => {
+      const hass = makeHass({
+        states: { "sensor.bat1": makeStateObj("500", { unit_of_measurement: "kW", friendly_name: "Battery power" }) },
+      });
+      const res = getSuggestion()!(hass, "sensor.bat1");
+      expect((res?.config.entities as any).battery.entity).toBe("sensor.bat1");
+    });
+  });
+
   describe("getCardSize", () => {
     it("returns a number for a minimal config", () => {
       card.setConfig({
@@ -212,6 +269,60 @@ describe("PowerFlowCardPlus", () => {
       await card.updateComplete;
       // Without `hass`, `render()` returns an empty template — no <ha-card>.
       expect(card.shadowRoot.querySelector("ha-card")).toBeFalsy();
+    });
+  });
+
+  describe("keyboard accessibility", () => {
+    const renderGridCard = async () => {
+      const hass = makeHass({
+        states: { "sensor.grid_power": makeStateObj("100", { unit_of_measurement: "W" }) },
+      });
+      card.hass = hass;
+      card.setConfig({
+        type: "custom:power-flow-card-plus",
+        entities: { grid: { entity: "sensor.grid_power" } },
+        clickable_entities: true,
+      });
+      document.body.appendChild(card);
+      await card.updateComplete;
+      return card.shadowRoot.querySelector('.circle-container.grid .circle[role="button"]') as HTMLElement;
+    };
+
+    it("exposes the grid circle as a focusable button", async () => {
+      const circle = await renderGridCard();
+      expect(circle).toBeTruthy();
+      expect(circle.getAttribute("tabindex")).toBe("0");
+      expect(circle.getAttribute("aria-label")).toBeTruthy();
+    });
+
+    it("includes the current value in the circle's aria-label", async () => {
+      // sensor.grid_power = 100 W → screen readers hear the value on focus.
+      const circle = await renderGridCard();
+      expect(circle.getAttribute("aria-label")).toContain("100");
+    });
+
+    // Guards against the `@keyDown` (camelCase) regression: the DOM event is
+    // `keydown`, so a `@keyDown` binding never fires and keyboard users are
+    // locked out. These tests fail if the binding name regresses.
+    it("activates the circle on Enter", async () => {
+      const circle = await renderGridCard();
+      const spy = jest.spyOn(card, "openDetails");
+      circle.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("activates the circle on Space", async () => {
+      const circle = await renderGridCard();
+      const spy = jest.spyOn(card, "openDetails");
+      circle.dispatchEvent(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
+      expect(spy).toHaveBeenCalled();
+    });
+
+    it("ignores unrelated keys", async () => {
+      const circle = await renderGridCard();
+      const spy = jest.spyOn(card, "openDetails");
+      circle.dispatchEvent(new KeyboardEvent("keydown", { key: "a", bubbles: true }));
+      expect(spy).not.toHaveBeenCalled();
     });
   });
 

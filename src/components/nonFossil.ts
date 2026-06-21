@@ -34,8 +34,8 @@ export const nonFossilElement = (
           @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
             main.openDetails(e, entities.fossil_fuel_percentage?.tap_action, entities.fossil_fuel_percentage?.entity);
           }}
-          @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-            if (e.key === "Enter") {
+          @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+            if (e.key === "Enter" || e.key === " ") {
               main.openDetails(e, entities.fossil_fuel_percentage?.tap_action, entities.fossil_fuel_percentage?.entity);
             }
           }}

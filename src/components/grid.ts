@@ -60,6 +60,22 @@ export const gridElement = (
   // Apply custom position if configured (override defaults)
   const customStyle = customPositionStyle(config.custom_positions?.grid, true);
 
+  // aria-label enrichi avec la valeur courante (consommation, sinon injection),
+  // lu par les lecteurs d'écran au focus uniquement.
+  const gridDisplayOpts = {
+    unit: grid.unit,
+    unitWhiteSpace: grid.unit_white_space,
+    decimals: grid.decimals,
+    watt_threshold: config.watt_threshold,
+  };
+  const gridValueStr =
+    (grid.state.fromGrid ?? 0) > 0
+      ? displayValue(main.hass, config, grid.state.fromGrid, gridDisplayOpts)
+      : (grid.state.toGrid ?? 0) > 0
+        ? displayValue(main.hass, config, grid.state.toGrid, gridDisplayOpts)
+        : "";
+  const gridAriaLabel = gridValueStr ? `${grid.name ?? "Grid"}, ${gridValueStr}` : (grid.name ?? "Grid");
+
   return html`<div
     class="circle-container grid"
     style="${customStyle}"
@@ -70,7 +86,7 @@ export const gridElement = (
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       role="button"
       tabindex="0"
-      aria-label="${grid.name ?? "Grid"}"
+      aria-label="${gridAriaLabel}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const outageTarget = grid.powerOutage?.entityGenerator ?? entities.grid?.power_outage?.entity;
         const target =
@@ -81,8 +97,8 @@ export const gridElement = (
               : entities.grid!.entity.consumption!;
         main.openDetails(e, entities.grid?.tap_action, target);
       }}
-      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-        if (e.key === "Enter") {
+      @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+        if (e.key === "Enter" || e.key === " ") {
           const outageTarget = grid.powerOutage?.entityGenerator ?? entities.grid?.power_outage?.entity;
           const target =
             grid.powerOutage?.isOutage && outageTarget
@@ -109,8 +125,8 @@ export const gridElement = (
               const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.production!;
               main.openDetails(e, entities.grid?.tap_action, target);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.production!;
                 main.openDetails(e, entities.grid?.tap_action, target);
               }
@@ -140,8 +156,8 @@ export const gridElement = (
               const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.consumption!;
               main.openDetails(e, entities.grid?.tap_action, target);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.consumption!;
                 main.openDetails(e, entities.grid?.tap_action, target);
               }

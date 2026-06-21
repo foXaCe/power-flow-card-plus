@@ -21,8 +21,8 @@ export const baseSecondarySpan = ({ main, className, template, value, entityId, 
       @click=${(e: { stopPropagation: () => void; key?: string | undefined; target: HTMLElement }) => {
         main.openDetails(e, tap_action, entityId);
       }}
-      @keyDown=${(e: { stopPropagation: () => void; key?: string | undefined; target: HTMLElement }) => {
-        if (e.key === "Enter") {
+      @keydown=${(e: { stopPropagation: () => void; key?: string | undefined; target: HTMLElement }) => {
+        if (e.key === "Enter" || e.key === " ") {
           main.openDetails(e, tap_action, entityId);
         }
       }}

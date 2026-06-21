@@ -2,7 +2,6 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import typescript from "@rollup/plugin-typescript";
-import babel from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 import minifyHTML from "rollup-plugin-html-literals";
 import serve from "rollup-plugin-serve";
@@ -31,7 +30,10 @@ export default [
       },
     ],
     plugins: [
-      // Canonical plugin order: resolve -> commonjs -> json -> typescript -> babel -> minifyHTML -> terser
+      // Canonical plugin order: resolve -> commonjs -> json -> typescript -> minifyHTML -> terser
+      // Babel a été retiré : la cible est ES2022 (navigateurs evergreen que HA sert),
+      // donc aucun transpilage/polyfill n'est nécessaire. TypeScript émet directement
+      // de l'ES2022 et terser le minifie au même niveau (ecma: 2022).
       nodeResolve(),
       commonjs(),
       json({
@@ -40,12 +42,17 @@ export default [
       typescript({
         declaration: false,
       }),
-      babel({
-        exclude: "node_modules/**",
-        babelHelpers: "bundled",
-      }),
       minifyHTML(),
-      ...(dev ? [serve(serveOptions)] : [terser({ output: { comments: false } })]),
+      ...(dev
+        ? [serve(serveOptions)]
+        : [
+            terser({
+              ecma: 2022,
+              module: true,
+              compress: { passes: 2 },
+              format: { comments: false },
+            }),
+          ]),
     ],
     moduleContext: (id) => {
       const thisAsWindowForModules = [

@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "es2017",
+    "target": "ES2022",
     "module": "esnext",
     "moduleResolution": "bundler",
     "ignoreDeprecations": "6.0",
-    "lib": ["es2017", "dom", "dom.iterable"],
+    "lib": ["ES2022", "dom", "dom.iterable"],
+    "useDefineForClassFields": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noEmit": true,

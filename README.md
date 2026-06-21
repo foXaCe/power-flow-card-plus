@@ -68,6 +68,17 @@ Move any circle to a custom position on the card:
 - **Real-size preview** - See the card as it appears on dashboard
 - **Dedicated editors** - Separate pages for positioning, flows, and arrows
 
+### ⚡ Modern Foundation (2026)
+
+- **ES2022 build** - Lit 3 + TypeScript, no Babel polyfills → smaller, faster bundle
+- **Premium UI polish** - tabular figures (values no longer jitter as they update),
+  spring-based easings, theme-derived gradients (`color-mix`), and respect for
+  `prefers-reduced-motion`
+- **Keyboard & screen-reader support** - every circle is a focusable button
+  (Tab → Enter/Space) with an `aria-label` that includes its live value
+- **Card-picker suggestion** - the card proposes itself when you pick a power
+  sensor (HA 2026.6+), pre-filling the most likely role (solar / battery / grid)
+
 ---
 
 ## 📦 Installation
@@ -291,6 +302,38 @@ Use the built-in visual editors for easy configuration:
 ## 🌍 Supported Languages
 
 🇺🇸 English • 🇩🇪 German • 🇫🇷 French • 🇪🇸 Spanish • 🇮🇹 Italian • 🇳🇱 Dutch • 🇵🇹 Portuguese (PT) • 🇧🇷 Portuguese (BR) • 🇵🇱 Polish • 🇷🇺 Russian • 🇫🇮 Finnish • 🇩🇰 Danish • 🇨🇿 Czech • 🇸🇰 Slovak • 🇸🇪 Swedish • 🇺🇦 Ukrainian • 🇮🇳 Hindi
+
+---
+
+## 🎨 Theming
+
+The card inherits your active Home Assistant theme. Energy colors follow the
+standard Energy Dashboard variables (`--energy-grid-consumption-color`,
+`--energy-solar-color`, `--energy-battery-in-color`, …), so it matches any
+theme out of the box.
+
+A few card-specific custom properties can be overridden (per-card via
+`card_mod`, or globally in your theme):
+
+| Variable                | Default                       | Purpose                                                   |
+| ----------------------- | ----------------------------- | --------------------------------------------------------- |
+| `--pfc-cost-color`      | `var(--error-color, #e53935)` | Daily-cost ring & clock needle color                      |
+| `--pfc-ease-spring`     | `cubic-bezier(.32,.72,0,1)`   | Easing for state-change & interaction motion              |
+| `--pfc-motion-fast`     | `160ms`                       | Duration for quick interaction transitions                |
+| `--circle-border-width` | `2px`                         | Border width of the entity circles (also a config option) |
+
+Numeric values render with **tabular figures**, so they keep a steady width as
+they update instead of jittering.
+
+## ♿ Accessibility
+
+- **Keyboard** - each entity circle is a focusable button: `Tab` to move between
+  them, `Enter` or `Space` to open the entity (respects `tap_action`).
+- **Screen readers** - every circle exposes an `aria-label` combining the entity
+  name and its current value (announced on focus).
+- **Reduced motion** - decorative animations (circle pulse, line glow/pulse,
+  intro rotation) are disabled when the OS requests `prefers-reduced-motion`;
+  the directional flow dots remain since they convey information.
 
 ---
 

@@ -51,7 +51,27 @@ export const styles = css`
     --text-grid-return-color: var(--energy-grid-return-color);
     --text-battery-in-color: var(--energy-battery-in-color);
     --text-battery-out-color: var(--energy-battery-out-color);
-    --home-circle-animation: rotate-in 0.6s ease-in;
+
+    /* ===== Tokens premium (motion) =====
+       Easing « spring » (Apple HIG) pour les interactions et changements d'état,
+       jamais linear/ease. Les boucles ambiantes symétriques (pulse, glow) gardent
+       leur ease-in-out. Overridables par un thème. */
+    --pfc-ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+    --pfc-ease-emphasized: cubic-bezier(0.22, 1.2, 0.36, 1);
+    --pfc-motion-fast: 160ms;
+    --pfc-motion-normal: 240ms;
+    /* Couleur de l'indicateur de coût (anneau + aiguille). Dérive de la couleur
+       d'erreur du thème, fallback rouge Material — overridable par l'utilisateur. */
+    --pfc-cost-color: var(--error-color, #e53935);
+    --home-circle-animation: rotate-in 0.6s var(--pfc-ease-spring);
+  }
+
+  /* Rendu de texte soigné (les chiffres dynamiques ne « sautent » plus). On
+     n'impose PAS de famille de police : on hérite de celle du thème HA. */
+  :host {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
   ha-card {
@@ -71,6 +91,9 @@ export const styles = css`
     margin: 0 auto;
     min-height: 400px;
     height: 400px;
+    /* Chiffres tabulaires : les valeurs (puissance, %, coût) ne « dansent »
+       plus en s'incrémentant — chaque glyphe a la même largeur. */
+    font-variant-numeric: tabular-nums;
   }
 
   /* Nouveau layout absolu pour tous les cercles */
@@ -341,7 +364,7 @@ export const styles = css`
   }
 
   .daily-cost .circle svg circle.daily-cost-progress {
-    stroke: #ff0000 !important;
+    stroke: var(--pfc-cost-color) !important;
     fill: none;
     stroke-width: 4px;
     opacity: 1 !important;
@@ -643,8 +666,8 @@ export const styles = css`
   .circle svg circle {
     animation: var(--home-circle-animation);
     transition:
-      stroke-dashoffset 0.4s,
-      stroke-dasharray 0.4s;
+      stroke-dashoffset 0.4s var(--pfc-ease-spring),
+      stroke-dasharray 0.4s var(--pfc-ease-spring);
     fill: none;
   }
   span.solar {
@@ -864,55 +887,48 @@ export const styles = css`
     font-size: 10px;
   }
 
-  /* Gradient Mode */
+  /* Gradient Mode — teintes DÉRIVÉES des couleurs d'énergie du thème via
+     color-mix (au lieu de rgba() figés). Les fallbacks reproduisent à
+     l'identique l'apparence d'origine, mais un thème personnalisé est désormais
+     respecté. */
   .card-content.gradient-mode .solar .circle {
-    background: linear-gradient(135deg, rgba(255, 152, 0, 0.2) 0%, rgba(255, 152, 0, 0.05) 100%), var(--card-background-color);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--energy-solar-color, #ff9800) 20%, transparent) 0%,
+        color-mix(in srgb, var(--energy-solar-color, #ff9800) 5%, transparent) 100%
+      ),
+      var(--card-background-color);
   }
 
   .card-content.gradient-mode .battery .circle {
-    background: linear-gradient(135deg, rgba(240, 98, 146, 0.2) 0%, rgba(240, 98, 146, 0.05) 100%), var(--card-background-color);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--energy-battery-in-color, #f06292) 20%, transparent) 0%,
+        color-mix(in srgb, var(--energy-battery-in-color, #f06292) 5%, transparent) 100%
+      ),
+      var(--card-background-color);
   }
 
   .card-content.gradient-mode .grid .circle {
-    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--energy-grid-consumption-color, #488fc2) 20%, transparent) 0%,
+        color-mix(in srgb, var(--energy-grid-consumption-color, #488fc2) 5%, transparent) 100%
+      ),
+      var(--card-background-color);
   }
 
   .card-content.gradient-mode .home .circle {
-    background: linear-gradient(135deg, rgba(72, 143, 194, 0.2) 0%, rgba(72, 143, 194, 0.05) 100%), var(--card-background-color);
-  }
-
-  /* Bouton reset discret */
-  .edit-buttons-container {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    z-index: 5;
-    display: flex;
-    gap: 8px;
-  }
-
-  .reset-positions-button {
-    padding: 4px;
-    background: transparent;
-    color: var(--secondary-text-color);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 12px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    opacity: 0.3;
-  }
-
-  .reset-positions-button:hover {
-    background: rgba(255, 100, 100, 0.2);
-    color: var(--primary-text-color);
-    opacity: 1;
-    transform: scale(1.2);
+    background:
+      linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--energy-grid-consumption-color, #488fc2) 20%, transparent) 0%,
+        color-mix(in srgb, var(--energy-grid-consumption-color, #488fc2) 5%, transparent) 100%
+      ),
+      var(--card-background-color);
   }
 
   /* Les bulles sont toujours déplaçables */
@@ -922,5 +938,31 @@ export const styles = css`
 
   .circle {
     cursor: move !important;
+  }
+
+  /* Accessibilité : focus clavier visible sur les éléments interactifs (sans
+     surcharger le :hover). N'apparaît que si l'élément reçoit réellement le focus. */
+  .circle-container:focus-visible,
+  .circle:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+  }
+
+  /* Respect de prefers-reduced-motion : on coupe les animations DÉCORATIVES
+     (pulsation des bulles, glow/pulse des lignes, rotation d'entrée). Les points
+     animés des flux sont conservés car ils portent une information (sens du flux). */
+  @media (prefers-reduced-motion: reduce) {
+    .circle.pulse-animation,
+    #power-flow-lines path:not(.grey):not(.transparency):not(.no-flow),
+    #power-flow-lines path.high-power:not(.no-flow) {
+      animation: none !important;
+    }
+    .circle svg circle {
+      animation: none;
+      transition: none;
+    }
+    .reset-positions-button {
+      transition-duration: 1ms;
+    }
   }
 `;

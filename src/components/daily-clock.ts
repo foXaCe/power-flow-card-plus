@@ -88,8 +88,8 @@ export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCar
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         main.openDetails(e, undefined, data.entity);
       }}
-      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-        if (e.key === "Enter") {
+      @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+        if (e.key === "Enter" || e.key === " ") {
           main.openDetails(e, undefined, data.entity);
         }
       }}
@@ -114,7 +114,7 @@ export const dailyClockElement = (main: PowerFlowCardPlus, _config: PowerFlowCar
           y1="40"
           x2="${40 + 28 * Math.sin((hourAngle * Math.PI) / 180)}"
           y2="${40 - 28 * Math.cos((hourAngle * Math.PI) / 180)}"
-          stroke="${needleColor}"
+          style="stroke: ${needleColor};"
           stroke-width="3.5"
           stroke-linecap="round"
           opacity="1"

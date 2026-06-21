@@ -45,6 +45,9 @@ export const homeElement = (
   // Apply custom position if configured
   const customStyle = customPositionStyle(config.custom_positions?.home);
 
+  // aria-label enrichi avec la consommation courante (lu au focus uniquement).
+  const homeAriaLabel = homeUsageToDisplay ? `${home.name ?? "Home"}, ${homeUsageToDisplay}` : (home.name ?? "Home");
+
   // Safe defaults for stroke-dasharray calculations
   const safeSolar = homeSolarCircumference ?? 0;
   const safeBattery = homeBatteryCircumference ?? 0;
@@ -62,12 +65,12 @@ export const homeElement = (
       id="home-circle"
       role="button"
       tabindex="0"
-      aria-label="${home.name ?? "Home"}"
+      aria-label="${homeAriaLabel}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
       }}
-      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-        if (e.key === "Enter") {
+      @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+        if (e.key === "Enter" || e.key === " ") {
           main.openDetails(e, entities.home?.tap_action, entities.home?.entity);
         }
       }}

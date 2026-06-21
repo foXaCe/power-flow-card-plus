@@ -62,6 +62,18 @@ export const batteryElement = (
     />`;
   };
 
+  // aria-label enrichi avec l'état de charge courant (lu au focus uniquement).
+  const batterySocStr =
+    battery.state_of_charge?.state != null
+      ? displayValue(main.hass, config, battery.state_of_charge.state, {
+          unit: battery.state_of_charge.unit ?? "%",
+          unitWhiteSpace: battery.state_of_charge.unit_white_space,
+          decimals: battery.state_of_charge.decimals,
+          watt_threshold: config.watt_threshold,
+        })
+      : "";
+  const batteryAriaLabel = batterySocStr ? `${battery.name ?? "Battery"}, ${batterySocStr}` : (battery.name ?? "Battery");
+
   return html`<div
     class="circle-container battery"
     style="${customStyle}"
@@ -72,7 +84,7 @@ export const batteryElement = (
       class="circle ${isPulsing ? "pulse-animation" : ""}"
       role="button"
       tabindex="0"
-      aria-label="${battery.name ?? "Battery"}"
+      aria-label="${batteryAriaLabel}"
       @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
         const target = entities.battery?.state_of_charge!
           ? entities.battery?.state_of_charge!
@@ -81,8 +93,8 @@ export const batteryElement = (
             : entities.battery?.entity!.production;
         main.openDetails(e, entities.battery?.tap_action, target);
       }}
-      @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-        if (e.key === "Enter") {
+      @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+        if (e.key === "Enter" || e.key === " ") {
           const target = entities.battery?.state_of_charge!
             ? entities.battery?.state_of_charge!
             : typeof entities.battery!.entity === "string"
@@ -97,8 +109,8 @@ export const batteryElement = (
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
               main.openDetails(e, entities.battery?.tap_action, entities.battery?.state_of_charge!);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 main.openDetails(e, entities.battery?.tap_action, entities.battery?.state_of_charge!);
               }
             }}
@@ -120,8 +132,8 @@ export const batteryElement = (
             @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
               main.openDetails(e, entities.battery?.tap_action, entities.battery?.state_of_charge!);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 main.openDetails(e, entities.battery?.tap_action, entities.battery?.state_of_charge!);
               }
             }}
@@ -139,8 +151,8 @@ export const batteryElement = (
 
               main.openDetails(e, entities.battery?.tap_action, target);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.battery!.entity === "string" ? entities.battery!.entity! : entities.battery!.entity!.production!;
 
                 main.openDetails(e, entities.battery?.tap_action, target);
@@ -168,8 +180,8 @@ export const batteryElement = (
 
               main.openDetails(e, entities.battery?.tap_action, target);
             }}
-            @keyDown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter") {
+            @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.battery!.entity === "string" ? entities.battery!.entity! : entities.battery!.entity!.consumption!;
 
                 main.openDetails(e, entities.battery?.tap_action, target);

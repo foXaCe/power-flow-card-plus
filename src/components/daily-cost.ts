@@ -6,7 +6,7 @@ export const dailyCostElement = (main: PowerFlowCardPlus, _config: PowerFlowCard
   dailyClockElement(main, _config, {
     kind: "daily_cost",
     className: "daily-cost",
-    needleColor: "#ff0000",
+    needleColor: "var(--pfc-cost-color, #e53935)",
     dragKey: "daily_cost",
     positionKey: "daily_cost",
     data: {
