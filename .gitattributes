@@ -1,0 +1,17 @@
+# Normalize line endings to LF across all platforms
+* text=auto eol=lf
+
+# Generated / vendored files — collapse in diffs & exclude from language stats
+pnpm-lock.yaml linguist-generated=true
+dist/** linguist-generated=true
+CHANGELOG.md linguist-generated=true
+
+# Binary assets — no EOL conversion, no diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary

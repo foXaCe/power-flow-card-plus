@@ -10,9 +10,13 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   hacs:
     runs-on: "ubuntu-latest"
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: "actions/checkout@v6"

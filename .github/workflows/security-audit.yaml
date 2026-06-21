@@ -1,0 +1,112 @@
+name: Security audit
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  schedule:
+    - cron: "0 6 * * *" # daily — CVEs do not wait for Monday
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pnpm-audit:
+    name: pnpm audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=high
+
+  osv-scanner:
+    name: OSV-Scanner
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Scan dependencies
+        uses: google/osv-scanner-action@v2.3.8
+        with:
+          scan-args: |-
+            --recursive
+            --skip-git
+            ./
+
+  secret-scan:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history for retroactive secret scan
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lockfile-freshness:
+    name: Lockfile age check
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # need history to read lockfile last-commit date
+
+      - name: Check pnpm-lock.yaml age
+        run: |
+          lock=pnpm-lock.yaml
+          [ -f "$lock" ] || { echo "No lockfile found, skipping."; exit 0; }
+          AGE=$(( ( $(date +%s) - $(git log -1 --format=%ct -- "$lock") ) / 86400 ))
+          echo "$lock last refreshed $AGE days ago."
+          if [ "$AGE" -gt 90 ]; then
+            echo "::error file=$lock::$lock not refreshed for $AGE days → likely accumulated CVEs. Renovate lockFileMaintenance should handle this; run 'pnpm install' if needed."
+            exit 1
+          elif [ "$AGE" -gt 60 ]; then
+            echo "::warning file=$lock::$lock is aging ($AGE days)."
+          fi
+
+  dependency-review:
+    name: Dependency review
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ github.event_name == 'pull_request' }}
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Review dependencies
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          comment-summary-in-pr: on-failure
