@@ -140,6 +140,7 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   private _clockInterval?: number;
+  private _resizeObserver?: ResizeObserver;
   private _activeDragHandlers?: { moveHandler: (ev: MouseEvent | TouchEvent) => void; upHandler: () => void };
 
   public connectedCallback() {
@@ -170,6 +171,10 @@ export class PowerFlowCardPlus extends LitElement {
     if (this._clockInterval !== undefined) {
       clearInterval(this._clockInterval);
       this._clockInterval = undefined;
+    }
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = undefined;
     }
   }
 
@@ -806,9 +811,20 @@ export class PowerFlowCardPlus extends LitElement {
       return;
     }
 
-    const elem = this?.shadowRoot?.querySelector("#power-flow-card-plus");
-    const widthStr = elem ? getComputedStyle(elem).getPropertyValue("width") : "0px";
-    this._width = parseInt(widthStr.replace("px", ""), 10);
+    // Measure width via ResizeObserver instead of a forced layout read on every
+    // render. Set it up once, the first render at which the inner element exists.
+    if (!this._resizeObserver) {
+      const elem = this.shadowRoot?.querySelector("#power-flow-card-plus");
+      if (elem) {
+        this._resizeObserver = new ResizeObserver((entries) => {
+          const width = Math.round(entries[0]?.contentRect.width ?? 0);
+          if (width && width !== this._width) {
+            this._width = width;
+          }
+        });
+        this._resizeObserver.observe(elem);
+      }
+    }
 
     this._tryConnectAll();
     this._attachDragListeners();
