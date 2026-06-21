@@ -237,7 +237,6 @@ Ajoutez un mot-clé reconnu dans le nom de votre entité :
    ```
 
 2. **Unité de mesure**
-
    - Vérifiez que l'unité est `W` ou `kW`
    - Pour le SOC : `%`
 
@@ -323,8 +322,7 @@ sensor.envoy_production:
 
 ## 📚 Références
 
-- [Guide Configuration Enphase](./ENPHASE_CONFIG.md)
-- [Documentation Power Flow Card Plus](https://github.com/flixlix/power-flow-card-plus)
+- [Documentation Power Flow Card Plus](https://github.com/foXaCe/power-flow-card-plus)
 - [Home Assistant Device Classes](https://www.home-assistant.io/integrations/sensor/#device-class)
 
 ---
