@@ -1,3 +1,17 @@
+# pnpm 11 exige une approbation explicite des scripts de build des dépendances.
+# unrs-resolver est le resolver natif (chaîne eslint) — on autorise son build.
+allowBuilds:
+  unrs-resolver: true
+
+# pnpm 11 active par défaut une policy "minimum release age" qui rejette à
+# l'install les versions publiées trop récemment (protection anti supply-chain).
+# Sur ce repo géré par Renovate, elle casse l'install à chaque bump récent
+# (ex. lint-staged fraîchement publié). On la désactive ici : le contrôle des
+# mises à jour reste assuré par Renovate + la review des PR, et les pins de
+# sécurité ci-dessous restent en place. Pour réactiver la protection, préférer
+# `minimumReleaseAge` côté renovate.json plutôt que de bloquer l'install.
+minimumReleaseAge: 0
+
 overrides:
   handlebars: ^4.7.9
   "minimatch@<3.1.3": ^10.0.0
