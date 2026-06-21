@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`power-allocation characterization snapshots scenario A — grid consumption only 1`] = `
+{
+  "batteryIn": null,
+  "batteryOut": null,
+  "batterySoc": null,
+  "flowLineIds": [
+    "grid-home",
+  ],
+  "gridConsumption": "500 W",
+  "gridReturn": null,
+  "home": "500 W",
+  "solar": null,
+}
+`;
+
+exports[`power-allocation characterization snapshots scenario B — solar export to grid 1`] = `
+{
+  "batteryIn": null,
+  "batteryOut": null,
+  "batterySoc": null,
+  "flowLineIds": [
+    "grid-home",
+    "solar-grid",
+    "solar-home",
+  ],
+  "gridConsumption": null,
+  "gridReturn": "2 kW",
+  "home": "1 kW",
+  "solar": "3 kW",
+}
+`;
+
+exports[`power-allocation characterization snapshots scenario C — solar charging battery 1`] = `
+{
+  "batteryIn": "500 W",
+  "batteryOut": null,
+  "batterySoc": "80 %",
+  "flowLineIds": [
+    "battery-home",
+    "solar-battery",
+    "solar-home",
+  ],
+  "gridConsumption": null,
+  "gridReturn": null,
+  "home": "1.5 kW",
+  "solar": "2 kW",
+}
+`;
+
+exports[`power-allocation characterization snapshots scenario D — battery discharge + grid 1`] = `
+{
+  "batteryIn": null,
+  "batteryOut": "800 W",
+  "batterySoc": "50 %",
+  "flowLineIds": [
+    "battery-grid",
+    "battery-home",
+    "grid-home",
+  ],
+  "gridConsumption": "200 W",
+  "gridReturn": null,
+  "home": "1 kW",
+  "solar": null,
+}
+`;
+
+exports[`power-allocation characterization snapshots scenario E — grid charging battery (no solar) 1`] = `
+{
+  "batteryIn": "600 W",
+  "batteryOut": null,
+  "batterySoc": "40 %",
+  "flowLineIds": [
+    "battery-grid",
+    "battery-home",
+    "grid-home",
+  ],
+  "gridConsumption": "1 kW",
+  "gridReturn": null,
+  "home": "400 W",
+  "solar": null,
+}
+`;
+
+exports[`power-allocation characterization snapshots scenario F — power outage 1`] = `
+{
+  "batteryIn": null,
+  "batteryOut": null,
+  "batterySoc": null,
+  "flowLineIds": [
+    "grid-home",
+  ],
+  "gridConsumption": null,
+  "gridReturn": null,
+  "home": "0 W",
+  "solar": null,
+}
+`;
