@@ -207,14 +207,14 @@ All original Power Flow Card Plus features are included:
 
 ### Entities Object
 
-| Name                     | Type   | Description                                  |
-| ------------------------ | ------ | -------------------------------------------- |
-| `grid`                   | object | Grid consumption/production entity           |
-| `solar`                  | object | Solar production entity                      |
-| `battery`                | object | Battery charge/discharge and state of charge |
-| `home`                   | object | Home consumption entity                      |
-| `individual`             | array  | Individual device entities (up to 4)         |
-| `fossil_fuel_percentage` | object | Low-carbon energy percentage                 |
+| Name                     | Type   | Description                                                                                                                        |
+| ------------------------ | ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `grid`                   | object | Grid consumption/production entity                                                                                                 |
+| `solar`                  | object | Solar production entity                                                                                                            |
+| `battery`                | object | Battery charge/discharge and state of charge                                                                                       |
+| `home`                   | object | Home consumption entity                                                                                                            |
+| `individual`             | array  | Individual device entities (up to 4) — ⚠️ data only; circles not currently rendered (see [Known Limitations](#-known-limitations)) |
+| `fossil_fuel_percentage` | object | Low-carbon energy percentage                                                                                                       |
 
 ### Card Options
 
@@ -357,7 +357,7 @@ they update instead of jittering.
 
 ## ⚠️ Known Limitations
 
-- **Maximum 4 individual devices** - The card supports up to 4 individual device entities
+- **Individual devices are not currently displayed** - The `individual` config (up to 4 devices) is still accepted, and its data still feeds home accounting (e.g. `home.subtract_individual` and total-consumption math). However, the individual-device **circles are not rendered** at the moment: that rendering was disconnected during the move to the absolute-positioning / drag layout and a redesign is pending. Tracking + options in [`plans/004-individual-devices-analysis.md`](plans/004-individual-devices-analysis.md).
 - **Power values only** - The card displays instantaneous power (W/kW), not accumulated energy (kWh). For energy values, see [Energy Flow Card Plus](https://github.com/flixlix/energy-flow-card-plus)
 - **Custom positions persist in localStorage** - Position data is stored in the browser; clearing browser data resets custom positions
 - **Arrow customization partial** - Currently 3 of 7 possible arrow paths are customizable (solar-to-home, grid-to-home, solar-to-export)
