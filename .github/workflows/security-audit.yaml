@@ -34,7 +34,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: "pnpm"
+          # No `cache: pnpm` here: this job never runs `pnpm install`
+          # (run_install: false + only `pnpm audit`), so the pnpm store is never
+          # created and setup-node@v6's cache-save post-step fails with
+          # "cache path does not exist". `pnpm audit` only reads the lockfile.
 
       - name: Audit production dependencies
         run: pnpm audit --prod --audit-level=high
