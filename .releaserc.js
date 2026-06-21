@@ -18,12 +18,12 @@ module.exports = {
       },
     ],
     ["@semantic-release/npm", { npmPublish: false }],
-    [
-      "@semantic-release/git",
-      {
-        assets: ["CHANGELOG.md", "README.md", "package.json", "pnpm-lock.yaml"],
-      },
-    ],
+    // NOTE: @semantic-release/git a été retiré. Il committait le bump de version
+    // + changelog directement sur `main`, ce que la protection de branche
+    // (status checks requis) rejette pour le bot de release. La version vit donc
+    // dans le tag git + la GitHub Release (source de vérité pour HACS) plutôt
+    // que dans package.json/CHANGELOG.md. Pour réactiver le commit-back, donner
+    // un PAT avec bypass de la branch protection au workflow Release.
     [
       "@semantic-release/github",
       {
