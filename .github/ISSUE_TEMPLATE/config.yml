@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions & Support
+    url: https://github.com/foXaCe/power-flow-card-plus/discussions
+    about: For installation or usage questions, please use Discussions instead of the issue tracker.
+  - name: 🏠 Home Assistant Community
+    url: https://community.home-assistant.io/
+    about: For general Home Assistant questions, please use the community forum.
+  - name: 📦 HACS
+    url: https://hacs.xyz/
+    about: For HACS-related issues.

@@ -1,1 +1,9 @@
 pnpm exec lint-staged
+
+# Hooks d'hygiène via prek (drop-in Rust de pre-commit). Avancé si installé ;
+# la CI (workflow pre-commit) les vérifie de toute façon.
+if command -v prek >/dev/null 2>&1; then
+  prek run
+else
+  echo "ℹ prek non installé — hooks d'hygiène ignorés en local (pipx install prek). La CI les vérifie."
+fi

@@ -1,0 +1,83 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommits", ":semanticCommitTypeAll(chore)", ":dependencyDashboard", "schedule:nonOfficeHours"],
+  "timezone": "Europe/Paris",
+  "forkProcessing": "enabled",
+  "labels": ["dependencies"],
+  "reviewers": ["foXaCe"],
+  "assignees": ["foXaCe"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 4,
+  "rangeStrategy": "auto",
+  "rebaseWhen": "auto",
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "dependencyDashboardTitle": "📦 Renovate Dependency Dashboard",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"],
+    "automerge": true
+  },
+  "vulnerabilityAlerts": {
+    "labels": ["security", "dependencies"],
+    "minimumReleaseAge": null,
+    "schedule": ["at any time"]
+  },
+  "packageRules": [
+    {
+      "description": "Auto-merge low-risk updates once CI is green",
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "automerge": true,
+      "platformAutomerge": true,
+      "addLabels": ["auto-merge"]
+    },
+    {
+      "description": "Review majors manually with a buffer",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "addLabels": ["major", "needs-review"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "addLabels": ["ci"],
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
+      "description": "npm packages",
+      "matchManagers": ["npm"],
+      "addLabels": ["javascript"]
+    },
+    {
+      "description": "Auto-merge dev dependency minor/patch",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    { "matchPackageNames": ["/^@babel\\//"], "groupName": "babel" },
+    { "matchPackageNames": ["/^@rollup\\//", "/^rollup/"], "groupName": "rollup" },
+    {
+      "matchPackageNames": ["/eslint/", "/^@typescript-eslint\\//", "globals"],
+      "groupName": "eslint"
+    },
+    {
+      "matchPackageNames": ["/^@semantic-release\\//", "/^semantic-release/", "conventional-changelog-conventionalcommits"],
+      "groupName": "semantic-release"
+    },
+    {
+      "description": "lit is core runtime — review manually",
+      "matchPackageNames": ["/^lit$/", "/^@lit\\//"],
+      "groupName": "lit",
+      "automerge": false,
+      "addLabels": ["needs-review"]
+    },
+    {
+      "matchPackageNames": ["/jest/", "ts-jest", "babel-jest"],
+      "groupName": "jest"
+    }
+  ],
+  "ignorePaths": ["**/node_modules/**", "**/dist/**", "**/coverage/**"]
+}
