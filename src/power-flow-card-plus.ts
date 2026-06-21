@@ -143,6 +143,28 @@ export class PowerFlowCardPlus extends LitElement {
   private _resizeObserver?: ResizeObserver;
   private _activeDragHandlers?: { moveHandler: (ev: MouseEvent | TouchEvent) => void; upHandler: () => void };
 
+  private _refEntities?: Set<string>;
+  private _refEntitiesKey?: PowerFlowCardPlusConfig;
+
+  private _referencedEntityIds(): Set<string> {
+    if (this._refEntities && this._refEntitiesKey === this._config) return this._refEntities;
+    const ids = new Set<string>();
+    const ENTITY_RE = /^[a-z_]+\.[a-z0-9_]+$/;
+    const walk = (value: unknown): void => {
+      if (typeof value === "string") {
+        if (ENTITY_RE.test(value)) ids.add(value);
+      } else if (Array.isArray(value)) {
+        value.forEach(walk);
+      } else if (value && typeof value === "object") {
+        Object.values(value).forEach(walk);
+      }
+    };
+    walk(this._config);
+    this._refEntities = ids;
+    this._refEntitiesKey = this._config;
+    return ids;
+  }
+
   public connectedCallback() {
     super.connectedCallback();
     this._tryConnectAll();
@@ -189,7 +211,12 @@ export class PowerFlowCardPlus extends LitElement {
       return true;
     }
     if (!changed.has("hass")) return false;
-    return true;
+    const oldHass = changed.get("hass") as HomeAssistant | undefined;
+    if (!oldHass || !this._config?.entities) return true;
+    for (const id of this._referencedEntityIds()) {
+      if (oldHass.states[id] !== this.hass.states[id]) return true;
+    }
+    return false;
   }
 
   // Visual editor (chargé à la demande pour ne pas alourdir le bundle initial).
