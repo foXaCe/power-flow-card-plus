@@ -11,7 +11,7 @@ overrides:
   brace-expansion@<1.1.13: ^5.0.0
   brace-expansion@>=2.0.0 <2.0.3: ^5.0.0
   flatted: ^3.4.2
-  js-yaml: ^4.2.0
+  js-yaml: ^5.0.0
   lodash: ^4.18.1
   lodash-es: ^4.18.1
   picomatch: ^4.0.0
@@ -2887,8 +2887,8 @@ packages:
   js-tokens@4.0.0:
     resolution: { integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ== }
 
-  js-yaml@4.2.0:
-    resolution: { integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw== }
+  js-yaml@5.2.0:
+    resolution: { integrity: sha512-YeLUMlvR4Ou1B119LIaM0r65JvbOBooJDc9yEu0dClb/uSC5P4FrLU8OCCz/HXWvtPoIrR0dRzABTjo1sTN9Bw== }
     hasBin: true
 
   jsdom@26.1.0:
@@ -5136,7 +5136,7 @@ snapshots:
       camelcase: 5.3.1
       find-up: 4.1.0
       get-package-type: 0.1.0
-      js-yaml: 4.2.0
+      js-yaml: 5.2.0
       resolve-from: 5.0.0
 
   "@istanbuljs/schema@0.1.6": {}
@@ -6336,7 +6336,7 @@ snapshots:
     dependencies:
       env-paths: 2.2.1
       import-fresh: 3.3.1
-      js-yaml: 4.2.0
+      js-yaml: 5.2.0
       parse-json: 5.2.0
     optionalDependencies:
       typescript: 6.0.3
@@ -7372,7 +7372,7 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@4.2.0:
+  js-yaml@5.2.0:
     dependencies:
       argparse: 2.0.1
 
