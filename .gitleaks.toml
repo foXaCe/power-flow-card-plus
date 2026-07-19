@@ -1,0 +1,24 @@
+# Gitleaks configuration — https://github.com/gitleaks/gitleaks#configuration
+#
+# The daily "Security audit" workflow runs gitleaks over the FULL git history
+# (git log -p --full-history --all), so it re-scans four upstream commits from
+# 2024 — 14dbe31, 34120b1, 0790c73, 0cfc395 — that briefly committed a throwaway
+# Home Assistant test instance's runtime state under config/.storage/ before
+# removing it again.
+#
+# Those files (auth, auth_provider.homeassistant) hold a local "test" user's
+# bcrypt password hash and a per-install JWT signing key / refresh tokens for a
+# dev HA instance that no longer exists and never belonged to this fork. They are
+# dead, non-production credentials with nothing to rotate, but the generic-api-key
+# rule flags them on every scheduled run. config/.storage/ is Home Assistant
+# runtime state and must never hold a real repository secret, so we allowlist the
+# whole path. It is not tracked in the current tree and .gitignore keeps it out.
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Home Assistant test-instance runtime state (config/.storage/) committed upstream in 2024 and since removed"
+paths = [
+  '''config/\.storage/''',
+]
