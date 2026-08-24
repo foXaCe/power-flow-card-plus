@@ -60,16 +60,18 @@ export const solarElement = (
     >
       ${generalSecondarySpan(main.hass, main, config, templatesObj, solar, "solar")}
       ${solar.icon !== " " ? html` <ha-icon id="solar-icon" .icon=${solar.icon} />` : null}
-      ${(solar.state.total || 0) > 0
-        ? html` <span class="solar">
-            ${displayValue(main.hass, config, solar.state.total, {
+      ${
+        (solar.state.total || 0) > 0
+          ? html` <span class="solar">
+              ${displayValue(main.hass, config, solar.state.total, {
               unit: solar.state.unit,
               unitWhiteSpace: solar.state.unit_white_space,
               decimals: solar.state.decimals,
               watt_threshold: config.watt_threshold,
             })}
-          </span>`
-        : ""}
+            </span>`
+          : ""
+      }
     </div>
   </div>`;
 };

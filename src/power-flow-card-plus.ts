@@ -770,45 +770,50 @@ export class PowerFlowCardPlus extends LitElement {
         style=${this._config.style_ha_card ? this._config.style_ha_card : ""}
       >
         <div
-          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${this._config
-            .circle_gradient_mode
-            ? "gradient-mode"
-            : ""}"
+          class="card-content ${this._config.full_size ? "full-size" : ""} ${this._config.compact_mode ? "compact-mode" : ""} ${
+            this._config.circle_gradient_mode ? "gradient-mode" : ""
+          }"
           id="power-flow-card-plus"
-          style="${this._config.style_card_content || ""}${this._config.circle_border_width
-            ? `--circle-border-width: ${this._config.circle_border_width}px;`
-            : ""}"
+          style="${this._config.style_card_content || ""}${
+            this._config.circle_border_width ? `--circle-border-width: ${this._config.circle_border_width}px;` : ""
+          }"
         >
-          ${solar.has
-            ? solarElement(this, effectiveConfig, {
-                entities,
-                solar,
-                templatesObj,
-              })
-            : ""}
-          ${grid.has
-            ? gridElement(this, effectiveConfig, {
-                entities,
-                grid,
-                templatesObj,
-              })
-            : ""}
-          ${!entities.home?.hide
-            ? homeElement(this, effectiveConfig, {
-                circleCircumference,
-                entities,
-                grid,
-                home,
-                homeBatteryCircumference,
-                homeGridCircumference,
-                homeNonFossilCircumference,
-                homeSolarCircumference,
-                newDur,
-                templatesObj,
-                homeUsageToDisplay,
-                individual: individualObjs,
-              })
-            : ""}
+          ${
+            solar.has
+              ? solarElement(this, effectiveConfig, {
+                  entities,
+                  solar,
+                  templatesObj,
+                })
+              : ""
+          }
+          ${
+            grid.has
+              ? gridElement(this, effectiveConfig, {
+                  entities,
+                  grid,
+                  templatesObj,
+                })
+              : ""
+          }
+          ${
+            !entities.home?.hide
+              ? homeElement(this, effectiveConfig, {
+                  circleCircumference,
+                  entities,
+                  grid,
+                  home,
+                  homeBatteryCircumference,
+                  homeGridCircumference,
+                  homeNonFossilCircumference,
+                  homeSolarCircumference,
+                  newDur,
+                  templatesObj,
+                  homeUsageToDisplay,
+                  individual: individualObjs,
+                })
+              : ""
+          }
           ${battery.has ? batteryElement(this, effectiveConfig, { battery, entities, solar, grid }) : ""}
           ${dailyCost.enabled ? dailyCostElement(this, effectiveConfig, { dailyCost }) : ""}
           ${flowElement(this, this._config, {

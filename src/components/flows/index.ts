@@ -223,119 +223,135 @@ export const flowElement = (
           <animateTransform attributeName="gradientTransform" type="translate" values="0 0; 1 0" dur="2s" repeatCount="indefinite" />
         </linearGradient>
       </defs>
-      ${solar.has && !config.entities.home?.hide
-        ? createLine(
-            main,
-            config,
-            "solar",
-            "home",
-            "solar-home",
-            "solar",
-            solar.state.toHome || 0,
-            !!solar.state.toHome,
-            newDur.solarToHome,
-            "solar_to_home"
-          )
-        : ""}
-      ${grid.hasReturnToGrid && solar.has
-        ? createLine(
-            main,
-            config,
-            "solar",
-            "grid",
-            "solar-grid",
-            "return",
-            solar.state.toGrid || 0,
-            !!solar.state.toGrid,
-            newDur.solarToGrid,
-            "solar_to_grid"
-          )
-        : ""}
-      ${dailyExport?.enabled && solar.has
-        ? createLine(
-            main,
-            config,
-            "solar",
-            "daily-export",
-            "solar-daily-export",
-            "solar",
-            dailyExport.energy || 0,
-            !!dailyExport.energy,
-            newDur.solarToGrid,
-            "solar_to_grid"
-          )
-        : ""}
-      ${battery.has && solar.has
-        ? createLine(
-            main,
-            config,
-            "solar",
-            "battery",
-            "solar-battery",
-            "solar",
-            solar.state.toBattery || 0,
-            !!solar.state.toBattery,
-            newDur.solarToBattery,
-            "solar_to_battery"
-          )
-        : ""}
-      ${grid.has && !config.entities.home?.hide
-        ? createLine(
-            main,
-            config,
-            "grid",
-            "home",
-            "grid-home",
-            "grid",
-            grid.state.toHome || 0,
-            !!grid.state.toHome,
-            newDur.gridToHome,
-            "grid_to_home"
-          )
-        : ""}
-      ${dailyCost?.enabled && grid.has
-        ? createLine(
-            main,
-            config,
-            "grid",
-            "daily-cost",
-            "grid-daily-cost",
-            "grid",
-            dailyCost.totalCost || 0,
-            !!dailyCost.totalCost,
-            newDur.gridToHome,
-            "grid_to_home"
-          )
-        : ""}
-      ${battery.has && !config.entities.home?.hide
-        ? createLine(
-            main,
-            config,
-            "battery",
-            "home",
-            "battery-home",
-            "battery-home",
-            battery.state.toHome || 0,
-            !!battery.state.toHome,
-            newDur.batteryToHome,
-            "battery_to_home"
-          )
-        : ""}
-      ${grid.has && battery.has
-        ? createLine(
-            main,
-            config,
-            "grid",
-            "battery",
-            "battery-grid",
-            grid.state.toBattery ? "battery-from-grid" : "battery-to-grid",
-            Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0),
-            !!(grid.state.toBattery || battery.state.toGrid),
-            newDur.batteryGrid,
-            "grid_to_battery",
-            !!battery.state.toGrid
-          )
-        : ""}
+      ${
+        solar.has && !config.entities.home?.hide
+          ? createLine(
+              main,
+              config,
+              "solar",
+              "home",
+              "solar-home",
+              "solar",
+              solar.state.toHome || 0,
+              !!solar.state.toHome,
+              newDur.solarToHome,
+              "solar_to_home"
+            )
+          : ""
+      }
+      ${
+        grid.hasReturnToGrid && solar.has
+          ? createLine(
+              main,
+              config,
+              "solar",
+              "grid",
+              "solar-grid",
+              "return",
+              solar.state.toGrid || 0,
+              !!solar.state.toGrid,
+              newDur.solarToGrid,
+              "solar_to_grid"
+            )
+          : ""
+      }
+      ${
+        dailyExport?.enabled && solar.has
+          ? createLine(
+              main,
+              config,
+              "solar",
+              "daily-export",
+              "solar-daily-export",
+              "solar",
+              dailyExport.energy || 0,
+              !!dailyExport.energy,
+              newDur.solarToGrid,
+              "solar_to_grid"
+            )
+          : ""
+      }
+      ${
+        battery.has && solar.has
+          ? createLine(
+              main,
+              config,
+              "solar",
+              "battery",
+              "solar-battery",
+              "solar",
+              solar.state.toBattery || 0,
+              !!solar.state.toBattery,
+              newDur.solarToBattery,
+              "solar_to_battery"
+            )
+          : ""
+      }
+      ${
+        grid.has && !config.entities.home?.hide
+          ? createLine(
+              main,
+              config,
+              "grid",
+              "home",
+              "grid-home",
+              "grid",
+              grid.state.toHome || 0,
+              !!grid.state.toHome,
+              newDur.gridToHome,
+              "grid_to_home"
+            )
+          : ""
+      }
+      ${
+        dailyCost?.enabled && grid.has
+          ? createLine(
+              main,
+              config,
+              "grid",
+              "daily-cost",
+              "grid-daily-cost",
+              "grid",
+              dailyCost.totalCost || 0,
+              !!dailyCost.totalCost,
+              newDur.gridToHome,
+              "grid_to_home"
+            )
+          : ""
+      }
+      ${
+        battery.has && !config.entities.home?.hide
+          ? createLine(
+              main,
+              config,
+              "battery",
+              "home",
+              "battery-home",
+              "battery-home",
+              battery.state.toHome || 0,
+              !!battery.state.toHome,
+              newDur.batteryToHome,
+              "battery_to_home"
+            )
+          : ""
+      }
+      ${
+        grid.has && battery.has
+          ? createLine(
+              main,
+              config,
+              "grid",
+              "battery",
+              "battery-grid",
+              grid.state.toBattery ? "battery-from-grid" : "battery-to-grid",
+              Math.max(grid.state.toBattery || 0, battery.state.toGrid || 0),
+              !!(grid.state.toBattery || battery.state.toGrid),
+              newDur.batteryGrid,
+              "grid_to_battery",
+              !!battery.state.toGrid
+            )
+          : ""
+      }
       ${selfSufficiencyLine(main, config)}
     </svg>
   `;
