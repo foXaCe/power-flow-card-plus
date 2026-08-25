@@ -55,15 +55,9 @@ export default [
       "import-x/extensions": "off",
       "import-x/no-extraneous-dependencies": "off",
       "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": [
-        "error",
-        { functions: false, typedefs: false, ignoreTypeReferences: true },
-      ],
+      "@typescript-eslint/no-use-before-define": ["error", { functions: false, typedefs: false, ignoreTypeReferences: true }],
       "lines-between-class-members": "off",
-      "no-console": [
-        "warn",
-        { allow: ["warn", "error", "groupCollapsed", "groupEnd", "log"] },
-      ],
+      "no-console": ["warn", { allow: ["warn", "error", "groupCollapsed", "groupEnd", "log"] }],
       "no-debugger": "warn",
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/no-explicit-any": "off",

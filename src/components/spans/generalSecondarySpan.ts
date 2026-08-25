@@ -27,20 +27,22 @@ export const generalSecondarySpan = (
   },
   key: string
 ) =>
-  html` ${field?.secondary?.has || field?.secondary?.template
-    ? html` ${baseSecondarySpan({
-        main,
-        className: key,
-        entityId: field.secondary.entity,
-        icon: field.secondary.icon,
-        value: displayValue(hass, config, field.secondary.state, {
-          unit: field.secondary.unit,
-          unitWhiteSpace: field.secondary.unit_white_space,
-          decimals: field.secondary.decimals,
-          accept_negative: field.secondary.accept_negative,
-          watt_threshold: config.watt_threshold,
-        }),
-        tap_action: field.secondary.tap_action,
-        template: templatesObj[`${key}Secondary`] as string | undefined,
-      })}`
-    : ""}`;
+  html` ${
+    field?.secondary?.has || field?.secondary?.template
+      ? html` ${baseSecondarySpan({
+          main,
+          className: key,
+          entityId: field.secondary.entity,
+          icon: field.secondary.icon,
+          value: displayValue(hass, config, field.secondary.state, {
+            unit: field.secondary.unit,
+            unitWhiteSpace: field.secondary.unit_white_space,
+            decimals: field.secondary.decimals,
+            accept_negative: field.secondary.accept_negative,
+            watt_threshold: config.watt_threshold,
+          }),
+          tap_action: field.secondary.tap_action,
+          template: templatesObj[`${key}Secondary`] as string | undefined,
+        })}`
+      : ""
+  }`;

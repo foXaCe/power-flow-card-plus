@@ -78,8 +78,9 @@ export const homeElement = (
       ${generalSecondarySpan(main.hass, main, config, templatesObj, home, "home")}
       ${home.icon !== " " ? html`<ha-icon id="home-icon" .icon=${home.icon} />` : null} ${homeUsageToDisplay}
       <svg class="home-circle-sections">
-        ${homeSolarCircumference !== undefined
-          ? svg`<circle
+        ${
+          homeSolarCircumference !== undefined
+            ? svg`<circle
                 class="solar"
                 cx="40"
                 cy="40"
@@ -88,9 +89,11 @@ export const homeElement = (
                 shape-rendering="geometricPrecision"
                 stroke-dashoffset="-${circleCircumference - homeSolarCircumference}"
               />`
-          : ""}
-        ${homeBatteryCircumference
-          ? svg`<circle
+            : ""
+        }
+        ${
+          homeBatteryCircumference
+            ? svg`<circle
                 class="battery"
                 cx="40"
                 cy="40"
@@ -99,9 +102,11 @@ export const homeElement = (
                 stroke-dashoffset="-${circleCircumference - homeBatteryCircumference - (homeSolarCircumference || 0)}"
                 shape-rendering="geometricPrecision"
               />`
-          : ""}
-        ${homeNonFossilCircumference !== undefined
-          ? svg`<circle
+            : ""
+        }
+        ${
+          homeNonFossilCircumference !== undefined
+            ? svg`<circle
                 class="low-carbon"
                 cx="40"
                 cy="40"
@@ -112,7 +117,8 @@ export const homeElement = (
                 }"
                 shape-rendering="geometricPrecision"
               />`
-          : ""}
+            : ""
+        }
         <circle class="grid" cx="40" cy="40" r="38" stroke-dasharray="${dashArray}" stroke-dashoffset="0" shape-rendering="geometricPrecision" />
       </svg>
     </div>
