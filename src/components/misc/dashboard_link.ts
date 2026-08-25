@@ -23,8 +23,9 @@ export const dashboardLinkElement = (config: PowerFlowCardPlusConfig, hass: Home
                   <a href=${config.second_dashboard_link}
                     ><mwc-button>
                       ${
-                      config.second_dashboard_link_label || hass.localize("ui.panel.lovelace.cards.energy.energy_distribution.go_to_energy_dashboard")
-                    }
+                        config.second_dashboard_link_label ||
+                        hass.localize("ui.panel.lovelace.cards.energy.energy_distribution.go_to_energy_dashboard")
+                      }
                     </mwc-button></a
                   >
                 `

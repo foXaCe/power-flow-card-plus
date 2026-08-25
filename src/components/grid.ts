@@ -123,24 +123,24 @@ export const gridElement = (
           ? html`<span
               class="return"
               @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
-              const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.production!;
-              main.openDetails(e, entities.grid?.tap_action, target);
-            }}
-              @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.production!;
                 main.openDetails(e, entities.grid?.tap_action, target);
-              }
-            }}
+              }}
+              @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.production!;
+                  main.openDetails(e, entities.grid?.tap_action, target);
+                }
+              }}
             >
               <ha-icon class="small" .icon=${"mdi:arrow-left"}></ha-icon>
 
               ${displayValue(main.hass, config, grid.state.toGrid, {
-              unit: grid.unit,
-              unitWhiteSpace: grid.unit_white_space,
-              decimals: grid.decimals,
-              watt_threshold: config.watt_threshold,
-            })}
+                unit: grid.unit,
+                unitWhiteSpace: grid.unit_white_space,
+                decimals: grid.decimals,
+                watt_threshold: config.watt_threshold,
+              })}
             </span>`
           : null
       }
@@ -156,23 +156,23 @@ export const gridElement = (
           ? html` <span
               class="consumption"
               @click=${(e: { stopPropagation: () => void; target: HTMLElement }) => {
-              const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.consumption!;
-              main.openDetails(e, entities.grid?.tap_action, target);
-            }}
-              @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
-              if (e.key === "Enter" || e.key === " ") {
                 const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.consumption!;
                 main.openDetails(e, entities.grid?.tap_action, target);
-              }
-            }}
+              }}
+              @keydown=${(e: { key: string; stopPropagation: () => void; target: HTMLElement }) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  const target = typeof entities.grid!.entity === "string" ? entities.grid!.entity : entities.grid!.entity.consumption!;
+                  main.openDetails(e, entities.grid?.tap_action, target);
+                }
+              }}
             >
               <ha-icon class="small" .icon=${"mdi:arrow-right"}></ha-icon>
               ${displayValue(main.hass, config, grid.state.fromGrid, {
-              unit: grid.unit,
-              unitWhiteSpace: grid.unit_white_space,
-              decimals: grid.decimals,
-              watt_threshold: config.watt_threshold,
-            })}
+                unit: grid.unit,
+                unitWhiteSpace: grid.unit_white_space,
+                decimals: grid.decimals,
+                watt_threshold: config.watt_threshold,
+              })}
             </span>`
           : ""
       }

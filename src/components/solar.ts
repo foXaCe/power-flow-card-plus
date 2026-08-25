@@ -64,11 +64,11 @@ export const solarElement = (
         (solar.state.total || 0) > 0
           ? html` <span class="solar">
               ${displayValue(main.hass, config, solar.state.total, {
-              unit: solar.state.unit,
-              unitWhiteSpace: solar.state.unit_white_space,
-              decimals: solar.state.decimals,
-              watt_threshold: config.watt_threshold,
-            })}
+                unit: solar.state.unit,
+                unitWhiteSpace: solar.state.unit_white_space,
+                decimals: solar.state.decimals,
+                watt_threshold: config.watt_threshold,
+              })}
             </span>`
           : ""
       }
