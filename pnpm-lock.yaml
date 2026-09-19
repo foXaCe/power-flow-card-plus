@@ -142,8 +142,8 @@ importers:
         specifier: ^17.0.8
         version: 17.5.1
       prettier:
-        specifier: 3.9.6
-        version: 3.9.6
+        specifier: 3.9.7
+        version: 3.9.7
       rollup:
         specifier: ^4.62.2
         version: 4.63.3
@@ -1565,9 +1565,6 @@ packages:
 
   "@types/json-schema@7.0.15":
     resolution: { integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA== }
-
-  "@types/node@25.9.6":
-    resolution: { integrity: sha512-JR6Q/PV5DKFvjrGFVqQJdeG0qvsqQQLDa3TzFrqVwhqRXqwNaxPo2KYCtCQXpOdIulCouKwT7a6in9nFthBAzw== }
 
   "@types/node@25.9.7":
     resolution: { integrity: sha512-Y+axoNWOFLvDNFxNbDA+kqqV05imHwTu5bZWWO6tQM3Y2NX1jvzUJkYlf4nYnMCnvu4wQBKW6Nr+ok6yHWA9aQ== }
@@ -3505,8 +3502,8 @@ packages:
     resolution: { integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g== }
     engines: { node: ">= 0.8.0" }
 
-  prettier@3.9.6:
-    resolution: { integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g== }
+  prettier@3.9.7:
+    resolution: { integrity: sha512-T3mF5P7HFzZVLDQuCUNtJj6WK1pcpLMweMNUVwGb01bLNkH9AkKxtZvmInw8K6bnn2O3d6/5RHl6zSHiBAD0Og== }
     engines: { node: ">=14" }
     hasBin: true
 
@@ -5375,7 +5372,7 @@ snapshots:
 
   "@jest/pattern@30.4.0":
     dependencies:
-      "@types/node": 25.9.6
+      "@types/node": 25.9.7
       jest-regex-util: 30.4.0
 
   "@jest/reporters@30.4.1(supports-color@8.1.1)":
@@ -5462,7 +5459,7 @@ snapshots:
       "@jest/schemas": 30.4.1
       "@types/istanbul-lib-coverage": 2.0.6
       "@types/istanbul-reports": 3.0.4
-      "@types/node": 25.9.6
+      "@types/node": 25.9.7
       "@types/yargs": 17.0.35
       chalk: 4.1.2
 
@@ -5936,10 +5933,6 @@ snapshots:
   "@types/jsesc@2.5.1": {}
 
   "@types/json-schema@7.0.15": {}
-
-  "@types/node@25.9.6":
-    dependencies:
-      undici-types: 7.24.6
 
   "@types/node@25.9.7":
     dependencies:
@@ -7331,7 +7324,7 @@ snapshots:
   jest-haste-map@30.4.1:
     dependencies:
       "@jest/types": 30.4.1
-      "@types/node": 25.9.6
+      "@types/node": 25.9.7
       anymatch: 3.1.3
       fb-watchman: 2.0.2
       graceful-fs: 4.2.11
@@ -7481,7 +7474,7 @@ snapshots:
   jest-util@30.4.1:
     dependencies:
       "@jest/types": 30.4.1
-      "@types/node": 25.9.6
+      "@types/node": 25.9.7
       chalk: 4.1.2
       ci-info: 4.4.0
       graceful-fs: 4.2.11
@@ -7509,7 +7502,7 @@ snapshots:
 
   jest-worker@30.4.1:
     dependencies:
-      "@types/node": 25.9.6
+      "@types/node": 25.9.7
       "@ungap/structured-clone": 1.3.3
       jest-util: 30.4.1
       merge-stream: 2.0.0
@@ -7982,7 +7975,7 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.9.6: {}
+  prettier@3.9.7: {}
 
   pretty-format@30.4.1:
     dependencies:
