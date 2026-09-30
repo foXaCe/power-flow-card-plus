@@ -1,5 +1,6 @@
 allowBuilds:
   unrs-resolver: true
+  '@parcel/watcher': true
 
 # pnpm 11 active par défaut une policy "minimum release age" qui rejette à
 # l'install les versions publiées trop récemment (protection anti supply-chain).

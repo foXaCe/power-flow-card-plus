@@ -25,6 +25,12 @@
   },
   "packageRules": [
     {
+      "description": "Pause majors: typescript-eslint n'a pas de version compatible TS7",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
       "description": "Auto-merge low-risk updates once CI is green",
       "matchUpdateTypes": ["patch", "pin", "digest"],
       "automerge": true,
@@ -66,8 +72,14 @@
       "platformAutomerge": true,
       "addLabels": ["auto-merge"]
     },
-    { "matchPackageNames": ["/^@babel\\//"], "groupName": "babel" },
-    { "matchPackageNames": ["/^@rollup\\//", "/^rollup/"], "groupName": "rollup" },
+    {
+      "matchPackageNames": ["/^@babel\\//"],
+      "groupName": "babel"
+    },
+    {
+      "matchPackageNames": ["/^@rollup\\//", "/^rollup/"],
+      "groupName": "rollup"
+    },
     {
       "matchPackageNames": ["/eslint/", "/^@typescript-eslint\\//", "globals"],
       "groupName": "eslint"
