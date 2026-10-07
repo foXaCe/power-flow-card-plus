@@ -204,11 +204,11 @@ importers:
         specifier: ^8.0.0
         version: 8.0.6
       "@babel/eslint-parser":
-        specifier: ^7.29.7
-        version: 7.29.9(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))
+        specifier: ^8.0.0
+        version: 8.0.6(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))
       "@babel/eslint-plugin":
         specifier: ^8.0.0
-        version: 8.0.6(@babel/core@8.0.6)(@babel/eslint-parser@7.29.9(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1)))(eslint@10.12.0(supports-color@8.1.1))
+        version: 8.0.6(@babel/core@8.0.6)(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1)))(eslint@10.12.0(supports-color@8.1.1))
       "@babel/preset-env":
         specifier: ^8.0.0
         version: 8.0.6(@babel/core@8.0.6)
@@ -361,12 +361,12 @@ packages:
     resolution: { integrity: sha512-5zwYt1V4ji3mXKKRIAkohSJ29WepxNwxQi+7y7P5AcVPh1dcxnZBU2cfxHnPwS+u9+lZnXPsv30TQaF2xg+Tfg== }
     engines: { node: ^22.18.0 || >=24.11.0 }
 
-  "@babel/eslint-parser@7.29.9":
-    resolution: { integrity: sha512-GmrJTAtiRbNip+eKFqeuSvoHMJhKlH36j8U0yE3Gqn45B+SIO7NvsEiHtsmzkBqV1hLSMqYr41dI1aZLTkJ37g== }
-    engines: { node: ^10.13.0 || ^12.13.0 || >=14.0.0 }
+  "@babel/eslint-parser@8.0.6":
+    resolution: { integrity: sha512-mXx93HLovamLnDDLQ4i48gm4HHtaoqJrbMAuJqrMfpCGJkJ5M4sXhRgKGTrxykg1P8tAN5myrJxsRZuMuTq+OQ== }
+    engines: { node: ^22.18.0 || >=24.11.0 }
     peerDependencies:
-      "@babel/core": ^7.11.0
-      eslint: ^7.5.0 || ^8.0.0 || ^9.0.0
+      "@babel/core": ^8.0.0
+      eslint: ^9.0.0 || ^10.0.0
 
   "@babel/eslint-plugin@8.0.6":
     resolution: { integrity: sha512-KvFOhhufmQmKYDVe5qv6CDFo4n8jHjFMIKp1+mOnKqSSMMiEO+XZOvcWEbss46MbCljAY8OWV1xIpD0Cfy3zng== }
@@ -1259,9 +1259,6 @@ packages:
     peerDependencies:
       "@emnapi/core": ^1.7.1 || ^2.0.0-alpha.4
       "@emnapi/runtime": ^1.7.1 || ^2.0.0-alpha.4
-
-  "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
-    resolution: { integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg== }
 
   "@octokit/auth-token@6.0.0":
     resolution: { integrity: sha512-P4YJBPdPSpWTQ1NU4XYdvHvXJJDxM6YwpS0FZHRgP7YFkdVxsWcpWGy/NVqlAA7PcPCnMacXlRm1y2PFZRWL/w== }
@@ -2535,17 +2532,9 @@ packages:
     resolution: { integrity: sha512-F0j1Twve3lamL3J0rRSVAynlp58sDPG39JFcQrM+u9Na7PmCgiPHNODh6YE9mduaGcsn3NBqbf6LZRj0cLr8Ng== }
     engines: { node: ">=10" }
 
-  eslint-scope@5.1.1:
-    resolution: { integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw== }
-    engines: { node: ">=8.0.0" }
-
   eslint-scope@9.1.2:
     resolution: { integrity: sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ== }
     engines: { node: ^20.19.0 || ^22.13.0 || >=24 }
-
-  eslint-visitor-keys@2.1.0:
-    resolution: { integrity: sha512-0rSmRBzXgDzIsD6mGdJgevzgezI534Cer5L/vyMX0kHzT/jiB43jRhd9YUlMGYLQy2zprNmoT8qasCGtY+QaKw== }
-    engines: { node: ">=10" }
 
   eslint-visitor-keys@3.4.3:
     resolution: { integrity: sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag== }
@@ -2575,10 +2564,6 @@ packages:
 
   esrecurse@4.3.0:
     resolution: { integrity: sha512-KmfKL3b6G+RXvP8N1vr3Tq1kL/oCFgn2NYXEtqP8/L3pKapUA4G8cFVaoF3SU323CD4XypR/ffioHmkti6/Tag== }
-    engines: { node: ">=4.0" }
-
-  estraverse@4.3.0:
-    resolution: { integrity: sha512-39nnKffWz8xN1BU/2c79n9nB9HDzo0niYUqx6xyqUnyoAnQyyWpOTdZEeiCch8BBu515t4wp9ZmgVfVhn9EBpw== }
     engines: { node: ">=4.0" }
 
   estraverse@5.3.0:
@@ -4452,18 +4437,18 @@ snapshots:
       obug: 2.2.1
       verkit: 0.3.2
 
-  "@babel/eslint-parser@7.29.9(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))":
+  "@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))":
     dependencies:
       "@babel/core": 8.0.6
-      "@nicolo-ribaudo/eslint-scope-5-internals": 5.1.1-v1
       eslint: 10.12.0(supports-color@8.1.1)
-      eslint-visitor-keys: 2.1.0
-      semver: 6.3.1
+      eslint-scope: 9.1.2
+      eslint-visitor-keys: 5.0.1
+      verkit: 0.3.2
 
-  "@babel/eslint-plugin@8.0.6(@babel/core@8.0.6)(@babel/eslint-parser@7.29.9(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1)))(eslint@10.12.0(supports-color@8.1.1))":
+  "@babel/eslint-plugin@8.0.6(@babel/core@8.0.6)(@babel/eslint-parser@8.0.6(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1)))(eslint@10.12.0(supports-color@8.1.1))":
     dependencies:
       "@babel/core": 8.0.6
-      "@babel/eslint-parser": 7.29.9(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))
+      "@babel/eslint-parser": 8.0.6(@babel/core@8.0.6)(eslint@10.12.0(supports-color@8.1.1))
       eslint: 10.12.0(supports-color@8.1.1)
 
   "@babel/generator@7.29.8":
@@ -5608,10 +5593,6 @@ snapshots:
       "@emnapi/runtime": 1.10.0
       "@tybys/wasm-util": 0.10.4
     optional: true
-
-  "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
-    dependencies:
-      eslint-scope: 5.1.1
 
   "@octokit/auth-token@6.0.0": {}
 
@@ -6836,19 +6817,12 @@ snapshots:
 
   eslint-rule-extender@0.0.1: {}
 
-  eslint-scope@5.1.1:
-    dependencies:
-      esrecurse: 4.3.0
-      estraverse: 4.3.0
-
   eslint-scope@9.1.2:
     dependencies:
       "@types/esrecurse": 4.3.1
       "@types/estree": 1.0.9
       esrecurse: 4.3.0
       estraverse: 5.3.0
-
-  eslint-visitor-keys@2.1.0: {}
 
   eslint-visitor-keys@3.4.3: {}
 
@@ -6902,8 +6876,6 @@ snapshots:
   esrecurse@4.3.0:
     dependencies:
       estraverse: 5.3.0
-
-  estraverse@4.3.0: {}
 
   estraverse@5.3.0: {}
 
