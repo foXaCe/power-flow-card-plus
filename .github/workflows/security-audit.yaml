@@ -33,7 +33,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: 24
+          node-version: 26
           # No `cache: pnpm` here: this job never runs `pnpm install`
           # (run_install: false + only `pnpm audit`), so the pnpm store is never
           # created and setup-node@v6's cache-save post-step fails with
