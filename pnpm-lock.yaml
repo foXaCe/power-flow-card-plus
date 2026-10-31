@@ -184,7 +184,7 @@ importers:
         version: 7.4.47
       home-assistant-js-websocket:
         specifier: ^9.6.0
-        version: 9.7.1
+        version: 9.8.0
       lit:
         specifier: ^3.3.3
         version: 3.3.3
@@ -2785,8 +2785,8 @@ packages:
   highlight.js@10.7.3:
     resolution: { integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A== }
 
-  home-assistant-js-websocket@9.7.1:
-    resolution: { integrity: sha512-zOAiyF+gUc/IsiswYdWKns6SCBbvWb8iJtMX9+Dk0wlbdfcp+I38T2Vx36krWeWMk/GPwoSiYwCs5hk/+Hsn7w== }
+  home-assistant-js-websocket@9.8.0:
+    resolution: { integrity: sha512-Nl5asoKQJwJ5a8N0U72jkSAUdO+hsY/T+Upp0VaZMUSt6A2gtdyvKfBIEYbpnYK3NP83Q/YGaC5XYkO5c08Img== }
 
   hook-std@4.0.0:
     resolution: { integrity: sha512-IHI4bEVOt3vRUDJ+bFA9VUJlo7SzvFARPNLw75pqSmAOP2HmTWfFJtPvLBrDrlgjEYXY9zs7SFdHPQaJShkSCQ== }
@@ -7117,7 +7117,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  home-assistant-js-websocket@9.7.1: {}
+  home-assistant-js-websocket@9.8.0: {}
 
   hook-std@4.0.0: {}
 
