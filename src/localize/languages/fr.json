@@ -64,6 +64,7 @@
     "watt_threshold": "Seuil watts vers kilowatts",
     "display_zero_lines": "Afficher les lignes à zéro",
     "clickable_entities": "Entités cliquables",
+    "enable_drag": "Déplacer les cercles par glisser",
     "disable_dots": "Désactiver les points",
     "use_new_flow_rate_model": "Utiliser le nouveau modèle de flux",
     "use_metadata": "Utiliser les métadonnées",

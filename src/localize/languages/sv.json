@@ -64,6 +64,7 @@
     "watt_threshold": "Tröskelvärde för kiloprefix",
     "display_zero_lines": "Vising av inaktiva linjer",
     "clickable_entities": "Klickbara entiteter",
+    "enable_drag": "Dra cirklarna för att flytta dem",
     "disable_dots": "Avaktivera punkter",
     "use_new_flow_rate_model": "Ny flödesmodell",
     "use_metadata": "Använd metadata",

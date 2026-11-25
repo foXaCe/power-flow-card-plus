@@ -64,6 +64,7 @@
     "watt_threshold": "Umbral de Vatio a Kilovatio",
     "display_zero_lines": "Mostrar Líneas de Cero",
     "clickable_entities": "Entidades Clicables",
+    "enable_drag": "Arrastrar los círculos para moverlos",
     "disable_dots": "Desactivar Puntos",
     "use_new_flow_rate_model": "Utilizar Nuevo Modelo de Tasa de Flujo",
     "use_metadata": "Utilizar Metadatos",

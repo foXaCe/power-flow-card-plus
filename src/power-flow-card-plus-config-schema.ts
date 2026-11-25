@@ -99,6 +99,7 @@ export const cardConfigStruct = type({
   second_dashboard_link_label: optional(string()),
   // Generic UI booleans
   clickable_entities: optional(boolean()),
+  enable_drag: optional(boolean()),
   use_new_flow_rate_model: optional(boolean()),
   full_size: optional(boolean()),
   disable_dots: optional(boolean()),

@@ -64,6 +64,7 @@
     "watt_threshold": "Prah wattov na kilowatty",
     "display_zero_lines": "Zobraziť nulové riadky",
     "clickable_entities": "Entity, na ktoré sa dá kliknúť",
+    "enable_drag": "Presúvať kruhy ťahaním",
     "disable_dots": "Vypnúť bodky",
     "use_new_flow_rate_model": "Nový model prietoku",
     "use_metadata": "Použiť Metadata",
