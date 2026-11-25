@@ -120,7 +120,8 @@ export class CustomPositionsEditor extends LitElement {
         const next: CirclePosition = {};
         if (typeof pos.top === "number" && Number.isFinite(pos.top)) next.top = pos.top;
         if (typeof pos.left === "number" && Number.isFinite(pos.left)) next.left = pos.left;
-        if (next.top !== undefined && next.left !== undefined) {
+        // Keep a single axis too: dropping it would clear the field before the user fills the other one.
+        if (next.top !== undefined || next.left !== undefined) {
           cleaned[key] = next;
         }
       }

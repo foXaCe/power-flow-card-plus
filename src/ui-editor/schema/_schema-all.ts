@@ -33,6 +33,7 @@ export const cardConfigStruct = assign(
     max_expected_power: optional(number()),
     watt_threshold: optional(number()),
     clickable_entities: optional(boolean()),
+    enable_drag: optional(boolean()),
     transparency_zero_lines: optional(number()),
     greyout_zero_lines: optional(boolean()),
     display_zero_lines: optional(any()),
@@ -274,6 +275,11 @@ export const advancedOptionsSchema = memoizeOne((localize, displayZeroLinesMode:
       {
         name: "clickable_entities",
         label: "Clickable Entities",
+        selector: { boolean: {} },
+      },
+      {
+        name: "enable_drag",
+        label: "Drag circles to move them",
         selector: { boolean: {} },
       },
       {

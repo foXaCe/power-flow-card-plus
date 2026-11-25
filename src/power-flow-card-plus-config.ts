@@ -49,6 +49,7 @@ interface mainConfigOptions {
   w_decimals: number;
   watt_threshold: number;
   clickable_entities: boolean;
+  enable_drag?: boolean;
   max_expected_power: number;
   min_expected_power: number;
   use_new_flow_rate_model?: boolean;

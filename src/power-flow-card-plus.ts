@@ -72,6 +72,14 @@ registerCustomCard({
   },
 });
 
+/** Distance à partir de laquelle un appui devient un déplacement. */
+const DRAG_THRESHOLD_PX = 6;
+
+const eventPoint = (e: MouseEvent | TouchEvent): { x: number; y: number } | undefined => {
+  const source = "touches" in e ? e.touches[0] : e;
+  return source ? { x: source.clientX, y: source.clientY } : undefined;
+};
+
 @customElement("power-flow-card-plus")
 export class PowerFlowCardPlus extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -142,6 +150,8 @@ export class PowerFlowCardPlus extends LitElement {
   private _clockInterval?: number;
   private _resizeObserver?: ResizeObserver;
   private _activeDragHandlers?: { moveHandler: (ev: MouseEvent | TouchEvent) => void; upHandler: () => void };
+  // Point de départ du drag : en deçà de DRAG_THRESHOLD_PX, c'est un tap.
+  private _dragOrigin?: { x: number; y: number };
 
   private _refEntities?: Set<string>;
   private _refEntitiesKey?: PowerFlowCardPlusConfig;
@@ -842,6 +852,7 @@ export class PowerFlowCardPlus extends LitElement {
     if (!this._config || !this.hass) {
       return;
     }
+    this.toggleAttribute("drag-enabled", this._config.enable_drag === true);
 
     // Measure width via ResizeObserver instead of a forced layout read on every
     // render. Set it up once, the first render at which the inner element exists.
@@ -859,46 +870,6 @@ export class PowerFlowCardPlus extends LitElement {
     }
 
     this._tryConnectAll();
-    this._attachDragListeners();
-  }
-
-  private _dragHandlers: Map<string, any> = new Map();
-
-  private _attachDragListeners() {
-    const circles = ["solar", "grid", "home", "battery", "daily-cost", "daily-export", "self-sufficiency"];
-
-    // Détacher les anciens listeners
-    circles.forEach((circle) => {
-      const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
-      const handlers = this._dragHandlers.get(circle);
-      if (elem && handlers) {
-        elem.removeEventListener("mousedown", handlers.mouseDown);
-        elem.removeEventListener("touchstart", handlers.touchStart);
-      }
-    });
-
-    // Attacher les nouveaux listeners
-    circles.forEach((circle) => {
-      const elem = this.shadowRoot?.querySelector(`.circle-container.${circle}`);
-      if (elem) {
-        const mouseDownHandler = (e: Event) => {
-          e.stopPropagation();
-          this._onDragStart(e as MouseEvent, circle);
-        };
-        const touchStartHandler = (e: Event) => {
-          e.stopPropagation();
-          this._onDragStart(e as TouchEvent, circle);
-        };
-
-        elem.addEventListener("mousedown", mouseDownHandler);
-        elem.addEventListener("touchstart", touchStartHandler, { passive: false });
-
-        this._dragHandlers.set(circle, {
-          mouseDown: mouseDownHandler,
-          touchStart: touchStartHandler,
-        });
-      }
-    });
   }
 
   private _collectTemplateTopics(): { [topic: string]: string | undefined } {
@@ -1015,9 +986,20 @@ export class PowerFlowCardPlus extends LitElement {
   }
 
   private _onDragStart(e: MouseEvent | TouchEvent, element: string) {
-    e.preventDefault();
+    if (!this._config?.enable_drag) return;
+    const point = eventPoint(e);
+    if (!point) return;
+
+    e.stopPropagation();
+    // Pas de preventDefault au toucher : il supprimerait le clic qui ouvre more-info.
+    if (!("touches" in e)) e.preventDefault();
+    if (this._activeDragHandlers) {
+      const { moveHandler: previousMove, upHandler: previousUp } = this._activeDragHandlers;
+      this._onDragEnd(previousMove, previousUp);
+    }
     this._draggedElement = element;
     this._hasDragged = false; // Reset au début du drag
+    this._dragOrigin = point;
 
     const moveHandler = (ev: MouseEvent | TouchEvent) => this._onDragMove(ev);
     const upHandler = () => this._onDragEnd(moveHandler, upHandler);
@@ -1026,28 +1008,29 @@ export class PowerFlowCardPlus extends LitElement {
     document.addEventListener("touchmove", moveHandler, { passive: false });
     document.addEventListener("mouseup", upHandler);
     document.addEventListener("touchend", upHandler);
+    document.addEventListener("touchcancel", upHandler);
 
     this._activeDragHandlers = { moveHandler, upHandler };
   }
 
   private _onDragMove(e: MouseEvent | TouchEvent) {
     if (!this._draggedElement) return;
+    const point = eventPoint(e);
+    if (!point) return;
 
     e.preventDefault();
     e.stopPropagation();
+
+    const origin = this._dragOrigin;
+    if (!this._hasDragged && origin && Math.hypot(point.x - origin.x, point.y - origin.y) < DRAG_THRESHOLD_PX) return;
     this._hasDragged = true; // Marquer qu'un drag a eu lieu
 
     const card = this.shadowRoot?.querySelector("#power-flow-card-plus");
     if (!card) return;
 
     const rect = card.getBoundingClientRect();
-    const touch = "touches" in e ? e.touches[0] : null;
-    if ("touches" in e && !touch) return;
-    const clientX = touch ? touch.clientX : (e as MouseEvent).clientX;
-    const clientY = touch ? touch.clientY : (e as MouseEvent).clientY;
-
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    const x = point.x - rect.left;
+    const y = point.y - rect.top;
 
     // Constantes pour les limites
     const CIRCLE_RADIUS = 40; // Rayon du cercle (moitié du diamètre de 80px)
@@ -1072,6 +1055,7 @@ export class PowerFlowCardPlus extends LitElement {
     document.removeEventListener("touchmove", moveHandler);
     document.removeEventListener("mouseup", upHandler);
     document.removeEventListener("touchend", upHandler);
+    document.removeEventListener("touchcancel", upHandler);
 
     // Commit la position finale dans la config Lovelace en une seule passe.
     // L'override transitoire `_dragPositionOverride` peut être absent si l'utilisateur
@@ -1088,14 +1072,14 @@ export class PowerFlowCardPlus extends LitElement {
           [configKey]: { left: override.left, top: override.top },
         },
       };
+      // Sauvegarder dans localStorage (config par appareil)
+      this._saveToLocalStorage();
     }
 
     this._draggedElement = null;
     this._dragPositionOverride = undefined;
     this._activeDragHandlers = undefined;
-
-    // Sauvegarder dans localStorage (config par appareil)
-    this._saveToLocalStorage();
+    this._dragOrigin = undefined;
   }
 
   private get _storageKey(): string {
@@ -1132,7 +1116,11 @@ export class PowerFlowCardPlus extends LitElement {
         // Avoid mutating the external Lovelace config: replace _config with a new object
         this._config = {
           ...this._config,
-          custom_positions: { ...this._config.custom_positions, ...positions },
+          // Sans drag, le YAML prime : une position déplacée par accident avec une
+          // version antérieure ne doit plus le masquer (#284).
+          custom_positions: this._config.enable_drag
+            ? { ...this._config.custom_positions, ...positions }
+            : { ...positions, ...this._config.custom_positions },
         };
       } catch (e) {
         console.error("Error loading positions from localStorage:", e);

@@ -226,6 +226,7 @@ All original Power Flow Card Plus features are included:
 | `min_flow_rate`          | number  | 0.75    | Fastest dot speed (seconds)       |
 | `max_flow_rate`          | number  | 6       | Slowest dot speed (seconds)       |
 | `clickable_entities`     | boolean | false   | Click entities to open more-info  |
+| `enable_drag`            | boolean | false   | Drag circles to move them         |
 | `disable_dots`           | boolean | false   | Hide animated dots                |
 | `circle_border_width`    | number  | 2       | Circle border thickness (1-10px)  |
 | `circle_pulse_animation` | boolean | false   | Animate circles when energy flows |
@@ -359,7 +360,7 @@ they update instead of jittering.
 
 - **Individual devices are not currently displayed** - The `individual` config (up to 4 devices) is still accepted, and its data still feeds home accounting (e.g. `home.subtract_individual` and total-consumption math). However, the individual-device **circles are not rendered** at the moment: that rendering was disconnected during the move to the absolute-positioning / drag layout and a redesign is pending. Tracking + options in [`plans/004-individual-devices-analysis.md`](plans/004-individual-devices-analysis.md).
 - **Power values only** - The card displays instantaneous power (W/kW), not accumulated energy (kWh). For energy values, see [Energy Flow Card Plus](https://github.com/flixlix/energy-flow-card-plus)
-- **Custom positions persist in localStorage** - Position data is stored in the browser; clearing browser data resets custom positions
+- **Dragged positions are stored per browser** - With `enable_drag: true`, circles can be moved by dragging; positions are kept in that browser's localStorage and win over `custom_positions`. Without it, circles cannot be dragged, positions dragged earlier are kept, and `custom_positions` wins
 - **Arrow customization partial** - Currently 3 of 7 possible arrow paths are customizable (solar-to-home, grid-to-home, solar-to-export)
 
 ---

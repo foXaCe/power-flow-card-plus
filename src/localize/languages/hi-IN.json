@@ -64,6 +64,7 @@
     "watt_threshold": "वाट से किलोवाट सीमा",
     "display_zero_lines": "शून्य रेखाएँ दिखाएँ",
     "clickable_entities": "क्लिक करने योग्य इकाइयाँ",
+    "enable_drag": "वृत्तों को खींचकर ले जाएँ",
     "disable_dots": "डॉट्स अक्षम करें",
     "use_new_flow_rate_model": "नया प्रवाह दर मॉडल",
     "use_metadata": "मेटाडेटा का उपयोग करें",

@@ -64,6 +64,7 @@
     "watt_threshold": "Watt naar Kilowatt Drempelwaarde",
     "display_zero_lines": "Nullijnen Weergeven",
     "clickable_entities": "Klikbare Entiteiten",
+    "enable_drag": "Cirkels verslepen",
     "disable_dots": "Punten Uitschakelen",
     "use_new_flow_rate_model": "Nieuw Stroomsnelheid Model Gebruiken",
     "use_metadata": "Metadata Gebruiken",

@@ -931,12 +931,9 @@ export const styles = css`
       var(--card-background-color);
   }
 
-  /* Les bulles sont toujours déplaçables */
-  .circle-container {
-    cursor: move !important;
-  }
-
-  .circle {
+  /* Bulles déplaçables (option enable_drag) */
+  :host([drag-enabled]) .circle-container,
+  :host([drag-enabled]) .circle {
     cursor: move !important;
   }
 
